@@ -1,0 +1,229 @@
+================================================================================
+  LASER CUTTING BASELINE DATA GENERATION - QUICK START
+================================================================================
+
+GENERATE DATA IN 30 SECONDS:
+  1. cd /mnt/localssd/laser_log/app
+  2. npm run gen:baseline
+  3. Output appears in: data/baseline-parameters.json and data/baseline-parameters.sql
+
+PREVIEW FIRST (NO FILES WRITTEN):
+  npm run gen:baseline:dry
+
+INSERT INTO DATABASE:
+  psql -h <host> -d <database> -U <user> -f data/baseline-parameters.sql
+
+================================================================================
+WHAT YOU GET:
+================================================================================
+
+  ~250-300 laser cutting parameter sets
+  6 materials: SS304, Mild Steel, Aluminum, Acrylic, Copper, Leather
+  4-6 thickness variations per material (0.5mm - 10mm)
+  2-4 parameter variations per thickness combo
+
+  Each set includes:
+  - Power: 5-100% (material & thickness dependent)
+  - Speed: 50-1800 mm/min (material & thickness dependent)
+  - Gas: O2, N2, or air (material-specific)
+  - Gas Pressure: 1-5 bar
+  - Focus position, nozzle diameter/distance, line interval
+  - Quality rating: 70% 5★, 20% 4★, 10% 3★
+  - Edge quality: 75% clean, 25% slight dross
+  - Timestamps: spread over last 30 days
+  - Source: marked as 'ai_baseline'
+
+================================================================================
+SCRIPT OPTIONS:
+================================================================================
+
+  node scripts/generate-baseline-data.js              # JSON + SQL
+  node scripts/generate-baseline-data.js --json       # JSON only
+  node scripts/generate-baseline-data.js --sql        # SQL only
+  node scripts/generate-baseline-data.js --dry-run    # Preview only
+  node scripts/generate-baseline-data.js --output DIR # Custom output dir
+
+  npm run gen:baseline                               # All (via package.json)
+  npm run gen:baseline:dry                           # Dry run
+  npm run gen:baseline:json                          # JSON only
+  npm run gen:baseline:sql                           # SQL only
+
+PYTHON ALTERNATIVE (no Node.js needed):
+  python3 scripts/generate-baseline-data.py          # All same options
+
+================================================================================
+VERIFICATION:
+================================================================================
+
+  # Test the generated data
+  node scripts/test-baseline-data.js
+
+  # Count records
+  jq 'length' data/baseline-parameters.json
+
+  # Show first 3 records
+  jq '.[:3]' data/baseline-parameters.json
+
+  # Show SS304 @ 2mm
+  jq '.[] | select(.material == "Stainless Steel 304" and .thickness_mm == 2)' data/baseline-parameters.json
+
+  # Check quality distribution
+  jq -r '.[] | .quality_rating' data/baseline-parameters.json | sort | uniq -c
+
+================================================================================
+DATABASE INSERT METHODS:
+================================================================================
+
+Method 1: Direct SQL (fastest)
+  psql -f data/baseline-parameters.sql
+
+Method 2: JavaScript in your app
+  const data = require('./scripts/data/baseline-parameters.json');
+  await supabase.from('cuts').insert(data);
+
+Method 3: Supabase CLI
+  supabase db push --file data/baseline-parameters.sql
+
+Method 4: Verify before inserting
+  psql -f data/baseline-parameters.sql --echo-errors
+
+================================================================================
+MATERIAL REFERENCE:
+================================================================================
+
+STAINLESS STEEL 304
+  Thickness: 0.5, 1, 2, 3, 5, 8 mm
+  Power: 25-100%
+  Speed: 1400 mm/min (thin) → 150 mm/min (thick)
+  Best Gas: N2 (quality) or O2 (speed)
+
+MILD STEEL
+  Thickness: 0.5, 1, 2, 3, 5, 8 mm
+  Power: 20-95%
+  Speed: 1600 mm/min (thin) → 200 mm/min (thick)
+  Best Gas: O2 (much faster cutting)
+
+ALUMINUM
+  Thickness: 0.5, 1, 2, 3, 5 mm
+  Power: 15-90%
+  Speed: 1800 mm/min (thin) → 300 mm/min (thick)
+  Best Gas: N2 (aluminum is reflective)
+
+ACRYLIC
+  Thickness: 1, 3, 5, 8, 10 mm
+  Power: 10-60% (very low - avoid burning)
+  Speed: 600 mm/min (thin) → 100 mm/min (thick)
+  Best Gas: Air
+
+COPPER
+  Thickness: 0.5, 1, 2, 3 mm
+  Power: 30-100%
+  Speed: 800 mm/min (thin) → 80 mm/min (thick)
+  Best Gas: N2 (required - highly conductive)
+
+LEATHER
+  Thickness: 1, 2, 3, 5 mm
+  Power: 5-40% (extremely low)
+  Speed: 400 mm/min (thin) → 50 mm/min (thick)
+  Best Gas: Air
+
+================================================================================
+USE CASES:
+================================================================================
+
+1. AI Model Training
+   - Use as-is for supervised learning on parameter→quality prediction
+   - Weight samples by quality_rating for better model performance
+
+2. System Initialization
+   - Bootstrap recommendation engine with baseline suggestions
+   - Users see intelligent defaults based on material/thickness
+
+3. Quality Benchmarking
+   - Compare user cuts against baseline to estimate quality
+   - Identify when user parameters deviate from best practices
+
+4. Machine Learning
+   - Generate synthetic training data for parameter optimization
+   - Use quality distribution to weight training samples
+
+5. Troubleshooting Guide
+   - Show users baseline parameters when cuts fail
+   - Help users debug by comparing to known-good settings
+
+================================================================================
+TROUBLESHOOTING:
+================================================================================
+
+"node: command not found"
+  → Install Node.js or use: python3 scripts/generate-baseline-data.py
+
+"JSON parsing error"
+  → Check file isn't corrupted: jq . data/baseline-parameters.json
+
+"SQL insert fails"
+  → Check connection: psql -h <host> -d <db> -c "SELECT 1;"
+  → Check table: psql -c "SELECT * FROM cuts LIMIT 1;"
+  → Review errors: psql -f data/baseline-parameters.sql --echo-errors
+
+"Permission denied"
+  → chmod +x scripts/generate-baseline-data.js
+
+================================================================================
+FILES CREATED:
+================================================================================
+
+/mnt/localssd/laser_log/app/scripts/
+  ├── generate-baseline-data.js         Main Node.js implementation
+  ├── generate-baseline-data.ts         Type-safe TypeScript version
+  ├── generate-baseline-data.py         Python alternative
+  ├── test-baseline-data.js             Validation test suite
+  ├── README.md                         Script documentation
+  ├── USAGE.md                          Detailed usage guide
+  ├── GUIDE.md                          Complete implementation guide
+  ├── QUICKSTART.txt                    This file
+  └── sample-output.json                Example output format
+
+/mnt/localssd/laser_log/app/data/ (created after running script)
+  ├── baseline-parameters.json          Ready for app use
+  └── baseline-parameters.sql           Ready for database
+
+================================================================================
+NEXT STEPS:
+================================================================================
+
+1. Generate:
+   npm run gen:baseline:dry        # Preview
+   npm run gen:baseline            # Generate files
+
+2. Test:
+   node scripts/test-baseline-data.js
+
+3. Insert:
+   psql -f data/baseline-parameters.sql
+
+4. Verify:
+   psql -c "SELECT COUNT(*) FROM cuts WHERE source = 'ai_baseline';"
+
+5. Use in app:
+   const baseline = await supabase
+     .from('cuts')
+     .select('*')
+     .eq('source', 'ai_baseline')
+     .eq('material', userMaterial)
+     .order('quality_rating', { ascending: false })
+     .limit(1);
+
+================================================================================
+DOCUMENTATION:
+================================================================================
+
+Quick Reference: This file (QUICKSTART.txt)
+Usage Guide: USAGE.md
+Full Guide: GUIDE.md
+Script Details: README.md
+Sample Data: sample-output.json
+
+================================================================================
+VERSION: 1.0 | Generated: June 2026 | Materials: 6 | Records: ~250-300
+================================================================================

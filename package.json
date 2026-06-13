@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen:baseline": "node scripts/generate-baseline-data.js",
+    "gen:baseline:dry": "node scripts/generate-baseline-data.js --dry-run",
+    "gen:baseline:json": "node scripts/generate-baseline-data.js --json",
+    "gen:baseline:sql": "node scripts/generate-baseline-data.js --sql"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

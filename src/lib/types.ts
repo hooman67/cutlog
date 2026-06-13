@@ -34,6 +34,7 @@ export interface Cut {
   photo_url: string | null
   notes: string | null
   is_shared: boolean
+  source: 'user_logged' | 'ai_baseline' | 'scraped_public'
   created_at: string
 }
 

@@ -1,0 +1,836 @@
+-- COMBINED DATA INSERT FOR CUTLOG
+-- Delete old baseline data first, then insert all new data
+-- Total: ~729 parameter sets (554 baseline + 52 lightburn + 43 lasertips + 80 reddit)
+-- Paste this entire file into Supabase SQL Editor and run
+
+-- Step 1: Delete old baseline data (the 87 rows from first insert)
+DELETE FROM cuts WHERE source = 'ai_baseline';
+DELETE FROM cuts WHERE source = 'scraped_public';
+
+-- Step 2: Insert expanded AI baseline (554 rows)
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Stainless Steel 304', 0.5, 60, 1125, 'N2', 3.9, -1.8, 3.2, 1.6, 0.068, 4, 'clean', 'ai_baseline', true, '2026-06-03T23:52:10.094750Z'::timestamptz),
+('Stainless Steel 304', 0.5, 64, 1100, 'air', 2.2, -3.7, 2.6, 0.9, 0.067, 5, 'slight_dross', 'ai_baseline', true, '2026-05-19T16:07:45.041417Z'::timestamptz),
+('Stainless Steel 304', 0.5, 37, 1018, 'N2', 4.5, -1.1, 2.5, 0.7, 0.124, 5, 'clean', 'ai_baseline', true, '2026-05-22T10:08:55.605548Z'::timestamptz),
+('Stainless Steel 304', 0.5, 37, 1050, 'air', 2.2, -0.2, 3.3, 1.4, 0.058, 3, 'clean', 'ai_baseline', true, '2026-05-30T11:20:37.715802Z'::timestamptz),
+('Stainless Steel 304', 0.5, 57, 926, 'N2', 2.7, 0.3, 3.5, 0.6, 0.142, 4, 'clean', 'ai_baseline', true, '2026-05-26T02:04:18.109105Z'::timestamptz),
+('Stainless Steel 304', 0.5, 30, 950, 'O2', 2.7, 1.1, 1.4, 1.4, 0.056, 5, 'clean', 'ai_baseline', true, '2026-05-19T19:58:24.802486Z'::timestamptz),
+('Stainless Steel 304', 1, 42, 488, 'O2', 2.2, -1.3, 1.3, 1.2, 0.137, 5, 'clean', 'ai_baseline', true, '2026-06-05T18:48:18.488106Z'::timestamptz),
+('Stainless Steel 304', 1, 57, 716, 'O2', 2.1, -4.2, 1.6, 1.3, 0.101, 4, 'slight_dross', 'ai_baseline', true, '2026-05-24T08:12:23.779657Z'::timestamptz),
+('Stainless Steel 304', 1, 64, 783, 'N2', 2.8, -2.7, 1.4, 1.2, 0.101, 5, 'clean', 'ai_baseline', true, '2026-05-20T05:12:19.320508Z'::timestamptz),
+('Stainless Steel 304', 1, 58, 768, 'air', 1.6, -4.3, 3.4, 0.8, 0.138, 5, 'clean', 'ai_baseline', true, '2026-05-13T19:01:56.844949Z'::timestamptz),
+('Stainless Steel 304', 1, 77, 630, 'N2', 4.1, 4.9, 2.8, 0.8, 0.149, 5, 'slight_dross', 'ai_baseline', true, '2026-05-20T09:50:41.388699Z'::timestamptz),
+('Stainless Steel 304', 1, 80, 644, 'N2', 3.0, 2.2, 3.1, 1.7, 0.108, 3, 'clean', 'ai_baseline', true, '2026-05-30T05:52:50.515574Z'::timestamptz),
+('Stainless Steel 304', 2, 86, 661, 'N2', 4.9, -2.9, 3.9, 1.3, 0.093, 5, 'clean', 'ai_baseline', true, '2026-06-09T20:40:29.168292Z'::timestamptz),
+('Stainless Steel 304', 2, 41, 632, 'N2', 4.3, 2.0, 2.7, 1.7, 0.083, 5, 'clean', 'ai_baseline', true, '2026-05-20T16:33:49.033348Z'::timestamptz),
+('Stainless Steel 304', 2, 71, 720, 'N2', 2.7, -3.9, 2.6, 1.1, 0.051, 4, 'slight_dross', 'ai_baseline', true, '2026-05-18T22:34:55.791713Z'::timestamptz),
+('Stainless Steel 304', 2, 60, 591, 'O2', 2.5, 3.3, 1.0, 1.3, 0.109, 5, 'slight_dross', 'ai_baseline', true, '2026-05-15T22:12:37.950762Z'::timestamptz),
+('Stainless Steel 304', 2, 67, 422, 'N2', 4.4, -4.4, 2.3, 1.4, 0.104, 4, 'clean', 'ai_baseline', true, '2026-05-19T02:56:16.390929Z'::timestamptz),
+('Stainless Steel 304', 2, 42, 744, 'O2', 2.9, -3.1, 3.7, 1.0, 0.078, 5, 'slight_dross', 'ai_baseline', true, '2026-05-19T20:42:42.651418Z'::timestamptz),
+('Stainless Steel 304', 2, 59, 702, 'N2', 3.8, 0.9, 2.7, 0.9, 0.14, 5, 'clean', 'ai_baseline', true, '2026-06-08T17:17:58.847969Z'::timestamptz),
+('Stainless Steel 304', 3, 68, 214, 'N2', 3.9, -3.4, 2.9, 1.5, 0.064, 5, 'clean', 'ai_baseline', true, '2026-05-29T05:52:46.020799Z'::timestamptz),
+('Stainless Steel 304', 3, 92, 339, 'N2', 4.8, 2.9, 3.5, 1.8, 0.098, 5, 'slight_dross', 'ai_baseline', true, '2026-05-26T02:16:52.403793Z'::timestamptz),
+('Stainless Steel 304', 3, 93, 310, 'air', 1.7, -0.1, 2.3, 1.9, 0.148, 5, 'clean', 'ai_baseline', true, '2026-06-08T19:16:04.013683Z'::timestamptz),
+('Stainless Steel 304', 3, 87, 222, 'N2', 3.4, 4.7, 2.7, 1.8, 0.129, 3, 'clean', 'ai_baseline', true, '2026-05-24T09:44:07.599737Z'::timestamptz),
+('Stainless Steel 304', 3, 76, 350, 'N2', 4.9, -4.3, 1.3, 1.5, 0.108, 5, 'clean', 'ai_baseline', true, '2026-06-09T15:55:00.276689Z'::timestamptz),
+('Stainless Steel 304', 5, 89, 314, 'O2', 3.3, -3.4, 1.6, 0.7, 0.124, 5, 'clean', 'ai_baseline', true, '2026-06-02T22:34:05.710615Z'::timestamptz),
+('Stainless Steel 304', 5, 65, 200, 'air', 2.4, 3.4, 1.2, 0.8, 0.132, 5, 'slight_dross', 'ai_baseline', true, '2026-05-27T13:33:03.850105Z'::timestamptz),
+('Stainless Steel 304', 5, 87, 363, 'air', 1.7, -1.3, 3.0, 1.9, 0.107, 3, 'clean', 'ai_baseline', true, '2026-05-26T03:42:40.462973Z'::timestamptz),
+('Stainless Steel 304', 5, 80, 244, 'O2', 3.2, -0.0, 3.0, 1.7, 0.149, 5, 'clean', 'ai_baseline', true, '2026-05-25T13:52:51.616663Z'::timestamptz),
+('Stainless Steel 304', 5, 88, 368, 'O2', 2.8, 0.7, 2.2, 0.6, 0.103, 5, 'clean', 'ai_baseline', true, '2026-05-21T15:21:33.020086Z'::timestamptz),
+('Stainless Steel 304', 5, 90, 244, 'O2', 3.2, 3.5, 2.2, 1.1, 0.056, 3, 'clean', 'ai_baseline', true, '2026-05-25T22:06:04.470725Z'::timestamptz),
+('Stainless Steel 304', 8, 83, 172, 'O2', 3.2, -4.6, 1.8, 1.2, 0.1, 4, 'clean', 'ai_baseline', true, '2026-05-20T11:33:45.930670Z'::timestamptz),
+('Stainless Steel 304', 8, 96, 230, 'N2', 4.2, 0.1, 3.0, 1.8, 0.077, 5, 'clean', 'ai_baseline', true, '2026-06-04T22:26:15.903972Z'::timestamptz),
+('Stainless Steel 304', 8, 69, 290, 'air', 2.4, 1.8, 2.1, 0.9, 0.098, 5, 'slight_dross', 'ai_baseline', true, '2026-05-23T21:19:39.098698Z'::timestamptz),
+('Stainless Steel 304', 8, 88, 263, 'air', 2.2, -3.6, 2.0, 1.8, 0.056, 3, 'clean', 'ai_baseline', true, '2026-05-23T11:07:01.435011Z'::timestamptz),
+('Stainless Steel 304', 8, 78, 304, 'O2', 3.4, -0.8, 1.4, 1.7, 0.068, 5, 'clean', 'ai_baseline', true, '2026-05-21T09:06:49.825832Z'::timestamptz),
+('Stainless Steel 304', 8, 81, 207, 'N2', 3.1, -1.4, 1.8, 0.5, 0.13, 4, 'clean', 'ai_baseline', true, '2026-05-14T17:25:31.546007Z'::timestamptz),
+('Stainless Steel 304', 8, 87, 165, 'N2', 3.9, -3.3, 2.0, 2.0, 0.06, 5, 'slight_dross', 'ai_baseline', true, '2026-06-06T08:17:01.117687Z'::timestamptz),
+('Mild Steel', 0.5, 60, 1072, 'O2', 3.0, -2.3, 1.6, 1.2, 0.079, 5, 'slight_dross', 'ai_baseline', true, '2026-06-06T05:41:42.771572Z'::timestamptz),
+('Mild Steel', 0.5, 66, 1232, 'air', 1.4, -4.3, 2.7, 1.5, 0.101, 5, 'slight_dross', 'ai_baseline', true, '2026-05-16T19:11:12.572015Z'::timestamptz),
+('Mild Steel', 0.5, 60, 1137, 'air', 2.0, -4.0, 3.4, 0.8, 0.139, 5, 'slight_dross', 'ai_baseline', true, '2026-05-31T14:52:31.494283Z'::timestamptz),
+('Mild Steel', 0.5, 47, 1006, 'O2', 2.5, -2.1, 3.4, 0.6, 0.11, 5, 'clean', 'ai_baseline', true, '2026-05-14T02:42:21.085157Z'::timestamptz),
+('Mild Steel', 0.5, 23, 1135, 'air', 1.2, 3.2, 3.6, 0.9, 0.078, 5, 'clean', 'ai_baseline', true, '2026-05-30T10:07:47.339515Z'::timestamptz),
+('Mild Steel', 0.5, 65, 1577, 'air', 1.4, 1.2, 3.9, 1.5, 0.123, 5, 'clean', 'ai_baseline', true, '2026-06-11T04:36:58.431237Z'::timestamptz),
+('Mild Steel', 0.5, 41, 1236, 'air', 1.5, 1.0, 1.0, 1.7, 0.102, 5, 'clean', 'ai_baseline', true, '2026-05-31T00:37:52.882879Z'::timestamptz),
+('Mild Steel', 1, 73, 902, 'O2', 3.2, -3.8, 3.5, 0.8, 0.058, 4, 'clean', 'ai_baseline', true, '2026-05-16T11:27:10.150045Z'::timestamptz),
+('Mild Steel', 1, 49, 580, 'air', 1.4, 1.4, 1.8, 0.6, 0.081, 4, 'slight_dross', 'ai_baseline', true, '2026-05-29T00:20:16.358531Z'::timestamptz),
+('Mild Steel', 1, 83, 967, 'air', 2.0, 2.0, 3.8, 1.8, 0.104, 4, 'clean', 'ai_baseline', true, '2026-06-06T17:13:52.786210Z'::timestamptz),
+('Mild Steel', 1, 72, 788, 'O2', 2.0, 2.5, 2.9, 1.5, 0.109, 3, 'clean', 'ai_baseline', true, '2026-06-03T15:11:07.152360Z'::timestamptz),
+('Mild Steel', 1, 40, 625, 'O2', 2.1, -4.6, 2.9, 1.9, 0.088, 5, 'clean', 'ai_baseline', true, '2026-05-28T22:50:03.969069Z'::timestamptz),
+('Mild Steel', 2, 35, 664, 'O2', 3.4, 3.8, 2.1, 1.8, 0.09, 5, 'clean', 'ai_baseline', true, '2026-06-10T10:11:12.885659Z'::timestamptz),
+('Mild Steel', 2, 50, 602, 'O2', 2.2, -0.8, 1.0, 2.0, 0.109, 5, 'slight_dross', 'ai_baseline', true, '2026-05-13T15:48:54.167236Z'::timestamptz),
+('Mild Steel', 2, 46, 762, 'O2', 1.7, 2.7, 1.9, 1.6, 0.141, 5, 'clean', 'ai_baseline', true, '2026-06-09T12:00:18.233468Z'::timestamptz),
+('Mild Steel', 2, 80, 767, 'O2', 1.9, 1.0, 3.9, 2.0, 0.107, 4, 'clean', 'ai_baseline', true, '2026-06-03T06:24:38.687420Z'::timestamptz),
+('Mild Steel', 2, 85, 841, 'air', 1.8, -3.4, 3.7, 1.8, 0.103, 5, 'clean', 'ai_baseline', true, '2026-05-27T16:15:25.348395Z'::timestamptz),
+('Mild Steel', 2, 49, 598, 'air', 1.2, 1.5, 2.6, 0.7, 0.144, 5, 'slight_dross', 'ai_baseline', true, '2026-05-26T13:49:50.775749Z'::timestamptz),
+('Mild Steel', 2, 57, 702, 'air', 1.5, 4.1, 1.9, 0.9, 0.106, 5, 'clean', 'ai_baseline', true, '2026-05-14T16:53:53.615626Z'::timestamptz),
+('Mild Steel', 3, 85, 484, 'air', 1.3, 3.6, 3.8, 1.0, 0.097, 5, 'clean', 'ai_baseline', true, '2026-06-10T02:20:59.897250Z'::timestamptz),
+('Mild Steel', 3, 85, 487, 'O2', 3.3, -1.8, 1.4, 1.0, 0.093, 5, 'clean', 'ai_baseline', true, '2026-05-22T04:15:56.183568Z'::timestamptz),
+('Mild Steel', 3, 76, 306, 'O2', 2.5, -2.7, 2.1, 1.1, 0.131, 5, 'clean', 'ai_baseline', true, '2026-06-02T05:12:23.965976Z'::timestamptz),
+('Mild Steel', 3, 85, 285, 'O2', 2.6, -3.6, 3.8, 0.6, 0.068, 5, 'slight_dross', 'ai_baseline', true, '2026-06-07T20:36:34.819747Z'::timestamptz),
+('Mild Steel', 3, 80, 450, 'O2', 1.5, 2.6, 2.9, 0.6, 0.098, 3, 'clean', 'ai_baseline', true, '2026-05-13T20:46:59.441648Z'::timestamptz),
+('Mild Steel', 3, 55, 335, 'O2', 1.6, -0.7, 1.8, 1.2, 0.077, 5, 'clean', 'ai_baseline', true, '2026-05-16T03:34:04.173060Z'::timestamptz),
+('Mild Steel', 3, 75, 481, 'air', 2.5, -3.3, 3.6, 0.8, 0.054, 5, 'slight_dross', 'ai_baseline', true, '2026-06-08T14:59:34.723199Z'::timestamptz),
+('Mild Steel', 5, 60, 426, 'O2', 2.1, -4.7, 1.3, 2.0, 0.062, 5, 'clean', 'ai_baseline', true, '2026-06-02T21:59:11.563967Z'::timestamptz),
+('Mild Steel', 5, 81, 211, 'O2', 2.4, 4.7, 1.4, 1.3, 0.124, 4, 'clean', 'ai_baseline', true, '2026-05-25T01:00:30.245619Z'::timestamptz),
+('Mild Steel', 5, 74, 410, 'air', 2.5, 2.6, 1.9, 1.1, 0.098, 5, 'clean', 'ai_baseline', true, '2026-06-09T09:58:49.916028Z'::timestamptz),
+('Mild Steel', 5, 55, 289, 'O2', 3.3, -1.9, 1.6, 1.0, 0.069, 4, 'clean', 'ai_baseline', true, '2026-05-22T10:27:33.497107Z'::timestamptz),
+('Mild Steel', 5, 57, 480, 'air', 1.7, 0.4, 3.9, 0.6, 0.121, 5, 'clean', 'ai_baseline', true, '2026-05-24T15:53:01.991353Z'::timestamptz),
+('Mild Steel', 5, 93, 296, 'air', 2.3, 3.2, 3.7, 0.8, 0.054, 5, 'clean', 'ai_baseline', true, '2026-05-24T10:10:11.860460Z'::timestamptz),
+('Mild Steel', 8, 70, 443, 'air', 1.4, 4.9, 3.9, 0.9, 0.099, 5, 'clean', 'ai_baseline', true, '2026-05-21T17:53:44.209276Z'::timestamptz),
+('Mild Steel', 8, 63, 494, 'air', 2.1, 1.3, 3.1, 0.7, 0.1, 5, 'clean', 'ai_baseline', true, '2026-05-31T19:20:12.212723Z'::timestamptz),
+('Mild Steel', 8, 76, 300, 'air', 1.6, -0.9, 3.8, 1.5, 0.087, 5, 'clean', 'ai_baseline', true, '2026-05-24T17:51:24.943572Z'::timestamptz),
+('Mild Steel', 8, 61, 471, 'O2', 1.8, -4.5, 1.3, 1.5, 0.122, 5, 'slight_dross', 'ai_baseline', true, '2026-05-29T00:53:55.283804Z'::timestamptz),
+('Mild Steel', 8, 69, 279, 'O2', 1.8, 0.2, 2.5, 1.7, 0.105, 5, 'clean', 'ai_baseline', true, '2026-06-06T07:25:17.913249Z'::timestamptz),
+('Mild Steel', 8, 74, 307, 'O2', 2.8, 1.2, 1.6, 1.9, 0.102, 5, 'clean', 'ai_baseline', true, '2026-06-03T12:57:37.538520Z'::timestamptz),
+('Mild Steel', 8, 64, 241, 'air', 2.0, 4.8, 3.3, 1.0, 0.129, 5, 'clean', 'ai_baseline', true, '2026-05-29T05:23:50.380420Z'::timestamptz),
+('Aluminum', 0.5, 17, 1473, 'N2', 2.6, 2.5, 3.1, 1.6, 0.125, 3, 'clean', 'ai_baseline', true, '2026-05-23T09:48:50.750049Z'::timestamptz),
+('Aluminum', 0.5, 56, 1782, 'N2', 3.5, 4.8, 4.0, 1.2, 0.051, 5, 'clean', 'ai_baseline', true, '2026-06-01T08:48:10.747290Z'::timestamptz),
+('Aluminum', 0.5, 33, 1391, 'air', 1.8, -2.2, 1.3, 1.2, 0.104, 5, 'clean', 'ai_baseline', true, '2026-05-24T11:56:32.013927Z'::timestamptz),
+('Aluminum', 0.5, 57, 1427, 'N2', 2.8, 3.0, 2.2, 0.9, 0.097, 3, 'clean', 'ai_baseline', true, '2026-05-20T04:45:28.435664Z'::timestamptz),
+('Aluminum', 0.5, 33, 1724, 'air', 1.1, -2.2, 3.8, 0.7, 0.127, 5, 'clean', 'ai_baseline', true, '2026-05-29T04:50:26.657548Z'::timestamptz),
+('Aluminum', 1, 45, 977, 'air', 2.5, -4.5, 1.5, 0.9, 0.096, 5, 'clean', 'ai_baseline', true, '2026-06-03T04:01:09.064430Z'::timestamptz),
+('Aluminum', 1, 52, 943, 'N2', 3.5, -1.1, 2.5, 0.9, 0.142, 5, 'slight_dross', 'ai_baseline', true, '2026-05-26T02:47:58.290279Z'::timestamptz),
+('Aluminum', 1, 38, 603, 'air', 1.2, 4.9, 1.1, 1.7, 0.144, 5, 'clean', 'ai_baseline', true, '2026-05-28T03:55:25.702595Z'::timestamptz),
+('Aluminum', 1, 47, 872, 'air', 2.2, 2.0, 3.0, 1.6, 0.071, 5, 'clean', 'ai_baseline', true, '2026-06-09T23:47:19.097775Z'::timestamptz),
+('Aluminum', 1, 57, 1151, 'air', 1.2, 4.5, 1.8, 0.8, 0.126, 5, 'clean', 'ai_baseline', true, '2026-05-30T03:07:27.777850Z'::timestamptz),
+('Aluminum', 1, 67, 1180, 'air', 1.4, -2.9, 2.9, 1.9, 0.094, 5, 'clean', 'ai_baseline', true, '2026-05-18T10:12:23.578899Z'::timestamptz),
+('Aluminum', 1, 51, 912, 'air', 1.0, 1.6, 1.3, 0.9, 0.123, 5, 'slight_dross', 'ai_baseline', true, '2026-05-24T08:03:25.701221Z'::timestamptz),
+('Aluminum', 2, 33, 1191, 'air', 1.1, 2.8, 3.3, 0.8, 0.095, 4, 'clean', 'ai_baseline', true, '2026-05-22T13:50:18.753580Z'::timestamptz),
+('Aluminum', 2, 31, 711, 'air', 1.7, -2.9, 2.8, 1.5, 0.061, 5, 'clean', 'ai_baseline', true, '2026-05-17T18:54:30.940304Z'::timestamptz),
+('Aluminum', 2, 62, 624, 'N2', 2.8, 3.0, 3.1, 0.9, 0.147, 5, 'clean', 'ai_baseline', true, '2026-05-30T18:56:13.031870Z'::timestamptz),
+('Aluminum', 2, 43, 1063, 'air', 1.4, -2.3, 2.4, 0.6, 0.058, 4, 'clean', 'ai_baseline', true, '2026-06-05T13:50:37.437996Z'::timestamptz),
+('Aluminum', 2, 47, 1189, 'N2', 3.6, 3.4, 1.5, 0.9, 0.141, 5, 'clean', 'ai_baseline', true, '2026-05-26T15:43:48.196532Z'::timestamptz),
+('Aluminum', 2, 43, 772, 'air', 1.8, 3.9, 3.3, 1.3, 0.075, 5, 'slight_dross', 'ai_baseline', true, '2026-06-12T03:30:37.069444Z'::timestamptz),
+('Aluminum', 2, 32, 741, 'air', 2.4, -3.4, 3.4, 1.7, 0.089, 5, 'clean', 'ai_baseline', true, '2026-06-01T12:45:27.514633Z'::timestamptz),
+('Aluminum', 3, 54, 636, 'air', 1.2, 1.8, 1.7, 1.9, 0.075, 5, 'clean', 'ai_baseline', true, '2026-05-23T14:02:44.781563Z'::timestamptz),
+('Aluminum', 3, 72, 679, 'N2', 3.3, 2.4, 3.3, 0.8, 0.05, 3, 'slight_dross', 'ai_baseline', true, '2026-06-07T05:12:32.172446Z'::timestamptz),
+('Aluminum', 3, 55, 455, 'N2', 4.0, 4.0, 2.2, 1.9, 0.104, 5, 'clean', 'ai_baseline', true, '2026-06-04T01:10:38.557407Z'::timestamptz),
+('Aluminum', 3, 67, 561, 'N2', 3.9, -1.2, 1.7, 1.5, 0.077, 5, 'slight_dross', 'ai_baseline', true, '2026-05-16T04:05:40.112380Z'::timestamptz),
+('Aluminum', 3, 47, 544, 'air', 1.9, 2.4, 3.5, 0.5, 0.074, 5, 'slight_dross', 'ai_baseline', true, '2026-05-16T06:00:38.546499Z'::timestamptz),
+('Aluminum', 3, 60, 381, 'air', 2.3, -3.0, 2.4, 1.7, 0.093, 5, 'clean', 'ai_baseline', true, '2026-05-17T19:34:25.674316Z'::timestamptz),
+('Aluminum', 5, 86, 408, 'air', 1.6, 0.8, 2.9, 1.0, 0.147, 5, 'clean', 'ai_baseline', true, '2026-05-20T18:32:43.053930Z'::timestamptz),
+('Aluminum', 5, 89, 586, 'air', 1.1, 4.3, 1.0, 1.5, 0.114, 5, 'slight_dross', 'ai_baseline', true, '2026-05-19T21:11:31.849935Z'::timestamptz),
+('Aluminum', 5, 85, 543, 'N2', 3.7, 2.5, 1.6, 1.3, 0.068, 4, 'clean', 'ai_baseline', true, '2026-06-11T14:23:38.902391Z'::timestamptz),
+('Aluminum', 5, 76, 495, 'air', 2.1, -0.6, 2.6, 1.8, 0.084, 5, 'slight_dross', 'ai_baseline', true, '2026-05-14T12:59:16.229932Z'::timestamptz),
+('Aluminum', 5, 55, 314, 'air', 1.4, 4.9, 1.7, 0.9, 0.13, 5, 'slight_dross', 'ai_baseline', true, '2026-05-29T18:18:50.834551Z'::timestamptz),
+('Aluminum', 5, 85, 473, 'air', 1.9, 0.9, 1.2, 1.2, 0.078, 3, 'clean', 'ai_baseline', true, '2026-06-12T03:45:49.868860Z'::timestamptz),
+('Aluminum', 5, 72, 549, 'N2', 3.4, 0.2, 3.3, 0.9, 0.121, 4, 'clean', 'ai_baseline', true, '2026-06-01T09:12:30.651109Z'::timestamptz),
+('Acrylic', 1, 38, 556, 'air', 2.3, -2.4, 2.8, 1.9, 0.142, 5, 'clean', 'ai_baseline', true, '2026-05-18T19:04:48.149695Z'::timestamptz),
+('Acrylic', 1, 17, 600, 'air', 1.8, 2.0, 2.8, 1.7, 0.147, 3, 'clean', 'ai_baseline', true, '2026-06-09T02:03:23.777792Z'::timestamptz),
+('Acrylic', 1, 28, 590, 'air', 1.9, -3.3, 1.6, 1.6, 0.108, 5, 'slight_dross', 'ai_baseline', true, '2026-05-23T13:40:40.851971Z'::timestamptz),
+('Acrylic', 1, 16, 453, 'air', 1.1, -4.7, 2.1, 0.9, 0.064, 5, 'clean', 'ai_baseline', true, '2026-06-06T18:56:45.487556Z'::timestamptz),
+('Acrylic', 1, 32, 239, 'air', 1.1, 1.9, 2.1, 1.0, 0.121, 5, 'clean', 'ai_baseline', true, '2026-05-24T20:48:29.521340Z'::timestamptz),
+('Acrylic', 1, 16, 238, 'air', 1.2, -0.3, 1.4, 1.2, 0.125, 5, 'clean', 'ai_baseline', true, '2026-05-28T08:08:30.757146Z'::timestamptz),
+('Acrylic', 1, 28, 534, 'air', 1.8, 1.8, 3.5, 1.4, 0.141, 5, 'clean', 'ai_baseline', true, '2026-05-31T16:23:17.869512Z'::timestamptz),
+('Acrylic', 3, 37, 494, 'air', 1.8, 0.7, 2.2, 0.9, 0.102, 5, 'clean', 'ai_baseline', true, '2026-05-22T08:01:50.706624Z'::timestamptz),
+('Acrylic', 3, 15, 474, 'air', 2.4, -2.3, 2.0, 1.3, 0.096, 5, 'slight_dross', 'ai_baseline', true, '2026-05-14T06:44:18.220740Z'::timestamptz),
+('Acrylic', 3, 30, 511, 'air', 2.0, 1.1, 1.2, 1.8, 0.119, 5, 'clean', 'ai_baseline', true, '2026-05-22T19:32:15.059763Z'::timestamptz),
+('Acrylic', 3, 27, 556, 'air', 1.6, 1.0, 3.1, 1.5, 0.117, 5, 'clean', 'ai_baseline', true, '2026-05-14T03:37:48.567033Z'::timestamptz),
+('Acrylic', 3, 20, 339, 'air', 2.4, 3.1, 2.1, 0.9, 0.122, 5, 'clean', 'ai_baseline', true, '2026-05-27T16:20:01.328671Z'::timestamptz),
+('Acrylic', 3, 27, 401, 'air', 2.4, 0.6, 3.3, 1.0, 0.134, 5, 'slight_dross', 'ai_baseline', true, '2026-06-04T11:28:36.203907Z'::timestamptz),
+('Acrylic', 5, 49, 161, 'air', 1.3, 3.7, 3.6, 0.6, 0.129, 5, 'clean', 'ai_baseline', true, '2026-06-04T07:14:31.302421Z'::timestamptz),
+('Acrylic', 5, 30, 208, 'air', 1.1, 4.5, 2.7, 0.7, 0.147, 5, 'clean', 'ai_baseline', true, '2026-05-16T06:26:03.149048Z'::timestamptz),
+('Acrylic', 5, 39, 294, 'air', 1.0, 0.9, 3.4, 1.7, 0.088, 5, 'clean', 'ai_baseline', true, '2026-05-19T10:14:38.124108Z'::timestamptz),
+('Acrylic', 5, 16, 125, 'air', 2.3, 4.1, 1.3, 0.9, 0.136, 5, 'clean', 'ai_baseline', true, '2026-05-22T04:40:53.101952Z'::timestamptz),
+('Acrylic', 5, 50, 175, 'air', 1.1, 3.4, 2.3, 0.7, 0.141, 3, 'slight_dross', 'ai_baseline', true, '2026-05-16T16:19:57.842271Z'::timestamptz),
+('Acrylic', 8, 48, 222, 'air', 1.2, 1.6, 1.6, 1.0, 0.141, 5, 'clean', 'ai_baseline', true, '2026-06-04T11:32:58.223322Z'::timestamptz),
+('Acrylic', 8, 42, 262, 'air', 2.5, -3.1, 2.8, 1.0, 0.09, 5, 'clean', 'ai_baseline', true, '2026-05-28T02:08:15.554099Z'::timestamptz),
+('Acrylic', 8, 48, 233, 'air', 2.4, 4.8, 1.1, 1.1, 0.129, 3, 'clean', 'ai_baseline', true, '2026-05-19T19:42:03.392242Z'::timestamptz),
+('Acrylic', 8, 16, 300, 'air', 1.7, -0.5, 3.2, 1.7, 0.091, 5, 'slight_dross', 'ai_baseline', true, '2026-05-17T13:46:04.292726Z'::timestamptz),
+('Acrylic', 8, 50, 247, 'air', 2.0, 1.1, 2.0, 1.5, 0.118, 5, 'clean', 'ai_baseline', true, '2026-05-20T14:17:49.782025Z'::timestamptz),
+('Acrylic', 8, 23, 297, 'air', 2.0, -3.7, 1.4, 1.0, 0.077, 3, 'slight_dross', 'ai_baseline', true, '2026-05-21T06:14:59.476120Z'::timestamptz),
+('Acrylic', 10, 26, 203, 'air', 2.1, 4.3, 2.7, 1.6, 0.084, 5, 'clean', 'ai_baseline', true, '2026-06-09T02:43:06.729377Z'::timestamptz),
+('Acrylic', 10, 48, 291, 'air', 1.7, -2.5, 2.0, 1.0, 0.144, 5, 'clean', 'ai_baseline', true, '2026-06-04T05:48:35.330315Z'::timestamptz),
+('Acrylic', 10, 35, 212, 'air', 2.3, 1.7, 1.1, 0.8, 0.077, 5, 'clean', 'ai_baseline', true, '2026-06-05T05:11:45.589959Z'::timestamptz),
+('Acrylic', 10, 45, 119, 'air', 1.6, -1.8, 2.1, 1.9, 0.13, 5, 'clean', 'ai_baseline', true, '2026-06-10T01:19:39.356217Z'::timestamptz),
+('Acrylic', 10, 47, 135, 'air', 2.3, 1.9, 2.8, 1.8, 0.102, 5, 'clean', 'ai_baseline', true, '2026-06-07T01:12:26.421100Z'::timestamptz),
+('Acrylic', 10, 20, 227, 'air', 1.2, -4.2, 2.4, 1.5, 0.073, 3, 'clean', 'ai_baseline', true, '2026-05-27T18:39:26.746333Z'::timestamptz),
+('Acrylic', 10, 33, 131, 'air', 1.7, -1.6, 3.8, 0.5, 0.091, 5, 'clean', 'ai_baseline', true, '2026-05-16T14:38:31.103383Z'::timestamptz),
+('Copper', 0.5, 68, 441, 'N2', 4.5, -2.1, 1.4, 1.3, 0.14, 5, 'clean', 'ai_baseline', true, '2026-06-02T19:42:42.067100Z'::timestamptz),
+('Copper', 0.5, 78, 756, 'N2', 3.2, -3.8, 2.9, 1.6, 0.126, 4, 'clean', 'ai_baseline', true, '2026-05-31T11:34:57.326000Z'::timestamptz),
+('Copper', 0.5, 64, 693, 'N2', 4.0, 3.4, 1.2, 1.5, 0.097, 5, 'clean', 'ai_baseline', true, '2026-06-08T20:00:19.157788Z'::timestamptz),
+('Copper', 0.5, 36, 390, 'N2', 4.2, 3.7, 2.3, 1.7, 0.103, 3, 'slight_dross', 'ai_baseline', true, '2026-05-18T13:07:34.879884Z'::timestamptz),
+('Copper', 0.5, 57, 646, 'N2', 4.3, 0.3, 3.4, 2.0, 0.079, 5, 'clean', 'ai_baseline', true, '2026-05-17T03:45:07.110359Z'::timestamptz),
+('Copper', 0.5, 51, 490, 'N2', 4.8, -3.6, 2.9, 1.4, 0.141, 5, 'clean', 'ai_baseline', true, '2026-05-25T11:41:10.413793Z'::timestamptz),
+('Copper', 1, 73, 186, 'N2', 4.1, -2.1, 3.0, 1.8, 0.143, 5, 'clean', 'ai_baseline', true, '2026-05-24T13:39:49.288790Z'::timestamptz),
+('Copper', 1, 59, 159, 'N2', 3.4, -3.8, 2.2, 1.1, 0.125, 5, 'clean', 'ai_baseline', true, '2026-06-02T21:15:54.455033Z'::timestamptz),
+('Copper', 1, 68, 195, 'N2', 4.0, -0.0, 2.6, 1.0, 0.112, 5, 'clean', 'ai_baseline', true, '2026-06-02T16:42:14.179344Z'::timestamptz),
+('Copper', 1, 77, 353, 'N2', 4.1, -2.0, 2.4, 1.2, 0.073, 3, 'clean', 'ai_baseline', true, '2026-05-26T05:28:58.277369Z'::timestamptz),
+('Copper', 1, 54, 210, 'N2', 3.8, 1.1, 2.2, 1.1, 0.051, 5, 'clean', 'ai_baseline', true, '2026-06-02T03:04:32.154794Z'::timestamptz),
+('Copper', 1, 82, 156, 'N2', 4.4, -1.1, 1.3, 1.0, 0.076, 5, 'clean', 'ai_baseline', true, '2026-05-23T22:09:57.624164Z'::timestamptz),
+('Copper', 2, 75, 258, 'N2', 4.3, 2.6, 3.4, 1.6, 0.123, 5, 'clean', 'ai_baseline', true, '2026-06-04T19:59:57.420938Z'::timestamptz),
+('Copper', 2, 65, 259, 'N2', 3.4, -0.1, 2.4, 0.8, 0.098, 5, 'clean', 'ai_baseline', true, '2026-05-31T08:38:12.924023Z'::timestamptz),
+('Copper', 2, 85, 270, 'N2', 4.0, -2.4, 2.1, 1.4, 0.131, 4, 'clean', 'ai_baseline', true, '2026-05-29T13:41:46.293663Z'::timestamptz),
+('Copper', 2, 55, 178, 'N2', 3.6, 3.3, 3.0, 1.1, 0.06, 4, 'clean', 'ai_baseline', true, '2026-05-29T06:17:54.107761Z'::timestamptz),
+('Copper', 2, 75, 160, 'N2', 4.1, -3.3, 3.5, 0.6, 0.087, 4, 'clean', 'ai_baseline', true, '2026-05-31T02:59:08.905359Z'::timestamptz),
+('Copper', 3, 76, 146, 'N2', 3.8, -2.4, 3.0, 0.9, 0.134, 5, 'slight_dross', 'ai_baseline', true, '2026-05-31T21:33:36.318647Z'::timestamptz),
+('Copper', 3, 85, 106, 'N2', 2.9, -2.1, 3.6, 1.5, 0.101, 4, 'clean', 'ai_baseline', true, '2026-06-03T07:25:43.834115Z'::timestamptz),
+('Copper', 3, 80, 82, 'N2', 2.7, 4.8, 3.8, 1.4, 0.123, 5, 'clean', 'ai_baseline', true, '2026-06-12T02:24:20.065385Z'::timestamptz),
+('Copper', 3, 88, 145, 'N2', 3.0, 0.4, 1.3, 1.6, 0.074, 5, 'clean', 'ai_baseline', true, '2026-05-22T18:48:19.672376Z'::timestamptz),
+('Copper', 3, 77, 101, 'N2', 3.2, -0.8, 3.6, 1.5, 0.134, 5, 'clean', 'ai_baseline', true, '2026-05-24T14:37:48.860645Z'::timestamptz),
+('Copper', 3, 100, 210, 'N2', 3.7, 3.1, 2.6, 1.5, 0.13, 5, 'clean', 'ai_baseline', true, '2026-05-21T21:43:08.694449Z'::timestamptz),
+('Copper', 3, 82, 101, 'N2', 3.7, 2.7, 1.9, 1.6, 0.099, 5, 'slight_dross', 'ai_baseline', true, '2026-05-15T14:10:48.576340Z'::timestamptz),
+('Leather', 1, 14, 103, 'air', 2.1, 1.4, 3.9, 1.9, 0.146, 5, 'clean', 'ai_baseline', true, '2026-05-15T04:05:36.039503Z'::timestamptz),
+('Leather', 1, 7, 222, 'air', 2.1, -3.3, 3.1, 1.7, 0.108, 3, 'clean', 'ai_baseline', true, '2026-06-11T02:38:46.203244Z'::timestamptz),
+('Leather', 1, 5, 213, 'air', 1.2, -2.0, 3.8, 1.3, 0.114, 5, 'slight_dross', 'ai_baseline', true, '2026-05-16T10:24:56.450639Z'::timestamptz),
+('Leather', 1, 9, 163, 'air', 1.0, -0.0, 1.4, 1.7, 0.139, 3, 'clean', 'ai_baseline', true, '2026-05-23T08:58:33.803606Z'::timestamptz),
+('Leather', 1, 20, 140, 'air', 2.2, 0.4, 1.9, 1.7, 0.107, 5, 'clean', 'ai_baseline', true, '2026-06-08T07:11:50.207453Z'::timestamptz),
+('Leather', 1, 19, 367, 'air', 1.7, -2.2, 3.4, 1.0, 0.146, 5, 'slight_dross', 'ai_baseline', true, '2026-06-01T06:16:58.813972Z'::timestamptz),
+('Leather', 2, 5, 336, 'air', 1.7, 1.9, 1.8, 0.6, 0.111, 5, 'clean', 'ai_baseline', true, '2026-05-30T01:56:40.954542Z'::timestamptz),
+('Leather', 2, 21, 182, 'air', 2.0, -4.4, 2.0, 1.5, 0.091, 5, 'slight_dross', 'ai_baseline', true, '2026-05-25T18:29:08.939131Z'::timestamptz),
+('Leather', 2, 7, 399, 'air', 1.9, -1.5, 1.7, 0.8, 0.101, 4, 'clean', 'ai_baseline', true, '2026-05-20T10:59:06.287627Z'::timestamptz),
+('Leather', 2, 14, 322, 'air', 1.3, -2.9, 2.8, 0.9, 0.088, 4, 'clean', 'ai_baseline', true, '2026-06-06T23:27:27.146049Z'::timestamptz),
+('Leather', 2, 17, 386, 'air', 2.1, -2.8, 1.3, 1.5, 0.069, 4, 'clean', 'ai_baseline', true, '2026-05-13T13:21:31.340275Z'::timestamptz),
+('Leather', 2, 9, 104, 'air', 1.6, 2.7, 1.7, 1.8, 0.11, 5, 'slight_dross', 'ai_baseline', true, '2026-06-10T07:50:25.714016Z'::timestamptz),
+('Leather', 2, 7, 244, 'air', 1.5, 2.5, 3.2, 1.2, 0.093, 3, 'clean', 'ai_baseline', true, '2026-06-08T06:57:04.602277Z'::timestamptz),
+('Leather', 3, 18, 89, 'air', 1.5, 0.3, 2.1, 0.7, 0.101, 5, 'clean', 'ai_baseline', true, '2026-06-05T06:43:51.564333Z'::timestamptz),
+('Leather', 3, 12, 145, 'air', 1.8, 3.4, 1.5, 1.2, 0.139, 5, 'clean', 'ai_baseline', true, '2026-06-01T06:45:00.645171Z'::timestamptz),
+('Leather', 3, 25, 171, 'air', 2.5, 4.6, 3.4, 1.8, 0.068, 3, 'clean', 'ai_baseline', true, '2026-05-28T05:25:59.780186Z'::timestamptz),
+('Leather', 3, 19, 164, 'air', 2.0, -0.3, 1.4, 1.0, 0.133, 5, 'clean', 'ai_baseline', true, '2026-05-21T06:48:43.373128Z'::timestamptz),
+('Leather', 3, 14, 126, 'air', 1.6, -1.7, 1.0, 0.7, 0.059, 5, 'clean', 'ai_baseline', true, '2026-05-13T12:12:47.510305Z'::timestamptz),
+('Leather', 3, 25, 113, 'air', 2.0, -0.3, 1.6, 2.0, 0.117, 5, 'clean', 'ai_baseline', true, '2026-05-15T01:57:51.567116Z'::timestamptz),
+('Leather', 5, 38, 120, 'air', 1.0, -4.4, 1.5, 1.4, 0.103, 5, 'clean', 'ai_baseline', true, '2026-05-13T14:04:59.999145Z'::timestamptz),
+('Leather', 5, 36, 144, 'air', 2.0, -0.2, 1.6, 1.6, 0.064, 4, 'slight_dross', 'ai_baseline', true, '2026-05-23T04:55:00.401145Z'::timestamptz),
+('Leather', 5, 29, 112, 'air', 1.7, -1.3, 1.3, 1.4, 0.077, 5, 'clean', 'ai_baseline', true, '2026-05-31T05:30:31.012870Z'::timestamptz),
+('Leather', 5, 14, 192, 'air', 2.5, 3.4, 2.7, 1.7, 0.066, 3, 'slight_dross', 'ai_baseline', true, '2026-06-06T12:00:00.245348Z'::timestamptz),
+('Leather', 5, 38, 121, 'air', 1.1, -4.8, 2.1, 0.5, 0.057, 4, 'slight_dross', 'ai_baseline', true, '2026-06-09T15:13:20.174531Z'::timestamptz),
+('Leather', 5, 13, 176, 'air', 2.5, -2.6, 3.3, 1.2, 0.092, 5, 'clean', 'ai_baseline', true, '2026-06-03T14:54:55.499301Z'::timestamptz),
+('Stainless Steel 316', 0.5, 79, 1228, 'O2', 3.1, -2.0, 3.9, 1.3, 0.06, 3, 'clean', 'ai_baseline', true, '2026-06-12T07:20:44.914385Z'::timestamptz),
+('Stainless Steel 316', 0.5, 40, 1153, 'N2', 3.1, 3.4, 2.0, 1.6, 0.097, 4, 'clean', 'ai_baseline', true, '2026-06-07T10:40:24.027782Z'::timestamptz),
+('Stainless Steel 316', 0.5, 71, 779, 'O2', 2.5, -0.3, 2.4, 0.6, 0.117, 5, 'clean', 'ai_baseline', true, '2026-05-18T02:27:12.960303Z'::timestamptz),
+('Stainless Steel 316', 0.5, 54, 1296, 'N2', 3.1, -3.9, 2.8, 1.8, 0.136, 4, 'clean', 'ai_baseline', true, '2026-05-29T06:55:07.796047Z'::timestamptz),
+('Stainless Steel 316', 0.5, 70, 976, 'O2', 2.7, -2.0, 2.0, 0.6, 0.071, 4, 'clean', 'ai_baseline', true, '2026-05-31T05:12:30.690208Z'::timestamptz),
+('Stainless Steel 316', 0.5, 60, 1039, 'N2', 4.3, -4.5, 2.7, 1.7, 0.057, 3, 'clean', 'ai_baseline', true, '2026-05-26T22:53:38.517156Z'::timestamptz),
+('Stainless Steel 316', 0.5, 34, 959, 'N2', 3.8, -0.9, 2.2, 1.8, 0.135, 5, 'clean', 'ai_baseline', true, '2026-06-09T19:44:02.509573Z'::timestamptz),
+('Stainless Steel 316', 1, 64, 778, 'O2', 3.0, -2.0, 2.8, 1.7, 0.051, 4, 'clean', 'ai_baseline', true, '2026-06-01T03:21:31.342233Z'::timestamptz),
+('Stainless Steel 316', 1, 47, 682, 'N2', 3.8, 1.0, 2.0, 1.3, 0.109, 4, 'clean', 'ai_baseline', true, '2026-05-17T17:28:30.003964Z'::timestamptz),
+('Stainless Steel 316', 1, 66, 709, 'N2', 3.0, -0.6, 2.9, 0.7, 0.093, 5, 'slight_dross', 'ai_baseline', true, '2026-05-29T12:11:34.858694Z'::timestamptz),
+('Stainless Steel 316', 1, 91, 779, 'N2', 4.3, 2.1, 1.4, 1.2, 0.073, 5, 'clean', 'ai_baseline', true, '2026-05-27T00:30:44.412343Z'::timestamptz),
+('Stainless Steel 316', 1, 71, 580, 'O2', 3.4, -1.3, 3.4, 1.8, 0.082, 3, 'clean', 'ai_baseline', true, '2026-05-21T23:02:53.203526Z'::timestamptz),
+('Stainless Steel 316', 1, 82, 613, 'N2', 4.4, 0.7, 4.0, 1.6, 0.114, 5, 'clean', 'ai_baseline', true, '2026-05-23T10:07:20.809833Z'::timestamptz),
+('Stainless Steel 316', 2, 65, 482, 'N2', 2.7, 4.0, 3.7, 1.7, 0.089, 5, 'slight_dross', 'ai_baseline', true, '2026-05-14T20:57:15.533645Z'::timestamptz),
+('Stainless Steel 316', 2, 81, 539, 'N2', 2.6, -4.4, 2.1, 1.6, 0.125, 4, 'slight_dross', 'ai_baseline', true, '2026-05-23T07:13:16.304593Z'::timestamptz),
+('Stainless Steel 316', 2, 93, 316, 'N2', 2.7, -0.0, 3.9, 1.0, 0.106, 5, 'clean', 'ai_baseline', true, '2026-05-20T17:32:05.167891Z'::timestamptz),
+('Stainless Steel 316', 2, 57, 419, 'N2', 4.2, 0.3, 3.7, 1.0, 0.07, 3, 'slight_dross', 'ai_baseline', true, '2026-05-21T09:37:16.756860Z'::timestamptz),
+('Stainless Steel 316', 2, 90, 390, 'N2', 4.4, 2.3, 2.2, 1.6, 0.062, 4, 'clean', 'ai_baseline', true, '2026-05-31T17:16:46.795060Z'::timestamptz),
+('Stainless Steel 316', 2, 62, 303, 'O2', 2.1, 4.7, 2.6, 1.4, 0.143, 5, 'clean', 'ai_baseline', true, '2026-05-30T11:34:39.827753Z'::timestamptz),
+('Stainless Steel 316', 3, 97, 206, 'N2', 2.7, -1.5, 2.4, 0.9, 0.146, 5, 'clean', 'ai_baseline', true, '2026-06-11T18:56:28.219157Z'::timestamptz),
+('Stainless Steel 316', 3, 90, 337, 'O2', 2.4, 1.0, 1.4, 1.6, 0.115, 5, 'clean', 'ai_baseline', true, '2026-05-27T18:42:54.660756Z'::timestamptz),
+('Stainless Steel 316', 3, 82, 309, 'N2', 3.1, 3.0, 1.4, 1.5, 0.08, 5, 'clean', 'ai_baseline', true, '2026-05-15T10:25:29.021724Z'::timestamptz),
+('Stainless Steel 316', 3, 81, 264, 'O2', 3.3, -2.5, 1.4, 1.5, 0.13, 4, 'clean', 'ai_baseline', true, '2026-05-26T22:30:33.441811Z'::timestamptz),
+('Stainless Steel 316', 3, 91, 308, 'N2', 3.8, -2.9, 2.0, 1.7, 0.119, 5, 'clean', 'ai_baseline', true, '2026-05-18T21:33:38.884158Z'::timestamptz),
+('Stainless Steel 316', 3, 88, 305, 'O2', 2.0, -3.9, 1.7, 1.4, 0.053, 4, 'clean', 'ai_baseline', true, '2026-05-28T16:43:37.298077Z'::timestamptz),
+('Stainless Steel 316', 5, 93, 143, 'O2', 3.0, 4.6, 1.7, 0.8, 0.12, 5, 'slight_dross', 'ai_baseline', true, '2026-05-14T22:44:58.487795Z'::timestamptz),
+('Stainless Steel 316', 5, 84, 235, 'O2', 1.5, 0.1, 1.2, 1.8, 0.123, 5, 'slight_dross', 'ai_baseline', true, '2026-06-03T03:55:54.687081Z'::timestamptz),
+('Stainless Steel 316', 5, 85, 144, 'N2', 3.2, -3.4, 2.8, 1.0, 0.054, 5, 'clean', 'ai_baseline', true, '2026-06-10T13:41:18.597992Z'::timestamptz),
+('Stainless Steel 316', 5, 91, 126, 'N2', 3.4, -2.1, 2.9, 1.8, 0.137, 4, 'clean', 'ai_baseline', true, '2026-06-02T13:06:27.603023Z'::timestamptz),
+('Stainless Steel 316', 5, 96, 133, 'O2', 1.7, -1.1, 1.4, 1.7, 0.064, 4, 'slight_dross', 'ai_baseline', true, '2026-05-25T03:04:52.424118Z'::timestamptz),
+('Stainless Steel 316', 8, 89, 149, 'N2', 4.2, 0.1, 3.9, 1.8, 0.081, 3, 'clean', 'ai_baseline', true, '2026-05-24T18:18:52.429881Z'::timestamptz),
+('Stainless Steel 316', 8, 89, 106, 'O2', 3.0, -2.7, 1.9, 1.8, 0.087, 5, 'clean', 'ai_baseline', true, '2026-05-27T01:14:56.171045Z'::timestamptz),
+('Stainless Steel 316', 8, 81, 145, 'N2', 2.8, -1.3, 2.2, 0.6, 0.066, 3, 'clean', 'ai_baseline', true, '2026-05-13T11:53:47.514677Z'::timestamptz),
+('Stainless Steel 316', 8, 94, 101, 'N2', 4.4, 2.5, 2.6, 1.6, 0.104, 5, 'slight_dross', 'ai_baseline', true, '2026-06-12T02:18:41.991201Z'::timestamptz),
+('Stainless Steel 316', 8, 82, 105, 'N2', 2.7, 4.4, 1.4, 1.3, 0.1, 5, 'slight_dross', 'ai_baseline', true, '2026-05-30T18:09:16.717629Z'::timestamptz),
+('Stainless Steel 316', 8, 95, 123, 'N2', 4.1, -1.9, 1.4, 1.5, 0.08, 5, 'clean', 'ai_baseline', true, '2026-06-09T07:06:09.189116Z'::timestamptz),
+('Stainless Steel 430', 0.5, 27, 1467, 'N2', 3.0, -2.5, 2.2, 0.9, 0.121, 5, 'clean', 'ai_baseline', true, '2026-06-10T14:10:05.634395Z'::timestamptz),
+('Stainless Steel 430', 0.5, 55, 877, 'N2', 4.8, 4.7, 1.7, 1.3, 0.139, 4, 'clean', 'ai_baseline', true, '2026-06-02T07:28:46.582305Z'::timestamptz),
+('Stainless Steel 430', 0.5, 28, 1010, 'O2', 2.5, -3.7, 3.3, 1.7, 0.073, 4, 'slight_dross', 'ai_baseline', true, '2026-05-28T07:06:02.047719Z'::timestamptz),
+('Stainless Steel 430', 0.5, 57, 1162, 'O2', 1.7, 4.9, 2.3, 1.2, 0.058, 4, 'slight_dross', 'ai_baseline', true, '2026-06-02T20:00:56.847676Z'::timestamptz),
+('Stainless Steel 430', 0.5, 72, 1294, 'N2', 2.7, -3.4, 2.0, 1.6, 0.072, 5, 'clean', 'ai_baseline', true, '2026-05-21T04:37:13.455618Z'::timestamptz),
+('Stainless Steel 430', 0.5, 26, 1409, 'O2', 3.0, 0.0, 1.8, 1.6, 0.089, 4, 'clean', 'ai_baseline', true, '2026-05-18T07:14:31.737063Z'::timestamptz),
+('Stainless Steel 430', 0.5, 63, 1244, 'O2', 2.9, -1.3, 3.6, 1.1, 0.134, 4, 'clean', 'ai_baseline', true, '2026-06-02T21:45:09.121431Z'::timestamptz),
+('Stainless Steel 430', 1, 46, 745, 'O2', 2.0, -0.8, 3.1, 0.7, 0.115, 5, 'clean', 'ai_baseline', true, '2026-05-16T00:23:40.622463Z'::timestamptz),
+('Stainless Steel 430', 1, 48, 632, 'O2', 2.1, 2.7, 3.1, 0.7, 0.081, 5, 'clean', 'ai_baseline', true, '2026-05-29T19:40:25.229173Z'::timestamptz),
+('Stainless Steel 430', 1, 48, 479, 'O2', 2.9, 3.2, 1.0, 1.7, 0.13, 4, 'clean', 'ai_baseline', true, '2026-06-11T00:55:29.332797Z'::timestamptz),
+('Stainless Steel 430', 1, 77, 524, 'N2', 3.0, 3.2, 3.1, 0.7, 0.139, 5, 'slight_dross', 'ai_baseline', true, '2026-05-14T05:10:59.173761Z'::timestamptz),
+('Stainless Steel 430', 1, 81, 663, 'N2', 3.6, 4.5, 3.4, 1.6, 0.075, 5, 'clean', 'ai_baseline', true, '2026-06-07T05:52:45.112273Z'::timestamptz),
+('Stainless Steel 430', 1, 86, 423, 'N2', 3.9, 2.8, 2.8, 1.5, 0.107, 5, 'clean', 'ai_baseline', true, '2026-06-11T04:52:02.690344Z'::timestamptz),
+('Stainless Steel 430', 1, 78, 519, 'N2', 3.7, 3.4, 3.2, 0.8, 0.123, 3, 'clean', 'ai_baseline', true, '2026-05-15T13:30:12.789411Z'::timestamptz),
+('Stainless Steel 430', 2, 88, 286, 'N2', 4.7, -1.2, 1.8, 0.9, 0.127, 4, 'slight_dross', 'ai_baseline', true, '2026-05-24T10:17:36.499746Z'::timestamptz),
+('Stainless Steel 430', 2, 81, 459, 'N2', 3.0, 3.4, 3.0, 0.6, 0.063, 5, 'slight_dross', 'ai_baseline', true, '2026-05-30T10:31:34.039727Z'::timestamptz),
+('Stainless Steel 430', 2, 91, 390, 'N2', 3.9, -2.6, 3.4, 1.7, 0.067, 3, 'clean', 'ai_baseline', true, '2026-05-22T20:14:55.347740Z'::timestamptz),
+('Stainless Steel 430', 2, 58, 566, 'O2', 2.6, -1.0, 2.2, 1.9, 0.12, 5, 'slight_dross', 'ai_baseline', true, '2026-05-21T16:40:05.864535Z'::timestamptz),
+('Stainless Steel 430', 2, 88, 569, 'O2', 2.4, -2.2, 1.5, 1.5, 0.113, 5, 'clean', 'ai_baseline', true, '2026-06-09T17:59:44.035921Z'::timestamptz),
+('Stainless Steel 430', 3, 95, 411, 'N2', 3.3, -1.4, 2.7, 1.4, 0.097, 5, 'clean', 'ai_baseline', true, '2026-06-08T05:44:34.944759Z'::timestamptz),
+('Stainless Steel 430', 3, 87, 378, 'O2', 1.7, 2.9, 3.7, 1.1, 0.126, 3, 'clean', 'ai_baseline', true, '2026-06-01T18:13:36.853649Z'::timestamptz),
+('Stainless Steel 430', 3, 93, 397, 'O2', 2.6, -2.0, 1.4, 0.8, 0.051, 4, 'clean', 'ai_baseline', true, '2026-05-20T03:31:43.367421Z'::timestamptz),
+('Stainless Steel 430', 3, 70, 177, 'N2', 3.9, -5.0, 2.6, 1.6, 0.069, 4, 'clean', 'ai_baseline', true, '2026-05-13T13:30:53.121063Z'::timestamptz),
+('Stainless Steel 430', 3, 88, 296, 'O2', 1.8, -0.0, 2.1, 0.9, 0.064, 4, 'clean', 'ai_baseline', true, '2026-05-26T17:58:25.338495Z'::timestamptz),
+('Stainless Steel 430', 3, 90, 416, 'N2', 3.4, 0.5, 3.7, 1.4, 0.119, 4, 'slight_dross', 'ai_baseline', true, '2026-05-17T20:17:05.447224Z'::timestamptz),
+('Stainless Steel 430', 5, 84, 197, 'N2', 3.0, 0.2, 3.8, 0.8, 0.121, 4, 'clean', 'ai_baseline', true, '2026-06-11T07:57:30.438333Z'::timestamptz),
+('Stainless Steel 430', 5, 85, 219, 'O2', 2.4, 0.8, 2.4, 1.6, 0.111, 5, 'clean', 'ai_baseline', true, '2026-05-30T04:06:49.034973Z'::timestamptz),
+('Stainless Steel 430', 5, 66, 241, 'N2', 4.6, 2.6, 4.0, 1.0, 0.129, 5, 'clean', 'ai_baseline', true, '2026-05-25T07:59:58.291199Z'::timestamptz),
+('Stainless Steel 430', 5, 91, 189, 'O2', 2.7, 2.5, 3.2, 1.6, 0.081, 5, 'clean', 'ai_baseline', true, '2026-06-01T08:32:25.165967Z'::timestamptz),
+('Stainless Steel 430', 5, 76, 113, 'O2', 2.5, 1.3, 3.8, 1.2, 0.097, 5, 'clean', 'ai_baseline', true, '2026-05-16T17:13:28.659456Z'::timestamptz),
+('Carbon Steel', 0.5, 62, 1579, 'air', 1.3, 1.6, 3.3, 1.2, 0.133, 5, 'clean', 'ai_baseline', true, '2026-05-25T01:45:29.679748Z'::timestamptz),
+('Carbon Steel', 0.5, 20, 1523, 'air', 2.0, -4.2, 3.6, 0.8, 0.145, 5, 'clean', 'ai_baseline', true, '2026-05-15T04:43:26.954294Z'::timestamptz),
+('Carbon Steel', 0.5, 65, 1353, 'air', 1.6, -2.4, 3.6, 1.9, 0.055, 4, 'clean', 'ai_baseline', true, '2026-06-08T08:47:07.333272Z'::timestamptz),
+('Carbon Steel', 0.5, 49, 1659, 'O2', 2.9, 2.9, 1.9, 1.8, 0.148, 5, 'clean', 'ai_baseline', true, '2026-05-18T17:36:54.512880Z'::timestamptz),
+('Carbon Steel', 0.5, 35, 1050, 'O2', 3.1, -4.3, 1.4, 1.9, 0.14, 5, 'clean', 'ai_baseline', true, '2026-05-18T02:35:11.333848Z'::timestamptz),
+('Carbon Steel', 0.5, 37, 1333, 'air', 1.1, -4.6, 1.1, 0.8, 0.097, 5, 'clean', 'ai_baseline', true, '2026-05-14T20:12:22.354267Z'::timestamptz),
+('Carbon Steel', 0.5, 69, 1708, 'air', 2.0, 2.6, 1.4, 1.9, 0.133, 5, 'clean', 'ai_baseline', true, '2026-06-03T16:56:30.954493Z'::timestamptz),
+('Carbon Steel', 1, 51, 628, 'air', 1.6, -3.5, 1.2, 0.9, 0.114, 5, 'clean', 'ai_baseline', true, '2026-05-25T23:12:19.164298Z'::timestamptz),
+('Carbon Steel', 1, 60, 683, 'O2', 2.6, -0.8, 2.5, 1.2, 0.059, 5, 'clean', 'ai_baseline', true, '2026-05-13T15:11:07.616357Z'::timestamptz),
+('Carbon Steel', 1, 46, 1107, 'O2', 2.7, -3.0, 2.9, 1.7, 0.07, 5, 'clean', 'ai_baseline', true, '2026-06-07T12:21:23.843677Z'::timestamptz),
+('Carbon Steel', 1, 75, 600, 'air', 1.7, 1.1, 2.4, 0.9, 0.065, 5, 'slight_dross', 'ai_baseline', true, '2026-06-08T11:55:29.572829Z'::timestamptz),
+('Carbon Steel', 1, 65, 1055, 'air', 1.6, 2.7, 1.6, 0.8, 0.132, 5, 'clean', 'ai_baseline', true, '2026-06-03T01:14:20.117553Z'::timestamptz),
+('Carbon Steel', 2, 50, 440, 'O2', 1.6, 3.7, 1.8, 1.3, 0.066, 3, 'clean', 'ai_baseline', true, '2026-05-26T19:22:12.766228Z'::timestamptz),
+('Carbon Steel', 2, 54, 458, 'O2', 2.6, -4.7, 1.0, 0.6, 0.127, 5, 'clean', 'ai_baseline', true, '2026-05-14T02:44:46.123805Z'::timestamptz),
+('Carbon Steel', 2, 77, 851, 'O2', 2.4, -4.8, 3.5, 1.4, 0.105, 3, 'slight_dross', 'ai_baseline', true, '2026-06-11T14:00:13.937473Z'::timestamptz),
+('Carbon Steel', 2, 76, 401, 'air', 1.9, -2.7, 3.2, 0.9, 0.12, 3, 'clean', 'ai_baseline', true, '2026-05-30T03:32:11.469990Z'::timestamptz),
+('Carbon Steel', 2, 60, 629, 'O2', 2.4, -0.8, 3.2, 0.9, 0.142, 4, 'slight_dross', 'ai_baseline', true, '2026-05-16T01:52:22.149273Z'::timestamptz),
+('Carbon Steel', 2, 46, 853, 'air', 1.6, 0.7, 4.0, 1.9, 0.132, 5, 'clean', 'ai_baseline', true, '2026-05-29T05:32:23.827529Z'::timestamptz),
+('Carbon Steel', 3, 55, 315, 'air', 1.2, 0.8, 2.2, 1.5, 0.115, 5, 'clean', 'ai_baseline', true, '2026-06-03T04:38:27.970711Z'::timestamptz),
+('Carbon Steel', 3, 86, 291, 'O2', 2.3, -2.0, 2.3, 1.2, 0.138, 4, 'slight_dross', 'ai_baseline', true, '2026-06-03T18:32:58.334967Z'::timestamptz),
+('Carbon Steel', 3, 70, 547, 'air', 1.6, -0.3, 3.5, 1.2, 0.061, 3, 'clean', 'ai_baseline', true, '2026-05-28T15:03:59.814456Z'::timestamptz),
+('Carbon Steel', 3, 77, 260, 'air', 2.2, -4.6, 3.4, 1.3, 0.063, 5, 'clean', 'ai_baseline', true, '2026-06-02T20:19:05.647976Z'::timestamptz),
+('Carbon Steel', 3, 68, 363, 'O2', 2.1, -0.4, 3.0, 2.0, 0.121, 4, 'clean', 'ai_baseline', true, '2026-06-09T02:47:53.384760Z'::timestamptz),
+('Carbon Steel', 5, 94, 360, 'O2', 2.6, -2.5, 3.3, 1.0, 0.089, 5, 'clean', 'ai_baseline', true, '2026-05-16T06:22:49.511348Z'::timestamptz),
+('Carbon Steel', 5, 71, 211, 'O2', 2.2, -2.4, 1.1, 1.5, 0.074, 4, 'clean', 'ai_baseline', true, '2026-05-24T13:55:08.687751Z'::timestamptz),
+('Carbon Steel', 5, 73, 182, 'O2', 3.0, 0.5, 2.2, 0.8, 0.136, 5, 'clean', 'ai_baseline', true, '2026-05-18T13:23:48.214167Z'::timestamptz),
+('Carbon Steel', 5, 63, 196, 'O2', 1.8, -2.5, 1.9, 0.9, 0.106, 4, 'clean', 'ai_baseline', true, '2026-06-07T01:20:46.017586Z'::timestamptz),
+('Carbon Steel', 5, 72, 396, 'air', 1.8, -4.3, 3.7, 0.7, 0.148, 4, 'clean', 'ai_baseline', true, '2026-05-20T02:33:36.870896Z'::timestamptz),
+('Carbon Steel', 5, 65, 277, 'air', 2.1, 0.2, 3.3, 1.0, 0.117, 3, 'clean', 'ai_baseline', true, '2026-05-23T03:29:45.786176Z'::timestamptz),
+('Carbon Steel', 5, 69, 189, 'O2', 2.6, -2.2, 1.6, 1.7, 0.134, 5, 'clean', 'ai_baseline', true, '2026-05-24T23:49:39.248729Z'::timestamptz),
+('Carbon Steel', 8, 84, 186, 'air', 2.0, 3.6, 2.3, 1.8, 0.11, 5, 'clean', 'ai_baseline', true, '2026-05-15T15:36:55.445359Z'::timestamptz),
+('Carbon Steel', 8, 99, 177, 'O2', 3.4, 0.6, 2.3, 1.8, 0.086, 5, 'clean', 'ai_baseline', true, '2026-06-01T20:02:52.890533Z'::timestamptz),
+('Carbon Steel', 8, 73, 152, 'O2', 1.9, -4.1, 2.6, 1.0, 0.144, 5, 'clean', 'ai_baseline', true, '2026-06-09T04:44:19.360886Z'::timestamptz),
+('Carbon Steel', 8, 80, 115, 'O2', 3.3, -3.0, 2.2, 1.2, 0.143, 3, 'clean', 'ai_baseline', true, '2026-05-23T17:53:26.666538Z'::timestamptz),
+('Carbon Steel', 8, 76, 184, 'air', 2.1, 0.6, 1.4, 1.7, 0.067, 5, 'clean', 'ai_baseline', true, '2026-06-06T00:17:12.394942Z'::timestamptz),
+('Carbon Steel', 8, 83, 177, 'O2', 3.2, 4.4, 3.3, 1.5, 0.117, 5, 'slight_dross', 'ai_baseline', true, '2026-05-25T04:18:42.745797Z'::timestamptz),
+('Carbon Steel', 8, 82, 178, 'air', 2.2, -5.0, 1.9, 1.8, 0.051, 5, 'clean', 'ai_baseline', true, '2026-05-21T06:53:14.996495Z'::timestamptz),
+('Carbon Steel', 10, 96, 135, 'air', 1.5, -3.7, 2.1, 1.5, 0.104, 5, 'clean', 'ai_baseline', true, '2026-06-04T03:33:03.653888Z'::timestamptz),
+('Carbon Steel', 10, 95, 173, 'O2', 2.2, -0.5, 1.2, 0.6, 0.066, 5, 'slight_dross', 'ai_baseline', true, '2026-06-06T04:47:39.253270Z'::timestamptz),
+('Carbon Steel', 10, 83, 69, 'air', 2.3, -3.6, 2.3, 0.9, 0.069, 5, 'clean', 'ai_baseline', true, '2026-06-09T23:07:52.589056Z'::timestamptz),
+('Carbon Steel', 10, 98, 122, 'O2', 2.5, 2.7, 2.8, 1.1, 0.067, 5, 'clean', 'ai_baseline', true, '2026-05-21T09:53:16.942135Z'::timestamptz),
+('Carbon Steel', 10, 94, 154, 'O2', 3.5, 0.5, 3.8, 1.0, 0.078, 5, 'clean', 'ai_baseline', true, '2026-06-05T15:36:27.423334Z'::timestamptz),
+('Carbon Steel', 12, 93, 80, 'air', 2.0, 4.1, 1.9, 1.3, 0.147, 5, 'clean', 'ai_baseline', true, '2026-06-03T10:59:31.110946Z'::timestamptz),
+('Carbon Steel', 12, 93, 56, 'O2', 2.7, 4.0, 1.1, 0.6, 0.122, 4, 'clean', 'ai_baseline', true, '2026-06-05T19:23:45.181664Z'::timestamptz),
+('Carbon Steel', 12, 92, 59, 'air', 2.5, -0.8, 1.3, 1.2, 0.131, 5, 'slight_dross', 'ai_baseline', true, '2026-05-22T10:43:28.333575Z'::timestamptz),
+('Carbon Steel', 12, 89, 51, 'air', 1.3, -2.8, 3.5, 1.8, 0.1, 3, 'clean', 'ai_baseline', true, '2026-05-20T07:29:09.658006Z'::timestamptz),
+('Carbon Steel', 12, 100, 37, 'O2', 2.7, 4.0, 3.2, 0.9, 0.078, 5, 'slight_dross', 'ai_baseline', true, '2026-06-02T06:38:40.890973Z'::timestamptz),
+('Carbon Steel', 12, 97, 44, 'O2', 2.7, -4.5, 1.3, 1.2, 0.06, 5, 'clean', 'ai_baseline', true, '2026-05-31T14:51:41.815425Z'::timestamptz),
+('Galvanized Steel', 0.5, 49, 1095, 'N2', 4.2, 2.6, 1.0, 1.6, 0.052, 5, 'clean', 'ai_baseline', true, '2026-05-30T15:42:33.194291Z'::timestamptz),
+('Galvanized Steel', 0.5, 70, 1378, 'air', 2.0, 3.8, 1.4, 1.0, 0.112, 5, 'clean', 'ai_baseline', true, '2026-06-11T01:26:44.775570Z'::timestamptz),
+('Galvanized Steel', 0.5, 37, 1278, 'O2', 1.8, -1.1, 2.2, 1.0, 0.094, 3, 'clean', 'ai_baseline', true, '2026-06-05T01:10:45.787767Z'::timestamptz),
+('Galvanized Steel', 0.5, 57, 1108, 'O2', 3.1, -2.3, 2.3, 1.0, 0.056, 3, 'clean', 'ai_baseline', true, '2026-06-03T01:08:28.963706Z'::timestamptz),
+('Galvanized Steel', 0.5, 69, 1362, 'N2', 3.6, -4.9, 3.5, 0.7, 0.102, 5, 'clean', 'ai_baseline', true, '2026-06-11T06:08:42.554493Z'::timestamptz),
+('Galvanized Steel', 1, 57, 796, 'O2', 3.3, -1.1, 1.7, 1.9, 0.132, 5, 'slight_dross', 'ai_baseline', true, '2026-05-15T09:14:20.154848Z'::timestamptz),
+('Galvanized Steel', 1, 71, 808, 'O2', 3.0, 4.3, 2.9, 1.5, 0.102, 4, 'clean', 'ai_baseline', true, '2026-05-14T07:51:28.790643Z'::timestamptz),
+('Galvanized Steel', 1, 48, 932, 'N2', 4.0, 0.7, 3.2, 1.5, 0.141, 5, 'clean', 'ai_baseline', true, '2026-06-02T04:21:32.440947Z'::timestamptz),
+('Galvanized Steel', 1, 74, 587, 'N2', 4.0, -1.8, 3.5, 1.5, 0.081, 5, 'clean', 'ai_baseline', true, '2026-05-23T10:08:46.327846Z'::timestamptz),
+('Galvanized Steel', 1, 71, 666, 'N2', 3.9, 0.3, 1.4, 1.7, 0.085, 4, 'slight_dross', 'ai_baseline', true, '2026-05-20T16:59:32.142286Z'::timestamptz),
+('Galvanized Steel', 1, 74, 453, 'N2', 3.4, 4.4, 3.2, 0.8, 0.132, 5, 'clean', 'ai_baseline', true, '2026-06-06T06:31:58.915508Z'::timestamptz),
+('Galvanized Steel', 2, 68, 377, 'air', 2.4, -2.8, 1.9, 1.1, 0.109, 3, 'clean', 'ai_baseline', true, '2026-06-01T19:15:48.517372Z'::timestamptz),
+('Galvanized Steel', 2, 45, 698, 'air', 1.3, 3.2, 2.2, 1.7, 0.064, 3, 'clean', 'ai_baseline', true, '2026-05-14T02:29:17.800768Z'::timestamptz),
+('Galvanized Steel', 2, 80, 488, 'air', 2.2, -1.0, 2.9, 1.9, 0.134, 4, 'clean', 'ai_baseline', true, '2026-05-28T08:40:55.186627Z'::timestamptz),
+('Galvanized Steel', 2, 84, 623, 'N2', 4.4, 1.7, 3.4, 1.9, 0.117, 5, 'clean', 'ai_baseline', true, '2026-05-29T17:16:54.975156Z'::timestamptz),
+('Galvanized Steel', 2, 70, 367, 'air', 1.4, -4.0, 3.6, 1.2, 0.066, 5, 'slight_dross', 'ai_baseline', true, '2026-05-26T09:37:40.827571Z'::timestamptz),
+('Galvanized Steel', 2, 85, 634, 'O2', 3.1, 4.3, 1.6, 1.3, 0.065, 4, 'clean', 'ai_baseline', true, '2026-05-31T18:20:59.893938Z'::timestamptz),
+('Galvanized Steel', 3, 91, 201, 'N2', 3.1, 2.5, 1.1, 1.6, 0.146, 4, 'slight_dross', 'ai_baseline', true, '2026-05-13T17:51:06.619628Z'::timestamptz),
+('Galvanized Steel', 3, 61, 183, 'N2', 4.1, -3.1, 2.7, 1.3, 0.055, 5, 'clean', 'ai_baseline', true, '2026-06-05T10:57:45.355255Z'::timestamptz),
+('Galvanized Steel', 3, 76, 375, 'air', 1.7, -4.2, 2.2, 1.7, 0.078, 5, 'clean', 'ai_baseline', true, '2026-05-22T09:47:59.968917Z'::timestamptz),
+('Galvanized Steel', 3, 93, 433, 'N2', 2.7, -3.6, 3.3, 1.2, 0.116, 4, 'clean', 'ai_baseline', true, '2026-05-29T16:44:16.761037Z'::timestamptz),
+('Galvanized Steel', 3, 68, 384, 'N2', 2.9, 3.3, 3.4, 2.0, 0.075, 5, 'clean', 'ai_baseline', true, '2026-05-18T00:11:23.788499Z'::timestamptz),
+('Galvanized Steel', 3, 85, 397, 'O2', 1.6, -4.9, 3.5, 1.4, 0.126, 5, 'clean', 'ai_baseline', true, '2026-06-10T01:51:56.944662Z'::timestamptz),
+('Galvanized Steel', 3, 88, 337, 'O2', 2.1, -3.6, 2.9, 1.6, 0.071, 4, 'slight_dross', 'ai_baseline', true, '2026-05-21T18:56:58.567834Z'::timestamptz),
+('Galvanized Steel', 5, 99, 194, 'N2', 4.5, 4.2, 1.3, 1.1, 0.143, 3, 'clean', 'ai_baseline', true, '2026-06-07T09:17:01.545358Z'::timestamptz),
+('Galvanized Steel', 5, 81, 268, 'N2', 3.3, 4.4, 2.8, 1.1, 0.057, 4, 'slight_dross', 'ai_baseline', true, '2026-05-27T20:15:09.848472Z'::timestamptz),
+('Galvanized Steel', 5, 75, 118, 'air', 1.5, -1.3, 2.9, 1.3, 0.086, 4, 'slight_dross', 'ai_baseline', true, '2026-05-26T02:27:12.030477Z'::timestamptz),
+('Galvanized Steel', 5, 70, 173, 'air', 1.7, 1.1, 3.2, 1.9, 0.11, 5, 'clean', 'ai_baseline', true, '2026-05-28T18:48:32.369288Z'::timestamptz),
+('Galvanized Steel', 5, 82, 292, 'O2', 2.6, -2.9, 1.9, 1.7, 0.141, 5, 'slight_dross', 'ai_baseline', true, '2026-06-04T18:14:02.389541Z'::timestamptz),
+('Brass', 0.5, 36, 840, 'N2', 4.0, -1.9, 1.6, 1.4, 0.05, 5, 'clean', 'ai_baseline', true, '2026-05-27T02:29:17.854888Z'::timestamptz),
+('Brass', 0.5, 36, 862, 'air', 1.5, 2.1, 2.0, 1.0, 0.07, 5, 'clean', 'ai_baseline', true, '2026-05-31T17:53:59.406019Z'::timestamptz),
+('Brass', 0.5, 76, 792, 'air', 1.4, -1.3, 2.9, 1.6, 0.094, 4, 'clean', 'ai_baseline', true, '2026-06-01T04:28:56.908392Z'::timestamptz),
+('Brass', 0.5, 43, 474, 'air', 1.8, -3.8, 3.2, 1.0, 0.057, 5, 'clean', 'ai_baseline', true, '2026-05-27T20:53:05.905415Z'::timestamptz),
+('Brass', 0.5, 67, 862, 'air', 1.4, 2.9, 2.6, 0.7, 0.121, 5, 'slight_dross', 'ai_baseline', true, '2026-06-01T14:29:19.941561Z'::timestamptz),
+('Brass', 1, 45, 221, 'N2', 4.4, 3.9, 3.2, 1.7, 0.106, 5, 'slight_dross', 'ai_baseline', true, '2026-05-14T22:27:20.508676Z'::timestamptz),
+('Brass', 1, 86, 414, 'air', 1.2, 3.5, 1.9, 0.9, 0.054, 5, 'slight_dross', 'ai_baseline', true, '2026-05-26T13:31:54.322047Z'::timestamptz),
+('Brass', 1, 57, 296, 'air', 2.0, 2.6, 2.7, 1.6, 0.14, 4, 'clean', 'ai_baseline', true, '2026-05-20T08:02:22.274686Z'::timestamptz),
+('Brass', 1, 65, 289, 'N2', 4.0, 1.1, 1.6, 1.4, 0.115, 5, 'clean', 'ai_baseline', true, '2026-06-04T13:14:01.866804Z'::timestamptz),
+('Brass', 1, 54, 435, 'N2', 3.5, -4.7, 1.2, 0.9, 0.06, 4, 'clean', 'ai_baseline', true, '2026-06-11T15:33:41.076877Z'::timestamptz),
+('Brass', 1, 56, 333, 'N2', 3.1, -4.3, 3.0, 1.1, 0.05, 3, 'clean', 'ai_baseline', true, '2026-05-21T19:02:21.781446Z'::timestamptz),
+('Brass', 1, 56, 217, 'air', 2.2, -4.2, 3.0, 2.0, 0.057, 5, 'clean', 'ai_baseline', true, '2026-06-11T17:22:25.321311Z'::timestamptz),
+('Brass', 2, 78, 179, 'N2', 2.9, -2.0, 2.7, 2.0, 0.098, 5, 'clean', 'ai_baseline', true, '2026-05-31T22:30:11.783388Z'::timestamptz),
+('Brass', 2, 81, 318, 'air', 2.4, -0.7, 2.8, 0.7, 0.089, 5, 'slight_dross', 'ai_baseline', true, '2026-05-26T03:11:20.501339Z'::timestamptz),
+('Brass', 2, 92, 207, 'N2', 3.4, 2.2, 1.7, 1.9, 0.075, 3, 'clean', 'ai_baseline', true, '2026-06-06T14:30:35.925902Z'::timestamptz),
+('Brass', 2, 89, 323, 'N2', 3.8, -3.5, 3.9, 1.2, 0.116, 5, 'slight_dross', 'ai_baseline', true, '2026-05-28T22:43:26.254364Z'::timestamptz),
+('Brass', 2, 57, 219, 'air', 1.5, -0.7, 1.1, 1.6, 0.141, 5, 'slight_dross', 'ai_baseline', true, '2026-06-06T06:06:29.078986Z'::timestamptz),
+('Brass', 3, 69, 124, 'air', 1.3, 0.6, 3.9, 0.7, 0.1, 5, 'slight_dross', 'ai_baseline', true, '2026-05-25T05:51:51.002140Z'::timestamptz),
+('Brass', 3, 84, 85, 'air', 2.1, 0.3, 2.6, 2.0, 0.05, 5, 'clean', 'ai_baseline', true, '2026-06-04T05:45:21.947941Z'::timestamptz),
+('Brass', 3, 68, 112, 'air', 2.1, 3.4, 1.1, 1.5, 0.054, 5, 'clean', 'ai_baseline', true, '2026-06-11T07:38:51.236791Z'::timestamptz),
+('Brass', 3, 75, 197, 'N2', 3.8, 4.7, 2.2, 0.9, 0.061, 4, 'slight_dross', 'ai_baseline', true, '2026-05-28T06:43:20.783103Z'::timestamptz),
+('Brass', 3, 90, 88, 'N2', 3.9, -3.2, 2.7, 1.3, 0.065, 4, 'clean', 'ai_baseline', true, '2026-05-13T17:33:25.319872Z'::timestamptz),
+('Brass', 3, 93, 76, 'N2', 4.2, 3.1, 2.3, 0.7, 0.111, 3, 'slight_dross', 'ai_baseline', true, '2026-05-13T10:41:34.247931Z'::timestamptz),
+('Brass', 3, 83, 94, 'air', 1.6, -0.5, 2.9, 1.8, 0.095, 5, 'clean', 'ai_baseline', true, '2026-05-20T09:27:32.032841Z'::timestamptz),
+('Titanium', 0.5, 46, 1144, 'N2', 4.4, 1.1, 3.7, 1.8, 0.14, 5, 'slight_dross', 'ai_baseline', true, '2026-05-27T18:43:16.306274Z'::timestamptz),
+('Titanium', 0.5, 74, 702, 'Ar', 6.0, 0.5, 3.5, 1.6, 0.144, 3, 'clean', 'ai_baseline', true, '2026-05-15T01:08:29.112167Z'::timestamptz),
+('Titanium', 0.5, 41, 1036, 'Ar', 6.0, -4.1, 2.9, 1.8, 0.086, 5, 'clean', 'ai_baseline', true, '2026-05-28T20:03:41.040732Z'::timestamptz),
+('Titanium', 0.5, 44, 964, 'N2', 4.1, -2.5, 1.3, 0.6, 0.138, 5, 'slight_dross', 'ai_baseline', true, '2026-05-27T05:39:26.829450Z'::timestamptz),
+('Titanium', 0.5, 29, 908, 'Ar', 3.0, -2.8, 3.9, 1.3, 0.073, 4, 'slight_dross', 'ai_baseline', true, '2026-06-05T13:39:41.439108Z'::timestamptz),
+('Titanium', 0.5, 32, 1105, 'N2', 2.7, -2.5, 3.8, 1.8, 0.104, 5, 'clean', 'ai_baseline', true, '2026-05-21T07:24:50.470625Z'::timestamptz),
+('Titanium', 1, 63, 636, 'N2', 3.7, 3.3, 3.6, 0.6, 0.059, 4, 'clean', 'ai_baseline', true, '2026-05-22T12:52:44.849061Z'::timestamptz),
+('Titanium', 1, 59, 373, 'Ar', 4.8, 4.9, 3.1, 1.9, 0.099, 5, 'clean', 'ai_baseline', true, '2026-05-19T20:45:37.237302Z'::timestamptz),
+('Titanium', 1, 77, 491, 'N2', 4.8, -1.6, 1.7, 0.5, 0.078, 5, 'slight_dross', 'ai_baseline', true, '2026-05-13T14:14:54.430408Z'::timestamptz),
+('Titanium', 1, 68, 407, 'N2', 4.6, 3.0, 3.0, 0.9, 0.094, 5, 'slight_dross', 'ai_baseline', true, '2026-05-16T01:58:04.537546Z'::timestamptz),
+('Titanium', 1, 48, 711, 'Ar', 4.2, 3.0, 1.4, 0.6, 0.116, 5, 'clean', 'ai_baseline', true, '2026-06-10T03:39:32.017935Z'::timestamptz),
+('Titanium', 1, 67, 521, 'N2', 3.0, -0.4, 2.5, 1.6, 0.091, 5, 'clean', 'ai_baseline', true, '2026-05-24T09:46:03.793792Z'::timestamptz),
+('Titanium', 2, 65, 419, 'Ar', 3.9, -1.9, 1.4, 0.5, 0.059, 5, 'clean', 'ai_baseline', true, '2026-06-05T23:29:51.630953Z'::timestamptz),
+('Titanium', 2, 87, 213, 'Ar', 5.8, 3.0, 2.6, 1.2, 0.121, 4, 'slight_dross', 'ai_baseline', true, '2026-05-13T12:41:38.455932Z'::timestamptz),
+('Titanium', 2, 73, 446, 'Ar', 3.7, 1.2, 1.0, 1.4, 0.072, 4, 'slight_dross', 'ai_baseline', true, '2026-05-29T05:30:28.161199Z'::timestamptz),
+('Titanium', 2, 89, 183, 'N2', 4.0, 2.8, 2.3, 1.9, 0.104, 5, 'slight_dross', 'ai_baseline', true, '2026-06-04T04:18:53.303042Z'::timestamptz),
+('Titanium', 2, 74, 366, 'Ar', 3.6, 2.8, 1.8, 0.5, 0.075, 4, 'slight_dross', 'ai_baseline', true, '2026-06-07T02:50:22.098125Z'::timestamptz),
+('Titanium', 2, 83, 416, 'Ar', 3.7, -1.0, 1.9, 0.8, 0.089, 4, 'slight_dross', 'ai_baseline', true, '2026-05-26T22:41:13.842412Z'::timestamptz),
+('Titanium', 2, 74, 392, 'Ar', 4.5, -3.9, 2.9, 1.5, 0.093, 5, 'clean', 'ai_baseline', true, '2026-06-10T07:15:59.829286Z'::timestamptz),
+('Titanium', 3, 95, 202, 'N2', 2.9, -1.4, 2.7, 1.1, 0.146, 5, 'clean', 'ai_baseline', true, '2026-06-09T00:05:45.133743Z'::timestamptz),
+('Titanium', 3, 100, 101, 'Ar', 5.2, 2.2, 3.5, 1.2, 0.071, 5, 'clean', 'ai_baseline', true, '2026-06-10T18:37:07.480252Z'::timestamptz),
+('Titanium', 3, 89, 193, 'Ar', 4.9, 2.7, 2.2, 1.6, 0.129, 4, 'clean', 'ai_baseline', true, '2026-05-19T08:41:16.440154Z'::timestamptz),
+('Titanium', 3, 67, 176, 'Ar', 3.8, -4.5, 2.3, 1.7, 0.062, 5, 'clean', 'ai_baseline', true, '2026-06-02T13:33:38.183993Z'::timestamptz),
+('Titanium', 3, 73, 255, 'Ar', 3.3, -3.0, 1.9, 1.0, 0.059, 5, 'clean', 'ai_baseline', true, '2026-05-25T16:31:35.148495Z'::timestamptz),
+('Titanium', 3, 71, 269, 'Ar', 3.4, -3.8, 1.8, 1.9, 0.083, 5, 'slight_dross', 'ai_baseline', true, '2026-06-10T14:41:56.610537Z'::timestamptz),
+('Titanium', 3, 82, 285, 'Ar', 5.0, -1.0, 2.7, 1.8, 0.107, 5, 'clean', 'ai_baseline', true, '2026-06-08T00:43:33.721715Z'::timestamptz),
+('Inconel', 1, 84, 497, 'N2', 3.9, 3.4, 3.7, 1.9, 0.12, 5, 'slight_dross', 'ai_baseline', true, '2026-05-16T02:02:12.229299Z'::timestamptz),
+('Inconel', 1, 82, 209, 'Ar', 4.2, 4.0, 1.4, 1.6, 0.142, 5, 'clean', 'ai_baseline', true, '2026-05-15T05:59:19.103028Z'::timestamptz),
+('Inconel', 1, 66, 371, 'N2', 2.6, -2.6, 1.0, 0.8, 0.06, 5, 'clean', 'ai_baseline', true, '2026-06-05T15:32:28.136726Z'::timestamptz),
+('Inconel', 1, 92, 334, 'N2', 3.1, -4.1, 2.6, 0.5, 0.056, 5, 'clean', 'ai_baseline', true, '2026-05-13T21:46:53.267138Z'::timestamptz),
+('Inconel', 1, 73, 246, 'N2', 2.6, -4.0, 1.0, 1.1, 0.076, 5, 'clean', 'ai_baseline', true, '2026-05-14T08:57:14.366856Z'::timestamptz),
+('Inconel', 2, 73, 180, 'N2', 3.0, -2.6, 1.3, 1.1, 0.083, 5, 'clean', 'ai_baseline', true, '2026-05-19T01:10:07.575954Z'::timestamptz),
+('Inconel', 2, 74, 269, 'N2', 4.8, 0.0, 3.5, 1.7, 0.103, 4, 'clean', 'ai_baseline', true, '2026-05-22T05:37:22.355349Z'::timestamptz),
+('Inconel', 2, 86, 188, 'Ar', 4.2, 2.8, 1.1, 1.2, 0.148, 5, 'slight_dross', 'ai_baseline', true, '2026-05-30T00:19:40.537924Z'::timestamptz),
+('Inconel', 2, 75, 243, 'N2', 4.0, -0.5, 1.8, 1.1, 0.057, 5, 'slight_dross', 'ai_baseline', true, '2026-06-11T17:23:56.990471Z'::timestamptz),
+('Inconel', 2, 94, 181, 'Ar', 3.8, 4.8, 1.9, 0.9, 0.055, 5, 'clean', 'ai_baseline', true, '2026-06-10T06:31:26.181266Z'::timestamptz),
+('Inconel', 3, 91, 153, 'N2', 3.6, 1.6, 3.0, 1.1, 0.074, 5, 'clean', 'ai_baseline', true, '2026-06-07T12:26:12.772573Z'::timestamptz),
+('Inconel', 3, 96, 95, 'Ar', 5.7, -1.4, 3.0, 1.8, 0.132, 4, 'clean', 'ai_baseline', true, '2026-05-28T09:24:45.048136Z'::timestamptz),
+('Inconel', 3, 86, 120, 'Ar', 5.9, 2.9, 2.9, 0.6, 0.099, 5, 'clean', 'ai_baseline', true, '2026-06-06T22:52:45.710036Z'::timestamptz),
+('Inconel', 3, 92, 127, 'N2', 3.6, -0.5, 2.4, 1.5, 0.139, 4, 'clean', 'ai_baseline', true, '2026-06-05T05:05:31.026373Z'::timestamptz),
+('Inconel', 3, 76, 157, 'N2', 4.1, 3.3, 1.1, 1.0, 0.12, 5, 'clean', 'ai_baseline', true, '2026-05-28T18:23:42.431381Z'::timestamptz),
+('Hastelloy', 1, 92, 206, 'Ar', 5.6, -3.9, 3.8, 0.6, 0.081, 5, 'clean', 'ai_baseline', true, '2026-06-11T03:51:35.594047Z'::timestamptz),
+('Hastelloy', 1, 82, 295, 'N2', 4.2, -1.8, 2.4, 1.3, 0.119, 5, 'clean', 'ai_baseline', true, '2026-05-29T10:41:11.175219Z'::timestamptz),
+('Hastelloy', 1, 94, 314, 'Ar', 3.0, -4.7, 1.6, 0.8, 0.14, 5, 'clean', 'ai_baseline', true, '2026-05-22T14:08:31.025008Z'::timestamptz),
+('Hastelloy', 1, 88, 284, 'Ar', 3.4, -2.6, 3.0, 0.9, 0.075, 5, 'clean', 'ai_baseline', true, '2026-05-26T08:20:03.433930Z'::timestamptz),
+('Hastelloy', 1, 73, 207, 'Ar', 3.8, -4.7, 1.5, 1.5, 0.119, 5, 'clean', 'ai_baseline', true, '2026-05-24T04:43:31.856742Z'::timestamptz),
+('Hastelloy', 2, 81, 204, 'N2', 4.0, 0.3, 2.3, 1.9, 0.08, 5, 'slight_dross', 'ai_baseline', true, '2026-05-20T02:54:47.337222Z'::timestamptz),
+('Hastelloy', 2, 96, 270, 'Ar', 5.7, 1.7, 1.9, 1.4, 0.102, 5, 'slight_dross', 'ai_baseline', true, '2026-06-02T12:02:28.057064Z'::timestamptz),
+('Hastelloy', 2, 88, 228, 'Ar', 4.0, 0.7, 1.6, 1.7, 0.102, 4, 'slight_dross', 'ai_baseline', true, '2026-06-07T12:00:30.444764Z'::timestamptz),
+('Hastelloy', 2, 71, 135, 'N2', 4.3, 4.0, 1.5, 1.2, 0.053, 5, 'clean', 'ai_baseline', true, '2026-06-10T09:31:29.338387Z'::timestamptz),
+('Hastelloy', 2, 94, 240, 'Ar', 4.5, -4.0, 3.1, 1.7, 0.115, 5, 'clean', 'ai_baseline', true, '2026-05-30T05:38:50.745684Z'::timestamptz),
+('Hastelloy', 3, 96, 132, 'N2', 4.6, 3.6, 1.3, 1.4, 0.118, 5, 'clean', 'ai_baseline', true, '2026-05-15T12:55:54.993105Z'::timestamptz),
+('Hastelloy', 3, 80, 76, 'N2', 3.6, 1.4, 3.8, 1.9, 0.104, 4, 'slight_dross', 'ai_baseline', true, '2026-05-29T16:00:00.702237Z'::timestamptz),
+('Hastelloy', 3, 99, 133, 'Ar', 4.6, 1.8, 1.5, 1.7, 0.086, 5, 'clean', 'ai_baseline', true, '2026-05-23T23:39:42.772562Z'::timestamptz),
+('Hastelloy', 3, 82, 81, 'N2', 3.4, 4.7, 3.8, 1.8, 0.108, 5, 'slight_dross', 'ai_baseline', true, '2026-06-01T23:19:21.383316Z'::timestamptz),
+('Hastelloy', 3, 98, 75, 'Ar', 4.4, -1.4, 1.5, 1.8, 0.073, 3, 'clean', 'ai_baseline', true, '2026-05-17T09:22:31.098575Z'::timestamptz),
+('Hastelloy', 3, 96, 108, 'N2', 4.0, 3.3, 1.5, 1.1, 0.121, 5, 'slight_dross', 'ai_baseline', true, '2026-05-20T13:24:50.442597Z'::timestamptz),
+('Plywood', 3, 31, 496, 'air', 1.4, -4.6, 3.7, 0.5, 0.056, 5, 'clean', 'ai_baseline', true, '2026-06-01T19:46:12.134279Z'::timestamptz),
+('Plywood', 3, 24, 464, 'air', 1.3, 2.4, 3.7, 0.7, 0.072, 5, 'slight_dross', 'ai_baseline', true, '2026-05-20T09:46:30.934543Z'::timestamptz),
+('Plywood', 3, 18, 568, 'air', 2.1, 4.5, 2.3, 1.7, 0.116, 5, 'clean', 'ai_baseline', true, '2026-05-25T23:08:53.495257Z'::timestamptz),
+('Plywood', 3, 41, 470, 'air', 1.4, 4.7, 1.1, 1.2, 0.098, 5, 'slight_dross', 'ai_baseline', true, '2026-06-02T12:54:08.747964Z'::timestamptz),
+('Plywood', 3, 45, 338, 'air', 1.4, 0.4, 1.2, 1.8, 0.065, 5, 'clean', 'ai_baseline', true, '2026-05-18T18:22:51.123019Z'::timestamptz),
+('Plywood', 3, 16, 661, 'air', 1.9, 1.2, 3.0, 1.7, 0.108, 5, 'clean', 'ai_baseline', true, '2026-06-06T13:12:25.030919Z'::timestamptz),
+('Plywood', 3, 19, 603, 'air', 1.3, 2.6, 2.2, 1.2, 0.119, 5, 'slight_dross', 'ai_baseline', true, '2026-05-29T07:12:44.177832Z'::timestamptz),
+('Plywood', 5, 26, 269, 'air', 2.4, -3.1, 1.5, 1.8, 0.106, 3, 'clean', 'ai_baseline', true, '2026-05-25T13:41:13.981998Z'::timestamptz),
+('Plywood', 5, 20, 409, 'air', 1.2, 2.8, 2.2, 1.3, 0.122, 3, 'clean', 'ai_baseline', true, '2026-05-23T13:07:38.602999Z'::timestamptz),
+('Plywood', 5, 22, 389, 'air', 1.4, -3.1, 2.6, 1.2, 0.127, 3, 'clean', 'ai_baseline', true, '2026-05-22T03:54:57.905323Z'::timestamptz),
+('Plywood', 5, 28, 321, 'air', 1.5, -1.8, 3.0, 0.8, 0.081, 3, 'clean', 'ai_baseline', true, '2026-05-19T01:11:14.371828Z'::timestamptz),
+('Plywood', 5, 27, 496, 'air', 1.6, 3.0, 3.8, 0.7, 0.146, 4, 'clean', 'ai_baseline', true, '2026-06-04T12:59:09.212590Z'::timestamptz),
+('Plywood', 8, 31, 144, 'air', 2.1, -4.3, 3.7, 1.9, 0.089, 4, 'clean', 'ai_baseline', true, '2026-06-11T17:05:08.380541Z'::timestamptz),
+('Plywood', 8, 53, 317, 'air', 2.0, 2.6, 3.2, 1.2, 0.12, 5, 'clean', 'ai_baseline', true, '2026-05-20T06:09:59.846806Z'::timestamptz),
+('Plywood', 8, 31, 176, 'air', 1.6, -4.3, 4.0, 0.8, 0.105, 5, 'clean', 'ai_baseline', true, '2026-05-17T08:20:59.597406Z'::timestamptz),
+('Plywood', 8, 41, 139, 'air', 2.1, 2.6, 1.9, 1.2, 0.11, 5, 'clean', 'ai_baseline', true, '2026-06-02T20:47:41.989275Z'::timestamptz),
+('Plywood', 8, 48, 159, 'air', 2.0, -0.0, 2.3, 1.8, 0.146, 5, 'clean', 'ai_baseline', true, '2026-05-16T21:07:33.716808Z'::timestamptz),
+('Plywood', 8, 33, 324, 'air', 2.3, 0.3, 1.5, 1.9, 0.11, 5, 'clean', 'ai_baseline', true, '2026-06-03T07:12:45.670140Z'::timestamptz),
+('Plywood', 8, 62, 122, 'air', 1.4, 2.8, 3.5, 1.2, 0.131, 5, 'clean', 'ai_baseline', true, '2026-06-08T04:55:58.031369Z'::timestamptz),
+('Plywood', 12, 59, 146, 'air', 2.1, -4.0, 3.1, 0.9, 0.124, 5, 'clean', 'ai_baseline', true, '2026-05-14T07:25:59.485077Z'::timestamptz),
+('Plywood', 12, 53, 103, 'air', 2.0, -1.1, 1.7, 0.6, 0.144, 5, 'slight_dross', 'ai_baseline', true, '2026-06-09T21:11:19.485892Z'::timestamptz),
+('Plywood', 12, 69, 97, 'air', 1.6, 0.9, 1.7, 1.8, 0.135, 5, 'clean', 'ai_baseline', true, '2026-05-18T17:38:19.173562Z'::timestamptz),
+('Plywood', 12, 73, 93, 'air', 1.5, 4.6, 2.8, 1.8, 0.066, 5, 'clean', 'ai_baseline', true, '2026-06-09T14:37:49.597911Z'::timestamptz),
+('Plywood', 12, 59, 99, 'air', 2.3, 3.1, 1.8, 1.0, 0.124, 5, 'clean', 'ai_baseline', true, '2026-06-06T03:06:19.673759Z'::timestamptz),
+('Plywood', 12, 53, 80, 'air', 1.8, 4.2, 3.0, 1.1, 0.064, 4, 'clean', 'ai_baseline', true, '2026-06-09T02:13:30.385621Z'::timestamptz),
+('Plywood', 12, 69, 97, 'air', 1.3, 0.4, 1.0, 1.2, 0.104, 5, 'slight_dross', 'ai_baseline', true, '2026-05-31T15:05:24.668751Z'::timestamptz),
+('Plywood', 18, 65, 41, 'air', 1.1, 4.6, 3.6, 1.4, 0.146, 4, 'clean', 'ai_baseline', true, '2026-05-30T20:19:50.092029Z'::timestamptz),
+('Plywood', 18, 70, 93, 'air', 1.4, -4.1, 3.1, 0.8, 0.107, 5, 'clean', 'ai_baseline', true, '2026-05-28T02:10:39.272259Z'::timestamptz),
+('Plywood', 18, 83, 67, 'air', 2.2, -0.2, 1.1, 0.8, 0.07, 5, 'clean', 'ai_baseline', true, '2026-05-21T17:58:53.246154Z'::timestamptz),
+('Plywood', 18, 82, 107, 'air', 1.3, -0.5, 2.9, 1.4, 0.07, 5, 'clean', 'ai_baseline', true, '2026-05-27T14:23:13.147226Z'::timestamptz),
+('Plywood', 18, 57, 73, 'air', 1.4, 3.3, 3.1, 1.3, 0.06, 5, 'slight_dross', 'ai_baseline', true, '2026-05-21T12:30:37.723602Z'::timestamptz),
+('MDF', 3, 32, 479, 'air', 1.7, 2.3, 2.5, 1.0, 0.068, 5, 'clean', 'ai_baseline', true, '2026-06-01T12:00:33.302530Z'::timestamptz),
+('MDF', 3, 32, 603, 'air', 1.4, -3.2, 3.3, 1.9, 0.14, 5, 'slight_dross', 'ai_baseline', true, '2026-05-18T22:18:11.169626Z'::timestamptz),
+('MDF', 3, 14, 422, 'air', 1.6, -3.6, 1.8, 1.4, 0.147, 4, 'slight_dross', 'ai_baseline', true, '2026-05-27T15:52:20.603237Z'::timestamptz),
+('MDF', 3, 38, 522, 'air', 1.1, -1.4, 1.7, 1.4, 0.13, 5, 'clean', 'ai_baseline', true, '2026-05-31T07:38:16.897775Z'::timestamptz),
+('MDF', 3, 36, 582, 'air', 2.4, -3.2, 2.2, 1.3, 0.074, 4, 'clean', 'ai_baseline', true, '2026-06-07T09:32:13.243366Z'::timestamptz),
+('MDF', 5, 30, 429, 'air', 2.1, 3.8, 1.5, 1.2, 0.087, 5, 'slight_dross', 'ai_baseline', true, '2026-05-19T19:33:47.132763Z'::timestamptz),
+('MDF', 5, 18, 259, 'air', 1.8, 1.7, 3.6, 1.0, 0.057, 3, 'clean', 'ai_baseline', true, '2026-05-19T18:13:50.533798Z'::timestamptz),
+('MDF', 5, 26, 536, 'air', 2.1, 0.9, 1.4, 1.9, 0.106, 4, 'slight_dross', 'ai_baseline', true, '2026-05-24T05:57:08.262710Z'::timestamptz),
+('MDF', 5, 43, 405, 'air', 2.3, -2.2, 2.9, 1.5, 0.073, 3, 'slight_dross', 'ai_baseline', true, '2026-05-22T04:10:42.283016Z'::timestamptz),
+('MDF', 5, 49, 431, 'air', 1.5, 3.1, 2.1, 0.9, 0.123, 5, 'clean', 'ai_baseline', true, '2026-06-08T23:33:09.655480Z'::timestamptz),
+('MDF', 5, 33, 296, 'air', 1.8, -3.7, 1.1, 1.7, 0.058, 4, 'slight_dross', 'ai_baseline', true, '2026-06-07T18:35:17.509448Z'::timestamptz),
+('MDF', 5, 23, 357, 'air', 1.8, -5.0, 3.9, 1.5, 0.111, 3, 'clean', 'ai_baseline', true, '2026-06-10T11:26:31.042381Z'::timestamptz),
+('MDF', 8, 37, 264, 'air', 1.1, 4.7, 3.3, 1.0, 0.069, 5, 'clean', 'ai_baseline', true, '2026-05-29T06:31:32.939101Z'::timestamptz),
+('MDF', 8, 57, 210, 'air', 1.3, 0.4, 2.7, 1.4, 0.144, 5, 'clean', 'ai_baseline', true, '2026-05-21T17:27:30.527702Z'::timestamptz),
+('MDF', 8, 40, 314, 'air', 2.0, -1.1, 3.7, 1.9, 0.096, 4, 'slight_dross', 'ai_baseline', true, '2026-06-02T16:45:39.538636Z'::timestamptz),
+('MDF', 8, 26, 271, 'air', 1.0, -2.1, 3.3, 1.1, 0.098, 5, 'clean', 'ai_baseline', true, '2026-06-01T19:39:29.584539Z'::timestamptz),
+('MDF', 8, 59, 259, 'air', 1.8, -0.0, 3.0, 1.6, 0.059, 3, 'clean', 'ai_baseline', true, '2026-05-17T09:28:30.443781Z'::timestamptz),
+('MDF', 8, 36, 367, 'air', 1.2, 1.6, 3.2, 1.8, 0.068, 5, 'slight_dross', 'ai_baseline', true, '2026-05-31T04:54:46.681112Z'::timestamptz),
+('MDF', 8, 34, 372, 'air', 1.4, -4.2, 1.9, 1.0, 0.077, 5, 'slight_dross', 'ai_baseline', true, '2026-06-05T04:19:00.339674Z'::timestamptz),
+('MDF', 12, 56, 117, 'air', 1.2, 2.5, 1.4, 0.9, 0.091, 5, 'slight_dross', 'ai_baseline', true, '2026-05-20T10:53:31.526356Z'::timestamptz),
+('MDF', 12, 44, 124, 'air', 1.7, 3.6, 3.4, 1.9, 0.148, 5, 'clean', 'ai_baseline', true, '2026-05-22T22:06:53.672302Z'::timestamptz),
+('MDF', 12, 40, 159, 'air', 1.9, 0.8, 3.9, 1.3, 0.073, 3, 'clean', 'ai_baseline', true, '2026-06-02T17:18:58.446087Z'::timestamptz),
+('MDF', 12, 50, 131, 'air', 1.1, -3.6, 1.6, 0.7, 0.077, 4, 'clean', 'ai_baseline', true, '2026-06-05T04:16:40.276021Z'::timestamptz),
+('MDF', 12, 59, 162, 'air', 2.0, 1.2, 3.4, 1.8, 0.147, 5, 'slight_dross', 'ai_baseline', true, '2026-05-26T18:09:26.118726Z'::timestamptz),
+('MDF', 12, 58, 208, 'air', 1.1, -0.5, 2.6, 1.1, 0.05, 3, 'clean', 'ai_baseline', true, '2026-05-22T20:03:11.541013Z'::timestamptz),
+('Polycarbonate', 1, 26, 474, 'air', 2.3, 1.1, 3.8, 0.8, 0.093, 5, 'clean', 'ai_baseline', true, '2026-06-08T04:09:59.069871Z'::timestamptz),
+('Polycarbonate', 1, 27, 557, 'N2', 3.9, 4.2, 2.5, 0.5, 0.078, 3, 'clean', 'ai_baseline', true, '2026-05-29T19:23:47.700325Z'::timestamptz),
+('Polycarbonate', 1, 12, 594, 'N2', 3.0, 1.7, 2.1, 1.7, 0.08, 5, 'clean', 'ai_baseline', true, '2026-05-28T03:59:58.030841Z'::timestamptz),
+('Polycarbonate', 1, 13, 383, 'N2', 2.9, 4.1, 2.1, 1.7, 0.143, 3, 'slight_dross', 'ai_baseline', true, '2026-05-28T17:39:03.214318Z'::timestamptz),
+('Polycarbonate', 1, 25, 326, 'N2', 4.5, 4.1, 1.6, 1.9, 0.091, 5, 'clean', 'ai_baseline', true, '2026-05-21T17:56:43.695040Z'::timestamptz),
+('Polycarbonate', 1, 18, 547, 'N2', 5.0, -2.8, 2.6, 1.4, 0.083, 5, 'clean', 'ai_baseline', true, '2026-05-31T08:04:01.866803Z'::timestamptz),
+('Polycarbonate', 1, 19, 477, 'air', 1.0, 2.2, 3.1, 1.6, 0.088, 5, 'clean', 'ai_baseline', true, '2026-05-29T19:05:32.523155Z'::timestamptz),
+('Polycarbonate', 2, 39, 260, 'N2', 3.3, 1.3, 1.1, 1.4, 0.147, 4, 'slight_dross', 'ai_baseline', true, '2026-06-11T03:45:32.513785Z'::timestamptz),
+('Polycarbonate', 2, 34, 399, 'N2', 4.2, -5.0, 2.8, 1.6, 0.107, 5, 'clean', 'ai_baseline', true, '2026-05-31T06:15:23.595726Z'::timestamptz),
+('Polycarbonate', 2, 28, 265, 'air', 1.6, 2.4, 2.7, 1.8, 0.064, 5, 'slight_dross', 'ai_baseline', true, '2026-05-19T11:34:29.794243Z'::timestamptz),
+('Polycarbonate', 2, 28, 284, 'N2', 3.9, -1.5, 1.2, 0.8, 0.081, 5, 'clean', 'ai_baseline', true, '2026-06-11T09:40:05.182011Z'::timestamptz),
+('Polycarbonate', 2, 17, 347, 'air', 1.1, -3.8, 3.1, 1.3, 0.138, 5, 'clean', 'ai_baseline', true, '2026-05-16T22:45:26.550523Z'::timestamptz),
+('Polycarbonate', 2, 26, 326, 'air', 2.4, 4.3, 1.7, 1.6, 0.098, 5, 'clean', 'ai_baseline', true, '2026-06-01T19:22:28.536964Z'::timestamptz),
+('Polycarbonate', 2, 23, 421, 'air', 1.3, 4.6, 4.0, 0.9, 0.058, 5, 'clean', 'ai_baseline', true, '2026-05-30T21:36:22.432669Z'::timestamptz),
+('Polycarbonate', 3, 30, 309, 'N2', 4.9, -1.6, 2.2, 1.4, 0.09, 5, 'clean', 'ai_baseline', true, '2026-05-15T07:34:04.523950Z'::timestamptz),
+('Polycarbonate', 3, 19, 350, 'N2', 3.4, 3.2, 1.7, 1.7, 0.085, 5, 'clean', 'ai_baseline', true, '2026-06-05T11:25:32.827583Z'::timestamptz),
+('Polycarbonate', 3, 39, 252, 'air', 2.5, 4.5, 1.4, 1.0, 0.096, 5, 'clean', 'ai_baseline', true, '2026-05-26T01:23:01.714176Z'::timestamptz),
+('Polycarbonate', 3, 42, 346, 'N2', 4.2, -2.7, 3.9, 0.7, 0.079, 5, 'clean', 'ai_baseline', true, '2026-05-24T02:41:44.336085Z'::timestamptz),
+('Polycarbonate', 3, 26, 328, 'N2', 2.8, -3.3, 1.7, 1.9, 0.053, 3, 'clean', 'ai_baseline', true, '2026-06-11T14:32:23.348190Z'::timestamptz),
+('Polycarbonate', 3, 47, 347, 'air', 1.9, 0.2, 2.8, 1.2, 0.117, 5, 'clean', 'ai_baseline', true, '2026-05-17T00:42:20.148904Z'::timestamptz),
+('Polycarbonate', 5, 31, 161, 'N2', 4.0, 0.6, 2.4, 1.1, 0.083, 4, 'clean', 'ai_baseline', true, '2026-05-14T13:48:25.474839Z'::timestamptz),
+('Polycarbonate', 5, 48, 214, 'air', 1.9, 2.2, 2.3, 1.0, 0.132, 5, 'clean', 'ai_baseline', true, '2026-05-28T15:18:56.639413Z'::timestamptz),
+('Polycarbonate', 5, 46, 99, 'air', 2.4, 2.6, 1.4, 1.8, 0.121, 5, 'clean', 'ai_baseline', true, '2026-06-03T20:35:18.329295Z'::timestamptz),
+('Polycarbonate', 5, 62, 160, 'air', 2.1, -1.8, 3.8, 0.9, 0.125, 5, 'clean', 'ai_baseline', true, '2026-06-08T23:24:36.580541Z'::timestamptz),
+('Polycarbonate', 5, 43, 207, 'N2', 3.7, 0.9, 1.9, 0.6, 0.082, 5, 'clean', 'ai_baseline', true, '2026-05-15T19:29:52.838766Z'::timestamptz),
+('Rubber', 1, 8, 460, 'air', 1.3, -1.3, 3.1, 1.7, 0.13, 5, 'slight_dross', 'ai_baseline', true, '2026-06-01T01:29:21.897913Z'::timestamptz),
+('Rubber', 1, 14, 311, 'air', 1.4, -2.1, 3.8, 1.2, 0.093, 5, 'slight_dross', 'ai_baseline', true, '2026-05-15T05:55:00.307130Z'::timestamptz),
+('Rubber', 1, 16, 414, 'air', 1.2, 4.7, 3.2, 0.8, 0.129, 4, 'clean', 'ai_baseline', true, '2026-05-29T01:13:26.309140Z'::timestamptz),
+('Rubber', 1, 26, 434, 'air', 1.8, -2.1, 2.5, 1.0, 0.08, 5, 'clean', 'ai_baseline', true, '2026-05-25T19:20:57.008133Z'::timestamptz),
+('Rubber', 1, 16, 369, 'air', 1.9, 4.0, 1.5, 1.1, 0.085, 5, 'clean', 'ai_baseline', true, '2026-05-18T13:37:22.219663Z'::timestamptz),
+('Rubber', 1, 27, 456, 'air', 1.4, -4.0, 1.1, 0.8, 0.149, 5, 'clean', 'ai_baseline', true, '2026-05-16T06:14:25.163170Z'::timestamptz),
+('Rubber', 1, 23, 392, 'air', 1.5, 3.9, 1.5, 1.1, 0.104, 5, 'clean', 'ai_baseline', true, '2026-05-22T22:37:38.520167Z'::timestamptz),
+('Rubber', 2, 17, 327, 'air', 1.9, 4.7, 2.0, 1.9, 0.064, 3, 'clean', 'ai_baseline', true, '2026-05-22T10:49:36.314517Z'::timestamptz),
+('Rubber', 2, 26, 149, 'air', 2.1, -4.8, 3.8, 1.9, 0.075, 3, 'clean', 'ai_baseline', true, '2026-05-16T05:29:31.674861Z'::timestamptz),
+('Rubber', 2, 37, 193, 'air', 1.8, 2.6, 3.5, 0.7, 0.147, 4, 'clean', 'ai_baseline', true, '2026-05-27T02:43:42.312999Z'::timestamptz),
+('Rubber', 2, 26, 303, 'air', 1.9, -1.4, 2.6, 1.2, 0.108, 4, 'clean', 'ai_baseline', true, '2026-06-12T05:02:57.345607Z'::timestamptz),
+('Rubber', 2, 34, 174, 'air', 1.4, -1.7, 1.4, 0.7, 0.067, 5, 'clean', 'ai_baseline', true, '2026-06-11T23:44:24.792044Z'::timestamptz),
+('Rubber', 2, 27, 198, 'air', 2.5, 3.2, 3.4, 1.4, 0.096, 4, 'clean', 'ai_baseline', true, '2026-06-06T01:05:25.740231Z'::timestamptz),
+('Rubber', 2, 34, 166, 'air', 2.4, -0.9, 2.5, 1.4, 0.149, 5, 'slight_dross', 'ai_baseline', true, '2026-05-27T03:08:50.083126Z'::timestamptz),
+('Rubber', 3, 35, 143, 'air', 1.7, -1.6, 1.3, 1.4, 0.061, 4, 'clean', 'ai_baseline', true, '2026-05-13T19:36:54.005806Z'::timestamptz),
+('Rubber', 3, 19, 162, 'air', 1.6, -4.5, 3.4, 0.7, 0.055, 5, 'clean', 'ai_baseline', true, '2026-06-06T03:27:28.060660Z'::timestamptz),
+('Rubber', 3, 28, 60, 'air', 2.0, 4.9, 1.1, 1.9, 0.055, 5, 'slight_dross', 'ai_baseline', true, '2026-06-02T15:32:09.120646Z'::timestamptz),
+('Rubber', 3, 46, 100, 'air', 2.0, -3.2, 2.6, 1.9, 0.105, 3, 'slight_dross', 'ai_baseline', true, '2026-05-16T03:36:58.314554Z'::timestamptz),
+('Rubber', 3, 38, 179, 'air', 1.1, 3.3, 2.0, 1.6, 0.08, 4, 'slight_dross', 'ai_baseline', true, '2026-05-14T23:53:57.415618Z'::timestamptz),
+('Rubber', 3, 22, 68, 'air', 1.7, 4.2, 3.4, 1.0, 0.06, 5, 'slight_dross', 'ai_baseline', true, '2026-05-31T03:44:57.061996Z'::timestamptz),
+('Rubber', 5, 29, 35, 'air', 2.5, -1.4, 1.4, 1.4, 0.093, 4, 'slight_dross', 'ai_baseline', true, '2026-05-27T09:54:40.807971Z'::timestamptz),
+('Rubber', 5, 53, 90, 'air', 1.0, 0.5, 4.0, 1.5, 0.085, 4, 'clean', 'ai_baseline', true, '2026-06-11T11:51:32.092690Z'::timestamptz),
+('Rubber', 5, 25, 84, 'air', 2.5, -1.3, 1.6, 1.7, 0.092, 5, 'clean', 'ai_baseline', true, '2026-06-10T02:02:01.209573Z'::timestamptz),
+('Rubber', 5, 52, 88, 'air', 2.1, -0.5, 3.8, 1.4, 0.079, 5, 'clean', 'ai_baseline', true, '2026-06-11T08:31:39.016934Z'::timestamptz),
+('Rubber', 5, 40, 148, 'air', 1.9, -2.1, 3.7, 0.7, 0.051, 5, 'clean', 'ai_baseline', true, '2026-05-15T21:24:50.847559Z'::timestamptz),
+('Rubber', 5, 38, 91, 'air', 2.4, -1.7, 1.2, 0.6, 0.074, 5, 'clean', 'ai_baseline', true, '2026-05-16T12:53:43.692530Z'::timestamptz),
+('Felt', 1, 5, 409, 'air', 1.7, 3.8, 1.5, 1.0, 0.14, 4, 'slight_dross', 'ai_baseline', true, '2026-05-25T13:27:24.595426Z'::timestamptz),
+('Felt', 1, 12, 456, 'air', 2.1, 1.5, 2.3, 1.4, 0.122, 5, 'clean', 'ai_baseline', true, '2026-06-09T07:12:41.069479Z'::timestamptz),
+('Felt', 1, 5, 206, 'air', 1.5, 3.2, 2.1, 1.5, 0.145, 4, 'clean', 'ai_baseline', true, '2026-05-17T01:51:20.376498Z'::timestamptz),
+('Felt', 1, 9, 358, 'air', 1.2, -1.0, 2.8, 0.7, 0.138, 5, 'clean', 'ai_baseline', true, '2026-05-28T07:06:35.342397Z'::timestamptz),
+('Felt', 1, 16, 576, 'air', 1.5, -0.6, 2.8, 0.9, 0.074, 4, 'clean', 'ai_baseline', true, '2026-06-10T15:48:07.798703Z'::timestamptz),
+('Felt', 2, 17, 221, 'air', 1.0, 2.4, 2.1, 0.9, 0.141, 5, 'slight_dross', 'ai_baseline', true, '2026-05-19T23:24:38.825036Z'::timestamptz),
+('Felt', 2, 27, 436, 'air', 1.6, 3.2, 3.4, 1.8, 0.108, 5, 'slight_dross', 'ai_baseline', true, '2026-05-27T17:17:07.550989Z'::timestamptz),
+('Felt', 2, 23, 205, 'air', 1.8, 0.8, 3.4, 1.3, 0.119, 4, 'slight_dross', 'ai_baseline', true, '2026-05-14T18:53:04.230790Z'::timestamptz),
+('Felt', 2, 14, 161, 'air', 2.3, 1.8, 2.5, 1.4, 0.086, 4, 'clean', 'ai_baseline', true, '2026-05-27T18:12:07.235018Z'::timestamptz),
+('Felt', 2, 10, 429, 'air', 1.0, -0.8, 1.6, 1.4, 0.13, 5, 'clean', 'ai_baseline', true, '2026-06-10T03:03:57.229760Z'::timestamptz),
+('Felt', 3, 23, 298, 'air', 2.0, -1.4, 3.9, 0.7, 0.105, 5, 'clean', 'ai_baseline', true, '2026-06-02T07:25:19.701750Z'::timestamptz),
+('Felt', 3, 14, 258, 'air', 1.1, 3.6, 3.7, 1.5, 0.143, 3, 'slight_dross', 'ai_baseline', true, '2026-06-06T16:16:46.862570Z'::timestamptz),
+('Felt', 3, 29, 106, 'air', 2.1, 5.0, 3.1, 1.1, 0.12, 5, 'clean', 'ai_baseline', true, '2026-05-21T09:32:39.832118Z'::timestamptz),
+('Felt', 3, 28, 297, 'air', 2.1, 0.7, 3.0, 0.9, 0.117, 5, 'slight_dross', 'ai_baseline', true, '2026-06-04T05:12:45.327171Z'::timestamptz),
+('Felt', 3, 29, 114, 'air', 1.1, -4.1, 2.2, 1.9, 0.138, 5, 'clean', 'ai_baseline', true, '2026-05-14T16:05:47.545784Z'::timestamptz),
+('Felt', 3, 20, 122, 'air', 1.9, 3.2, 2.8, 1.8, 0.147, 5, 'slight_dross', 'ai_baseline', true, '2026-05-24T03:24:56.027750Z'::timestamptz),
+('Cork', 2, 8, 282, 'air', 1.5, 2.9, 1.3, 1.9, 0.063, 4, 'clean', 'ai_baseline', true, '2026-06-07T20:23:47.394264Z'::timestamptz),
+('Cork', 2, 8, 296, 'air', 2.1, 3.6, 2.1, 1.3, 0.113, 4, 'clean', 'ai_baseline', true, '2026-05-17T15:22:50.571640Z'::timestamptz),
+('Cork', 2, 13, 453, 'air', 1.1, -4.2, 3.0, 1.6, 0.137, 5, 'clean', 'ai_baseline', true, '2026-05-21T17:32:06.094316Z'::timestamptz),
+('Cork', 2, 22, 331, 'air', 1.2, -0.8, 1.5, 0.6, 0.076, 5, 'clean', 'ai_baseline', true, '2026-05-18T08:48:53.764228Z'::timestamptz),
+('Cork', 2, 20, 540, 'air', 1.1, -3.9, 3.4, 1.7, 0.077, 5, 'clean', 'ai_baseline', true, '2026-05-20T08:32:37.269504Z'::timestamptz),
+('Cork', 2, 19, 202, 'air', 2.3, 0.8, 2.1, 1.8, 0.087, 5, 'slight_dross', 'ai_baseline', true, '2026-06-05T14:55:52.776036Z'::timestamptz),
+('Cork', 3, 29, 192, 'air', 1.9, -4.9, 2.5, 0.9, 0.097, 5, 'clean', 'ai_baseline', true, '2026-06-04T03:48:09.510229Z'::timestamptz),
+('Cork', 3, 16, 382, 'air', 2.2, -0.7, 3.2, 1.1, 0.134, 4, 'clean', 'ai_baseline', true, '2026-06-10T05:36:54.927155Z'::timestamptz),
+('Cork', 3, 25, 362, 'air', 1.1, -1.0, 3.4, 0.9, 0.082, 5, 'clean', 'ai_baseline', true, '2026-05-31T14:38:19.159219Z'::timestamptz),
+('Cork', 3, 19, 286, 'air', 1.9, -0.6, 1.4, 1.9, 0.143, 5, 'slight_dross', 'ai_baseline', true, '2026-06-11T15:42:42.122557Z'::timestamptz),
+('Cork', 3, 27, 302, 'air', 1.1, -0.7, 2.9, 0.9, 0.139, 5, 'slight_dross', 'ai_baseline', true, '2026-05-23T09:50:16.278016Z'::timestamptz),
+('Cork', 3, 24, 162, 'air', 1.5, 0.1, 1.2, 0.8, 0.088, 5, 'clean', 'ai_baseline', true, '2026-06-05T08:01:00.973429Z'::timestamptz),
+('Cork', 5, 45, 122, 'air', 1.2, 0.7, 2.1, 1.2, 0.128, 3, 'slight_dross', 'ai_baseline', true, '2026-05-19T15:25:28.488748Z'::timestamptz),
+('Cork', 5, 20, 234, 'air', 1.7, 2.9, 3.0, 1.3, 0.056, 5, 'clean', 'ai_baseline', true, '2026-05-26T19:40:48.331024Z'::timestamptz),
+('Cork', 5, 29, 154, 'air', 1.7, -2.5, 3.2, 1.2, 0.123, 5, 'slight_dross', 'ai_baseline', true, '2026-06-05T04:19:36.871580Z'::timestamptz),
+('Cork', 5, 44, 221, 'air', 1.5, 1.9, 3.8, 1.3, 0.141, 5, 'slight_dross', 'ai_baseline', true, '2026-05-30T16:47:03.780759Z'::timestamptz),
+('Cork', 5, 34, 86, 'air', 1.3, 1.6, 3.4, 1.7, 0.139, 4, 'clean', 'ai_baseline', true, '2026-05-20T09:30:48.354772Z'::timestamptz),
+('Cork', 5, 21, 80, 'air', 1.8, -2.4, 3.6, 1.2, 0.068, 5, 'clean', 'ai_baseline', true, '2026-05-29T09:50:41.338106Z'::timestamptz),
+('Cork', 5, 31, 245, 'air', 2.0, 1.2, 3.6, 0.8, 0.067, 4, 'clean', 'ai_baseline', true, '2026-06-01T16:50:38.505170Z'::timestamptz);
+
+-- Step 3: Insert LightBurn community data (52 rows)
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Acrylic', 5.0, 100.0, 100.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Leather', 0.7, 100.0, 600.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Non-Woven Fabric', 0.5, 100.0, 2300.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Paper', 0.1, 100.0, 4000.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Paper', 0.3, 100.0, 1000.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Paperboard', 3.0, 100.0, 300.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Pine Board', 7.0, 100.0, 100.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Pine Board', 9.0, 100.0, 100.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Plywood', 2.8, 100.0, 100.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Plywood', 1.6, 100.0, 300.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Plywood', 4.0, 100.0, 100.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Graflux Bicolor Laminate', 1.65, 60.0, 1800.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Clear Acrylic', 1.0, 30.0, 2400.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Clear Acrylic', 3.0, 80.0, 600.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Clear Acrylic', 0.4, 25.0, 1800.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Clear Acrylic', 4.0, 80.0, 600.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Clear Acrylic', 5.0, 80.0, 300.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Corrugated Cardboard', 4.0, 40.0, 3000.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Corrugated Cardboard', 6.0, 45.0, 1800.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Cork', 4.0, 45.0, 2400.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('EVA Foam', 2.0, 40.0, 3600.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('EVA Foam (Colored)', 2.0, 45.0, 4800.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Felt', 2.0, 35.0, 6000.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Foam Board', 4.5, 45.0, 1800.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Dark Leather', 2.0, 70.0, 4500.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Leather (Medium)', 2.0, 70.0, 3000.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Linoleum', 3.0, 40.0, 600.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Oak Veneer', 0.6, 55.0, 6000.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('MDF', 3.0, 55.0, 1200.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Plywood (Standard)', 3.0, 55.0, 1200.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Plywood (Standard)', 1.5, 45.0, 2400.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Plywood (Standard)', 5.0, 60.0, 600.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Plywood Veneer', 3.4, 60.0, 900.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Acrylic', 3.0, 90, 840.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Acrylic', 8.0, 100, 240.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Canvas', 0.2, 60, 4200.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Cork', 3.0, 90, 1320.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Corrugated Paper', 2.0, 55, 4200.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Leather', 1.5, 90, 960.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Linden Wood', 3.0, 80, 1200.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Linden Wood', 10.0, 100, 120.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('MDF', 3.0, 90, 900.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Maple', 10.0, 95, 360.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('PVC Film', 0.3, 55, 6000.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Paper', 0.1, 30, 6000.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Paulownia Wood', 3.0, 80, 1800.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES ('Walnut', 3.0, 90, 1200.0, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12 08:42:46');
+
+-- Step 4: Insert Lasertips + Wikipedia reference data (43 rows)
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Brass', 0.4, 100, NULL, NULL, NULL, NULL, NULL, NULL, 0.05, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:00Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Brass', 1.5, 100, NULL, NULL, NULL, NULL, NULL, NULL, 0.01, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:01Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Brass', 0.5, 90, NULL, NULL, NULL, NULL, NULL, NULL, 0.01, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:02Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Silver', 0.4, 95, NULL, NULL, NULL, NULL, NULL, NULL, 0.01, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:03Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Silver', 0.5, 95, NULL, NULL, NULL, NULL, NULL, NULL, 0.01, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:04Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Silver', 0.6, 95, NULL, NULL, NULL, NULL, NULL, NULL, 0.01, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:05Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Silver', 0.7, 95, NULL, NULL, NULL, NULL, NULL, NULL, 0.01, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:06Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Silver', 0.8, 20, NULL, NULL, NULL, NULL, NULL, NULL, 0.01, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:07Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Silver', 0.9, 95, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:08Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Silver', 1.0, 95, 12000, NULL, NULL, NULL, NULL, NULL, 0.01, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:09Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Silver', 1.5, 95, 12000, NULL, NULL, NULL, NULL, NULL, 0.01, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:10Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Silver', 2.0, 95, 12000, NULL, NULL, NULL, NULL, NULL, 0.01, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:11Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Gold', 0.5, 90, 12000, NULL, NULL, NULL, NULL, NULL, 0.5, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:12Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Aluminum', 0.5, 95, NULL, NULL, NULL, NULL, NULL, NULL, 0.05, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:13Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Mild Steel', 1.0, 100, 2100, NULL, NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:00:14Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Stainless Steel 304', 0.51, 100, 25380, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:00Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Stainless Steel 304', 1.0, 100, 13968, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:01Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Stainless Steel 304', 2.0, 100, 8256, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:02Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Stainless Steel 304', 3.2, 100, 4698, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:03Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Stainless Steel 304', 6.4, 100, 2040, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:04Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Stainless Steel 304', 13.0, 100, 456, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:05Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Aluminum', 0.51, 100, 20322, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:06Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Aluminum', 1.0, 100, 8892, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:07Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Aluminum', 2.0, 100, 3810, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:08Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Aluminum', 3.2, 100, 2538, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:09Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Aluminum', 6.4, 100, 1014, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:10Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Aluminum', 13.0, 100, 762, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:11Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Mild Steel', 1.0, 100, 5334, 'O2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:12Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Mild Steel', 2.0, 100, 4698, 'O2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:13Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Mild Steel', 3.2, 100, 3810, 'O2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:14Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Mild Steel', 6.4, 100, 2538, 'O2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:15Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Mild Steel', 13.0, 100, 1260, 'O2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:16Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Titanium', 0.51, 100, 7620, 'Ar', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:17Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Titanium', 1.0, 100, 7620, 'Ar', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:18Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Titanium', 2.0, 100, 2538, 'Ar', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:19Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Titanium', 3.2, 100, 2040, 'Ar', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:20Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Titanium', 6.4, 100, 1500, 'Ar', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:21Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Titanium', 13.0, 100, 1020, 'Ar', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:22Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Plywood', 6.4, 100, 4572, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:23Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Plywood', 13.0, 100, 1140, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:24Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Boron Epoxy', 3.2, 100, 1500, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:25Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Boron Epoxy', 6.4, 100, 1500, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:26Z'::timestamptz);
+
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('Boron Epoxy', 13.0, 100, 660, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:27Z'::timestamptz);
+
+-- Step 5: Insert Reddit/Forum community data (80 rows)
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('acrylic_cast', 2.0, 100, 3000, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('acrylic_cast', 3.0, 100, 1800, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('acrylic_cast', 4.0, 100, 1200, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('acrylic_cast', 5.0, 100, 900, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('acrylic_cast', 6.0, 100, 600, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('acrylic_cast', 10.0, 100, 300, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('birch_plywood', 2.0, 100, 3600, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('birch_plywood', 3.0, 100, 3000, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('birch_plywood', 6.0, 100, 600, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('birch_plywood', 9.0, 100, 480, 'air', NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('poplar_plywood', 3.0, 100, 3600, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('poplar_plywood', 9.0, 100, 1200, 'air', NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('mdf', 3.0, 100, 2400, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('mdf', 4.0, 100, 1920, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('mdf', 6.0, 100, 900, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('mdf', 8.0, 100, 600, 'air', NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('foam_board', 5.0, 25, 3000, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('cardstock', 0.3, 30, 9000, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('cardstock', 0.5, 35, 6000, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('corrugated_cardboard', 7.0, 100, 6000, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('acetate_sheet', 0.1, 17, 6000, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('polar_fleece', 2.0, 35, 6000, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('polypropylene_sheet', 0.8, 100, 4800, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('veg_tan_leather', 3.0, 60, 900, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('correx', 4.0, 100, 1800, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('mylar', 0.125, 25, 6000, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('basswood_plywood', 6.0, 80, 1140, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('basswood_plywood', 3.0, 80, 3000, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('plywood', 3.175, 85, 720, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('hardwood', 6.35, 90, 600, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('veg_tan_leather', 2.0, 45, 1620, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('veg_tan_leather', 2.0, 90, 540, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('plywood', 2.0, 90, 300, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('basswood', 2.0, 100, 420, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('acrylic_white', 3.175, 80, 780, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('birch_plywood', 3.175, 100, 100, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('acrylic', 3.0, 15, 325, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('leather', 2.0, 40, 500, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('birch_plywood', 3.175, 80, 300, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('cardstock', 0.3, 8, 400, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('pine_wood', 3.0, 75, 175, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('acrylic', 10.0, 100, 800, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('polyester_felt', 10.0, 100, 2600, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('cardboard', 0.5, 100, 3000, 'N2', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('cardboard', 2.6, 100, 3000, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('polypropylene', 5.5, 100, 700, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('polystyrene', 3.2, 100, 4200, 'N2', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('pvc_sheet', 4.0, 100, 1700, 'air', NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('acrylic', 2.0, 100, 1000, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('plywood', 6.2, 100, 9000, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('fiberboard', 15.6, 100, 4500, 'N2', NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('plywood', 10.0, 100, 1100, 'air', NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('rubber_sheet', 5.0, 100, 500, 'air', NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('leather', 4.0, 100, 2200, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('artificial_leather', 0.8, 100, 2500, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('gypsum_board', 9.0, 100, 500, 'air', NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('chipboard', 3.9, 100, 18000, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('quartz_glass', 1.9, 100, 600, NULL, NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('basswood', 3.0, 18, 25500, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('birch_plywood', 3.0, 25, 22500, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('maple', 3.0, 33, 21000, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('walnut', 3.0, 28, 22500, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('pine', 3.0, 20, 25500, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('mdf', 3.0, 20, 25500, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('acrylic_cast_clear', 3.0, 14, 27000, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('acrylic_cast_colored', 3.0, 16, 24000, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('veg_tan_leather_light', 1.5, 13, 21000, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('veg_tan_leather_heavy', 3.0, 18, 16500, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('plywood', 3.175, 100, 250, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12');
+INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas_pressure_bar, focus_position_mm, nozzle_diameter_mm, nozzle_distance_mm, line_interval_mm, quality_rating, edge_quality, source, is_shared, created_at) VALUES
+('acrylic_cast', 3.0, 70, 480, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('acrylic_cast', 5.0, 80, 300, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('birch_plywood', 3.0, 75, 600, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('birch_plywood', 6.0, 90, 300, 'air', NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('mdf', 3.0, 70, 600, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('mdf', 6.0, 85, 300, 'air', NULL, NULL, NULL, NULL, NULL, 3, 'slight_dross', 'scraped_public', true, '2026-06-12'),
+('balsa_wood', 3.0, 40, 1200, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('cardboard', 1.5, 30, 1800, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12'),
+('leather_veg_tan', 2.0, 50, 600, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('cork', 3.0, 50, 900, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12'),
+('felt', 2.0, 30, 1500, 'air', NULL, NULL, NULL, NULL, NULL, 5, 'clean', 'scraped_public', true, '2026-06-12');

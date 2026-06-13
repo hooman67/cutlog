@@ -57,7 +57,8 @@ export default function Suggest() {
 
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    if (!material || !thickness || !machine) return;
+    const searchMaterial = material || materialSearch;
+    if (!searchMaterial || !thickness) return;
     setLoading(true);
     setSuggestions([]);
 
@@ -72,7 +73,7 @@ export default function Suggest() {
       .from("cuts")
       .select("*")
       .eq("user_id", user.id)
-      .ilike("material", material)
+      .ilike("material", `%${searchMaterial}%`)
       .gte("thickness_mm", thicknessMm - 0.5)
       .lte("thickness_mm", thicknessMm + 0.5)
       .order("quality_rating", { ascending: false })
@@ -89,36 +90,34 @@ export default function Suggest() {
       });
     }
 
-    // 2. Similar machines — query shared cuts and filter by brand on client
-    // (RLS blocks joining other users' machines, so we fetch shared cuts directly)
-    const { data: sharedCuts } = await supabase
+    // 2. AI Baseline data (always available)
+    const { data: baselineCuts } = await supabase
       .from("cuts")
       .select("*")
-      .neq("user_id", user.id)
-      .ilike("material", material)
-      .eq("is_shared", true)
+      .ilike("material", `%${searchMaterial}%`)
+      .eq("source", "ai_baseline")
       .gte("thickness_mm", thicknessMm - 0.5)
       .lte("thickness_mm", thicknessMm + 0.5)
       .order("quality_rating", { ascending: false })
-      .limit(20);
+      .limit(5);
 
-    if (sharedCuts && sharedCuts.length > 0) {
-      const avg = sharedCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / sharedCuts.length;
+    if (baselineCuts && baselineCuts.length > 0) {
+      const avg = baselineCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / baselineCuts.length;
       groups.push({
         source: "similar_machine",
-        label: "Similar Machines",
-        badge_color: "bg-blue-900/50 border-blue-600 text-blue-300",
-        cuts: sharedCuts.slice(0, 5),
+        label: "AI Starting Point",
+        badge_color: "bg-orange-900/50 border-orange-600 text-orange-300",
+        cuts: baselineCuts,
         avg_rating: avg,
       });
     }
 
-    // 3. Community (wider thickness tolerance)
+    // 3. Community (real user shared cuts, wider thickness tolerance)
     const { data: communityCuts } = await supabase
       .from("cuts")
       .select("*")
-      .neq("user_id", user.id)
-      .ilike("material", material)
+      .neq("source", "ai_baseline")
+      .ilike("material", `%${searchMaterial}%`)
       .eq("is_shared", true)
       .gte("thickness_mm", thicknessMm - 1)
       .lte("thickness_mm", thicknessMm + 1)
@@ -130,7 +129,7 @@ export default function Suggest() {
       groups.push({
         source: "community",
         label: "Community",
-        badge_color: "bg-zinc-800 border-zinc-600 text-zinc-300",
+        badge_color: "bg-blue-900/50 border-blue-600 text-blue-300",
         cuts: communityCuts,
         avg_rating: avg,
       });
@@ -204,7 +203,7 @@ export default function Suggest() {
 
         <button
           type="submit"
-          disabled={loading || !material || !thickness}
+          disabled={loading || (!material && !materialSearch) || !thickness}
           className="w-full p-3 rounded-xl bg-blue-700 hover:bg-blue-600 font-semibold transition-colors disabled:opacity-50"
         >
           {loading ? "Searching..." : "Find Parameters"}
@@ -226,7 +225,7 @@ export default function Suggest() {
         <div key={group.source} className="mb-6">
           <div className="flex items-center gap-2 mb-3">
             <span className={`px-2 py-0.5 rounded-md border text-xs font-medium ${group.badge_color}`}>
-              {group.source === "own" ? "YOUR DATA" : group.source === "similar_machine" ? "SIMILAR MACHINE" : "COMMUNITY"}
+              {group.source === "own" ? "YOUR DATA" : group.source === "similar_machine" ? "AI BASELINE" : "COMMUNITY"}
             </span>
             <span className="text-sm text-zinc-400">{group.label}</span>
             <span className="text-sm text-yellow-400 ml-auto">
