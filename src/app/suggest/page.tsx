@@ -14,7 +14,7 @@ interface SuggestionGroup {
 }
 
 export default function Suggest() {
-  const [machine, setMachine] = useState<Machine | null>(null);
+  const [, setMachine] = useState<Machine | null>(null);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [materialSearch, setMaterialSearch] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
