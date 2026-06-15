@@ -320,3 +320,49 @@ echo "See SCRAPING_ROADMAP.md for detailed instructions"
 4. **Rank** - Confidence scoring based on source reliability & repetition
 5. **Integrate** - Feed into optimization algorithms for suggestion engine
 
+---
+
+## Completed Scrapes
+
+### OMG Laser (omglaser.com/laser-settings/) - Completed 2026-06-14
+
+**Script:** `scripts/scrape_omglaser.py`
+**Output:** `data/omglaser-scraped.sql`
+**Entries:** 177 SQL INSERT rows
+**Quality:** 4/5 (Community-curated, from established fiber laser retailer)
+
+**Summary:**
+- Source URL: https://omglaser.com/laser-settings/
+- Page structure: Non-tabular, numbered entries (1-136) with varied text formatting
+- Three laser type sections: Fiber Laser (entries 1-109), Galvo CO2 (entries 1-8), UV Laser Marker (entries 1-20)
+- Entries 110-136 on the fiber section were video tutorial links (skipped, no extractable params)
+
+**Materials Covered (41 categories):**
+- Metals: Stainless Steel, Brass, Aluminum, Anodized Aluminum, Copper, Gold (18k, 999), Silver, Titanium, Iron
+- Composites: PCB, Delrin
+- Stone/Ceramic: Stone, Slate, Ceramic, Glass
+- Organics: Leather, Leatherette, Wood, Plywood, Paper, Cardboard, Rubber
+- Polymers: Polymer (Firearm Frame/PMAG), Plastic, Plexiglass, PVC, ABS
+- Specialty: Tumblers, Coins, Cards, Wallets, Firearm Slides, Knives, Flasks
+
+**Laser Types:**
+- Fiber (JPT, Raycus, MOPA): 20W-200W (150 entries)
+- CO2 Galvo: 30W-60W (6 entries)
+- UV Laser Marker: 5W-10W (21 entries)
+
+**Data Mapping Notes:**
+- Speed: Converted from mm/s (OMG native) to mm/min (CutLog schema) by multiplying x60
+- Power: Stored as percentage (0-100); UV entries have NULL power (uses current/Q-pulse control)
+- thickness_mm: All NULL (fiber/UV laser work doesn't specify material thickness)
+- line_interval_mm: Hatch/line spacing where available (range: 0.001-0.25mm)
+- gas_type: NULL (fiber/UV lasers don't use assist gas)
+- Material names include wattage and laser type for disambiguation, e.g. "Brass (Coin) (60W Fiber)"
+
+**Issues/Limitations:**
+1. Site uses WAF protection (403 for direct requests) - data extracted via browser-based fetch tool
+2. UV laser entries lack power_pct (UV lasers use current + Q-pulse instead of percentage)
+3. Many entries have multiple passes/configurations - primary/first pass extracted as main row
+4. Some entries (110-136) were YouTube tutorial links without extractable numeric parameters
+5. Frequency and Q-pulse values stored as notes rather than DB columns (schema doesn't have those fields)
+6. Original page has ~136 numbered fiber entries but ~27 were video-only links
+

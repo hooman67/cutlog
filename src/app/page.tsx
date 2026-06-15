@@ -98,6 +98,19 @@ export default function Home() {
       </button>
 
       <button
+        onClick={() => router.push("/import")}
+        className="w-full p-4 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800/80 transition-colors text-left mb-4"
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="font-medium">Import LightBurn Library</span>
+            <p className="text-sm text-zinc-500">Upload .clb files to add parameters</p>
+          </div>
+          <span className="text-zinc-600">→</span>
+        </div>
+      </button>
+
+      <button
         onClick={() => router.push("/machine")}
         className="w-full p-4 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800/80 transition-colors text-left"
       >

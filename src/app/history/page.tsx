@@ -9,6 +9,7 @@ export default function History() {
   const [cuts, setCuts] = useState<Cut[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [exporting, setExporting] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -40,6 +41,37 @@ export default function History() {
     });
   }
 
+  async function handleExport() {
+    setExporting(true);
+    try {
+      const params = new URLSearchParams();
+      if (search) params.set("material", search);
+
+      const res = await fetch(`/api/export-clb?${params.toString()}`);
+
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.error || "Export failed");
+        setExporting(false);
+        return;
+      }
+
+      // Download the file
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `CutLog_Export_${new Date().toISOString().split("T")[0]}.clb`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      alert("Export failed. Please try again.");
+    }
+    setExporting(false);
+  }
+
   return (
     <div className="min-h-screen p-4 max-w-lg mx-auto">
       <div className="flex items-center gap-3 mb-6 pt-2">
@@ -48,13 +80,23 @@ export default function History() {
         <span className="text-sm text-zinc-500 ml-auto">{cuts.length} cuts</span>
       </div>
 
-      <input
-        type="text"
-        placeholder="Filter by material..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500 mb-4"
-      />
+      <div className="flex gap-2 mb-4">
+        <input
+          type="text"
+          placeholder="Filter by material..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="flex-1 p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+        />
+        <button
+          onClick={handleExport}
+          disabled={exporting || cuts.length === 0}
+          title="Export as LightBurn Library (.clb)"
+          className="px-4 py-3 rounded-xl bg-blue-900/50 border border-blue-800 hover:bg-blue-900/80 text-blue-300 text-sm font-medium transition-colors disabled:opacity-50 flex-shrink-0"
+        >
+          {exporting ? "..." : "Export .clb"}
+        </button>
+      </div>
 
       {loading ? (
         <div className="text-center py-12 text-zinc-500">Loading...</div>

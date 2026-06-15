@@ -125,12 +125,23 @@
 **materials**: Pre-seeded 85+ materials with categories and aliases
 
 ### App Pages
-1. `/` — Home dashboard (Log Cut, Get Suggestion, Cut History, Machine Settings)
+1. `/` — Home dashboard (Log Cut, Get Suggestion, Cut History, Import LightBurn, Machine Settings)
 2. `/auth` — Email signup/signin
 3. `/machine` — Machine registration (one-time)
 4. `/log` — Cut logging form (30-second workflow, 10+ parameters)
-5. `/suggest` — Suggestion engine (3-tier: Your Data → AI Baseline → Community)
-6. `/history` — Searchable cut history
+5. `/suggest` — Speed recommendation engine. Hero display shows recommended speed (mm/min) with confidence level (HIGH/MEDIUM/LOW based on data points), range, and supporting params. 3-button quick feedback ("Too Slow" / "Perfect" / "Too Fast") stored in localStorage for future optimization. Full parameters (power, gas, focus, nozzle) in collapsible section below. Keeps 3-tier data source display (Your Data green, AI Baseline orange, Community blue). Page messaging: "How fast should I cut?"
+6. `/history` — Searchable cut history + "Export .clb" button (downloads LightBurn library file)
+7. `/import` — LightBurn .clb file import (drag-and-drop upload, preview entries, select & save to DB)
+
+### API Routes
+- `POST /api/import-clb` — Parses uploaded .clb XML file, returns structured entries for preview
+- `GET /api/export-clb` — Fetches user's cuts from DB, generates downloadable .clb XML file (supports ?material= and ?machine_id= filters)
+
+### LightBurn Integration
+- **Import**: Upload .clb files → preview parsed entries → select which to save → inserts to `cuts` table with source='user_logged'
+- **Export**: Fetches user's cuts → groups by material → generates valid LightBurn XML (.clb) with speed converted from mm/min to mm/s
+- Speed conversion: .clb files use mm/s, CutLog DB uses mm/min (multiply by 60 on import, divide by 60 on export)
+- Handles CutSetting types (Cut, Scan, Image), thickness=-1 (not specified), multiple passes, line intervals
 
 ### Data Pipeline
 
