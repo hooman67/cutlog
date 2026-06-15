@@ -366,6 +366,22 @@ DIY Fiber Laser
 Joshua Scott
 If it’s something I’ve never cut but I know it bends like a certain metal then I’ll start with a setting that seems close. But I’ve got settings to cut most stuff under 1in at this point Even got 24ga ss to be baby smooth like it’s been debured with a bob
 
+## Replies Received (2026-06-15)
+
+### Fiber Laser Cutting Machine | Metal Laser Cutter Users (Round 2 post — Chinese machines)
+
+**Mehmet Açıkgöz** — COMPETITOR ANNOUNCEMENT:
+```
+We are proud to announce the launch of our new CNC Fiber Laser Assistant application, now available on both iOS and Android.
+This project was created to fill a gap in the CNC laser cutting industry by combining technical knowledge, practical guidance, and educational tools into a single platform.
+The application provides laser operators, programmers, and technicians with instant access to technical information, troubleshooting guidance, cutting parameters, nozzle selection, focus calculations, gas settings, and many other learning resources.
+Our goal is to make laser cutting knowledge more accessible, improve operational efficiency, and support continuous learning within the manufacturing industry.
+The app is now live and available for download on iOS and Android.
+You can find and download our application by searching for "BeraTech CNC" on the App Store and Google Play.
+```
+
+**Analysis**: See full competitive analysis in `beam_squadron_competitive_analysis.md` — new section added for BeraTech CNC. This is the first direct competitor announcement observed in our target Facebook groups. See threat assessment below.
+
 
 
 
@@ -410,12 +426,25 @@ Any tips/tricks would be really appreciated.
 
 
 1. That Laser Dude Community - Laser Engraving & Cutting for All 🔥
+Shannon Brown Rinehart
+Ramp test
+
 Christine Tripp
 Even for my Mira, I run a material test cut and save the piece to refer to later.
-
+CNC Fiber Laser Ninja (Fiber Laser Cutters)
 
 
 2. CNC Fiber Laser Ninja (Fiber Laser Cutters)
+Bradley Andlovec
+You can't really use other people's parameters. You really have to learn how to dial in your laser. Otherwise it's just guessing. There are some starting points out there but for the most part. Every machine's going to operate a little bit different, so learning how to read your cut is the most important part
+4h
+Reply
+
+Scott Wasson
+I have a couple Chinese machines.
+Once you know lasers, you know how to dial them in for the most part.
+Until you have the skills, questions here with videos to help.
+
 Les Strickland
 The senfeng I bought came with installation. They worked out the parameters during installation. They asked me prior to installation to get a list of all the materials I typically run. I got all that material and they developed it while there
 1d
@@ -436,6 +465,9 @@ Mostly experienced tests
 
 
 3. CNC Fiber laser machine
+Sara Simpson
+I dont cut anything that's not on my manufacturers list, I've had enough trouble with it, not pushing my luck
+
 Chaz Simpson
 By purchasing a table from Texas CNC LLC instead
 
@@ -506,6 +538,20 @@ We have had a hsg ts2 tube laser for the last 18 months. When it was installed t
 
 
 8. Fiber Laser Cutting Machine | Metal Laser Cutter Users
+Mehmet Açıkgöz                                                                                                                
+  We are proud to announce the launch of our new CNC Fiber Laser Assistant application, now available on both iOS and Android.  
+  This project was created to fill a gap in the CNC laser cutting industry by combining technical knowledge, practical          
+  guidance, and educational tools into a single platform.                                                                       
+  The application provides laser operators, programmers, and technicians with instant access to technical information,          
+  troubleshooting guidance, cutting parameters, nozzle selection, focus calculations, gas settings, and many other learning     
+  resources.                                                                                                                    
+  Our goal is to make laser cutting knowledge more accessible, improve operational efficiency, and support continuous learning  
+  within the manufacturing industry.                                                                                            
+  The app is now live and available for download on iOS and Android.                                                            
+  You can find and download our application by searching for "BeraTech CNC" on the App Store and Google Play.                   
+  We would love to hear your feedback and suggestions as we continue to improve and expand the platform.                        
+  #CNCLaser #FiberLaser #Manufacturing #Industry40 #Engineering #Automation #CNC #LaserCutting #IndustrialTechnology #BeraTech
+  
 Emily Xue
 I will provide you the information about Translate，if you want.
 1d
@@ -551,6 +597,9 @@ If that fails hook up with an expert for some lessons like Victor Wolansky / Cha
 
 
 11. DIY Fiber Laser
+Lobo Lightbringer
+Experimenting. In general, speed parameter is almost the same across brands for each laser source output power. Your first approach would be to find the right focus distance. Then you can work your cut quality by tweaking gas pressure, frequency, etc..
+
 George Leonard Hess
 Hi Matt, depending on the manufacturer, you should certainly have access to their engineering support team that will be happy to help. Normally connect via wechat or WhatsApp. If you need help connecting, let me know and i can help🤷‍♂️ will need to know manufacturer and also machine plate showing serial numbers.
 
@@ -743,6 +792,7 @@ Best Mopa Fiber Laser Engraving Machine | Topa Value Laser Machines For Engravin
 | Etsy parameter sellers | 2/10 | Proves WTP but terrible UX |
 | **LightBurn Material Library** | **5/10** | NOT competitor but the PLATFORM you must integrate with |
 | OEM WhatsApp support | 3/10 | Works first year, fades over time |
+| **BeraTech CNC** (Mehmet Açıkgöz) | **4/10** | AI-powered mobile app (iOS/Android) with cutting params, troubleshooting, calculators. Solo Turkish developer, ~1,900 downloads. Broad CNC tool (laser+milling+turning), no community data or per-machine learning. First direct competitor announcement in our target groups. |
 
 ---
 

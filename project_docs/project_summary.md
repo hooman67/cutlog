@@ -188,6 +188,7 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 | **LightBurn Material Library** | 5/10 | Built-in param storage (no community sharing) | We ADD community + ML on top. Must integrate with .clb format |
 | **OEM WhatsApp support** | 3/10 | First-year support, fades over time | Always available, improves over time |
 | **LLMs (ChatGPT/Claude)** | MEDIUM | Generic params for common materials | Per-machine calibration, verified outcomes, connected data |
+| **BeraTech CNC** (Mehmet Açıkgöz) | 4/10 | AI-powered mobile app (Flutter, iOS/Android). Broad CNC tool (laser+milling+turning). ~1,900 downloads. Solo Turkish developer. $14.99/mo. | No community data, no per-machine learning, no feedback loop, no LightBurn integration. Broad vs our deep specialization. See `beratech_cnc_competitive_analysis.md` |
 
 ---
 

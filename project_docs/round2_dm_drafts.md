@@ -17,6 +17,8 @@ Keep it under 5 sentences. Match their vibe — these are shop guys, not SaaS bu
 
 **Follow-up angle if he replies:** Ask about how long dialing in takes when he switches materials, whether he ever loses settings.
 
+### Hooman:
+I sent above DM.
 ---
 
 ## Michael Stanislawczyk
@@ -24,6 +26,9 @@ Keep it under 5 sentences. Match their vibe — these are shop guys, not SaaS bu
 > Hey Michael — solid comment on the thread. I actually checked out the LaserParams Converter on GitHub after you mentioned it. Curious — do you find tools like that save real time in practice, or is it still mostly trial and error once you're at the machine? Trying to figure out where the gap is between "I have a starting point" and "I'm actually cutting production parts."
 
 **Follow-up angle if he replies:** Ask what his workflow looks like from getting a new material to having a reliable cut file.
+
+### Hooman:
+I sent above DM.
 
 ---
 
@@ -33,6 +38,8 @@ Keep it under 5 sentences. Match their vibe — these are shop guys, not SaaS bu
 
 **Follow-up angle if he replies:** Ask whether new hires or less experienced operators struggle to replicate what he does intuitively.
 
+### Hooman:
+Couldn't DM the guy so I replied on the thread. I also notice another potentila competitor commenting about this under the thread. 
 ---
 
 ## George Diffey
@@ -40,6 +47,9 @@ Keep it under 5 sentences. Match their vibe — these are shop guys, not SaaS bu
 > Hey George — really interesting that HSG helped you dial in parameters over WhatsApp. Now that you've got 18 months of experience and can do it yourselves — do you keep your own library of what works, or do you still reference back to what HSG set up originally? Just trying to understand how shops build that knowledge over time.
 
 **Follow-up angle if he replies:** Ask how they handle it when a material isn't quite the same as last time (new supplier, different thickness tolerance).
+
+### Hooman:
+I sent above DM.
 
 ---
 
@@ -49,6 +59,8 @@ Keep it under 5 sentences. Match their vibe — these are shop guys, not SaaS bu
 
 **Follow-up angle if he replies:** Ask how many material/thickness combos he's accumulated settings for, whether it's manageable or getting unwieldy.
 
+### Hooman:
+I reached my message request limit. Need to reply to this guy tomorrow. 
 ---
 
 ## Sending Notes
