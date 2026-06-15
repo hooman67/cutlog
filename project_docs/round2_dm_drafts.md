@@ -63,6 +63,21 @@ I sent above DM.
 I reached my message request limit. Need to reply to this guy tomorrow. 
 ---
 
+## Lobo Lightbringer
+
+**Group:** DIY Fiber Laser
+
+**Why DM:** Technical depth, validates speed-first insight, systematic thinker about parameter relationships
+
+> Hey Lobo — your comment about speed being consistent across brands for the same wattage really stood out. That matches what I've been finding too. Quick question: when you say focus distance is the first thing to nail, do you find that stays pretty constant once you've set it for your machine, or do you adjust it per material/thickness? I'm building a tool that gives operators a speed recommendation based on material + thickness + machine wattage — basically saves the trial and error. Would love to hear if that matches how you think about dialing in a new material.
+
+**Follow-up angle if he replies:** Ask about his process for tweaking gas pressure and frequency after speed is set — whether he has a repeatable sequence or it varies per material.
+
+### Hooman:
+NOT YET SENT
+
+---
+
 ## Sending Notes
 
 - Send during weekday evenings or Saturday mornings (hobbyists and small shop owners are active then)

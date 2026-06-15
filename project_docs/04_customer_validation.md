@@ -380,9 +380,21 @@ The app is now live and available for download on iOS and Android.
 You can find and download our application by searching for "BeraTech CNC" on the App Store and Google Play.
 ```
 
-**Analysis**: See full competitive analysis in `beam_squadron_competitive_analysis.md` — new section added for BeraTech CNC. This is the first direct competitor announcement observed in our target Facebook groups. See threat assessment below.
+**Analysis**: See full competitive analysis in `beratech_cnc_competitive_analysis.md`. This is the first direct competitor announcement observed in our target Facebook groups. Threat level: 4/10.
 
+### Additional New Replies (2026-06-15)
 
+**Bradley Andlovec** (CNC Fiber Laser Ninja):
+> "You can't really use other people's parameters. You really have to learn how to dial in your laser. Otherwise it's just guessing. There are some starting points out there but for the most part. Every machine's going to operate a little bit different, so learning how to read your cut is the most important part"
+
+**Scott Wasson** (CNC Fiber Laser Ninja):
+> "I have a couple Chinese machines. Once you know lasers, you know how to dial them in for the most part. Until you have the skills, questions here with videos to help."
+
+**Lobo Lightbringer** (DIY Fiber Laser):
+> "Experimenting. In general, speed parameter is almost the same across brands for each laser source output power. Your first approach would be to find the right focus distance. Then you can work your cut quality by tweaking gas pressure, frequency, etc.."
+
+**Sara Simpson** (CNC Fiber laser machine):
+> "I dont cut anything that's not on my manufacturers list, I've had enough trouble with it, not pushing my luck"
 
 
 
