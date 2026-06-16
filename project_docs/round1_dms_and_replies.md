@@ -234,8 +234,10 @@ Your goal is laudable, but I have 3 of the same machines, and they all are diffe
 
 ## Follow-up Messages to Send (2026-06-16)
 
-### To Nate Keen (acknowledge Galvo insight + point to relevant data):
+### To Nate Keen (acknowledge Galvo insight + point to relevant data + font tool):
 > Oh interesting — after you mentioned Galvo lasers I went and dug up a bunch of engraving-specific parameters and added them in. Found about 177 settings from OMG Laser's database — stainless tumblers, brass coins, aluminum cards, that kind of stuff. Should be way more relevant to your setup than the cutting params that were in there before. Give it a look when you get a sec, curious if any of those are in the ballpark for your machine.
+>
+> Oh also — you mentioned wanting a font preview tool for your customers. I threw together a quick prototype: https://cutlog-two.vercel.app/tools/font-preview — you can upload your custom fonts and customers can preview text on tumblers/dog tags/knives. Pretty basic right now but lmk if it's in the right direction and I can polish it up.
 
 ### To John Stegenga (app link — his "3 identical machines" comment is perfect):
 lol 3 identical machines that all need different settings is exactly the problem I'v been facing too. Built a tool that tracks parameters per-machine and suggests what to try based on your specific setup's history: https://cutlog-two.vercel.app
