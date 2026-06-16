@@ -47,7 +47,7 @@
 |-------|--------|---------|
 | Facebook polls (Round 1) | ✅ Complete | 30+ responses, 81% group engagement rate |
 | DM outreach (Round 1) | ✅ Complete | 3/5 responded positively, none booked calls yet |
-| Follow-up messages | ✅ Sent | Full product explanation sent to Mike, Nate, Sean |
+| Follow-up messages | ✅ Sent | Full product explanation + app link sent to Mike, Nate, Sean (2026-06-15) |
 | Facebook polls (Round 2) | ✅ Complete | 35+ comments, deeper engagement |
 | DM outreach (Round 2) | 🔄 In Progress | 4/6 DMs sent (Jeremy, Michael, George, Tinker via thread reply). Klaus + Lobo pending |
 | Discovery calls | 🔲 Not yet | Zero calls booked so far |
@@ -198,21 +198,25 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 
 | Name | Role | Key Insight | Status |
 |------|------|-------------|--------|
-| **Nate Keen** | Experienced operator | Machine variation is MASSIVE (power degradation 5yr vs 40yr). Line interval is THE critical param. "It's all in my head from years of experience." | Messaged, awaiting reply |
-| **Mike AJ Guindon** | Small business owner (EST) | Tech-aware, shared lasertips.org, said "I'm up for a chat about your AI idea" | Messaged, awaiting reply |
-| **Sean BeardyWeirdo** | Skeptical operator | "I have reservations on how this could be achieved by another person" — THE core objection | Messaged, awaiting reply |
-| **Jeremy Hubert** | Technical operator | "No two machines are the same, each lens has unique signature" | DM drafted, not sent |
-| **Michael Stanislawczyk** | Tech-savvy operator | Knows LaserParams Converter, LightBurn ecosystem | DM drafted, not sent |
-| **Tinker Withit** | Experienced operator | "It's usually just about speed. Everything else is dialed in pretty close." | DM drafted, not sent |
+| **Nate Keen** | Galvo laser operator (engraving) | Galvo lasers don't drift; different market than CNC cutters. "Even if it gets people in the ballpark that's 90% there!" | ✅ App link sent, will try & give feedback. BETA TESTER. |
+| **Mike AJ Guindon** | Small business owner (EST) | Busy running shop, consistently willing but time-poor | ✅ App link sent, "will try this week." Follow up by 2026-06-20. |
+| **Sean BeardyWeirdo** | Skeptical operator | "I have reservations on how this could be achieved by another person" — THE core objection | ✅ App link sent, no reply yet |
+| **John Stegenga** | Multi-machine operator | "I have 3 of the same machines, and they all are different" — strongest per-machine validation | Late reply. DM candidate for app link. |
+| **Jeremy Hubert** | Technical operator, LightBurn user | Saves tests in LightBurn material library. Systematic tester. | ✅ DM replied. Follow up re: sharing .clb library. |
+| **Tinker Withit** | Experienced CNC cutter (Raytool) | Uses book + web for starting points, adjusts speed. Confirms starting-point value. | ✅ Replied on thread. Warm. |
+| **Lobo Lightbringer** | Systematic thinker | "Speed is almost the same across brands for each laser source output power" — validates scaling math | DM drafted, not yet sent |
 
 ### Validated Insights
 1. **Trial and error is dominant** — 80%+ of operators say "testing is the only way"
-2. **Per-machine variation is real** — every operator confirms machines differ
-3. **Speed is the key variable** — other params stay constant per-machine
+2. **Per-machine variation is real** — every operator confirms machines differ (John Stegenga: 3 identical machines, all different)
+3. **Speed is the key variable** — confirmed by Tinker Withit + Lobo Lightbringer independently
 4. **People already pay for parameters** — Etsy sellers with 422+ reviews at $32
-5. **LightBurn is the ecosystem** — mentioned 8+ times, must integrate with .clb format
+5. **LightBurn is the ecosystem** — mentioned 8+ times, must integrate with .clb format (✅ DONE)
 6. **OEM support fades after year 1** — target operators 1+ years post-purchase
 7. **Market has resigned itself** — they believe nothing can help. Need dramatic proof
+8. **"Ballpark = 90% of the value"** — Nate Keen (experienced operator) says getting in the ballpark is 90% there. Our value prop is saving the first 90% of trial-and-error.
+9. **Two distinct markets exist** — Galvo engraving (Nate's world: no gas, no drift, marking/etching) vs CNC cutting (industrial: gas, nozzle, through-cutting). Both valid but different parameter needs. Our OMG Laser data serves galvo; our AI baseline serves CNC cutters.
+10. **Jeremy uses LightBurn Material Library as his system** — proves .clb import is the right onboarding flow
 
 ### The Core Objection (Must Overcome)
 "How can someone else's results help MY machine when every machine is different?"
@@ -252,7 +256,7 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 ## What Needs to Happen Next (Priority Order)
 
 ### Immediate (This Week)
-1. **Send the app link** to Round 1 leads (Mike, Nate, Sean) — short message: "Try it: https://cutlog-two.vercel.app — log a cut in 30 sec"
+1. ~~**Send the app link**~~ — ✅ DONE (2026-06-15). Sent Option A (direct link) to Mike, Nate, Sean. Awaiting replies.
 2. ~~**Send Round 2 DMs**~~ — ✅ 4/6 sent. **Remaining: Klaus + Lobo** (DMs drafted, pending Facebook rate limit)
 3. **Buy LaserSecrets on Etsy** ($32) — understand market format expectations
 4. ~~**Scrape OMG Laser**~~ — ✅ DONE (177 entries added to DB, total now 901)

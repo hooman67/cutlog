@@ -221,64 +221,9 @@ React with your letter or comment below!
 ---
 
 ## Replies Received (2026-06-11)
+/mnt/localssd/laser_log/app/project_docs/round1_dms_and_replies.md
 
-### Mike AJ Guindon (POSITIVE — Easy Convert)
 
-**His reply**:
-```
-hi there Matt, just waking up, let me re-read your message and I'll get back to you, because after I wake up, I need to go for a walk and then shower and then go open our Small Business later this morning at 9am, we are EST zone, where abouts in the world are you?
-
-hey Matt, I'm going to be a bit busy today, but I'm up for a chat or two regarding your AI Idea....ttys
-```
-
-**Signal**: Very positive. Has small business (EST). Calls it "AI Idea" = tech-aware.
-
----
-
-### Nate Keen (GOLD MINE — Deep Technical Insight)
-
-**His reply**:
-```
-Hi Matt,
-Yeah the machine varies for sure even the exact same model.  For instance  if you run it at 100% Power it's whole life you may only get 5 good years out of it.  
-If you reduce it down to around 85-90 max you'll have a 40 year machine easy.   This one factor alone makes everyone's machine perform very differently.  Then you've got different brand / quality lenses, quite often not everyone has calibrated perfect focus, the Galvo head is out by 1-2mm compared to the bed and the list goes on.   
-
-But once you've mastered your particular machine and settings it's just a matter of making small adjustments - line interval actually has more relevance than anything else.  Frequency is just how rough your sandpaper is and Power is just how hard you're pushing on the sandpaper.  
-
-But line interval can be the difference from making a clean cut or engraving to  having cut weld itself  back together again, doesn't matter what power or frequency it's set on.    Other than that I don't think I can really give you much more information, I'm probably not the best teacher it's kind of all in my head from years of experience.  
-
-I've probably got some ideas on some other tools you could make today that would make people's life easier.   
-
-Personally I'd  love to have a simple tool that I can integrate into my website or maybe an app that I can load in all my custom fonts into it so customers can try them out.   Maybe even see what they look like on their items by uploading a photo.   I've seen a few websites that do this like on YETI bottles I just don't have any idea how to make it.
-```
-
-**Key Insights**:
-- Per-machine variation is MASSIVE (100% power = 5 years, 85-90% = 40 years)
-- Multiple drift sources: lens quality, Galvo misalignment (1-2mm), focus calibration
-- **Line interval is most critical parameter** (more than power/frequency)
-- Tacit knowledge problem: "It's all in my head from years of experience"
-- Entrepreneurial (wants custom font tool for his website)
-- Potential co-founder, not just customer
-
----
-
-### Sean BeardyWeirdo (SKEPTICAL but OPEN)
-
-**His reply**:
-```
-Absolutely. I am keen to hear how testing could be achieved by someone else. 
-I'm all for change and moving along with technology. 
-But I also have reservations on how this could be achieved by another person. 
-
-But never say never right?
-```
-
-**Core objection raised**: "How can someone else's test results on THEIR machine help ME with MY machine?"
-This is THE critical question the product must answer.
-
----
-
-## Follow-Up Messages Sent (2026-06-11)
 
 All 3 received full product explanation with the per-machine ML concept. Key points covered:
 - Two-layer model (general + machine-specific)
@@ -288,113 +233,71 @@ All 3 received full product explanation with the per-machine ML concept. Key poi
 - Environmental quirk learning
 - Drift detection / alarms
 
-### Reply sent to Sean:
-```
-100% specially in the age of AI :) 
+## Follow-Up Messages Sent (2026-06-11)
+/mnt/localssd/laser_log/app/project_docs/round1_dms_and_replies.md
 
-My idea is to build a per-machine learning model. Other people's data trains the general model. Your machine's history trains a custom calibration layer. So you get both community knowledge AND machine-specific tuning.
-
-There is so much that's common between machines. The general model will understand how machines generally work, what different parameters do, material properties. 
-
-The machine-specific model knows all the quirks and quirks—how YOUR specific machine has aged, drifted, and performs differently than the day it came out of the box:
-
-- Resonator degradation — after 5,000 hours, your tube doesn't produce the same power at "100%" as a new machine. The model learns YOUR machine's actual efficiency curve.
-- Calibration drift — Galvo head misalignment, focus position drift, nozzle wear. These change how parameters translate to cut quality on YOUR specific setup.
-- Historical success patterns — What cutting speeds actually worked for stainless on your machine vs. generic recommendations. The model learns from your past wins.
-- Environmental quirks — Maybe your shop runs hot in summer, or your gas line has pressure variation. The model learns these patterns.
-- Drift detection — If your machine starts drifting out of spec, the model catches it before you waste material on bad cuts.
-
-The key insight: When you ask "what parameters for 3mm stainless," the model doesn't just say "use 3500W, 4m/min" (that's what lasertips.org does). It says "use 3200W, 4.2m/min, 12-bar gas" — calibrated for YOUR machine's specific age, calibration state, and history.
-
-So yes, someone else's data helps. But only after it's personalized for YOUR setup. Does that address the concern?
-
-— Matt
-```
-
-### Reply sent to Nate (included co-founder exploration):
-```
-Hey Nate,
-
-I really appreciate your reply man, this kind of insight is exactly what I'm looking for. Someone with years of experience that can call BS on what I'm saying to make sure I'm not wasting my time :) 
-
-What I'm thinking is a machine-specific learning model that captures exactly the kind of expertise you've developed over years. Here's how it'd work:
-
-The general model (trained on thousands of cuts across different machines) understands how laser cutting generally works — material properties, parameter relationships, etc. There is so much that's common between all machines after all. But YOUR machine has aged. The resonator is degraded. Your Galvo head might be slightly misaligned. Your gas line has pressure variation.
-
-The machine-specific layer learns all of that. It knows YOUR machine's actual efficiency curve, YOUR calibration quirks, YOUR environmental conditions. So when someone asks for parameters, the system doesn't give them generic "3500W, 4m/min". It gives them "3200W, 4.2m/min, 12-bar gas" — personalized for their specific machine's age and state. And also the things that you're not even thinking about like how your shop runs hot in summer, or your gas line has pressure variation. The model learns these patterns too.
-
-It'll also catch the calibration drift. Like Galvo head misalignment, focus position drift, nozzle wear. Like if your machine starts drifting out of spec, the model catches it before you waste material on bad cuts. 
-
-I'm hoping we can get some feedback from the operators too like what cutting speeds actually worked for stainless on your machine vs. generic recommendations. So the model learns from your past wins.   
-
-Real talk though:
-
-I'm an AI engineer at Adobe. So I cant totally help you set up the tool you wanted for customers to try our your customer fonts on images. You can already try it with Nano banana (Google's image gen model) to see how far the free version will get you. Basically, upload your font (or a photo of it), the photo of the thing you wanna see the font on, and ask Nano Banana to put the font from first image into the object (or whatever) from scond images. It'll make mistake and you'll have to play around with the prompt (has a learning curve like any other machine). 
-
-That being said, I'm wondering if you'd be interested in building this together? I'm strong on the AI/software side. You've got the laser domain expertise, the operator network, and you clearly understand the problem space deeply.
-
-This could be something bigger than just a SaaS tool. It could be a whole platform for capturing and codifying manufacturing expertise.
-
-Curious if that's interesting to you? Either way, I'd love 30 minutes to talk through what you're seeing in the market and explore this further. Most importantly, I wanna make sure I'm not missing something obvious.
-
-Free this week / weekend?
-
-— Matt
-```
-
-### Reply sent to Mike (included scheduling + idea pitch):
-Full idea pitch with time slot options (Tuesday-Thursday, 8:15am or 6pm EST).
 
 ---
 
-## Round 1 Final Status (as of 2026-06-14)
+## Round 1 Final Status (as of 2026-06-16)
 
-| Name | Initial Reply | Follow-up Sent | Call Booked? |
-|------|--------------|----------------|--------------|
-| Mike AJ Guindon | ✅ Positive | ✅ Full pitch + scheduling | ❌ No response to follow-up |
-| Nate Keen | ✅ Gold mine insights | ✅ Co-founder exploration | ❌ No response to follow-up |
-| Sean BeardyWeirdo | ✅ Cautiously positive | ✅ Per-machine ML explanation | ❌ No response to follow-up |
-| John Stegenga | ❌ Never responded | — | — |
+| Name | Initial Reply | Follow-up Sent | App Link Sent | Latest Reply |
+|------|--------------|----------------|---------------|--------------|
+| Mike AJ Guindon | ✅ Positive | ✅ Full pitch | ✅ Option A (2026-06-15) | ✅ "Swamped, will try this week" — WARM, busy but willing |
+| Nate Keen | ✅ Gold mine insights | ✅ Co-founder exploration | ✅ Option A (2026-06-15) | ✅ Detailed reply — will try it, but notes Galvo lasers don't use gas/don't drift. Says "getting people in the ballpark is 90% there!" |
+| Sean BeardyWeirdo | ✅ Cautiously positive | ✅ Per-machine ML explanation | ✅ Option A (2026-06-15) | ❌ No reply to app link yet |
+| John Stegenga | ❌ No initial response | — | — | ✅ Late reply (2026-06-15): "I have 3 of the same machines, and they all are different" — validates per-machine thesis |
+| Mariah Corfield | ❌ Never responded | — | — | — |
+
+### Key New Insights from Round 1 Follow-up Replies (2026-06-15)
+
+**Nate Keen's reply is CRITICAL for product direction:**
+> "Most of those parameters don't actually apply to our setups though. (We don't use gas either, that sounds a bit more like proper expensive laser cutting which isn't my area). We mostly use Galvo lasers, and they don't really drift out of spec either they are very reliable."
+> "It would definitely be cool to grab hundreds of settings to see what works, but you'd need a massive amount of verified tests, there are just so many variables at play"
+> "even if it gets people in the ballpark for material testing that's 90% there!"
+
+**Implications:**
+1. **Galvo laser operators (engraving) vs CNC laser cutters (sheet metal cutting) are DIFFERENT markets** — Nate runs a Galvo laser for engraving, not a CNC fiber for cutting. Different parameters matter (no gas, no nozzle, no focus drift).
+2. **"90% there" is a strong validation** — even a skeptical experienced operator says "ballpark = 90% of the value." This is our value prop.
+3. **He still wants to try it** — "I'll certainly take a look and I'm happy to give you some feedback." Beta tester secured.
+4. **Font preview tool** — He wants a font visualization app. We can't build this now but could offer to help later as relationship currency.
+
+**Mike AJ Guindon:**
+> "Apologies, we have been swamped... will try this week"
+
+**Signal:** Still engaged, still intending to try. Just busy running a real shop. This is normal — operators have 0 slack time. Follow up in 5-7 days if no activity.
+
+**John Stegenga (late reply to original Round 1 post):**
+> "I have 3 of the same machines, and they all are different as far as settings to get the same output."
+
+**Signal:** Strong validation of per-machine variation thesis. Same brand, same model = different settings. But he's also invested "hundreds, probably thousands" in test material — high pain, already resigned to it.
 | Mariah Corfield | ❌ Never responded | — | — |
 
 **Outcome**: Strong initial engagement (3/5 replied) but none converted to calls yet.
 
+
+# Round 1 Follow-Up Messages (2026-06-14)
+/mnt/localssd/laser_log/app/project_docs/round1_dms_and_replies.md
+
+
+
+## Status Log
+
+| Name | Message Sent | Option | Date |
+|------|-------------|--------|------|
+| Mike AJ Guindon | ✅ | Option A (direct link) | 2026-06-15 |
+| Nate Keen | ✅ | Option A (direct link) | 2026-06-15 |
+| Sean BeardyWeirdo | ✅ | Option A (direct link) | 2026-06-15 |
+
+
+## Replies for the followup messages (2026-06-15)
+/mnt/localssd/laser_log/app/project_docs/round1_dms_and_replies.md
+
+
 ---
 ## Replies Received (2026-06-13)
-These are some more replies that I received later
-DIY Fiber Laser
-Joshua Scott
-If it’s something I’ve never cut but I know it bends like a certain metal then I’ll start with a setting that seems close. But I’ve got settings to cut most stuff under 1in at this point Even got 24ga ss to be baby smooth like it’s been debured with a bob
+/mnt/localssd/laser_log/app/project_docs/round1_dms_and_replies.md
 
-## Replies Received (2026-06-15)
-
-### Fiber Laser Cutting Machine | Metal Laser Cutter Users (Round 2 post — Chinese machines)
-
-**Mehmet Açıkgöz** — COMPETITOR ANNOUNCEMENT:
-```
-We are proud to announce the launch of our new CNC Fiber Laser Assistant application, now available on both iOS and Android.
-This project was created to fill a gap in the CNC laser cutting industry by combining technical knowledge, practical guidance, and educational tools into a single platform.
-The application provides laser operators, programmers, and technicians with instant access to technical information, troubleshooting guidance, cutting parameters, nozzle selection, focus calculations, gas settings, and many other learning resources.
-Our goal is to make laser cutting knowledge more accessible, improve operational efficiency, and support continuous learning within the manufacturing industry.
-The app is now live and available for download on iOS and Android.
-You can find and download our application by searching for "BeraTech CNC" on the App Store and Google Play.
-```
-
-**Analysis**: See full competitive analysis in `beratech_cnc_competitive_analysis.md`. This is the first direct competitor announcement observed in our target Facebook groups. Threat level: 4/10.
-
-### Additional New Replies (2026-06-15)
-
-**Bradley Andlovec** (CNC Fiber Laser Ninja):
-> "You can't really use other people's parameters. You really have to learn how to dial in your laser. Otherwise it's just guessing. There are some starting points out there but for the most part. Every machine's going to operate a little bit different, so learning how to read your cut is the most important part"
-
-**Scott Wasson** (CNC Fiber Laser Ninja):
-> "I have a couple Chinese machines. Once you know lasers, you know how to dial them in for the most part. Until you have the skills, questions here with videos to help."
-
-**Lobo Lightbringer** (DIY Fiber Laser):
-> "Experimenting. In general, speed parameter is almost the same across brands for each laser source output power. Your first approach would be to find the right focus distance. Then you can work your cut quality by tweaking gas pressure, frequency, etc.."
-
-**Sara Simpson** (CNC Fiber laser machine):
-> "I dont cut anything that's not on my manufacturers list, I've had enough trouble with it, not pushing my luck"
 
 
 
@@ -422,320 +325,26 @@ Are you:
 Any tips/tricks would be really appreciated. 
 ```
 
-## Results
-
-For those of you running Chinese fiber lasers (HSG, Bodor, Raytools, others), which don't usually come with the best documentation in English, how do you find the right cutting parameters when you get a material the machine manual doesn't cover? 
-
-Are you:
-- Translating Chinese docs?
-- Asking forums?
-- Just experimenting?
-- Comparing to similar materials?
-
-Any tips/tricks would be really appreciated. 
+## Results from the post (2026-06-14)
+/mnt/localssd/laser_log/app/project_docs/round2_dms_and_replies.md
 
 
 
-
-1. That Laser Dude Community - Laser Engraving & Cutting for All 🔥
-Shannon Brown Rinehart
-Ramp test
-
-Christine Tripp
-Even for my Mira, I run a material test cut and save the piece to refer to later.
-CNC Fiber Laser Ninja (Fiber Laser Cutters)
-
-
-2. CNC Fiber Laser Ninja (Fiber Laser Cutters)
-Bradley Andlovec
-You can't really use other people's parameters. You really have to learn how to dial in your laser. Otherwise it's just guessing. There are some starting points out there but for the most part. Every machine's going to operate a little bit different, so learning how to read your cut is the most important part
-4h
-Reply
-
-Scott Wasson
-I have a couple Chinese machines.
-Once you know lasers, you know how to dial them in for the most part.
-Until you have the skills, questions here with videos to help.
-
-Les Strickland
-The senfeng I bought came with installation. They worked out the parameters during installation. They asked me prior to installation to get a list of all the materials I typically run. I got all that material and they developed it while there
-1d
-Reply
-Scott Wasson
-I have a couple Chinese machines.
-Once you know lasers, you know how to dial them in for the most part.
-Until you have the skills, questions here with videos to help.
-1d
-Reply
-George Diffey
-We have had a hsg ts2 tube laser for the last 18 months. When it was installed they set up parameters for whatever materials we asked. There is also a library of default ones. When we have had a material that wasnt in a library or wasnt cutting as expected, we contacted hsg through WhatsApp and they helped us dial it in. Now with experience we can do it ourselves but they wete very helpful when we needed it
-1d
-Reply
-Joshua Scott
-Mostly experienced tests
-
-
-
-3. CNC Fiber laser machine
-Sara Simpson
-I dont cut anything that's not on my manufacturers list, I've had enough trouble with it, not pushing my luck
-
-Chaz Simpson
-By purchasing a table from Texas CNC LLC instead
-
-
-4. Laser Engraver Group for Beginner ✅
-Masked_helper_👮
-Matt St When you are operating a heavy-duty industrial Chinese fiber laser (like an HSG or Bodor) running a Raytools or Precitec cutting head, missing documentation is practically a rite of passage. Because these machines rely on massive power outputs and specialized assist gases (O_2, N_2, or compressed air), guessing blindly can quickly lead to ruined nozzles, cracked protective windows, or dangerous laser back-reflection.
-When facing an uncovered material, experienced operators generally use a strategic combination of all your points, leaning heavily into a structured experimentation workflow:
-Never Blindly Experiment—Establish a Baseline First: Instead of guessing from scratch, always look for a "closest sibling" material in your existing manual to use as a starting point. For example, if you need to cut a specialized high-strength steel alloy that isn't listed, start with your documented parameters for standard Carbon Steel or Mild Steel of the exact same thickness.
-The Translation Trick: If your machine came with a digital USB drive or a hidden directory on the CNC controller cabinet containing Chinese-only PDF parameter tables, do not ignore them. The documentation written for the domestic Chinese market is almost always significantly more detailed than the rushed English translations. Drop those files into a free visual document translator (like Google Translate or DeepL Document Translator); they will instantly translate the text while keeping the technical grid layouts intact.
-Leverage Nozzle and Gas Fundamentals: Remember that the material thickness dictates your mechanics more than the brand of the machine. For thin materials under 3mm using Nitrogen (N_2) or Air, you will almost always use a fast, high-pressure evaporative cut with a small nozzle size (e.g., 1.2mm to 1.5mm) and a negative focal point pushed slightly inside the material. For thick carbon steels using Oxygen (O_2), you will shift to a slow, low-pressure exothermic reaction cut using a larger double nozzle (e.g., 2.0mm to 3.0mm) and a positive focal point floating above the surface.
-Run a Step-Down Line Test: When you are ready to experiment, cut a scrap piece of the target material using a series of 100mm straight lines. Keep your power and gas pressure locked at your baseline, but adjust the speed downward by 10% on each consecutive line. Inspect the bottom edge of the cuts—the line that produces the cleanest edge with the absolute minimum amount of hanging dross (slag) represents your optimal cutting speed.
-I highly recommend the book "Laser Engraving for Beginners: The Complete Guide to CO2 and Diode Lasers, Materials, Settings, and Projects" by Ethan Blake, as it is available on Amazon and it has been a game changer for me. While it focuses heavily on introductory workshop principles, it is an excellent book for mastering the core foundational physics of focal depth alignment, gas pressure regulation, and systematic material testing grids that apply across all laser operating platforms.
-1d
-Reply
-Share
-Rocinante Quixote
-Just experimenting
-
-
-
-5. UV laser and fiber laser community group
-Terry Jones
-What he said
-1d
-Reply
-
-
-Jeremy Hubert
-Material test everything, no two machines are the same, and each lens will have its unique signature as it is ground and polished (they are really close to all being the same tho) so my 60 watt with a 220 lens and a blue on stainless won't necessarily be the same settings as yours...so test test test
-
-
-
-6. Fiber Laser Tips, Tricks & Sales
-Warren Eales
-use the lightburn built in test tool
-1d
-Reply
-Tony Cox
-Testing
-1d
-Reply
-Michael Stanislawczyk
-You shouldn't really use anyone else's libraries - they ALL come with a disclaimer that any given setting is a starting point. You need to essentially make your own since everyone uses different laser source brands, lenses, etc...
-You can use the Material Library tab in Lightburn (bottom/right for me) so you don't need to use a million pen/layer colors...
-Also, check out the LaserParams Converter tool from GitHub to be able to convert from power/lens differences 😉👍
-
-
-7. CNC Fiber Laser Ninja (Fiber Laser Cutters)
-Joshua Scott
-Mostly experienced tests
-1d
-Reply
-
-
-Scott Wasson
-I have a couple Chinese machines.
-Once you know lasers, you know how to dial them in for the most part.
-Until you have the skills, questions here with videos to help.
-1d
-Reply
-Les Strickland
-The senfeng I bought came with installation. They worked out the parameters during installation. They asked me prior to installation to get a list of all the materials I typically run. I got all that material and they developed it while there
-1d
-Reply
-George Diffey
-We have had a hsg ts2 tube laser for the last 18 months. When it was installed they set up parameters for whatever materials we asked. There is also a library of default ones. When we have had a material that wasnt in a library or wasnt cutting as expected, we contacted hsg through WhatsApp and they helped us dial it in. Now with experience we can do it ourselves but they wete very helpful when we needed it
-
-
-8. Fiber Laser Cutting Machine | Metal Laser Cutter Users
-Mehmet Açıkgöz                                                                                                                
-  We are proud to announce the launch of our new CNC Fiber Laser Assistant application, now available on both iOS and Android.  
-  This project was created to fill a gap in the CNC laser cutting industry by combining technical knowledge, practical          
-  guidance, and educational tools into a single platform.                                                                       
-  The application provides laser operators, programmers, and technicians with instant access to technical information,          
-  troubleshooting guidance, cutting parameters, nozzle selection, focus calculations, gas settings, and many other learning     
-  resources.                                                                                                                    
-  Our goal is to make laser cutting knowledge more accessible, improve operational efficiency, and support continuous learning  
-  within the manufacturing industry.                                                                                            
-  The app is now live and available for download on iOS and Android.                                                            
-  You can find and download our application by searching for "BeraTech CNC" on the App Store and Google Play.                   
-  We would love to hear your feedback and suggestions as we continue to improve and expand the platform.                        
-  #CNCLaser #FiberLaser #Manufacturing #Industry40 #Engineering #Automation #CNC #LaserCutting #IndustrialTechnology #BeraTech
-  
-Emily Xue
-I will provide you the information about Translate，if you want.
-1d
-Reply
-Share
-Tinker Withit
-We deal with this quite often and use the closest parameters that we have and begin to make changes. It’s usually just about speed at that point. Everything else is dialed in pretty close.
-
-
-9. Fiber Laser The Next Level
-Chris Savar
-But from Haotian Laser. They have the best support and quality machines. Bella Wang will send you a starter material Library with your machine! I've bought 4 machines from her so far. 😃🤩⚡🇨🇦
-1d
-Reply
-
-
-UnfilteredReality
-Lightburn Material test is the only guaranteed way
-1d
-Reply
-Cory Ryker
-You really never go by the manual from any company for ideal settings. Maybe use them as a base and adjust or start with material tests.
-1d
-Reply
-Sebastian Fernandez
-Experimenting. It's the only way. Nothing can guarantee that the material you get is the same exact one they tested in their factory
-1d
-Reply
-Aaron Kostuch
-Haotian laser Pascal Liu 
-Ask4Designs provides full support Australian based global reach
-1d
-Reply
-John Lifer
-There are ONLY starting points. NOTHING with lasers is push to play. NOTHING. It's where folks who don't have any idea what they are doing get fooled into buying this technology. (And it isnt just lasers, cnc anything advertising makes it seem like push play and product falls out perfect.)
-
-
-10. Fiber Laser Engraving Club
-Nate Keen
-Look up material test in the group search (also YouTube)
-Settings in a user manual will maybe get you in the ballpark but there’s no better way than testing on the actual material you are using and saving it to your library. There’s lots of info already in the group on this. Good luck 🤞🏻
-If that fails hook up with an expert for some lessons like Victor Wolansky / Chance Lawson
-
-
-11. DIY Fiber Laser
-Lobo Lightbringer
-Experimenting. In general, speed parameter is almost the same across brands for each laser source output power. Your first approach would be to find the right focus distance. Then you can work your cut quality by tweaking gas pressure, frequency, etc..
-
-George Leonard Hess
-Hi Matt, depending on the manufacturer, you should certainly have access to their engineering support team that will be happy to help. Normally connect via wechat or WhatsApp. If you need help connecting, let me know and i can help🤷‍♂️ will need to know manufacturer and also machine plate showing serial numbers.
-
-
-12. Free Laser Files
-Matthew Olds
-The manual is useless since every single material is different. Take the time and run speed and power tests. There built into lightburn for a reason
-1d
-Reply
-Share
-Lea Ann Duncan
-Matthew Olds have been circulating this for weeks. 🙂
-May be an image of text that says 'CREALITY LASER PHOTO ENGRAVING THE RIGHT WAY MATC YOUR IMAGE To YOUR LASER DPI, SIZE & SETTINGS MACHINE CR FALCON 10W 22W LASER SPOT DPI CREALITY 0.08 mm mitfor SHARE SWEET SPOT 0.06 mm GREAT 318 DPI DETAILISLIMTEDBY/SPOTSIZE. ROUND =423DP 423 SIZE CHEAT SHEET 4INCHES) engraving slate, Range:3 423D DPI point. BINCHES) IMAGE 423DP 92：1692px ightness, aAeAnr repixelsdoes MISTAKES Musdydark oe&cinedetall OK dotted Increase ดกฎู LCNe Oner creasepomer Lower Dither RECOMMENDED STARTINGSETTINGS PASST ROUGH RESIZEa GOODSTARTING 350DPI 140.072mmineIntervail) 10W PRO TIPS ค Detar Passes: 22W Dusmval.ereptes belaneunghe 12000 Passes: CharquONEsatting whatactu:llyteloed RIGHT RIGH RESULTS'
-1d
-Reply
-Share
-Lea Ann Duncan
-Works on all material not just wood
-1d
-Reply
-Share
-Matthew Olds
-Lea Ann Duncan not accurate since all woods are different even same wood from different suppliers. Run a test every time
-1d
-Reply
-Share
-Lea Ann Duncan
-Matthew Olds this is a test file to burn on the item and help with settings. DO YOU HAVE ONE BETTER
-1d
-Reply
-Share
-Matthew Olds
-Lea Ann Duncan lightburn litterly has then built in. the one you provided is laser specific. the op does not have a creality laser..
-1d
-Reply
-Share
-John Collings
-I do a lot of testing. But find I get there reasonably quickly using some of my other lasers principles
-1d
-Reply
-Share
-Klaus Wojczykowski
-Agree, lightburn test pattern for each new material. Then if I want to make something that is similar to something I already made with that material I will use that old Lightburn file as template. Documentation has not a lot do with it no matter if Chinese or English.
-1d
-Reply
-Share
-Shaun Prinsloo
-Buy a ComMarker laser, every machine comes with a detailed material settings library. Just love ComMarker they are simply the best....
-
-
-13. Laser Engraving And Cutting
-Carole Krieghoff Scott
-Having service is really important. Rabbit Laser sets up and trains you onsite how to use the Fiber machine. I am not aware of any factory providing documentation for the laser machines.
-1d
-Reply
-Share
-Richard Hughes
-Carole Krieghoff Scott Gweike have a very good user manual with material settings. I think it's because they're Hong Kong based so have good English language skills.
-1d
-Reply
-Share
-
-
-Brandon Dalton
-People with similar lasers can help with starting parameters, but material tests are always the best way to find your parameters. There are built in tests with Lightburn and LaserGRBL.
-Someone with the exact same laser may find different optimal settings from you.
-1d
-Reply
-Share
-Benjamin H Long Sr.
-Y'all's came with manuals? I just figured stuff out by trial and error.
-1d
-Reply
-Share
-Stephen Walker
-By doing material tests. Watch utube, it's not hard it burns a pattern on the material at various speeds and power settings then you use the one you like best......if you you use lightburn it's in the laser tools menu
-1d
-Reply
-Share
-Michael Bergeron
-Check Etsy I found a couple people who sell setting files for fiber lasers. They are pretty good for starting points but every last and material behave differently and need to be tested.
-1d
-Reply
-Share
-
-
-
-14. Laser Engraver Group for Beginner ✅
-Miranda Courtney
-Checkout this for help
-
-(shared image of book called "The complete laser mastry guide by Grace T Girth")
-
-
-
-
-15. Fiber Laser Metal Engraving
-Mike Kartchner
-he runs a 1on1 training service for engraving
-
-Steve Froud
-Run a material test and you'll then get the best settings for the material and your machine. Simple to set up the test with Lightburn. Paracordia UK
-1d
-Reply
-Mike Kartchner
-OMG Laser is the only Chinese Laser Builder who doesn’t downgrade Component when a cheaper, lower quality one becomes available. Only Raycus QB, JPT EM7 60 Watt, M7 80 to 200 Watts. No low quality QS, EM7 80-200 Watts or E2M7 Modules. 10000mm/s High Temp Coated Quartz Mirrors, no K9 Glass Mirrors . High quality Aluminum Cases, heavy duty Tower Construction with 20mm Polished Stainless Steel Guide Shafts with Linear Bearings. The Tower is an 11mm Thick Extrusion, some are 3mm with Steal Rollers riding on Aluminum. Quality Crystal & Quartz JG Brand Lenses. 3 Year Warranty.
-
-Mike Kartchner
-https://omglaser.com/laser-settings/
-Laser Settings | Fiber Laser Engraver Parameters | OMG Laser
-OMGLASER.COM
-Laser Settings | Fiber Laser Engraver Parameters | OMG Laser
-Laser Settings | Fiber Laser Engraver Parameters | OMG Laser
-1d
-Reply
-Mike Kartchner
-https://omglaser.com/products/
-Best Mopa Fiber Laser Engraving Machine | Topa Value Laser Machines For Engraving, Marking, Cutting Metal, Plastic, Wood, Glass, Leather, Stone | OMG Laser
-OMGLASER.COM
-Best Mopa Fiber Laser Engraving Machine | Topa Value Laser Machines For Engraving, Marking, Cutting Metal, Plastic, Wood, Glass, Leather, Stone | OMG Laser
 
 ---
 
 ## Round 2 Analysis (2026-06-14)
+**Mehmet Açıkgöz** — COMPETITOR ANNOUNCEMENT:
+```
+We are proud to announce the launch of our new CNC Fiber Laser Assistant application, now available on both iOS and Android.
+This project was created to fill a gap in the CNC laser cutting industry by combining technical knowledge, practical guidance, and educational tools into a single platform.
+The application provides laser operators, programmers, and technicians with instant access to technical information, troubleshooting guidance, cutting parameters, nozzle selection, focus calculations, gas settings, and many other learning resources.
+Our goal is to make laser cutting knowledge more accessible, improve operational efficiency, and support continuous learning within the manufacturing industry.
+The app is now live and available for download on iOS and Android.
+You can find and download our application by searching for "BeraTech CNC" on the App Store and Google Play.
+```
+
+**Analysis**: See full competitive analysis in `beratech_cnc_competitive_analysis.md`. This is the first direct competitor announcement observed in our target Facebook groups. Threat level: 4/10.
 
 ### Overall Statistics
 - **15 groups responded** (up from 13 in Round 1)
@@ -808,28 +417,62 @@ Best Mopa Fiber Laser Engraving Machine | Topa Value Laser Machines For Engravin
 
 ---
 
-## Next Steps (As of 2026-06-14)
+## Round 2 DM Status (as of 2026-06-16)
+
+| Name | DM Sent | Reply? | Key Takeaway |
+|------|---------|--------|-------------|
+| Jeremy Hubert | ✅ | ✅ "I use the materials test and save the test in LightBurn's materials library" | Uses LightBurn material library — validates .clb import feature. Systematic tester. |
+| Michael Stanislawczyk | ✅ | ❌ No reply yet | — |
+| Tinker Withit | ✅ (thread reply) | ✅ "We have Raytool and there are a lot of parameters on the web, and we also have a book" | Has reference material (book + web) that gives starting points, then adjusts speed. Confirms starting-point value. |
+| George Diffey | ✅ | ❌ No reply yet | — |
+| Klaus Wojczykowski | ❌ Not sent (rate limited) | — | — |
+| Lobo Lightbringer | ❌ Not sent | — | — |
+
+### Key Insights from Round 2 DM Replies (2026-06-15)
+
+**Jeremy Hubert:**
+> "I use the materials test and usually keep that on hand for reference, as well as saving the test, in the test program in lightburn....then yeah if I like something I save the setting in the setting library (materials library?)"
+
+**Implication:** He's our ideal user workflow — runs tests, saves to LightBurn library. Our .clb import feature would instantly onboard his entire accumulated library. Follow-up: ask if he'd share his library in exchange for community settings he hasn't tested.
+
+**Tinker Withit:**
+> "so we have Raytool and there is a lot of parameters on the web, and we also have book that shows speed pressure height and such for various metals and thicknesses…so from there we can fill in the gaps"
+
+**Implication:** Confirms operators use external references (books, web) as starting points. CutLog replaces the book + web search with a single searchable, machine-specific tool. His workflow is exactly: "get starting point → adjust speed → done."
+
+### New Post Comments (2026-06-15)
+
+**Joe Marx** (re: HSG): "Use their customer service chat. Should be a QR code on the machine."
+- No action needed — confirms OEM support exists but only for their brand.
+
+**Keith E. Fleming** (DIY Fiber Laser): "I think part of the fun of owning industrial class equipment is that there's some Expectation on the part of the user to already be well versed... published parameters online as a good starting point."
+- Validates "starting point" framing. Notes there's an EXPECTATION of expertise — which means non-experts are underserved.
+
+---
+
+## Next Steps (Updated 2026-06-16)
 
 ### Immediate (This Week)
 
-1. **Follow up on Round 1 leads** — Gentle bump to Mike, Nate, Sean
-2. **DM new Round 2 high-value respondents**:
-   - Jeremy Hubert (technical depth, "no two machines are the same")
-   - Michael Stanislawczyk (knows LaserParams Converter, tech-savvy)
-   - Tinker Withit ("just about speed" = experienced insight)
-   - George Diffey (HSG tube laser, practical operator)
-   - Klaus Wojczykowski (templates from old files = proto-database user)
-3. **Research LightBurn .clb file format** — integration path
+1. ~~**Follow up on Round 1 leads**~~ — ✅ DONE (2026-06-15). Mike will try this week. Nate will give feedback. Sean no reply yet.
+2. ~~**DM Round 2 targets**~~ — 4/6 sent. **Remaining: Klaus + Lobo** (send this week)
+3. ~~**Research LightBurn .clb format**~~ — ✅ DONE + import/export feature BUILT
+4. **Follow up with Jeremy Hubert** — ask if he'd share his .clb library in exchange for community settings
+5. **Follow up with Mike** — if no activity by 2026-06-20, gentle bump
+6. **Reply to Nate** — acknowledge his Galvo laser insight, ask if he'd try the engraving params (OMG Laser data covers his use case)
 
 ### Short-Term (Next 2 Weeks)
 
-4. **Pivot messaging**: Stop "parameter database" → Start "machine intelligence that learns YOUR setup"
-5. **Investigate Beam Squadron** (beamsquadron.com) — sign up, see what they offer
-6. **Buy 1-2 Etsy parameter files** — see format, content, gaps. Validates pricing
+7. ~~**Pivot messaging**~~ — ✅ DONE (speed-first UX implemented)
+8. **Buy 1-2 Etsy parameter files** — see format, content, gaps
+9. **Investigate Beam Squadron** partnership opportunity
+10. **Consider market segmentation**: Galvo engraving operators (Nate's world) vs CNC cutting operators (industrial). Both are valid but have different parameter needs.
 
-### Medium-Term (Building Phase)
+### Medium-Term (Month 2-3)
 
-7. **LightBurn integration is NON-NEGOTIABLE** — MVP must import/export .clb files
-8. **"Speed recommendation" as MVP** — v1 just recommends speed for material/thickness/machine
-9. **Partner with Victor Wolansky or Chance Lawson** — they have your target audience
+11. ~~**LightBurn integration**~~ — ✅ DONE
+12. ~~**Speed recommendation MVP**~~ — ✅ DONE
+13. **Get 5 beta users logging cuts** — Mike, Nate, Jeremy are closest to converting
+14. **Native app (Capacitor)** — code ready on `migration_to_app` branch, trigger at 5+ users
+15. **Partner with Victor Wolansky or Chance Lawson** — they have your target audience
 
