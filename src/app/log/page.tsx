@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { triggerHaptic } from "@/lib/native";
 import { EDGE_QUALITIES, GAS_TYPES } from "@/lib/types";
 import type { Machine, Material } from "@/lib/types";
 
@@ -90,6 +91,8 @@ export default function LogCut() {
 
     if (!error) {
       setSuccess(true);
+      // Haptic feedback on native devices when cut is saved successfully
+      triggerHaptic();
       setTimeout(() => router.push("/"), 1500);
     }
     setLoading(false);

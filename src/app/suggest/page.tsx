@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { triggerHaptic } from "@/lib/native";
 import type { Machine, Material, Cut } from "@/lib/types";
 
 interface SuggestionGroup {
@@ -241,6 +242,11 @@ export default function Suggest() {
     setFeedbackGiven(type);
     setShowFeedbackToast(true);
     setTimeout(() => setShowFeedbackToast(false), 3000);
+
+    // Haptic feedback on native devices when user taps "Perfect"
+    if (type === "perfect") {
+      triggerHaptic();
+    }
   }
 
   function formatParam(value: number | null, unit: string): string {
