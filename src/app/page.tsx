@@ -3,11 +3,14 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { Machine } from "@/lib/types";
+import { DiscoveryHint } from "@/components/DiscoveryHint";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [machine, setMachine] = useState<Machine | null>(null);
+  const [cutCount, setCutCount] = useState<number | null>(null);
   const router = useRouter();
   const supabase = createClient();
 
@@ -25,12 +28,17 @@ export default function Home() {
         .eq("user_id", user.id)
         .limit(1);
 
-      if (!machines || machines.length === 0) {
-        router.push("/machine");
-        return;
+      if (machines && machines.length > 0) {
+        setMachine(machines[0]);
       }
 
-      setMachine(machines[0]);
+      // Get cut count to determine if user is new
+      const { count } = await supabase
+        .from("cuts")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
+      setCutCount(count ?? 0);
       setLoading(false);
     }
     init();
@@ -49,9 +57,11 @@ export default function Home() {
       <header className="flex items-center justify-between mb-8 pt-2">
         <div>
           <h1 className="text-2xl font-bold">CutLog</h1>
-          <p className="text-sm text-zinc-500">
-            {machine?.nickname || machine?.brand} · {machine?.wattage_w ? `${machine.wattage_w / 1000}kW` : ""}
-          </p>
+          {machine && (
+            <p className="text-sm text-zinc-500">
+              {machine.nickname || machine.brand} · {machine.wattage_w ? `${machine.wattage_w / 1000}kW` : ""}
+            </p>
+          )}
         </div>
         <button
           onClick={async () => {
@@ -63,6 +73,26 @@ export default function Home() {
           Sign out
         </button>
       </header>
+
+      {/* Getting Started card for new users */}
+      {cutCount === 0 && !machine && (
+        <DiscoveryHint storageKey="home_getting_started" dismissable={true}>
+          <p className="font-medium text-zinc-200 mb-2">Welcome to CutLog! Here&apos;s how to get the most out of it:</p>
+          <ol className="list-decimal list-inside space-y-1.5 text-zinc-400">
+            <li>
+              <Link href="/machine" className="text-sky-400 hover:text-sky-300">Set up your machine &rarr;</Link>
+            </li>
+            <li>
+              <Link href="/import" className="text-sky-400 hover:text-sky-300">Import your LightBurn library</Link>
+              {" or "}
+              <Link href="/log" className="text-sky-400 hover:text-sky-300">log your first cut &rarr;</Link>
+            </li>
+            <li>
+              <Link href="/suggest" className="text-sky-400 hover:text-sky-300">Get speed recommendations &rarr;</Link>
+            </li>
+          </ol>
+        </DiscoveryHint>
+      )}
 
       <div className="grid grid-cols-2 gap-4 mb-8">
         <button

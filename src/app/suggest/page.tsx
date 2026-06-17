@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { Machine, Material, Cut } from "@/lib/types";
+import { DiscoveryHint, HintLink } from "@/components/DiscoveryHint";
 
 interface SuggestionGroup {
   source: "own" | "similar_machine" | "community";
@@ -101,6 +103,8 @@ function computeSpeedRecommendation(groups: SuggestionGroup[]): SpeedRecommendat
 
 export default function Suggest() {
   const [, setMachine] = useState<Machine | null>(null);
+  const [hasMachine, setHasMachine] = useState(true); // default true to avoid flash
+  const [hasCuts, setHasCuts] = useState(true); // default true to avoid flash
   const [materials, setMaterials] = useState<Material[]>([]);
   const [materialSearch, setMaterialSearch] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -127,7 +131,20 @@ export default function Suggest() {
         .eq("user_id", user.id)
         .limit(1);
 
-      if (machines && machines.length > 0) setMachine(machines[0]);
+      if (machines && machines.length > 0) {
+        setMachine(machines[0]);
+        setHasMachine(true);
+      } else {
+        setHasMachine(false);
+      }
+
+      // Check if user has any cuts at all
+      const { count } = await supabase
+        .from("cuts")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
+      setHasCuts((count ?? 0) > 0);
 
       const { data: mats } = await supabase
         .from("materials")
@@ -266,6 +283,13 @@ export default function Suggest() {
         Enter your material and thickness. We&apos;ll tell you how fast to go.
       </p>
 
+      {/* Contextual hint: no cuts yet - suggest import */}
+      {!hasCuts && (
+        <DiscoveryHint storageKey="suggest_import_clb">
+          Have a LightBurn library? <HintLink href="/import">Import your .clb file in one click &rarr;</HintLink>
+        </DiscoveryHint>
+      )}
+
       <form onSubmit={handleSearch} className="space-y-4 mb-8">
         {/* Material search */}
         <div className="relative">
@@ -324,15 +348,38 @@ export default function Suggest() {
         </button>
       </form>
 
-      {/* No results state */}
+      {/* No results state - enhanced empty state */}
       {searched && suggestions.length === 0 && !loading && (
-        <div className="text-center py-12">
-          <p className="text-zinc-500 text-lg mb-2">No data yet</p>
-          <p className="text-zinc-600 text-sm">
-            Be the first to log a cut for {searchMaterial} at {thickness}mm.
-            <br />Your data helps the community!
+        <div className="border border-zinc-800 bg-zinc-900/50 rounded-xl p-6 text-center">
+          <p className="text-zinc-400 text-lg mb-3">No results found for this material.</p>
+          <p className="text-sm text-zinc-500 mb-4">Try:</p>
+          <div className="space-y-2 text-sm">
+            <p>
+              <Link href="/import" className="text-sky-400 hover:text-sky-300">
+                Import your LightBurn library for your own tested settings &rarr;
+              </Link>
+            </p>
+            <p>
+              <button
+                type="button"
+                onClick={() => { setMaterialSearch(""); setMaterial(""); setSearched(false); }}
+                className="text-sky-400 hover:text-sky-300"
+              >
+                Browse all materials &rarr;
+              </button>
+            </p>
+          </div>
+          <p className="text-zinc-600 text-xs mt-4">
+            Or be the first to log a cut for {searchMaterial} at {thickness}mm!
           </p>
         </div>
+      )}
+
+      {/* Contextual hint: results found but no machine set up */}
+      {searched && suggestions.length > 0 && !hasMachine && (
+        <DiscoveryHint storageKey="suggest_setup_machine">
+          Set up your machine profile for personalized recommendations. <HintLink href="/machine">Configure machine &rarr;</HintLink>
+        </DiscoveryHint>
       )}
 
       {/* Speed Hero Section */}

@@ -353,9 +353,9 @@ I sent above DM.
 
 ## Klaus Wojczykowski
 
-> Hey Klaus — your approach of using old Lightburn files as templates for similar jobs is smart. Quick question: do you ever run into a situation where you KNOW you cut something similar before but can't find or remember which file had the right settings? That's the thing I keep hearing from people and I'm curious how common it actually is.
+ Hey Klaus — your approach of using old Lightburn files as templates for similar jobs is smart. Quick question: do you ever run into a situation where you KNOW you cut something similar before but can't find or remember which file had the right settings? That's the thing I keep hearing from people and I'm curious how common it actually is.
 
-**Follow-up angle if he replies:** Ask how many material/thickness combos he's accumulated settings for, whether it's manageable or getting unwieldy.
+**Follow-up angle if he replies:** Ask how many material/thickness combos he's accumulated settings for, whether it's manageable or getting unwieldy.>
 
 ### Hooman:
 I reached my message request limit. Need to reply to this guy tomorrow. 

@@ -133,6 +133,15 @@
 6. `/history` — Searchable cut history + "Export .clb" button (downloads LightBurn library file)
 7. `/import` — LightBurn .clb file import (drag-and-drop upload, preview entries, select & save to DB)
 
+### User Discovery & Onboarding UX (Added Session C)
+
+The app includes four lightweight discovery features to help new users find value quickly:
+
+1. **Contextual hints** (`/suggest` page) — When user has no data or no machine configured, shows blue/sky-colored dismissable hints pointing to `/import` and `/machine` setup.
+2. **First-visit onboarding overlay** — Single-screen welcome modal on first visit showing 3 key features (speed recommendations, .clb import, per-machine learning). Dismisses forever on click. Tracked via `localStorage`.
+3. **Empty states that educate** — When `/history` is empty or `/suggest` returns no results, shows helpful pointers to import, log, or browse. Home page shows a "Getting Started" card for new users with no data.
+4. **Smart nudges** — Behavioral one-time tips (amber/yellow, auto-dismiss 8s): after 3 visits to `/suggest` without importing, shows a toast about .clb import; after 3 logged cuts without using feedback buttons, shows a toast about the feedback system. All tracked via `localStorage`.
+
 ### API Routes
 - `POST /api/import-clb` — Parses uploaded .clb XML file, returns structured entries for preview
 - `GET /api/export-clb` — Fetches user's cuts from DB, generates downloadable .clb XML file (supports ?material= and ?machine_id= filters)
@@ -287,6 +296,7 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 4. **3-button feedback UX** — "too fast / perfect / too slow" for bandit-style optimization
 5. **Minimum 10 data points per material/thickness combo** for useful speed predictions
 6. **Target: 600+ unique params covering 20+ materials and 4 laser types** within 3 weeks
+7. **Discovery UX via localStorage, not server state** — All onboarding/nudge tracking (first-visit flag, nudge counters, dismissals) stored in localStorage. Zero backend cost, no migrations, instant. Approach: subtle education (blue hints, amber nudges) rather than aggressive popups. One-time nudges that respect the user's time
 
 ---
 
@@ -311,7 +321,7 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 | Deep research | Product definition + competitive analysis | 6 deep-dive documents |
 | Session A (bedrock-laser-tmux) | Customer validation + research | Facebook outreach (2 rounds), competitor analysis (Beam Squadron, Etsy, LightBurn), data planning, DM drafts, speed analysis |
 | Session B (CutLog prototype) | Building + deploying the app | Next.js app built, Supabase DB, 724 params scraped/generated and seeded, suggestion engine fixed, deployed to Vercel (https://cutlog-two.vercel.app) |
-| Session C (cutlog-app, 2026-06-15) | Feature build + data + competitive intel | OMG Laser scraped (177 entries → DB at 901 total), LightBurn .clb import/export built, LaserParams Converter formulas extracted to Python, suggestion engine refactored (speed-first hero UX + 3-button feedback), PWA install banner added, BeraTech CNC competitor analyzed (4/10 threat), Capacitor migration plan written, Lobo Lightbringer DM drafted |
+| Session C (cutlog-app, 2026-06-15) | Feature build + data + competitive intel + onboarding UX | OMG Laser scraped (177 entries → DB at 901 total), LightBurn .clb import/export built, LaserParams Converter formulas extracted to Python, suggestion engine refactored (speed-first hero UX + 3-button feedback), PWA install banner added, BeraTech CNC competitor analyzed (4/10 threat), Capacitor migration plan written, Lobo Lightbringer DM drafted, **user discovery/onboarding features added** (contextual hints, first-visit overlay, empty states that educate, smart nudges) |
 
 ---
 

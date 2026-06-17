@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { Cut } from "@/lib/types";
 
 export default function History() {
@@ -100,14 +101,31 @@ export default function History() {
 
       {loading ? (
         <div className="text-center py-12 text-zinc-500">Loading...</div>
+      ) : cuts.length === 0 ? (
+        <div className="border border-zinc-800 bg-zinc-900/50 rounded-xl p-6 text-center">
+          <p className="text-zinc-400 text-lg mb-3">No cuts logged yet.</p>
+          <p className="text-sm text-zinc-500 mb-4">You can:</p>
+          <div className="space-y-3 text-sm">
+            <p>
+              <Link href="/import" className="text-sky-400 hover:text-sky-300">
+                Import your existing LightBurn library &rarr;
+              </Link>
+            </p>
+            <p>
+              <Link href="/log" className="text-sky-400 hover:text-sky-300">
+                Log your first cut &rarr;
+              </Link>
+            </p>
+          </div>
+        </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-zinc-500 text-lg mb-2">No cuts logged yet</p>
+          <p className="text-zinc-500 text-lg mb-2">No cuts match your filter</p>
           <button
-            onClick={() => router.push("/log")}
-            className="text-emerald-400 hover:text-emerald-300 text-sm"
+            onClick={() => setSearch("")}
+            className="text-sky-400 hover:text-sky-300 text-sm"
           >
-            Log your first cut →
+            Clear filter &rarr;
           </button>
         </div>
       ) : (

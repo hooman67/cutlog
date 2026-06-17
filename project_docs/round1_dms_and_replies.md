@@ -239,9 +239,108 @@ Your goal is laudable, but I have 3 of the same machines, and they all are diffe
 >
 > Oh also — you mentioned wanting a font preview tool for your customers. I threw together a quick prototype: https://cutlog-two.vercel.app/tools/font-preview — you can upload your custom fonts and customers can preview text on tumblers/dog tags/knives. Pretty basic right now but lmk if it's in the right direction and I can polish it up.
 
+**STATUS: SENT (2026-06-16). Nate replied with feedback on both tools.**
+
+---
+
+### To Nate Keen (reply to font tool drag/rotate feedback + .clb import revelation):
+
+**Context:** Nate asked if the font tool could support dragging and rotating text. Also separately, he was struggling to convert his .clb files to something usable — tried manual methods and said "doing that hundreds of times will be quite tedious."
+
+**Message 1 (font tool update):**
+> Done! You can now drag the text anywhere and rotate it with a slider. Give it another look — should be way more flexible now.
+
+**Message 2 (.clb import — this is the big one):**
+> Ha — you're going to love this. I actually already built a .clb importer into CutLog specifically for this. Just go to https://cutlog-two.vercel.app/import — drag your .clb file in and it parses everything automatically. All your materials, speeds, power settings, passes — all pulled out and searchable in one shot. No manual entry, no scripts, no copy-pasting.
+>
+> Works for all your laser/lens combos too — just drop each .clb file in. Curious to see how many settings you've got across all your setups!
+
 ### To John Stegenga (app link — his "3 identical machines" comment is perfect):
 lol 3 identical machines that all need different settings is exactly the problem I'v been facing too. Built a tool that tracks parameters per-machine and suggests what to try based on your specific setup's history: https://cutlog-two.vercel.app
 30 sec to log a cut. And hopefully we can all benefit from each other's trials. Would love your take on it 🙏
 
 Above is the message I ended up sending. 
 
+
+## Responses to follow up messages (2026-06-16)
+### John Stegenga
+Lightburn stores this for me in its library. Thanks anyway, but I've got too much going on.
+
+**Assessment:** Polite decline. Satisfied with LightBurn's material library, too busy to try something new. Not a lead — move on. No follow-up.
+
+### Nate Keen
+The settings libraries I have are all saved as lightburn Files.  I’m not sure if there’s a way to convert that into something like a CSV file or a plain text otherwise they have to be loaded up into Lightburn material library and manually converted.  
+
+Apparently, it can be done, but yeah, that kind of computing knowledge is a bit out of my league lol
+Yes.
+
+A LightBurn material library is usually stored as a .clb file. The file format is not designed as a spreadsheet or PDF, but you can extract the settings and convert them.
+
+Options:
+
+Option 1: Export from LightBurn
+
+Depending on your LightBurn version:
+
+1. Open LightBurn.
+2. Go to the Material Library panel.
+3. Look for an Export option in the library menu.
+4. Export to a text-based format if available.
+
+Some versions support exporting material settings directly, which is the easiest path to CSV.
+
+Option 2: Convert the .clb file manually
+
+Many .clb files are actually structured text data rather than a proprietary binary format.
+
+You can:
+
+1. Make a copy of the .clb file.
+2. Open it with:
+    * Notepad++
+    * VS Code
+    * Sublime Text
+
+If you can read entries such as:
+
+* Material name
+* Speed
+* Power
+* Pass count
+* Air assist
+
+then the file can be parsed and converted to CSV.
+
+Option 3: Use a script
+
+If you have multiple libraries, a small script can:
+
+* Read the .clb file
+* Extract each material preset
+* Create a CSV file
+* Generate a PDF table
+
+Option 4: Import into a spreadsheet
+
+Once converted to CSV:
+
+* Open in Excel
+* Open in LibreOffice Calc
+* Open in Google Sheets
+
+Then export to PDF.
+
+If you’d like me to do it
+
+Upload the .clb file here.
+
+I can:
+
+* Inspect the file format
+* Extract all material settings
+* Generate a CSV
+* Generate a PDF reference sheet
+* Reorganise the data into a cleaner table if needed
+
+Just attach the .clb file and I’ll convert it.
+Okay that worked pretty good but doing that hundreds of times will be quite tedious lol.   That’s just one laser and lens combination its a lot of settings
