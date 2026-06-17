@@ -77,8 +77,9 @@ export default function Home() {
       {/* Getting Started card for new users */}
       {cutCount === 0 && !machine && (
         <DiscoveryHint storageKey="home_getting_started" dismissable={true}>
-          <p className="font-medium text-zinc-200 mb-2">Welcome to CutLog! Here&apos;s how to get the most out of it:</p>
-          <ol className="list-decimal list-inside space-y-1.5 text-zinc-400">
+          <p className="font-medium text-zinc-200 mb-2">Welcome to CutLog!</p>
+          <p className="text-xs text-zinc-400 mb-2">Auto-scales parameters for your lens. Cutting & engraving. Validated against Etsy data.</p>
+          <ol className="list-decimal list-inside space-y-1.5 text-zinc-400 text-xs">
             <li>
               <Link href="/machine" className="text-sky-400 hover:text-sky-300">Set up your machine &rarr;</Link>
             </li>

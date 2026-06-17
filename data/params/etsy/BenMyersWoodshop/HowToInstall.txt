@@ -1,0 +1,24 @@
+HOW TO INSTALL:
+1) This is a .zipped (compressed) file. You will need to unzip (decompress) it before importing into Lightburn.(unless your using a mac, in which case, it will unzip automatically.)
+then open Lightburn
+
+2)then go to the 'library' tab in the bottom right near the 'laser' tab.
+then click 'load'
+
+3) Select my unzipped .clb library file.
+
+4) Done.
+
+5) Leave a five star review!
+
+WILL NOT INSTALL IN TRIAL VERSIONS!
+
+If you have problems installing, please consult google and lightburn instructions. I am unable to do a better job than this instruction text or video.
+
+Watch this video!
+https://www.youtube.com/watch?v=GpLtnpxAs58
+
+
+Visit www.myerswoodshop.com
+Follow www.instagram.com/myerswoodshop
+Watch www.youtube.com/myerswoodshop

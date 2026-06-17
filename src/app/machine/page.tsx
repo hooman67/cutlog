@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import { MACHINE_BRANDS, GAS_TYPES } from "@/lib/types";
+import { MACHINE_BRANDS, GAS_TYPES, SPEED_PROFILES } from "@/lib/types";
 
 export default function MachineSetup() {
   const [brand, setBrand] = useState("");
@@ -17,6 +17,7 @@ export default function MachineSetup() {
   const [nickname, setNickname] = useState("");
   const [loading, setLoading] = useState(false);
   const [existingId, setExistingId] = useState<string | null>(null);
+  const [speedProfile, setSpeedProfile] = useState<'fast' | 'conservative' | 'auto'>('auto');
   const router = useRouter();
   const supabase = createClient();
 
@@ -43,6 +44,7 @@ export default function MachineSetup() {
         setController(m.controller || "");
         setCountry(m.location_country || "");
         setNickname(m.nickname || "");
+        setSpeedProfile(m.speed_profile || 'auto');
       }
     }
     loadExisting();
@@ -72,12 +74,17 @@ export default function MachineSetup() {
       controller: controller || null,
       location_country: country || null,
       nickname: nickname || null,
+      speed_profile: speedProfile,
     };
 
     if (existingId) {
       await supabase.from("machines").update(machineData).eq("id", existingId);
     } else {
       await supabase.from("machines").insert(machineData);
+      // Track first machine setup for nudge C
+      if (typeof window !== "undefined") {
+        localStorage.setItem("cutlog-machine-setup", "true");
+      }
     }
 
     router.push("/");
@@ -214,6 +221,38 @@ export default function MachineSetup() {
             onChange={(e) => setNickname(e.target.value)}
             className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
           />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-zinc-300 mb-2">Speed Profile</label>
+          <p className="text-xs text-zinc-500 mb-3">
+            Choose how CutLog recommends speeds for your use case. Fast mode maximizes throughput; Conservative mode prioritizes edge quality.
+          </p>
+          <div className="space-y-2">
+            {SPEED_PROFILES.map((profile) => (
+              <button
+                key={profile.value}
+                type="button"
+                onClick={() => setSpeedProfile(profile.value as 'fast' | 'conservative' | 'auto')}
+                className={`w-full p-3 rounded-xl border-2 transition-all text-left ${
+                  speedProfile === profile.value
+                    ? "bg-emerald-900/30 border-emerald-600"
+                    : "bg-zinc-900 border-zinc-700 hover:border-zinc-500"
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="text-lg mt-0.5">{profile.icon}</div>
+                  <div>
+                    <div className="font-medium text-zinc-100">{profile.label}</div>
+                    <div className="text-xs text-zinc-500">{profile.description}</div>
+                  </div>
+                  {speedProfile === profile.value && (
+                    <div className="ml-auto text-emerald-400 text-lg">✓</div>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
 
         <button

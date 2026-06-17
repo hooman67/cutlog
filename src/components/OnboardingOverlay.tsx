@@ -34,13 +34,25 @@ export default function OnboardingOverlay() {
 
         <div className="space-y-4 mb-6">
           <div className="flex items-start gap-3">
+            <span className="flex-shrink-0 text-xl leading-none mt-0.5">⚡</span>
+            <div>
+              <p className="text-sm font-medium text-zinc-200">
+                Auto-scales for Your Lens
+              </p>
+              <p className="text-xs text-zinc-400">
+                Parameters automatically scale for your specific lens focal length
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
             <span className="flex-shrink-0 text-xl leading-none mt-0.5">🎯</span>
             <div>
               <p className="text-sm font-medium text-zinc-200">
                 Get Speed Recommendations
               </p>
               <p className="text-xs text-zinc-400">
-                Enter your material + thickness, get how fast to cut
+                Enter material + thickness, verified against Etsy expert data
               </p>
             </div>
           </div>
@@ -52,7 +64,19 @@ export default function OnboardingOverlay() {
                 Import Your LightBurn Library
               </p>
               <p className="text-xs text-zinc-400">
-                Drag in a .clb file, all your settings are instantly searchable
+                Drag in a .clb file for cutting or engraving parameters
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <span className="flex-shrink-0 text-xl leading-none mt-0.5">🎨</span>
+            <div>
+              <p className="text-sm font-medium text-zinc-200">
+                Fiber Engraving Support
+              </p>
+              <p className="text-xs text-zinc-400">
+                Log and get recommendations for jewelry engraving workflows
               </p>
             </div>
           </div>
@@ -64,7 +88,7 @@ export default function OnboardingOverlay() {
                 Per-Machine Learning
               </p>
               <p className="text-xs text-zinc-400">
-                Set up your machine and CutLog personalizes recommendations over time
+                Set up your machine, CutLog personalizes over time
               </p>
             </div>
           </div>

@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightBurnLibrary>
+    <Material name="ABS Plastic">
+        <Entry Thickness="-1.0000" Desc="Engrave (no color)" NoThickTitle="Engrave">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="ABS Plastic/Engrave/Engrave (no color)"/>
+                <minPower Value="18"/>
+                <maxPower Value="30"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="500"/>
+                <frequency Value="30000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.03"/>
+                <priority Value="0"/>
+                <tabSize Value="0.50038"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.038"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+    <Material name="Aluminum">
+        <Entry Thickness="-1.0000" Desc="Engrave (White)" NoThickTitle="Engrave">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Aluminum/Engrave/Engrave (White)"/>
+                <minPower Value="18"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="2000"/>
+                <frequency Value="45000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.03"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabSize Value="0.50038"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.038"/>
+            </CutSetting>
+        </Entry>
+        <Entry Thickness="-1.0000" Desc="Engrave (Deep)" NoThickTitle="Engrave">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Aluminum/Engrave/Engrave (Deep)"/>
+                <minPower Value="18"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="1000"/>
+                <frequency Value="30000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.04"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabSize Value="0.50038"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.038"/>
+            </CutSetting>
+        </Entry>
+        <Entry Thickness="-1.0000" Desc="Engrave (Black)" NoThickTitle="Engrave">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Aluminum/Engrave/Engrave (Black)"/>
+                <minPower Value="18"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="250"/>
+                <frequency Value="30000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.02"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.04"/>
+            </CutSetting>
+        </Entry>
+        <Entry Thickness="0.8000" Desc="Cut Through">
+            <CutSetting type="Cut">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Aluminum/0.8000/Cut Through"/>
+                <minPower Value="18"/>
+                <maxPower Value="95"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="100"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <wobbleEnable Value="1"/>
+                <numPasses Value="100"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.02"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.04"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+    <Material name="Aluminum (Annodized)">
+        <Entry Thickness="-1.0000" Desc="Dither" NoThickTitle="Picture">
+            <CutSetting type="Image">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Aluminum (Annodized)/Picture/Dither"/>
+                <minPower Value="10"/>
+                <maxPower Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="300"/>
+                <LaserOn_TC Value="0"/>
+                <LaserOff_TC Value="300"/>
+                <End_TC Value="150"/>
+                <JumpSpeed Value="4000"/>
+                <MinJumpDelay Value="20"/>
+                <MaxJumpDelay Value="200"/>
+                <runBlower Value="0"/>
+                <interval Value="0.07"/>
+                <angle Value="-90"/>
+                <priority Value="0"/>
+                <forceConstantPower Value="1"/>
+                <manualTabs Value="0"/>
+                <tabSize Value="0.2"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="100"/>
+                <tabsUseSpacing Value="0"/>
+                <cellsPerInch Value="200"/>
+                <negative Value="1"/>
+                <ditherMode Value="jarvis"/>
+                <dpi Value="362.857"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+    <Material name="Brass">
+        <Entry Thickness="-1.0000" Desc="Black" NoThickTitle="Engrave">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Brass/Engrave/Black"/>
+                <minPower Value="35"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="1500"/>
+                <frequency Value="35000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.02"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabSize Value="0.50038"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.038"/>
+            </CutSetting>
+        </Entry>
+        <Entry Thickness="-1.0000" Desc="White" NoThickTitle="Engrave">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Brass/Engrave/White"/>
+                <minPower Value="35"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="2000"/>
+                <frequency Value="50000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.03"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabSize Value="0.50038"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.038"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+    <Material name="Cardboard">
+        <Entry Thickness="0.0000" Desc="Engrave Line Deep And Dark">
+            <CutSetting type="Cut">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Cardboard/0.0000/Engrave Line Deep And Dark"/>
+                <minPower Value="60"/>
+                <maxPower Value="60"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="25"/>
+                <frequency Value="30000"/>
+                <PPI Value="0"/>
+                <runBlower Value="0"/>
+                <perfLen Value="0"/>
+                <perfSkip Value="0"/>
+                <dotSpacing Value="0"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.2"/>
+                <priority Value="0"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+            </CutSetting>
+        </Entry>
+        <Entry Thickness="-1.0000" Desc="Engrave Fill">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Cardboard/-1.0000/Engrave Fill"/>
+                <minPower Value="60"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="300"/>
+                <frequency Value="30000"/>
+                <PPI Value="0"/>
+                <runBlower Value="0"/>
+                <perfLen Value="0"/>
+                <perfSkip Value="0"/>
+                <dotSpacing Value="0"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.0847"/>
+                <priority Value="0"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+    <Material name="HDPE">
+        <Entry Thickness="-1.0000" Desc="Engrave Picture Dark" NoThickTitle="Picture">
+            <CutSetting type="Image">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="HDPE/Picture/Engrave Picture Dark"/>
+                <minPower Value="10"/>
+                <maxPower Value="100"/>
+                <maxPower2 Value="20"/>
+                <speed Value="500"/>
+                <frequency Value="60000"/>
+                <LaserOn_TC Value="0"/>
+                <LaserOff_TC Value="300"/>
+                <End_TC Value="150"/>
+                <JumpSpeed Value="4000"/>
+                <MinJumpDelay Value="20"/>
+                <MaxJumpDelay Value="200"/>
+                <runBlower Value="0"/>
+                <interval Value="0.169"/>
+                <priority Value="0"/>
+                <forceConstantPower Value="1"/>
+                <manualTabs Value="0"/>
+                <tabSize Value="0.2"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="100"/>
+                <tabsUseSpacing Value="0"/>
+                <cellsPerInch Value="200"/>
+                <ditherMode Value="jarvis"/>
+                <dpi Value="150"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+    <Material name="Leather">
+        <Entry Thickness="-1.0000" Desc="Black" NoThickTitle="Leather (Gray)">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Leather/Leather (Gray)/Black"/>
+                <minPower Value="18"/>
+                <maxPower Value="27"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="350"/>
+                <frequency Value="30000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.02"/>
+                <priority Value="0"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.04"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+    <Material name="Rotary">
+        <Entry Thickness="-1.0000" Desc="Engrave White" NoThickTitle="Aluminum Can">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Rotary/Aluminum Can/Engrave White"/>
+                <minPower Value="18"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="1000"/>
+                <frequency Value="45000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.03"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabSize Value="0.50038"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.038"/>
+            </CutSetting>
+        </Entry>
+        <Entry Thickness="-1.0000" Desc="Engrave" NoThickTitle="Yeti Powder Coat">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Rotary/Yeti Powder Coat/Engrave"/>
+                <minPower Value="18"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="1000"/>
+                <frequency Value="30000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.03"/>
+                <priority Value="0"/>
+                <tabSize Value="0.50038"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.038"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+    <Material name="Silicone">
+        <Entry Thickness="-1.0000" Desc="Engrave (very light)" NoThickTitle="Engrave">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Silicone/Engrave/Engrave (very light)"/>
+                <minPower Value="18"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="2000"/>
+                <frequency Value="45000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.03"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabSize Value="0.50038"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.038"/>
+            </CutSetting>
+        </Entry>
+        <Entry Thickness="-1.0000" Desc="Engrave ( light)" NoThickTitle="Engrave">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Silicone/Engrave/Engrave ( light)"/>
+                <minPower Value="18"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="1500"/>
+                <frequency Value="45000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.03"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabSize Value="0.50038"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.038"/>
+            </CutSetting>
+        </Entry>
+        <Entry Thickness="-1.0000" Desc="Engrave (medium)" NoThickTitle="Engrave">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Silicone/Engrave/Engrave (medium)"/>
+                <minPower Value="18"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="1000"/>
+                <frequency Value="45000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.03"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabSize Value="0.50038"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.038"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+    <Material name="Silver">
+        <Entry Thickness="-1.0000" Desc="Engrave Black" NoThickTitle="Engrave Silver">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Silver/Engrave Silver/Engrave Black"/>
+                <minPower Value="18"/>
+                <maxPower Value="60"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="100"/>
+                <frequency Value="30000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.02"/>
+                <priority Value="0"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.04"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+    <Material name="Steel">
+        <Entry Thickness="-1.0000" Desc="Steel Deep Engraving" NoThickTitle="Deep Engraving">
+            <CutSetting type="Scan">
+                <index Value="0"/>
+                <name Value=""/>
+                <LinkPath Value="Steel/Deep Engraving/Steel Deep Engraving"/>
+                <minPower Value="35"/>
+                <maxPower Value="100"/>
+                <minPower2 Value="10"/>
+                <maxPower2 Value="20"/>
+                <speed Value="1500"/>
+                <frequency Value="35000"/>
+                <PPI Value="0"/>
+                <JumpSpeed Value="4000"/>
+                <perfLen Value="0.01"/>
+                <perfSkip Value="0.01"/>
+                <dotTime Value="1"/>
+                <scanOpt Value="individual"/>
+                <overscanPercent Value="5"/>
+                <interval Value="0.02"/>
+                <angle Value="90"/>
+                <priority Value="0"/>
+                <tabCount Value="1"/>
+                <tabCountMax Value="1"/>
+                <tabSpacing Value="50.04"/>
+            </CutSetting>
+        </Entry>
+    </Material>
+</LightBurnLibrary>

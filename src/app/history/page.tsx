@@ -104,12 +104,14 @@ export default function History() {
       ) : cuts.length === 0 ? (
         <div className="border border-zinc-800 bg-zinc-900/50 rounded-xl p-6 text-center">
           <p className="text-zinc-400 text-lg mb-3">No cuts logged yet.</p>
-          <p className="text-sm text-zinc-500 mb-4">You can:</p>
+          <p className="text-sm text-zinc-500 mb-1">Once you log cuts, CutLog learns your machine's characteristics and auto-scales parameters for your lens.</p>
+          <p className="text-xs text-zinc-600 mb-4">Get started:</p>
           <div className="space-y-3 text-sm">
             <p>
               <Link href="/import" className="text-sky-400 hover:text-sky-300">
-                Import your existing LightBurn library &rarr;
+                Import your LightBurn library &rarr;
               </Link>
+              <span className="block text-xs text-zinc-600">(cutting & engraving)</span>
             </p>
             <p>
               <Link href="/log" className="text-sky-400 hover:text-sky-300">

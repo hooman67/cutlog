@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LightBurnLibrary DisplayName="PMag">
+  <Material name="PMag">
+    <Entry Thickness="-1.0000" Desc="Brown - Dark" NoThickTitle="Black PMag">
+      <CutSetting type="Scan">
+        <index Value="0" />
+        <name Value="" />
+        <LinkPath Value="PMag/Black PMag/Brown - Dark" />
+        <maxPower Value="50" />
+        <minPower2 Value="10" />
+        <maxPower2 Value="20" />
+        <speed Value="2000" />
+        <frequency Value="50000" />
+        <PPI Value="0" />
+        <JumpSpeed Value="4000" />
+        <perfLen Value="0.01" />
+        <perfSkip Value="0.01" />
+        <dotTime Value="1" />
+        <crossHatch Value="1" />
+        <overscan Value="0" />
+        <floodFill Value="1" />
+        <angle Value="45" />
+        <priority Value="0" />
+        <tabCount Value="1" />
+        <tabCountMax Value="1" />
+      </CutSetting>
+    </Entry>
+    <Entry Thickness="-1.0000" Desc="Brown - Medium" NoThickTitle="Black PMag">
+      <CutSetting type="Scan">
+        <index Value="0" />
+        <name Value="" />
+        <LinkPath Value="PMag/Black PMag/Brown - Medium" />
+        <maxPower Value="55" />
+        <minPower2 Value="10" />
+        <maxPower2 Value="20" />
+        <speed Value="3800" />
+        <frequency Value="50000" />
+        <PPI Value="0" />
+        <JumpSpeed Value="4000" />
+        <perfLen Value="0.01" />
+        <perfSkip Value="0.01" />
+        <dotTime Value="1" />
+        <crossHatch Value="1" />
+        <overscan Value="0" />
+        <floodFill Value="1" />
+        <angle Value="45" />
+        <priority Value="0" />
+        <tabCount Value="1" />
+        <tabCountMax Value="1" />
+      </CutSetting>
+    </Entry>
+    <Entry Thickness="-1.0000" Desc="Gray - Dark" NoThickTitle="Black PMag">
+      <CutSetting type="Scan">
+        <index Value="0" />
+        <name Value="" />
+        <LinkPath Value="PMag/Black PMag/Gray - Dark" />
+        <minPower Value="9" />
+        <maxPower Value="9" />
+        <minPower2 Value="10" />
+        <maxPower2 Value="20" />
+        <speed Value="6000" />
+        <frequency Value="50000" />
+        <PPI Value="0" />
+        <JumpSpeed Value="4000" />
+        <perfLen Value="0.01" />
+        <perfSkip Value="0.01" />
+        <dotTime Value="1" />
+        <crossHatch Value="1" />
+        <overscan Value="0" />
+        <floodFill Value="1" />
+        <interval Value="0.08" />
+        <angle Value="45" />
+        <priority Value="0" />
+        <tabCount Value="1" />
+        <tabCountMax Value="1" />
+      </CutSetting>
+    </Entry>
+    <Entry Thickness="-1.0000" Desc="Gray - Light" NoThickTitle="Black PMag">
+      <CutSetting type="Scan">
+        <index Value="0" />
+        <name Value="" />
+        <LinkPath Value="PMag/Black PMag/Gray - Light" />
+        <minPower Value="16" />
+        <maxPower Value="16" />
+        <minPower2 Value="10" />
+        <maxPower2 Value="20" />
+        <speed Value="6000" />
+        <frequency Value="50000" />
+        <PPI Value="0" />
+        <JumpSpeed Value="4000" />
+        <perfLen Value="0.01" />
+        <perfSkip Value="0.01" />
+        <dotTime Value="1" />
+        <crossHatch Value="1" />
+        <overscan Value="0" />
+        <floodFill Value="1" />
+        <interval Value="0.08" />
+        <angle Value="45" />
+        <priority Value="0" />
+        <tabCount Value="1" />
+        <tabCountMax Value="1" />
+      </CutSetting>
+    </Entry>
+    <Entry Thickness="-1.0000" Desc="Tan - Dark" NoThickTitle="Black PMag">
+      <CutSetting type="Scan">
+        <index Value="0" />
+        <name Value="" />
+        <LinkPath Value="PMag/Black PMag/Tan - Dark" />
+        <maxPower Value="35" />
+        <minPower2 Value="10" />
+        <maxPower2 Value="20" />
+        <speed Value="3800" />
+        <frequency Value="50000" />
+        <PPI Value="0" />
+        <JumpSpeed Value="4000" />
+        <perfLen Value="0.01" />
+        <perfSkip Value="0.01" />
+        <dotTime Value="1" />
+        <crossHatch Value="1" />
+        <overscan Value="0" />
+        <floodFill Value="1" />
+        <interval Value="0.075" />
+        <angle Value="45" />
+        <priority Value="0" />
+        <tabCount Value="1" />
+        <tabCountMax Value="1" />
+      </CutSetting>
+    </Entry>
+    <Entry Thickness="-1.0000" Desc="Tan - Light" NoThickTitle="Black PMag">
+      <CutSetting type="Scan">
+        <index Value="0" />
+        <name Value="" />
+        <LinkPath Value="PMag/Black PMag/Tan - Light" />
+        <minPower Value="17" />
+        <maxPower Value="17" />
+        <minPower2 Value="10" />
+        <maxPower2 Value="20" />
+        <speed Value="5000" />
+        <frequency Value="50000" />
+        <PPI Value="0" />
+        <JumpSpeed Value="4000" />
+        <numPasses Value="6" />
+        <anglePerPass Value="120" />
+        <perfLen Value="0.01" />
+        <perfSkip Value="0.01" />
+        <dotTime Value="1" />
+        <overscan Value="0" />
+        <floodFill Value="1" />
+        <interval Value="0.05" />
+        <angle Value="45" />
+        <autoRotate Value="1" />
+        <priority Value="0" />
+        <tabCount Value="1" />
+        <tabCountMax Value="1" />
+      </CutSetting>
+    </Entry>
+    <Entry Thickness="-1.0000" Desc="Tan - Medium" NoThickTitle="Black PMag">
+      <CutSetting type="Scan">
+        <index Value="0" />
+        <name Value="" />
+        <LinkPath Value="PMag/Black PMag/Tan - Medium" />
+        <maxPower Value="25" />
+        <minPower2 Value="10" />
+        <maxPower2 Value="20" />
+        <speed Value="3800" />
+        <frequency Value="50000" />
+        <PPI Value="0" />
+        <JumpSpeed Value="4000" />
+        <perfLen Value="0.01" />
+        <perfSkip Value="0.01" />
+        <dotTime Value="1" />
+        <crossHatch Value="1" />
+        <overscan Value="0" />
+        <floodFill Value="1" />
+        <interval Value="0.075" />
+        <angle Value="45" />
+        <priority Value="0" />
+        <tabCount Value="1" />
+        <tabCountMax Value="1" />
+      </CutSetting>
+    </Entry>
+    <Entry Thickness="-1.0000" Desc="Dark" NoThickTitle="Tan PMag">
+      <CutSetting type="Scan">
+        <index Value="0" />
+        <name Value="" />
+        <LinkPath Value="PMag/Tan PMag/Dark" />
+        <maxPower Value="35" />
+        <minPower2 Value="10" />
+        <maxPower2 Value="20" />
+        <speed Value="3800" />
+        <frequency Value="50000" />
+        <PPI Value="0" />
+        <JumpSpeed Value="4000" />
+        <perfLen Value="0.01" />
+        <perfSkip Value="0.01" />
+        <dotTime Value="1" />
+        <crossHatch Value="1" />
+        <overscan Value="0" />
+        <floodFill Value="1" />
+        <angle Value="45" />
+        <priority Value="0" />
+        <tabCount Value="1" />
+        <tabCountMax Value="1" />
+      </CutSetting>
+    </Entry>
+    <Entry Thickness="-1.0000" Desc="Light" NoThickTitle="Tan PMag">
+      <CutSetting type="Scan">
+        <index Value="0" />
+        <name Value="" />
+        <LinkPath Value="PMag/Tan PMag/Light" />
+        <maxPower Value="65" />
+        <minPower2 Value="10" />
+        <maxPower2 Value="20" />
+        <speed Value="2000" />
+        <frequency Value="50000" />
+        <PPI Value="0" />
+        <JumpSpeed Value="4000" />
+        <perfLen Value="0.01" />
+        <perfSkip Value="0.01" />
+        <dotTime Value="1" />
+        <crossHatch Value="1" />
+        <overscan Value="0" />
+        <floodFill Value="1" />
+        <angle Value="45" />
+        <priority Value="0" />
+        <tabCount Value="1" />
+        <tabCountMax Value="1" />
+      </CutSetting>
+    </Entry>
+    <Entry Thickness="-1.0000" Desc="Medium" NoThickTitle="Tan PMag">
+      <CutSetting type="Scan">
+        <index Value="0" />
+        <name Value="" />
+        <LinkPath Value="PMag/Tan PMag/Medium" />
+        <maxPower Value="35" />
+        <minPower2 Value="10" />
+        <maxPower2 Value="20" />
+        <speed Value="3800" />
+        <frequency Value="50000" />
+        <PPI Value="0" />
+        <JumpSpeed Value="4000" />
+        <numPasses Value="2" />
+        <perfLen Value="0.01" />
+        <perfSkip Value="0.01" />
+        <dotTime Value="1" />
+        <crossHatch Value="1" />
+        <overscan Value="0" />
+        <floodFill Value="1" />
+        <angle Value="45" />
+        <priority Value="0" />
+        <tabCount Value="1" />
+        <tabCountMax Value="1" />
+      </CutSetting>
+    </Entry>
+  </Material>
+</LightBurnLibrary>

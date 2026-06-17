@@ -63,7 +63,7 @@
 | Manual user logs | 2 | ✅ In DB |
 | OMG Laser (omglaser.com) | 177 | ✅ In DB (scraped 2026-06-15) |
 | **Total in DB** | **901** | |
-| Etsy .CLB files | 0 | 🔲 Need to buy ($32-50) |
+| Etsy .CLB files (3 products) | 3,839 settings | ✅ Purchased & analyzed (2026-06-17). LaserSecrets=188, BenMyers=19, HolsterGeek=10, + Nate Keen=82. See `etsy_files_analysis.md`. **Validation: 500 matched to our DB (13%), 87% overall accuracy**. See `speed_validation_report.md` |
 | OEM manuals | 0 | 🔲 Planned |
 
 ---
@@ -267,8 +267,9 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 ### Immediate (This Week)
 1. ~~**Send the app link**~~ — ✅ DONE (2026-06-15). Sent Option A (direct link) to Mike, Nate, Sean. Awaiting replies.
 2. ~~**Send Round 2 DMs**~~ — ✅ 4/6 sent. **Remaining: Klaus + Lobo** (DMs drafted, pending Facebook rate limit)
-3. **Buy LaserSecrets on Etsy** ($32) — understand market format expectations
+3. ~~**Buy LaserSecrets on Etsy**~~ — ✅ DONE (2026-06-17). Bought 3 products, analyzed all. Key insight: lens files use power scaling math, not independent testing. See `etsy_files_analysis.md`
 4. ~~**Scrape OMG Laser**~~ — ✅ DONE (177 entries added to DB, total now 901)
+5. ~~**Validate speeds vs Etsy expert data**~~ — ✅ DONE (2026-06-17). Analyzed 3,839 Etsy settings against 64 DB entries. **Results: 87% accuracy, 60% match within 5%.** Outliers identified (cut operations are 6x slower in Etsy data). See `speed_validation_report.md`
 
 ### Short-Term (Next 2 Weeks)
 5. ~~**Build LightBurn .clb import/export**~~ — ✅ DONE (/import page, /api/import-clb, /api/export-clb, export button on /history)

@@ -353,12 +353,14 @@ I sent above DM.
 
 ## Klaus Wojczykowski
 
- Hey Klaus — using old LightBurn files as templates is exactly what I do too. The problem is I now have like 40 files named things like "stainless_test_FINAL_v2_actually_final.lbrn" and half the time I open the wrong one 😂 Do you have a better system or is your file naming game just stronger than mine?
+ Hey Klaus — using old LightBurn files as templates is exactly what I do too. The problem is I now have like 40 files named things like "stainless_test_FINAL_v2_actually_final.lbrn" and half the time I open the wrong one 😂
+>
+> Got fed up enough that I built a thing to fix it: https://cutlog-two.vercel.app — you can import your .clb library and all your settings become searchable by material/thickness. Also suggests speeds for stuff you haven't tried yet. Curious if it's useful or if your system already works fine.
 
 **Follow-up angle if he replies:** Ask how many material/thickness combos he's accumulated, and whether he's ever wished LightBurn had a better way to search/organize the material library across projects.
 
 ### Hooman:
-I reached my message request limit. Need to reply to this guy tomorrow. 
+I sent above to Klase 06/17/2026
 ---
 
 ## Lobo Lightbringer
@@ -367,12 +369,16 @@ I reached my message request limit. Need to reply to this guy tomorrow.
 
 **Why DM:** Technical depth, validates speed-first insight, systematic thinker about parameter relationships
 
-> Hey Lobo — your comment about speed being consistent across brands for the same wattage really stood out. That matches what I've been finding too. Quick question: when you say focus distance is the first thing to nail, do you find that stays pretty constant once you've set it for your machine, or do you adjust it per material/thickness? I'm building a tool that gives operators a speed recommendation based on material + thickness + machine wattage — basically saves the trial and error. Would love to hear if that matches how you think about dialing in a new material.
+Hey Lobo — your comment about speed being consistent across brands for the same wattage was one of those "wait, someone else noticed this too?" moments for me 😂
+
+I'm a software guy who just got into lasers and couldn't stop nerding out about the patterns — ended up building a tool around it: https://cutlog-two.vercel.app — type in material + thickness, it tells you how fast to go. You can also dump your .clb library in there if you've got one.
+
+Honestly curious if the speed suggestions are anywhere close for your setup or if my data is lying to me.
 
 **Follow-up angle if he replies:** Ask about his process for tweaking gas pressure and frequency after speed is set — whether he has a repeatable sequence or it varies per material.
 
 ### Hooman:
-NOT YET SENT
+Sent above DM. 
 
 ---
 

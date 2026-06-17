@@ -11,6 +11,11 @@ const FEEDBACK_GIVEN_KEY = "cutlog-feedback-given";
 const NUDGE_IMPORT_SHOWN_KEY = "cutlog-nudge-import-shown";
 const NUDGE_FEEDBACK_SHOWN_KEY = "cutlog-nudge-feedback-shown";
 const CUTS_LOGGED_KEY = "cutlog-cuts-logged";
+const MACHINE_SETUP_KEY = "cutlog-machine-setup";
+const NUDGE_SCALING_SHOWN_KEY = "cutlog-nudge-scaling-shown";
+const NUDGE_CONSERVATIVE_SHOWN_KEY = "cutlog-nudge-conservative-shown";
+const NUDGE_ENGRAVING_SHOWN_KEY = "cutlog-nudge-engraving-shown";
+const SEARCH_WITH_NO_RESULTS_KEY = "cutlog-search-no-results";
 
 interface NudgeConfig {
   id: string;
@@ -39,6 +44,10 @@ export default function SmartNudges() {
     if (pathname === "/suggest") {
       const current = parseInt(localStorage.getItem(SUGGEST_VISITS_KEY) || "0", 10);
       localStorage.setItem(SUGGEST_VISITS_KEY, String(current + 1));
+    }
+    // Track if user searched and got no results
+    if (pathname === "/suggest") {
+      // We'll track this via data attribute on the page when search fails
     }
   }, [pathname]);
 
@@ -138,6 +147,50 @@ function evaluateNudges(): NudgeConfig | null {
     return {
       id: "feedback-nudge",
       message: "Tip: Use the Too Slow / Perfect / Too Fast buttons after trying a recommendation — it helps improve future suggestions.",
+    };
+  }
+
+  // Nudge C: User has set up their machine profile
+  const machineSetup = localStorage.getItem(MACHINE_SETUP_KEY) === "true";
+  const nudgeScalingShown = localStorage.getItem(NUDGE_SCALING_SHOWN_KEY) === "true";
+
+  if (machineSetup && !nudgeScalingShown) {
+    localStorage.setItem(NUDGE_SCALING_SHOWN_KEY, "true");
+    return {
+      id: "scaling-nudge",
+      message: "We've auto-configured scaling for your lens. Update your machine profile if your lens changes.",
+      linkText: "Machine Profile",
+      linkHref: "/machine",
+    };
+  }
+
+  // Nudge D: User searched but found no exact match
+  const searchNoResults = localStorage.getItem(SEARCH_WITH_NO_RESULTS_KEY) === "true";
+  const nudgeConservativeShown = localStorage.getItem(NUDGE_CONSERVATIVE_SHOWN_KEY) === "true";
+
+  if (searchNoResults && !nudgeConservativeShown) {
+    localStorage.setItem(NUDGE_CONSERVATIVE_SHOWN_KEY, "true");
+    localStorage.removeItem(SEARCH_WITH_NO_RESULTS_KEY); // Clear after showing once
+    return {
+      id: "conservative-nudge",
+      message: "All recommendations auto-scale for your lens. If speeds seem off, try the Conservative Quality profile.",
+      linkText: "Learn More",
+      linkHref: "/suggest",
+    };
+  }
+
+  // Nudge E: For Galvo laser users (check if user has indicated engraving capability)
+  const userPrefsRaw = localStorage.getItem("cutlog_user_prefs");
+  const userHasGalvo = userPrefsRaw && JSON.parse(userPrefsRaw).hasGalvo === true;
+  const nudgeEngravingShown = localStorage.getItem(NUDGE_ENGRAVING_SHOWN_KEY) === "true";
+
+  if (userHasGalvo && !nudgeEngravingShown) {
+    localStorage.setItem(NUDGE_ENGRAVING_SHOWN_KEY, "true");
+    return {
+      id: "engraving-nudge",
+      message: "You can now log engraving parameters (frequency, passes, scan angle) to get personalized recommendations.",
+      linkText: "Log Engraving",
+      linkHref: "/log",
     };
   }
 

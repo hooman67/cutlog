@@ -10,6 +10,10 @@ interface ParsedEntry {
   cut_type: string;
   num_passes: number | null;
   min_power_pct: number | null;
+  frequency_hz: number | null;
+  operation_type: string | null;
+  cross_hatch: boolean | null;
+  scan_angle_degrees: number | null;
 }
 
 /**
@@ -134,6 +138,24 @@ function parseClbXml(xml: string): ParsedEntry[] {
         if (cutType && cutType !== "Cut") noteParts.push(`Type: ${cutType}`);
         if (numPasses !== null && numPasses > 1) noteParts.push(`${numPasses} passes`);
 
+        // Extract engraving-specific parameters if present
+        const frequencyHz = extractValue(cutContent, "frequency");
+        const scanAngle = extractValue(cutContent, "scanAngle");
+
+        // Determine operation_type based on cutType
+        let operationType: string | null = null;
+        if (cutType) {
+          const typeMap: Record<string, string> = {
+            "Engrave": "engrave",
+            "Mark": "mark",
+            "Cut": "cut",
+            "Score": "score",
+            "Fill": "fill",
+            "Outline": "outline",
+          };
+          operationType = typeMap[cutType] || null;
+        }
+
         entries.push({
           material: materialName,
           thickness_mm: thickness,
@@ -144,6 +166,10 @@ function parseClbXml(xml: string): ParsedEntry[] {
           cut_type: cutType,
           num_passes: numPasses !== null ? Math.round(numPasses) : null,
           min_power_pct: minPower,
+          frequency_hz: frequencyHz !== null ? Math.round(frequencyHz) : null,
+          operation_type: operationType,
+          cross_hatch: null, // Not typically in LightBurn XML, can be set during import review
+          scan_angle_degrees: scanAngle,
         });
       }
     }

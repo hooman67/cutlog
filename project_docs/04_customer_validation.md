@@ -464,7 +464,7 @@ You can find and download our application by searching for "BeraTech CNC" on the
 ### Short-Term (Next 2 Weeks)
 
 7. ~~**Pivot messaging**~~ — ✅ DONE (speed-first UX implemented)
-8. **Buy 1-2 Etsy parameter files** — see format, content, gaps
+8. ~~**Buy 1-2 Etsy parameter files**~~ — **DONE (2026-06-17)**. Purchased 3 products ($46 total): LaserSecrets ($32, 188 entries/48 materials), BenMyersWoodshop ($9, 19 entries), HolsterGeek ($5, 10 PMAG entries). Key finding: LaserSecrets' 20 lens files use pure power scaling math (not independent testing) — same approach as our LaserParams Converter. Full analysis in `etsy_files_analysis.md`.
 9. **Investigate Beam Squadron** partnership opportunity
 10. **Consider market segmentation**: Galvo engraving operators (Nate's world) vs CNC cutting operators (industrial). Both are valid but have different parameter needs.
 

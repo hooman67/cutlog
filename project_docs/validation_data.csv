@@ -1,0 +1,501 @@
+material,preset,our_speed,etsy_speed,pct_diff,etsy_power,etsy_thickness,etsy_source
+Aluminum,Cut,2500,433,477.37,23,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,468,434.19,23,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,487,413.35,23,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,526,375.29,23,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,28,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,25,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Slate,White,1000,222,350.45,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,557,348.83,23,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,583,328.82,31,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,602,315.28,23,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,650,284.62,23,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,656,281.10,31,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,702,256.13,23,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,285,250.88,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,750,233.33,31,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,780,220.51,23,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,408,218.63,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,321,211.53,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,842,196.91,23,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,875,185.71,31,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,459,183.22,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,886,182.17,23,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,366,173.22,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,928,169.40,23,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,957,161.23,23,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,1 Base,500,194,157.73,39,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,Base,500,194,157.73,27,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,Base,500,194,157.73,27,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,Base,500,194,157.73,27,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,1 Base,500,194,157.73,39,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,Bright,2500,972,157.20,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,Bright,2500,972,157.20,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,972,157.20,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,2 White,2500,972,157.20,31,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,975,156.41,23,0.8000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Wood,Black,35,14,150.00,27,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1002,149.50,23,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,525,147.62,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1050,138.10,31,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1053,137.42,23,1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,428,133.64,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Bright,2500,1094,128.52,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,Bright,2500,1094,128.52,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,1094,128.52,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,2 White,2500,1094,128.52,31,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,14,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,6,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,19,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,22,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,7,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,12,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,10,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,15,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,9,0.8000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,23,0.8000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,20,0.8000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1114,124.42,15,0.8000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Slate,White,1000,467,114.13,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,612,112.42,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,14,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,6,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,19,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,22,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,7,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,12,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,10,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,15,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,9,1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,23,1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,20,1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1203,107.81,15,1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Bright,2500,1250,100.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,Bright,2500,1250,100.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,1250,100.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,2 White,2500,1250,100.00,31,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,513,94.93,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,38,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,15,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,53,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,60,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,34,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,26,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,42,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,25,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,66,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,57,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Copper,Engrave,120,1000,88.00,41,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Copper,Engrave,120,875,86.29,74,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Copper,Engrave,120,833,85.59,74,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Copper,Engrave,120,795,84.91,74,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Copper,Engrave,120,700,82.86,74,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Copper,Engrave,120,583,79.42,74,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,735,76.87,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Copper,Engrave,120,500,76.00,74,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Copper,Engrave,120,438,72.60,74,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Copper,Engrave,120,389,69.15,74,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,14,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,5,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,19,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,22,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,7,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,30,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,29,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,12,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,10,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,15,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,9,0.5000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,27,0.5000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,24,0.5000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,21,0.5000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Aluminum,Cut,2500,1500,66.67,15,0.5000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,835,55.69,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Steel,Engrave,500,1080,53.70,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,875,48.57,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Steel,Engrave,500,900,44.44,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Steel,Engrave,500,859,41.79,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,919,41.46,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Electro Plating,Engrave,1000,733,36.43,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Steel,Engrave,500,756,33.86,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Titanium,Engrave,1300,1050,23.81,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Steel,Engrave,500,630,20.63,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Steel,Engrave,500,420,19.05,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,18,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,8,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Slate,White,1000,1200,16.67,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Steel,Engrave,500,540,7.41,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Steel,Engrave,500,472,5.93,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_100mm/50W_100mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_40mm/50W_40mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,41,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,28,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,28,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,28,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,28,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,21,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_450mm/50W_450mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_140mm/50W_140mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,15,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,15,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,15,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,15,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_160mm/50W_160mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,2,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_50mm/50W_50mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,20,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,20,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,20,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,20,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_220mm/50W_220mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_210mm/50W_210mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,8,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,8,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,8,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,8,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_90mm/50W_90mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_70mm/50W_70mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,32,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,32,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,32,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,22,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_350mm/50W_350mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_112mm/50W_112mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,23,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,23,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,23,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,23,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_250mm/50W_250mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,27,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,27,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,27,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,27,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,19,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_300mm/50W_300mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,6,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,3,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,4,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_65mm/50W_65mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,37,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,37,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,25,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,25,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,25,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,25,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,25,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,25,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,37,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,25,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,18,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,25,-1.0000,etsy/Raycus/New-V3.50W-Settings/Bonus Lenses/50W_400mm/50W_400mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,18,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,18,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,18,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,18,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,13,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,12,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_200mm/50W_200mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,16,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,8,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,11,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_175mm/50W_175mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,14,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,9,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_150mm/50W_150mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Bright,2500,2500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Anneal White,2500,2500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Base,500,500,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,Cleanup,750,750,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,1 Base,500,500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Gold,2 White,2500,2500,0.00,10,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+PMAG,Brown,2000,2000,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Silver,Satin Finish,750,750,0.00,5,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb
+Wood,Black,35,35,0.00,7,-1.0000,etsy/Raycus/New-V3.50W-Settings/50W_110mm/50W_110mm_LASER-SECRETS.clb

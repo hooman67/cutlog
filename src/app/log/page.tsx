@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import { EDGE_QUALITIES, GAS_TYPES } from "@/lib/types";
+import { EDGE_QUALITIES, GAS_TYPES, OPERATION_TYPES } from "@/lib/types";
 import type { Machine, Material } from "@/lib/types";
 
 export default function LogCut() {
@@ -28,6 +28,13 @@ export default function LogCut() {
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // Engraving-specific fields
+  const [frequencyHz, setFrequencyHz] = useState("");
+  const [numPasses, setNumPasses] = useState("");
+  const [operationType, setOperationType] = useState("");
+  const [crossHatch, setCrossHatch] = useState(false);
+  const [scanAngle, setScanAngle] = useState("");
 
   const router = useRouter();
   const supabase = createClient();
@@ -86,10 +93,28 @@ export default function LogCut() {
       edge_quality: edgeQuality || null,
       notes: notes || null,
       is_shared: true,
+      // Engraving-specific fields
+      frequency_hz: frequencyHz ? parseInt(frequencyHz) : null,
+      num_passes: numPasses ? parseInt(numPasses) : null,
+      operation_type: operationType || null,
+      cross_hatch: crossHatch || null,
+      scan_angle_degrees: scanAngle ? parseFloat(scanAngle) : null,
     });
 
     if (!error) {
       setSuccess(true);
+
+      // Track if user is logging engraving (frequency/passes/scan angle)
+      if ((frequencyHz || numPasses || scanAngle) && typeof window !== "undefined") {
+        const prefs = JSON.parse(localStorage.getItem("cutlog_user_prefs") || "{}");
+        prefs.hasGalvo = true;
+        localStorage.setItem("cutlog_user_prefs", JSON.stringify(prefs));
+      }
+
+      // Track cut logging count
+      const cutsLogged = parseInt(localStorage.getItem("cutlog-cuts-logged") || "0", 10);
+      localStorage.setItem("cutlog-cuts-logged", String(cutsLogged + 1));
+
       setTimeout(() => router.push("/"), 1500);
     }
     setLoading(false);
@@ -279,6 +304,77 @@ export default function LogCut() {
             />
           </div>
         </div>
+
+        {/* Engraving parameters section - only show for engraving machines */}
+        {machine?.laser_source_type?.includes('engraving') && (
+          <div className="border-t border-zinc-800 pt-4">
+            <h3 className="text-sm font-medium text-zinc-400 mb-3">ENGRAVING (optional)</h3>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Operation Type</label>
+                <select
+                  value={operationType}
+                  onChange={(e) => setOperationType(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100"
+                >
+                  <option value="">—</option>
+                  {OPERATION_TYPES.map(op => <option key={op.value} value={op.value}>{op.label}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Frequency (Hz)</label>
+                <input
+                  type="number"
+                  placeholder="e.g. 80000"
+                  value={frequencyHz}
+                  onChange={(e) => setFrequencyHz(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Number of Passes</label>
+                <input
+                  type="number"
+                  step="1"
+                  min="1"
+                  placeholder="1"
+                  value={numPasses}
+                  onChange={(e) => setNumPasses(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Scan Angle (degrees)</label>
+                <input
+                  type="number"
+                  step="1"
+                  placeholder="0"
+                  min="-90"
+                  max="90"
+                  value={scanAngle}
+                  onChange={(e) => setScanAngle(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                />
+              </div>
+            </div>
+
+            <div className="mt-3">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={crossHatch}
+                  onChange={(e) => setCrossHatch(e.target.checked)}
+                  className="w-4 h-4 rounded bg-zinc-900 border border-zinc-700 checked:bg-emerald-600 checked:border-emerald-600"
+                />
+                <span className="text-xs text-zinc-500">Cross-hatch fill used</span>
+              </label>
+            </div>
+          </div>
+        )}
 
         {/* Result section */}
         <div className="border-t border-zinc-800 pt-4">

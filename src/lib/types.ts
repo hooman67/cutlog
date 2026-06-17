@@ -5,11 +5,14 @@ export interface Machine {
   model: string | null
   wattage_w: number | null
   source_type: 'fiber' | 'co2' | 'diode'
+  lens_focal_length_mm: number | null
   resonator_hours: number | null
   gas_types: string[]
   controller: string | null
   location_country: string | null
   nickname: string | null
+  laser_source_type: 'fiber_cutting' | 'fiber_engraving' | 'co2_cutting' | 'diode_engraving' | 'uv_marking' | null
+  speed_profile: 'fast' | 'conservative' | 'auto'
   created_at: string
   updated_at: string
 }
@@ -36,6 +39,15 @@ export interface Cut {
   is_shared: boolean
   source: 'user_logged' | 'ai_baseline' | 'scraped_public'
   created_at: string
+  // Engraving-specific parameters
+  frequency_hz: number | null
+  num_passes: number | null
+  operation_type: 'engrave' | 'mark' | 'cut' | 'score' | 'fill' | 'outline' | null
+  cross_hatch: boolean | null
+  scan_angle_degrees: number | null
+  // Optional fields for parameter scaling
+  recorded_wattage_w?: number | null
+  recorded_lens_focal_length_mm?: number | null
 }
 
 export interface Material {
@@ -70,3 +82,33 @@ export const EDGE_QUALITIES = [
 ] as const
 
 export const GAS_TYPES = ['N2', 'O2', 'Air', 'Ar', 'He'] as const
+
+export const OPERATION_TYPES = [
+  { value: 'cut', label: 'Cut' },
+  { value: 'engrave', label: 'Engrave' },
+  { value: 'mark', label: 'Mark' },
+  { value: 'score', label: 'Score' },
+  { value: 'fill', label: 'Fill' },
+  { value: 'outline', label: 'Outline' },
+] as const
+
+export const LASER_SOURCE_TYPES = [
+  { value: 'fiber_cutting', label: 'Fiber - Cutting' },
+  { value: 'fiber_engraving', label: 'Fiber - Engraving' },
+  { value: 'co2_cutting', label: 'CO2 - Cutting' },
+  { value: 'co2_engraving', label: 'CO2 - Engraving' },
+  { value: 'diode_engraving', label: 'Diode - Engraving' },
+  { value: 'uv_marking', label: 'UV - Marking' },
+] as const
+
+export const SPEED_PROFILES = [
+  { value: 'fast', label: 'Fast Production', icon: '⚡', description: 'Optimized for maximum throughput' },
+  { value: 'conservative', label: 'Conservative Quality', icon: '🎯', description: 'Prioritizes edge quality and durability' },
+  { value: 'auto', label: 'Auto', icon: 'ℹ️', description: 'Fast for cutting, Conservative for engraving' },
+] as const
+
+export const SPEED_PROFILE_MULTIPLIERS = {
+  fast: 1.0,
+  conservative: 0.5,
+  auto: undefined,
+} as const
