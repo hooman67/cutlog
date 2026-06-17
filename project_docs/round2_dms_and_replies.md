@@ -353,9 +353,9 @@ I sent above DM.
 
 ## Klaus Wojczykowski
 
- Hey Klaus — your approach of using old Lightburn files as templates for similar jobs is smart. Quick question: do you ever run into a situation where you KNOW you cut something similar before but can't find or remember which file had the right settings? That's the thing I keep hearing from people and I'm curious how common it actually is.
+ Hey Klaus — using old LightBurn files as templates is exactly what I do too. The problem is I now have like 40 files named things like "stainless_test_FINAL_v2_actually_final.lbrn" and half the time I open the wrong one 😂 Do you have a better system or is your file naming game just stronger than mine?
 
-**Follow-up angle if he replies:** Ask how many material/thickness combos he's accumulated settings for, whether it's manageable or getting unwieldy.>
+**Follow-up angle if he replies:** Ask how many material/thickness combos he's accumulated, and whether he's ever wished LightBurn had a better way to search/organize the material library across projects.
 
 ### Hooman:
 I reached my message request limit. Need to reply to this guy tomorrow. 
