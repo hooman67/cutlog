@@ -14,6 +14,11 @@ interface FontOption {
   googleName?: string; // for Google Fonts URL
 }
 
+interface Position {
+  x: number; // percentage 0-100
+  y: number; // percentage 0-100
+}
+
 // --- Constants ---
 const PRESET_FONTS: FontOption[] = [
   { name: "Great Vibes", family: "'Great Vibes', cursive", category: "Script", googleName: "Great+Vibes" },
@@ -33,11 +38,18 @@ const TEXT_COLORS: { label: string; value: TextColor; hex: string }[] = [
 ];
 
 const PRODUCTS: { label: string; value: ProductType; icon: string }[] = [
-  { label: "Tumbler", value: "tumbler", icon: "🥤" },
-  { label: "Dog Tag", value: "dogtag", icon: "🏷️" },
-  { label: "Knife", value: "knife", icon: "🔪" },
+  { label: "Tumbler", value: "tumbler", icon: "\u{1F964}" },
+  { label: "Dog Tag", value: "dogtag", icon: "\u{1F3F7}️" },
+  { label: "Knife", value: "knife", icon: "\u{1F52A}" },
   { label: "Rectangle", value: "rectangle", icon: "▬" },
 ];
+
+// Preset positions for quick buttons
+const PRESET_POSITIONS: Record<TextPosition, Position> = {
+  top: { x: 50, y: 20 },
+  center: { x: 50, y: 50 },
+  bottom: { x: 50, y: 80 },
+};
 
 // --- Product SVG Components ---
 function TumblerSVG() {
@@ -148,10 +160,18 @@ export default function FontPreviewPage() {
   const [downloading, setDownloading] = useState(false);
   const [customImage, setCustomImage] = useState<string | null>(null);
 
+  // New state for drag-to-position and rotation
+  const [customPosition, setCustomPosition] = useState<Position>({ x: 50, y: 50 });
+  const [rotation, setRotation] = useState(0); // degrees
+  const [isDragging, setIsDragging] = useState(false);
+  const [isHoveringText, setIsHoveringText] = useState(false);
+
   const previewRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const textOverlayRef = useRef<HTMLDivElement>(null);
+  const dragStartRef = useRef<{ startX: number; startY: number; posX: number; posY: number } | null>(null);
 
   // Load Google Fonts
   useEffect(() => {
@@ -165,6 +185,71 @@ export default function FontPreviewPage() {
       document.head.removeChild(link);
     };
   }, []);
+
+  // Handle preset position button click
+  const handlePresetPosition = useCallback((pos: TextPosition) => {
+    setTextPosition(pos);
+    setCustomPosition(PRESET_POSITIONS[pos]);
+  }, []);
+
+  // --- Drag Logic ---
+  const getPointerPosition = useCallback((e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent): { clientX: number; clientY: number } => {
+    if ("touches" in e) {
+      const touch = e.touches[0] || (e as TouchEvent).changedTouches[0];
+      return { clientX: touch.clientX, clientY: touch.clientY };
+    }
+    return { clientX: (e as MouseEvent).clientX, clientY: (e as MouseEvent).clientY };
+  }, []);
+
+  const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const { clientX, clientY } = getPointerPosition(e);
+    dragStartRef.current = {
+      startX: clientX,
+      startY: clientY,
+      posX: customPosition.x,
+      posY: customPosition.y,
+    };
+    setIsDragging(true);
+  }, [customPosition, getPointerPosition]);
+
+  const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
+    if (!isDragging || !dragStartRef.current || !previewRef.current) return;
+    e.preventDefault();
+
+    const { clientX, clientY } = getPointerPosition(e);
+    const rect = previewRef.current.getBoundingClientRect();
+
+    const deltaXPercent = ((clientX - dragStartRef.current.startX) / rect.width) * 100;
+    const deltaYPercent = ((clientY - dragStartRef.current.startY) / rect.height) * 100;
+
+    const newX = Math.max(5, Math.min(95, dragStartRef.current.posX + deltaXPercent));
+    const newY = Math.max(5, Math.min(95, dragStartRef.current.posY + deltaYPercent));
+
+    setCustomPosition({ x: newX, y: newY });
+  }, [isDragging, getPointerPosition]);
+
+  const handleDragEnd = useCallback(() => {
+    setIsDragging(false);
+    dragStartRef.current = null;
+  }, []);
+
+  // Attach global mouse/touch move and up listeners when dragging
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener("mousemove", handleDragMove, { passive: false });
+      window.addEventListener("mouseup", handleDragEnd);
+      window.addEventListener("touchmove", handleDragMove, { passive: false });
+      window.addEventListener("touchend", handleDragEnd);
+      return () => {
+        window.removeEventListener("mousemove", handleDragMove);
+        window.removeEventListener("mouseup", handleDragEnd);
+        window.removeEventListener("touchmove", handleDragMove);
+        window.removeEventListener("touchend", handleDragEnd);
+      };
+    }
+  }, [isDragging, handleDragMove, handleDragEnd]);
 
   // Handle custom font upload
   const handleFontUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -237,27 +322,33 @@ export default function FontPreviewPage() {
       // Draw product shape
       drawProductShape(ctx, product, width, height);
 
-      // Draw text
+      // Draw text with custom position and rotation
       const colorHex = TEXT_COLORS.find((c) => c.value === textColor)?.hex || "#ffffff";
       ctx.fillStyle = colorHex;
       ctx.font = `${fontSize * 2}px ${selectedFont.family.replace(/'/g, "")}`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
-      let textY = height / 2;
-      if (textPosition === "top") textY = height * 0.3;
-      if (textPosition === "bottom") textY = height * 0.7;
+      // Use custom position (percentage to pixels)
+      const textX = (customPosition.x / 100) * width;
+      const textY = (customPosition.y / 100) * height;
 
       if (curvedText && product === "tumbler") {
-        drawCurvedText(ctx, text, width / 2, textY, width * 0.35, fontSize * 2);
+        drawCurvedText(ctx, text, textX, textY, width * 0.35, fontSize * 2);
       } else {
+        // Apply rotation
+        ctx.save();
+        ctx.translate(textX, textY);
+        ctx.rotate((rotation * Math.PI) / 180);
+
         // Handle multi-line
         const lines = text.split("\n");
         const lineHeight = fontSize * 2.4;
-        const startY = textY - ((lines.length - 1) * lineHeight) / 2;
+        const startY = -((lines.length - 1) * lineHeight) / 2;
         lines.forEach((line, i) => {
-          ctx.fillText(line, width / 2, startY + i * lineHeight);
+          ctx.fillText(line, 0, startY + i * lineHeight);
         });
+        ctx.restore();
       }
 
       // Trigger download
@@ -271,7 +362,7 @@ export default function FontPreviewPage() {
     } finally {
       setDownloading(false);
     }
-  }, [text, selectedFont, fontSize, textColor, product, textPosition, curvedText]);
+  }, [text, selectedFont, fontSize, textColor, product, customPosition, rotation, curvedText]);
 
   // Draw product shape on canvas
   function drawProductShape(ctx: CanvasRenderingContext2D, prod: ProductType, w: number, h: number) {
@@ -395,12 +486,13 @@ export default function FontPreviewPage() {
     ctx.restore();
   }
 
-  // Get text position style
+  // Get text position style - now uses custom position
   const getTextPositionStyle = (): React.CSSProperties => {
     const base: React.CSSProperties = {
       position: "absolute",
-      left: "50%",
-      transform: "translateX(-50%)",
+      left: `${customPosition.x}%`,
+      top: `${customPosition.y}%`,
+      transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
       width: "80%",
       textAlign: "center",
       fontFamily: selectedFont.family.replace(/'/g, ""),
@@ -408,17 +500,14 @@ export default function FontPreviewPage() {
       color: TEXT_COLORS.find((c) => c.value === textColor)?.hex || "#fff",
       lineHeight: "1.3",
       wordBreak: "break-word",
-      pointerEvents: "none",
+      pointerEvents: "auto",
+      cursor: isDragging ? "grabbing" : "grab",
+      userSelect: "none",
+      WebkitUserSelect: "none",
+      touchAction: "none",
     };
 
-    switch (textPosition) {
-      case "top":
-        return { ...base, top: "20%" };
-      case "bottom":
-        return { ...base, bottom: "20%" };
-      default:
-        return { ...base, top: "50%", transform: "translate(-50%, -50%)" };
-    }
+    return base;
   };
 
   // Curved text CSS (simple approximation for preview)
@@ -608,15 +697,15 @@ export default function FontPreviewPage() {
 
               <div>
                 <label className="block text-sm font-medium text-zinc-300 mb-2">
-                  Text Position
+                  Quick Position
                 </label>
                 <div className="flex gap-2">
                   {(["top", "center", "bottom"] as TextPosition[]).map((pos) => (
                     <button
                       key={pos}
-                      onClick={() => setTextPosition(pos)}
+                      onClick={() => handlePresetPosition(pos)}
                       className={`flex-1 p-2 rounded-lg border text-xs font-medium capitalize transition-colors ${
-                        textPosition === pos
+                        textPosition === pos && customPosition.x === PRESET_POSITIONS[pos].x && customPosition.y === PRESET_POSITIONS[pos].y
                           ? "border-emerald-600 bg-emerald-900/20"
                           : "border-zinc-700 bg-zinc-800 hover:border-zinc-600"
                       }`}
@@ -624,6 +713,35 @@ export default function FontPreviewPage() {
                       {pos}
                     </button>
                   ))}
+                </div>
+                <p className="mt-2 text-xs text-zinc-500">
+                  Drag the text on the preview to fine-tune position
+                </p>
+              </div>
+
+              {/* Rotation Control */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-300 mb-2">
+                  Rotation: {rotation}°
+                </label>
+                <input
+                  type="range"
+                  min="-180"
+                  max="180"
+                  step="1"
+                  value={rotation}
+                  onChange={(e) => setRotation(Number(e.target.value))}
+                  className="w-full accent-emerald-600"
+                />
+                <div className="flex justify-between mt-1">
+                  <span className="text-xs text-zinc-500">-180°</span>
+                  <button
+                    onClick={() => setRotation(0)}
+                    className="text-xs text-zinc-400 hover:text-emerald-400 transition-colors px-2 py-0.5 rounded border border-zinc-700 hover:border-emerald-600"
+                  >
+                    Reset to 0°
+                  </button>
+                  <span className="text-xs text-zinc-500">+180°</span>
                 </div>
               </div>
 
@@ -646,6 +764,11 @@ export default function FontPreviewPage() {
                   </button>
                 </div>
               )}
+              {curvedText && product === "tumbler" && rotation !== 0 && (
+                <p className="text-xs text-amber-400">
+                  Note: Rotation is applied after curve. For best results use one or the other.
+                </p>
+              )}
             </section>
           </div>
 
@@ -656,18 +779,19 @@ export default function FontPreviewPage() {
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-sm font-medium text-zinc-400">Live Preview</h2>
                   <span className="text-xs text-zinc-600">
-                    {selectedFont.name} &middot; {fontSize}px
+                    {selectedFont.name} &middot; {fontSize}px &middot; {rotation !== 0 ? `${rotation}°` : "no rotation"}
                   </span>
                 </div>
 
                 {/* Preview Area */}
                 <div
                   ref={previewRef}
-                  className="relative bg-zinc-950 rounded-lg overflow-hidden flex items-center justify-center"
+                  className="relative bg-zinc-950 rounded-lg overflow-hidden flex items-center justify-center select-none"
                   style={{
                     minHeight: product === "knife" ? "300px" : "500px",
                     aspectRatio: product === "knife" ? "2.5/1" : product === "tumbler" ? "1/2" : "3/4",
                     maxHeight: "600px",
+                    touchAction: "none",
                   }}
                 >
                   {/* Product Shape or Custom Image */}
@@ -675,10 +799,10 @@ export default function FontPreviewPage() {
                     <img
                       src={customImage}
                       alt="Custom product"
-                      className="absolute inset-0 w-full h-full object-contain"
+                      className="absolute inset-0 w-full h-full object-contain pointer-events-none"
                     />
                   ) : (
-                    <div className="absolute inset-0 flex items-center justify-center p-8">
+                    <div className="absolute inset-0 flex items-center justify-center p-8 pointer-events-none">
                       {product === "tumbler" && <TumblerSVG />}
                       {product === "dogtag" && <DogTagSVG />}
                       {product === "knife" && <KnifeSVG />}
@@ -686,13 +810,27 @@ export default function FontPreviewPage() {
                     </div>
                   )}
 
-                  {/* Text Overlay */}
-                  <div style={{ ...getTextPositionStyle(), ...getCurvedTextStyle() }}>
+                  {/* Draggable Text Overlay */}
+                  <div
+                    ref={textOverlayRef}
+                    onMouseDown={handleDragStart}
+                    onTouchStart={handleDragStart}
+                    onMouseEnter={() => setIsHoveringText(true)}
+                    onMouseLeave={() => { if (!isDragging) setIsHoveringText(false); }}
+                    style={{
+                      ...getTextPositionStyle(),
+                      ...getCurvedTextStyle(),
+                      outline: isDragging ? "2px dashed rgba(16, 185, 129, 0.6)" : isHoveringText ? "1px dashed rgba(16, 185, 129, 0.3)" : "none",
+                      outlineOffset: "4px",
+                      borderRadius: "4px",
+                      transition: isDragging ? "none" : "outline 0.2s ease",
+                    }}
+                  >
                     {curvedText && product === "tumbler" ? (
                       <svg
                         viewBox="0 0 300 150"
                         className="w-full"
-                        style={{ maxWidth: "80%" }}
+                        style={{ maxWidth: "80%", pointerEvents: "none" }}
                       >
                         <defs>
                           <path
@@ -713,16 +851,25 @@ export default function FontPreviewPage() {
                         </text>
                       </svg>
                     ) : (
-                      <span style={{ whiteSpace: "pre-wrap" }}>{text}</span>
+                      <span style={{ whiteSpace: "pre-wrap", pointerEvents: "none" }}>{text}</span>
                     )}
                   </div>
+
+                  {/* Drag instruction overlay - shown briefly */}
+                  {!isDragging && (
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none">
+                      <span className="text-xs text-zinc-500 bg-zinc-900/80 px-2 py-1 rounded">
+                        Drag text to reposition
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Quick tips */}
               <div className="mt-4 p-3 bg-zinc-900/50 border border-zinc-800 rounded-lg">
                 <p className="text-xs text-zinc-500">
-                  <strong className="text-zinc-400">Tips:</strong> Upload your own font files for exact previews. Use Enter for multiple lines. Try curved text on tumblers.
+                  <strong className="text-zinc-400">Tips:</strong> Drag the text to position it anywhere on the product. Use the rotation slider to angle your text. Upload your own font files for exact previews. Use Enter for multiple lines.
                 </p>
               </div>
             </div>
