@@ -211,7 +211,7 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 
 | Name | Role | Key Insight | Status |
 |------|------|-------------|--------|
-| **Nate Keen** | Galvo laser operator (engraving) | Galvo lasers don't drift; different market than CNC cutters. "Even if it gets people in the ballpark that's 90% there!" | ✅ App link sent, will try & give feedback. BETA TESTER. |
+| **Nate Keen** | Galvo laser operator (engraving) | Galvo lasers don't drift; different market than CNC cutters. "Even if it gets people in the ballpark that's 90% there!" Advised: polish before marketing. Offered YouTube/TikTok promo. | PARTNERSHIP: Offered to make video (20K YT + 225K TikTok). Polish app first, then he promotes. |
 | **Mike AJ Guindon** | Small business owner (EST) | Busy running shop, consistently willing but time-poor | ✅ App link sent, "will try this week." Follow up by 2026-06-20. |
 | **Sean BeardyWeirdo** | Skeptical operator | "I have reservations on how this could be achieved by another person" — THE core objection | ✅ App link sent, no reply yet |
 | **John Stegenga** | Multi-machine operator | "I have 3 of the same machines, and they all are different" — strongest per-machine validation | Late reply. DM candidate for app link. |
@@ -268,14 +268,17 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 
 ## Launch Approach (June 2026)
 
-**Strategy**: Option C — Hybrid Launch (Go Public + Parallel Deep Dives)
+**Strategy**: Option C — Hybrid Launch (Go Public + Parallel Deep Dives) + **Nate Keen Video Partnership**
 
-We are executing a **hybrid launch strategy** starting Week of June 17, 2026:
-- **Phase 1 (Week 1)**: Deploy public landing page + demo video. Launch Facebook group posts. Send personal DMs to 6 power users.
-- **Phase 2 (Week 2-3)**: Collect deep-dive feedback from power users (1:1 DMs). Build case studies. Iterate landing page messaging.
-- **Phase 3 (Week 4+)**: Scale based on proof points (target: 100+ waitlist signups, 2-3 active users, 2-3 case studies).
+We are executing a **hybrid launch strategy** starting Week of June 17, 2026, with a critical update:
+- **Phase 1 (Week 1-2)**: Test all workflows, fix bugs, polish UX. Deploy public landing page. Send personal DMs to 6 power users. Facebook posts as secondary/parallel channel.
+- **Phase 1.5 (NEW — Nate Polish)**: Import Nate's .clb files, iterate on his feedback, polish font preview tool. Get his green light that app is video-worthy.
+- **Phase 2 (Nate Video)**: Nate publishes video to YouTube (20K subs) + TikTok (225K followers). Expected: 500-2000 qualified views.
+- **Phase 3 (Post-Video)**: Handle incoming users, collect feedback, scale based on traction.
 
-**Why this approach**: Combines the speed of public launch with the credibility of real-world validation. Proof of concept (2-3 users logging cuts) before mass scaling.
+**STRATEGY SHIFT (2026-06-17)**: Nate Keen offered to make a video about CutLog. His condition: "bugs sorted out and fine tuned." One video to his laser-operator audience = more qualified traffic than all Facebook posts combined. New priority: **Polish first, Nate video second, scale third.** Facebook posts continue in parallel (low cost) but are now secondary.
+
+**Why this approach**: Combines the speed of public launch with the credibility of real-world validation, now supercharged by a trusted creator endorsement. Proof of concept (2-3 users logging cuts) before mass scaling via Nate's audience.
 
 **Key docs**:
 - [`launch_strategy_hybrid.md`](launch_strategy_hybrid.md) — Full strategy, timeline, success metrics, risk mitigation

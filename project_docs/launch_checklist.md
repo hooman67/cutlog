@@ -12,13 +12,27 @@ This is the execution checklist for **Week 1 of the Hybrid Launch** (Option C). 
 
 **Landing page URL**: `https://cutlog-two.vercel.app/landing`
 
+**STRATEGY UPDATE (2026-06-17):** Nate Keen offered to make a video about CutLog (20K YT + 225K TikTok). This changes priorities: Polish is now the critical path. The big growth event is the Nate video, not Facebook posts. Facebook posts are secondary/parallel (still low-cost, still worth doing). New execution order reflects this.
+
 **Execution order (critical)**:
 1. TEST all 11 workflows (Step 0 below)
 2. FIX any bugs found during testing
-3. DEPLOY to Vercel (push to `main` triggers auto-deploy)
-4. VERIFY analytics (confirm landing page live at `https://cutlog-two.vercel.app/landing`, waitlist form works)
-5. POST in 3 Facebook groups (Step 4 below, link to `https://cutlog-two.vercel.app/landing`)
-6. DMs to 6 power users (Step 5/email templates below)
+3. POLISH UX based on Nate's feedback (new priority)
+4. DEPLOY to Vercel (push to `main` triggers auto-deploy)
+5. VERIFY analytics (confirm landing page live at `https://cutlog-two.vercel.app/landing`, waitlist form works)
+6. POST in 3 Facebook groups (Step 4 below — SECONDARY, parallel activity)
+7. DMs to 6 power users (Step 5/email templates below)
+8. **NATE GREEN LIGHT** — He confirms app is video-worthy
+9. **NATE VIDEO** — He publishes to YouTube + TikTok
+10. **SCALE** — Handle incoming traffic, iterate, grow
+
+**Revised milestone order:**
+- [ ] Testing complete (all 11 workflows pass)
+- [ ] All bugs fixed + UX polished
+- [ ] Nate's .clb files imported successfully
+- [ ] Nate confirms app is ready for video
+- [ ] Nate video published
+- [ ] Scale outreach based on video traction
 
 **Success criteria**: All steps complete by end of Week 1. If any step is not complete by deadline, execute rollback plan immediately and escalate.
 
@@ -538,6 +552,25 @@ If blocked:
 - Waitlist form: Use Carrd or Formspree fallback
 - Facebook posting: Shift to DMs only if groups are problematic
 - Email templates: Ask friend for feedback on copy
+
+---
+
+## Key Milestones (Updated 2026-06-17 — Nate Video Partnership)
+
+**The critical path is now: Testing → Polish → Nate Green Light → Video → Scale**
+
+| # | Milestone | Status | Notes |
+|---|-----------|--------|-------|
+| 1 | All 11 workflows tested and passing | [ ] | prerequisite_1_workflows.md |
+| 2 | All bugs fixed, UX polished | [ ] | Nate's condition: "bugs sorted out and fine tuned" |
+| 3 | Nate's .clb library imported successfully | [ ] | Proves onboarding flow with real data |
+| 4 | Font preview tool polished (his request) | [ ] | Relationship investment, cements partnership |
+| 5 | Nate confirms app is ready for video | [ ] | THE key unlock. Do not rush this. |
+| 6 | Nate video published (YouTube + TikTok) | [ ] | Expected: 500-2000 qualified views |
+| 7 | Handle incoming users from video | [ ] | Onboarding must be flawless |
+| 8 | Scale based on video traction | [ ] | Additional outreach, partnerships, App Store |
+
+**Facebook posts can still happen in parallel at any point** — they're zero-cost and keep momentum. But the big growth event is milestone 6.
 
 ---
 

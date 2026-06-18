@@ -20,7 +20,7 @@ create policy "Allow anonymous inserts on waitlist" on public.waitlist
 -- Allow anonymous reads on waitlist (for position count)
 create policy "Allow anonymous reads on waitlist" on public.waitlist
   for select
-  with check (true);
+  using (true);
 
 -- Create an index on email for faster lookups
 create index idx_waitlist_email on public.waitlist(email);

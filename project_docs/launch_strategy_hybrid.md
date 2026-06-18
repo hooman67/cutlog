@@ -12,6 +12,8 @@ Instead of a slow private beta or a wide-open public launch, CutLog will execute
 
 **Key principle**: Real users solving real problems > theoretical interest signals. By coupling public visibility with private validation, we can prove the two-layer ML model works *in practice*, collect early data, and convert hot leads into case studies.
 
+**STRATEGY UPDATE (2026-06-17):** Nate Keen offered to make a video about CutLog to his audience (20K YouTube + 225K TikTok). This changes everything. The primary growth lever is now "Polish app → Nate video → organic growth" rather than cold Facebook posts. See "Distribution Unlock" section below.
+
 ---
 
 ## Overview
@@ -27,6 +29,51 @@ Instead of a slow private beta or a wide-open public launch, CutLog will execute
 - **Low cost**: Landing page is free (Next.js host or Carrd). No ads, no paid tools yet
 - **Feedback loop**: Deep dives with power users inform product improvements before mass scaling
 - **Parallel validation**: Quantitative (landing page views, signups) + qualitative (DM feedback, logged cuts)
+
+---
+
+---
+
+## Distribution Unlock: Nate Keen Video Partnership
+
+### What Happened (2026-06-17)
+Nate Keen — Galvo laser operator with 20K YouTube subscribers and 225K TikTok followers — offered to make a video about CutLog once it's polished. His exact words: "Once all the bugs are sorted out and it's fine tuned then you can worry about the feature advertising side of it. I can make a video as well I've got a couple of YouTube channels with combined 20k subs and TikTok 225k."
+
+### Why This Changes Everything
+- **One Nate video = 500-2000 qualified views** from laser operators who already trust him
+- **Cold Facebook posts = 5-15 clicks each**, from strangers, with no trust
+- **The math**: 1 Nate video > 16 Facebook posts combined, with higher conversion and zero ad spend
+- **His audience IS our target market** — laser operators looking for tips, tutorials, and tools
+
+### Priority Shift
+| Before (June 17) | After (June 17) |
+|---|---|
+| Facebook posts = primary growth lever | Nate video = primary growth lever |
+| Polish = nice-to-have | Polish = CRITICAL PATH (unlocks Nate video) |
+| Font tool = relationship currency | Font tool = partnership investment |
+| Cold outreach to strangers | Warm endorsement from trusted creator |
+
+### New Success Metric
+**"Nate says app is video-worthy" = green light for promo phase.**
+
+This replaces "100+ waitlist signups" as the key Phase 2 unlock. When Nate is satisfied with the app quality, he makes the video. The video drives signups organically.
+
+### Revised Growth Path
+1. **Phase 1 (Now)**: Test all workflows, fix bugs, polish UX, deploy
+2. **Phase 1.5 (New)**: Get Nate's .clb files imported, show him the improvements, iterate on his feedback
+3. **Phase 2 (Nate green light)**: He makes the video. Video goes live on YouTube + TikTok.
+4. **Phase 3 (Post-video)**: Handle incoming users, collect feedback, iterate, scale
+
+### Partnership Strategy Notes
+- **Nate = distribution partner**, not just a beta tester
+- **Font preview tool = relationship investment** that cements the partnership (not a side project)
+- **His .clb import = first real user data** that proves the onboarding flow works
+- **His video endorsement = replaces need for paid ads entirely in Phase 1**
+- **Risk: Don't rush him.** Let him decide when it's ready. His reputation is on the line.
+- **Facebook posts can still happen in parallel** (they're zero-cost) but they are now SECONDARY to the Nate video
+
+### Link
+- YouTube channel sample: https://youtu.be/EKpd3QfnWuk?si=y0vsP_2z33Cca4fY
 
 ---
 
@@ -313,17 +360,18 @@ Instead of a slow private beta or a wide-open public launch, CutLog will execute
 2. ✅ A 30-second demo video showing the core feature (proof of product)
 3. ✅ 2-3 power users actively testing the app (proof of concept)
 4. ✅ 2-3 written case studies with specific wins (proof of value)
-5. ✅ 100+ waitlist signups (proof of scalability)
+5. ✅ Nate Keen actively testing and providing feedback (proof of partnership)
 6. ✅ Clear, validated messaging for the next phase (proof of go-to-market)
-7. ✅ A decision point: "Ready to scale acquisition" or "Need to fix X first"
+7. ✅ A decision point: "Nate says it's video-worthy" = green light for promo phase
 
 **If we achieve this**, we can confidently move into Month 2:
-- Scale Facebook outreach (10+ groups)
+- **PRIMARY**: Nate records and publishes video (YouTube + TikTok) — the big growth event
+- Facebook outreach continues in parallel (secondary, low-cost)
 - Reach out to Beam Squadron for partnership
 - Start recruiting 5+ active users for the next phase (ML model training)
 - Plan App Store release (Capacitor wrap)
 
-**If we fall short**, we'll have clear data on what to fix (landing page messaging, demo video clarity, app UX, or product-market fit issue).
+**If we fall short**, we'll have clear data on what to fix (landing page messaging, demo video clarity, app UX, or product-market fit issue). Nate's feedback tells us exactly what needs to be polished.
 
 ---
 
@@ -331,18 +379,26 @@ Instead of a slow private beta or a wide-open public launch, CutLog will execute
 
 Once Week 1-3 proves the concept, the next phases are:
 
-1. **Month 2 (Scale Acquisition)**
-   - Expand to 10+ Facebook groups (weekly posts)
-   - Pitch Beam Squadron for partnership co-launch
-   - Reach out to LightBurn community leads
-   - Target: 20+ active users
+1. **Month 2 (Polish + Nate Green Light)**
+   - Fix all bugs Nate reports. Iterate on UX based on his feedback.
+   - Import Nate's .clb library — prove the onboarding flow with real data
+   - Polish font preview tool to production quality
+   - Continue Facebook posts as secondary/parallel channel (low cost, keep momentum)
+   - **Success criteria: Nate says "this is ready for a video"**
+   - Target: 5+ active users from DM outreach while waiting for Nate video
 
-2. **Month 3 (Train ML Model)**
+2. **Month 2-3 (Nate Video + Organic Growth)**
+   - Nate records and publishes video (YouTube + TikTok)
+   - Expected impact: 500-2000 qualified views, 50-200 signups, 10-30 trial users
+   - Handle incoming traffic: onboarding must be flawless
+   - Collect feedback from video-driven users
+   - Pitch Beam Squadron for partnership co-launch (secondary growth lever)
+   - Target: 20+ active users post-video
+
+3. **Month 3-4 (Train ML Model + Scale)**
    - Once 5+ users log 20+ cuts each, train XGBoost model
    - Speed prediction accuracy improves from heuristic baseline
    - Target: RMSE < 0.5 mm/min (validated on user data)
-
-3. **Month 4+ (Scale & Monetize)**
    - Wrap in Capacitor for App Store release
    - Introduce freemium pricing ($0 for solo, $5/mo for analytics)
    - Target: 100+ active users, viral coefficient > 1.2

@@ -344,3 +344,33 @@ I can:
 
 Just attach the .clb file and I’ll convert it.
 Okay that worked pretty good but doing that hundreds of times will be quite tedious lol.   That’s just one laser and lens combination its a lot of settings
+
+
+## Responses 2026-06-17
+### Nate Keen
+Once all the bugs are sorted out and it’s fine tuned then you can worry about the feature advertising side of it.
+  I can make a video as well I’ve got a couple of YouTube channels with combined 20k subs and and TikTok 225k  (mainly just do YouTube these days)   the one I put a bit of laser stuff on it almost got 14k.  When I’ve got time, I want to do a bit more tutorial stuff with lasers.
+
+  https://youtu.be/EKpd3QfnWuk?si=y0vsP_2z33Cca4fY
+
+**Assessment:** GAME CHANGER. Nate just offered organic distribution to 20K YT + 225K TikTok. His condition is clear: polish first, then promo. This single video will deliver more qualified traffic than all 16 Facebook group posts combined. New strategy: prioritize polish over cold outreach. See `launch_strategy_hybrid.md` for updated plan.
+
+---
+
+## Reply Sent to Nate (2026-06-18) ✅ SENT
+
+```
+That’s incredible man 🙌 20k subs + 225k on TikTok — you’ve built something serious there.
+
+I’m 100% taking your advice — getting the bugs sorted and polishing everything first. Don’t wanna embarrass us both with a janky demo 😂
+
+When it’s solid, I’d love to do a proper video with you. Could even be a collab where you show how you’d use it in your actual workflow — way more credible than me trying to look like I know what I’m doing with a laser.
+
+In the meantime — those font tool updates are live (crop, line spacing, logo upload, better colors). Let me know if it’s getting closer to what you need for your customers.
+
+And if you ever want to throw your .clb file at the importer, I’ll make sure it handles your library perfectly. You’d be the first real test case.
+```
+
+**Status:** SENT 2026-06-18. Awaiting reply.
+
+  

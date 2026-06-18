@@ -428,6 +428,45 @@ You can find and download our application by searching for "BeraTech CNC" on the
 | Klaus Wojczykowski | ✅ (sent 2026-06-17) | ❌ No reply yet | — |
 | Lobo Lightbringer | ✅ (sent 2026-06-17) | ❌ No reply yet | — |
 
+### Nate Keen Video Partnership Offer (2026-06-17)
+
+**His reply:**
+> "Once all the bugs are sorted out and it's fine tuned then you can worry about the feature advertising side of it. I can make a video as well I've got a couple of YouTube channels with combined 20k subs and TikTok 225k (mainly just do YouTube these days) the one I put a bit of laser stuff on it almost got 14k. When I've got time, I want to do a bit more tutorial stuff with lasers."
+>
+> https://youtu.be/EKpd3QfnWuk?si=y0vsP_2z33Cca4fY
+
+**Signal:** MASSIVE. This changes the go-to-market strategy entirely. One Nate video to his audience = potentially 500-2000 qualified views from laser operators who trust him. Far more effective than 16 cold Facebook group posts.
+
+---
+
+## Distribution Partnership: Nate Keen
+
+### What He Offered
+- A dedicated video about CutLog on his YouTube channel(s) (combined 20K subscribers)
+- Promotion on his TikTok (225K followers)
+- His laser-focused YouTube channel has almost 14K subscribers alone
+- Tutorial-style content ("when I've got time, I want to do a bit more tutorial stuff with lasers")
+
+### His Condition
+- "Once all the bugs are sorted out and it's fine tuned"
+- He wants to promote something polished, not something janky
+- This is his reputation on the line with his audience
+
+### What This Means for Strategy
+1. **Deprioritize cold Facebook outreach** — Nate's single video delivers more qualified traffic than 16 group posts combined
+2. **Prioritize polish** — Every bug fix and UX improvement directly unlocks the Nate video
+3. **Font preview tool = relationship investment** — Building what he asked for cements the partnership
+4. **His .clb import = first real user data** — Getting his library into CutLog proves the onboarding flow
+5. **His video endorsement = replaces need for paid ads in Phase 1** — Organic, credible, from a trusted voice in the community
+
+### Risk Management
+- Do NOT rush him. Let him decide when the app is ready.
+- Do NOT ask "is it ready yet?" repeatedly. Ship improvements, let him see them.
+- His timeline > our timeline. A premature video with a buggy app = reputational damage for both.
+
+### YouTube Link
+- https://youtu.be/EKpd3QfnWuk?si=y0vsP_2z33Cca4fY
+
 ### Key Insights from Round 2 DM Replies (2026-06-15)
 
 **Jeremy Hubert:**
