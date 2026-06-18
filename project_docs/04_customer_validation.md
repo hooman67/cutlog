@@ -417,7 +417,7 @@ You can find and download our application by searching for "BeraTech CNC" on the
 
 ---
 
-## Round 2 DM Status (as of 2026-06-16)
+## Round 2 DM Status (as of 2026-06-17)
 
 | Name | DM Sent | Reply? | Key Takeaway |
 |------|---------|--------|-------------|
@@ -425,8 +425,8 @@ You can find and download our application by searching for "BeraTech CNC" on the
 | Michael Stanislawczyk | ✅ | ❌ No reply yet | — |
 | Tinker Withit | ✅ (thread reply) | ✅ "We have Raytool and there are a lot of parameters on the web, and we also have a book" | Has reference material (book + web) that gives starting points, then adjusts speed. Confirms starting-point value. |
 | George Diffey | ✅ | ❌ No reply yet | — |
-| Klaus Wojczykowski | ❌ Not sent (rate limited) | — | — |
-| Lobo Lightbringer | ❌ Not sent | — | — |
+| Klaus Wojczykowski | ✅ (sent 2026-06-17) | ❌ No reply yet | — |
+| Lobo Lightbringer | ✅ (sent 2026-06-17) | ❌ No reply yet | — |
 
 ### Key Insights from Round 2 DM Replies (2026-06-15)
 
@@ -450,29 +450,45 @@ You can find and download our application by searching for "BeraTech CNC" on the
 
 ---
 
-## Next Steps (Updated 2026-06-16)
+## Next Steps (Updated 2026-06-17)
 
-### Immediate (This Week)
+### Strategy: Hybrid Launch (Option C) — Go Public + Parallel Deep Dives
+
+We are now executing a **hybrid launch strategy** starting Week of June 17, 2026:
+- **Phase 1 (This week)**: Test all 11 workflows (prototype_1_workflows.md) → Deploy → Post in 3 Facebook groups → Send 6 personal DMs
+- **Phase 2 (Week 2-3)**: Collect deep-dive feedback from power users. Build case studies. Iterate landing page messaging.
+- **Phase 3 (Week 4+)**: Scale based on proof points (target: 100+ waitlist signups, 2-3 active users).
+
+Landing page URL: `https://cutlog-two.vercel.app/landing`
+
+### Immediate (This Week — June 17-23)
 
 1. ~~**Follow up on Round 1 leads**~~ — ✅ DONE (2026-06-15). Mike will try this week. Nate will give feedback. Sean no reply yet.
-2. ~~**DM Round 2 targets**~~ — 4/6 sent. **Remaining: Klaus + Lobo** (send this week)
+2. ~~**DM Round 2 targets**~~ — ✅ 6/6 sent (Klaus sent, Lobo sent as of 2026-06-17).
 3. ~~**Research LightBurn .clb format**~~ — ✅ DONE + import/export feature BUILT
-4. **Follow up with Jeremy Hubert** — ask if he'd share his .clb library in exchange for community settings
-5. **Follow up with Mike** — if no activity by 2026-06-20, gentle bump
-6. **Reply to Nate** — acknowledge his Galvo laser insight, ask if he'd try the engraving params (OMG Laser data covers his use case)
+4. ~~**Buy Etsy parameter files**~~ — ✅ DONE (2026-06-17). Purchased 3 products ($46 total): LaserSecrets ($32, 188 entries/48 materials), BenMyersWoodshop ($9, 19 entries), HolsterGeek ($5, 10 PMAG entries). **Key finding: LaserSecrets sells math, not testing. 87% accuracy validated.** Lens files use pure power scaling math (not independent testing) — same approach as our LaserParams Converter. See `etsy_files_analysis.md` and `speed_validation_report.md`.
+5. **[PREREQUISITE] Test all 11 workflows** — `prototype_1_workflows.md`. Fix all bugs before deploy.
+6. **Deploy to Vercel** — Push to main, verify landing page + waitlist live.
+7. **Facebook posts in 3 groups** — Link to `https://cutlog-two.vercel.app/landing`. Spaced 1-2/day (Deadline: June 21).
+8. **Send DMs to power users** — Nate, Mike, Sean, Jeremy, Tinker, Lobo. Personal message + landing page link (Deadline: June 19).
+9. **Follow up with Jeremy Hubert** — ask if he'd share his .clb library in exchange for community settings
+10. **Follow up with Mike** — if no activity by 2026-06-20, gentle bump
+11. **Reply to Nate** — acknowledge his Galvo laser insight, ask if he'd try the engraving params (OMG Laser data covers his use case)
 
-### Short-Term (Next 2 Weeks)
+### Short-Term (June 24-July 7): Hybrid Launch Phase 2-3
 
-7. ~~**Pivot messaging**~~ — ✅ DONE (speed-first UX implemented)
-8. ~~**Buy 1-2 Etsy parameter files**~~ — **DONE (2026-06-17)**. Purchased 3 products ($46 total): LaserSecrets ($32, 188 entries/48 materials), BenMyersWoodshop ($9, 19 entries), HolsterGeek ($5, 10 PMAG entries). Key finding: LaserSecrets' 20 lens files use pure power scaling math (not independent testing) — same approach as our LaserParams Converter. Full analysis in `etsy_files_analysis.md`.
-9. **Investigate Beam Squadron** partnership opportunity
-10. **Consider market segmentation**: Galvo engraving operators (Nate's world) vs CNC cutting operators (industrial). Both are valid but have different parameter needs.
+12. ~~**Pivot messaging**~~ — ✅ DONE (speed-first UX implemented)
+13. **Deep-dive follow-ups** — 1:1 DMs with power users. Ask what material/thickness they want to test.
+14. **Collect feedback** — Interview active users. Did suggestions make sense? Would you pay? What's missing?
+15. **Compile case studies** — Write 2-3 testimonials with specific wins from active testers.
+16. **Investigate Beam Squadron** partnership opportunity
+17. **Consider market segmentation**: Galvo engraving operators (Nate's world) vs CNC cutting operators (industrial). Both are valid but have different parameter needs.
 
 ### Medium-Term (Month 2-3)
 
-11. ~~**LightBurn integration**~~ — ✅ DONE
-12. ~~**Speed recommendation MVP**~~ — ✅ DONE
-13. **Get 5 beta users logging cuts** — Mike, Nate, Jeremy are closest to converting
-14. **Native app (Capacitor)** — code ready on `migration_to_app` branch, trigger at 5+ users
-15. **Partner with Victor Wolansky or Chance Lawson** — they have your target audience
+18. ~~**LightBurn integration**~~ — ✅ DONE
+19. ~~**Speed recommendation MVP**~~ — ✅ DONE
+20. **Get 5 beta users logging cuts** — Mike, Nate, Jeremy are closest to converting
+21. **Native app (Capacitor)** — code ready on `migration_to_app` branch, trigger at 5+ active users. Will merge after threshold met.
+22. **Partner with Victor Wolansky or Chance Lawson** — they have your target audience
 

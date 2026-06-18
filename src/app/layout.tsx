@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
 import OnboardingOverlay from "@/components/OnboardingOverlay";
@@ -30,6 +31,9 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${inter.className} bg-zinc-950 text-zinc-100 min-h-screen antialiased`}>
         {children}
+        <footer className="text-center py-4 text-xs text-zinc-600">
+          <Link href="/terms" className="hover:text-zinc-400 transition-colors">Terms &amp; Disclaimer</Link>
+        </footer>
         <PWAInstallBanner />
         <OnboardingOverlay />
         <SmartNudges />

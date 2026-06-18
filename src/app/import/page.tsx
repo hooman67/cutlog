@@ -143,6 +143,9 @@ export default function ImportPage() {
       setSuccess(`Successfully imported ${selectedCuts.length} cut${selectedCuts.length > 1 ? "s" : ""} to your library!`);
       setEntries([]);
       setSelectedEntries(new Set());
+      if (typeof window !== "undefined") {
+        localStorage.setItem("cutlog-has-imported", "true");
+      }
     }
     setSaving(false);
   }

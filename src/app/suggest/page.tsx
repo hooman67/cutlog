@@ -119,7 +119,12 @@ function getStoredFeedback(material: string, thickness: string): StoredFeedback[
   const key = `cutlog_speed_feedback`;
   const raw = localStorage.getItem(key);
   if (!raw) return [];
-  const all: StoredFeedback[] = JSON.parse(raw);
+  let all: StoredFeedback[] = [];
+  try {
+    all = JSON.parse(raw);
+  } catch {
+    return [];
+  }
   return all.filter(
     (f) => f.material.toLowerCase() === material.toLowerCase() && f.thickness === thickness
   );
@@ -128,7 +133,14 @@ function getStoredFeedback(material: string, thickness: string): StoredFeedback[
 function saveFeedback(material: string, thickness: string, feedback: FeedbackType, speed: number) {
   const key = `cutlog_speed_feedback`;
   const raw = localStorage.getItem(key);
-  const all: StoredFeedback[] = raw ? JSON.parse(raw) : [];
+  let all: StoredFeedback[] = [];
+  if (raw) {
+    try {
+      all = JSON.parse(raw);
+    } catch {
+      all = [];
+    }
+  }
   all.push({ material, thickness, feedback, speed, timestamp: Date.now() });
   localStorage.setItem(key, JSON.stringify(all));
 }
@@ -473,31 +485,43 @@ export default function Suggest() {
 
       {/* No results state - enhanced empty state */}
       {searched && suggestions.length === 0 && !loading && (
-        <div className="border border-zinc-800 bg-zinc-900/50 rounded-xl p-6 text-center">
-          <p className="text-zinc-400 text-lg mb-3">No results for {searchMaterial} at {thickness}mm.</p>
-          <p className="text-sm text-zinc-500 mb-4">You can:</p>
-          <div className="space-y-2.5 text-sm">
-            <p>
-              <Link href="/import" className="text-sky-400 hover:text-sky-300">
-                Import a LightBurn .clb file &rarr;
-              </Link>
-            </p>
-            <p className="text-xs text-zinc-600">
-              (Auto-scaled to your lens, engraving support included)
-            </p>
-            <p className="text-zinc-600 text-xs">
-              Or log your first cut for this material to build a personalized baseline.
-            </p>
-            <p>
-              <button
-                type="button"
-                onClick={() => { router.push("/log"); }}
-                className="text-sky-400 hover:text-sky-300 text-sm"
-              >
-                Log a cut &rarr;
-              </button>
-            </p>
+        <div className="border border-zinc-800 bg-zinc-900/50 rounded-xl p-6">
+          <p className="text-zinc-300 text-lg mb-2 font-medium">No exact match found for this combination.</p>
+          <p className="text-sm text-zinc-400 mb-5">Here&apos;s what you can do:</p>
+          <div className="space-y-4 text-sm">
+            <div className="flex items-start gap-3">
+              <span className="text-emerald-400 font-bold mt-0.5">1.</span>
+              <div>
+                <Link href="/import" className="text-sky-400 hover:text-sky-300 font-medium">
+                  Import your LightBurn library &rarr;
+                </Link>
+                <p className="text-xs text-zinc-500 mt-0.5">Auto-scaled to your lens, engraving support included</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="text-emerald-400 font-bold mt-0.5">2.</span>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => { router.push("/log"); }}
+                  className="text-sky-400 hover:text-sky-300 font-medium text-sm text-left"
+                >
+                  Log your first test cut &rarr;
+                </button>
+                <p className="text-xs text-zinc-500 mt-0.5">Build a personalized baseline for this material</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="text-emerald-400 font-bold mt-0.5">3.</span>
+              <div>
+                <p className="text-zinc-300">Try a broader search</p>
+                <p className="text-xs text-zinc-500 mt-0.5">Search just the material name with any thickness to see what data exists</p>
+              </div>
+            </div>
           </div>
+          <p className="text-xs text-zinc-500 mt-5 pt-4 border-t border-zinc-800">
+            AI recommendations improve as more operators log cuts for this material.
+          </p>
         </div>
       )}
 
@@ -546,9 +570,15 @@ export default function Suggest() {
                 )}
               </p>
               <p className="text-4xl sm:text-5xl font-bold text-emerald-400 font-mono mb-1">
-                {speedRec.avgSpeed.toLocaleString()}
+                {(() => {
+                  const profile = speedRec.activeProfile;
+                  if (profile === 'conservative') return speedRec.conservativeSpeed.toLocaleString();
+                  if (profile === 'fast') return speedRec.fastSpeed.toLocaleString();
+                  // auto: use conservative for engraving, fast otherwise
+                  return speedRec.fastSpeed.toLocaleString();
+                })()}
               </p>
-              <p className="text-sm text-emerald-300/70 mb-3">
+              <p className="text-sm text-emerald-300/70 mb-1">
                 mm/min
                 {speedRec.scalingApplied && userMachine?.lens_focal_length_mm && (
                   <span className="block text-xs text-zinc-500 mt-1">
@@ -556,6 +586,16 @@ export default function Suggest() {
                   </span>
                 )}
               </p>
+              {speedRec.activeProfile === 'conservative' && (
+                <p className="text-xs text-zinc-500 mb-2">
+                  Fast speed: {speedRec.fastSpeed.toLocaleString()} mm/min
+                </p>
+              )}
+              {speedRec.activeProfile === 'fast' && (
+                <p className="text-xs text-zinc-500 mb-2">
+                  Conservative: {speedRec.conservativeSpeed.toLocaleString()} mm/min
+                </p>
+              )}
 
               {/* Speed profile comparison */}
               <div className="bg-zinc-800/50 rounded-xl p-3 mb-3 text-xs text-zinc-300">

@@ -80,7 +80,7 @@ export default function SmartNudges() {
 
   return (
     <div
-      className={`fixed bottom-4 left-4 right-4 z-50 flex justify-center transition-all duration-300 ${
+      className={`fixed bottom-20 left-4 right-4 z-50 flex justify-center transition-all duration-300 ${
         dismissing ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0 animate-slide-up"
       }`}
     >
@@ -181,7 +181,14 @@ function evaluateNudges(): NudgeConfig | null {
 
   // Nudge E: For Galvo laser users (check if user has indicated engraving capability)
   const userPrefsRaw = localStorage.getItem("cutlog_user_prefs");
-  const userHasGalvo = userPrefsRaw && JSON.parse(userPrefsRaw).hasGalvo === true;
+  let userHasGalvo = false;
+  if (userPrefsRaw) {
+    try {
+      userHasGalvo = JSON.parse(userPrefsRaw).hasGalvo === true;
+    } catch {
+      userHasGalvo = false;
+    }
+  }
   const nudgeEngravingShown = localStorage.getItem(NUDGE_ENGRAVING_SHOWN_KEY) === "true";
 
   if (userHasGalvo && !nudgeEngravingShown) {

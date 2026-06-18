@@ -11,14 +11,16 @@ Multi-template Facebook outreach targeting 16 laser operator communities. Three 
 **Use in groups:** 1, 2, 3, 4, 5, 7, 8, 10, 13
 
 ```
-Building a laser parameter tool that learns your machine.
+I'm an AI engineer who accidentally got obsessed with lasers. Built a tool so AI learns YOUR machine instead of you guessing forever.
 
-CutLog auto-scales recommendations for your specific lens and learns from your cuts over time.
+CutLog logs your cuts, AI learns your specific setup (lens, power supply, all that chaos), and recommends what'll actually work.
 
-If you're interested in early access + feedback on what operators actually need, join the waitlist:
-[landing-page-url]
+Real talk: Most of you have 50+ hours of scrap metal from dialing in settings. AI cuts that down to one solid session.
 
-200+ operators already signed up. Beta spots limited.
+Join the waitlist:
+https://cutlog-two.vercel.app/landing?utm_source=facebook&utm_medium=post&utm_campaign=beta_launch&utm_content=GROUP_NAME
+
+(No spam, just early access + honest feedback on what operators actually need 😂)
 ```
 
 ---
@@ -27,12 +29,14 @@ If you're interested in early access + feedback on what operators actually need,
 **Use in groups:** 6, 12, 15
 
 ```
-For engravers: Finally built something for Galvo laser workflows.
+For engravers: I built this so AI handles the Galvo parameter chaos.
 
-Log engraving parameters (frequency, passes, scan angle), get back personalized recommendations for your machine.
+You know that feeling — tweaking frequency, passes, scan angle on repeat. AI learns your machine and spits back what'll actually work next time.
 
-Early adopters wanted. Join the waitlist:
-[landing-page-url]
+Join for beta:
+https://cutlog-two.vercel.app/landing?utm_source=facebook&utm_medium=post&utm_campaign=beta_launch&utm_content=GROUP_NAME
+
+(Beta's free. Paid version coming, but first-in get locked in at founder pricing 🔥)
 ```
 
 ---
@@ -41,12 +45,14 @@ Early adopters wanted. Join the waitlist:
 **Use in groups:** 2, 14, 16
 
 ```
-If you run a Chinese fiber laser (HSG, Bodor, Raytools, etc.):
+Running a Chinese fiber laser? AI learns YOUR specific setup instead of you manually testing forever.
 
-Building a tool that handles the parameter chaos. Auto-scales for YOUR machine, YOUR lens.
+I've got 40 files named "stainless_FINAL_v2_actually_final" on my drive. This tool exists because of that pain 😂
 
-Join the waitlist for early access:
-[landing-page-url]
+Early access is free:
+https://cutlog-two.vercel.app/landing?utm_source=facebook&utm_medium=post&utm_campaign=beta_launch&utm_content=GROUP_NAME
+
+(Real operators, real feedback. Let's figure out what actually works together.)
 ```
 
 ---
@@ -77,13 +83,22 @@ Join the waitlist for early access:
 ## Posting Strategy
 
 ### Timeline & Spacing
-- **Space posts 1-2 hours apart** to avoid spam appearance
+- **Space posts at least 3-4 hours apart** to avoid spam detection
+- **Max 2-3 posts per day** (never more than 3 groups in one day)
 - **Best posting times:** Tuesday-Thursday, 7-9am or 6-8pm (user timezone)
-- **Day-by-day rollout:**
-  - Day 1 (Tue): Groups 1, 4, 7 (3 posts, staggered)
-  - Day 2 (Wed): Groups 2, 5, 10, 13 (4 posts, staggered)
-  - Day 3 (Thu): Groups 3, 6, 8, 12, 14 (5 posts, staggered)
-  - Day 4 (Fri): Groups 9, 11, 15, 16 (4 posts, staggered)
+- **Day-by-day rollout (7-8 days):**
+  - Day 1 (Tue): Groups 1, 4 (2 posts, staggered)
+  - Day 2 (Wed): Groups 7, 2 (2 posts, staggered)
+  - Day 3 (Thu): Groups 5, 10 (2 posts, staggered)
+  - Day 4 (Fri): Groups 13, 3 (2 posts, staggered)
+  - Day 5 (Mon): Groups 6, 8 (2 posts, staggered)
+  - Day 6 (Tue): Groups 12, 14 (2 posts, staggered)
+  - Day 7 (Wed): Groups 9, 11 (2 posts, staggered)
+  - Day 8 (Thu): Groups 15, 16 (2 posts, staggered)
+
+> **WARNING: Posting to 16 groups in 4 days risks Facebook flagging your account. Space posts at least 3-4 hours apart and never post to more than 3 groups in one day.**
+>
+> **If any post gets removed or you get a warning, STOP and wait 48 hours before resuming.**
 
 ### Template Assignment
 | Template | Groups | Count | Audience Focus |
@@ -109,7 +124,7 @@ Join the waitlist for early access:
 > Yes, absolutely! That's exactly what I built CutLog for. I'd love your feedback on [specific machine] once you get early access. Join the waitlist and I'll prioritize your machine in beta testing.
 
 **For skeptical comments ("Why should I try this?" / "What's different?"):**
-> Great question. Unlike generic parameter lists, CutLog learns *your specific machine* — your lens, your power supply, your cuts. Most operators tell me they waste 50+ hours dialing in parameters. We're cutting that to one session. 200+ have already joined for early access.
+> Great question. Unlike generic parameter lists, CutLog learns *your specific machine* — your lens, your power supply, your cuts. Most operators tell me they waste 50+ hours dialing in parameters. We're cutting that to one session. 50+ have already joined for early access.
 
 **For "Is this free?" questions:**
 > Beta is free + you help shape the product. Paid tier in production, but early adopters locked in at founder pricing. Plus your feedback directly influences what features ship first.
@@ -127,9 +142,11 @@ Join the waitlist for early access:
 ## Success Metrics & Targets
 
 ### Primary Goals
-- **Target:** 200-300 total waitlist signups from 16 posts
-- **Per-group target:** 12-19 signups per post (average 250/16 ≈ 15.6 per group)
-- **Red flag:** <20 signups from any single large group (20K+ members) suggests messaging misalignment
+- **Target:** 10-30 signups in Week 1 is a genuine success. 50+ by Week 3 is excellent.
+- **Per-group target:** 1-3 signups per post (realistic cold organic)
+- **Red flag:** <2 signups from a large group after 48 hours suggests messaging misalignment
+
+> **Industry benchmarks:** Organic cold-post conversion in niche Facebook groups is 0.5-2% of viewers. Setting expectations above this leads to false "failure" signals and premature pivots.
 
 ### Quality Metrics
 - **Engagement rate:** 5-10% (comments on posts)
@@ -137,7 +154,7 @@ Join the waitlist for early access:
 - **Response time:** <15 minutes on first 10 comments
 
 ### Diagnostics: Underperforming Groups
-If a post gets <20 signups:
+If a post gets <2 signups after 48 hours:
 1. **Check landing page:** Is messaging misaligned with group audience?
 2. **Check timing:** Did post go live during off-hours?
 3. **Check template:** Is template resonating with group's focus (cutting vs. engraving)?
@@ -154,7 +171,7 @@ If a post gets <20 signups:
 
 Ensure landing page includes:
 - [ ] Clear value prop (learns your machine, auto-scales, saves time)
-- [ ] Social proof (200+ operators already signed up)
+- [ ] Social proof (50+ operators already signed up)
 - [ ] CTA (single "Join Waitlist" button, email capture)
 - [ ] Risk reversal (no spam, will only email about beta)
 - [ ] Specific use case examples (fiber cutting, engraving, Chinese machines)

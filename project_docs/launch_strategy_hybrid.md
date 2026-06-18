@@ -132,7 +132,7 @@ Instead of a slow private beta or a wide-open public launch, CutLog will execute
 #### Mid-week (July 4-5)
 - **Analyze Week 1-2 data**
   - Waitlist size: target 50+
-  - Landing page visitors: target 200+
+  - Landing page visitors: target 50+
   - App trial users: target 5+
   - If below targets: pause and diagnose. If above targets: prep for Week 4 expansion.
   - Owner: **You**

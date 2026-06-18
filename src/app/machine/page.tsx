@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import { MACHINE_BRANDS, GAS_TYPES, SPEED_PROFILES } from "@/lib/types";
+import { MACHINE_BRANDS, GAS_TYPES, SPEED_PROFILES, LASER_SOURCE_TYPES } from "@/lib/types";
 
 export default function MachineSetup() {
   const [brand, setBrand] = useState("");
@@ -15,6 +15,8 @@ export default function MachineSetup() {
   const [controller, setController] = useState("");
   const [country, setCountry] = useState("");
   const [nickname, setNickname] = useState("");
+  const [lensFocalLength, setLensFocalLength] = useState("110");
+  const [laserSourceType, setLaserSourceType] = useState("");
   const [loading, setLoading] = useState(false);
   const [existingId, setExistingId] = useState<string | null>(null);
   const [speedProfile, setSpeedProfile] = useState<'fast' | 'conservative' | 'auto'>('auto');
@@ -44,6 +46,8 @@ export default function MachineSetup() {
         setController(m.controller || "");
         setCountry(m.location_country || "");
         setNickname(m.nickname || "");
+        setLensFocalLength(m.lens_focal_length_mm ? String(m.lens_focal_length_mm) : "110");
+        setLaserSourceType(m.laser_source_type || "");
         setSpeedProfile(m.speed_profile || 'auto');
       }
     }
@@ -69,6 +73,8 @@ export default function MachineSetup() {
       model: model || null,
       wattage_w: wattage ? parseInt(wattage) : null,
       source_type: sourceType,
+      lens_focal_length_mm: lensFocalLength ? parseInt(lensFocalLength) : 110,
+      laser_source_type: laserSourceType || null,
       resonator_hours: hours ? parseInt(hours) : null,
       gas_types: gasTypes,
       controller: controller || null,
@@ -156,6 +162,49 @@ export default function MachineSetup() {
               <option value="diode">Diode</option>
             </select>
           </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-zinc-300 mb-1">Lens Focal Length (mm)</label>
+          <div className="flex flex-wrap gap-2 mb-2">
+            {[40, 70, 100, 110, 150, 175, 200, 250, 300, 450].map(preset => (
+              <button
+                key={preset}
+                type="button"
+                onClick={() => setLensFocalLength(String(preset))}
+                className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${
+                  lensFocalLength === String(preset)
+                    ? "bg-emerald-900/50 border-emerald-600 text-emerald-300"
+                    : "bg-zinc-900 border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                }`}
+              >
+                {preset}mm
+              </button>
+            ))}
+          </div>
+          <input
+            type="number"
+            placeholder="110"
+            value={lensFocalLength}
+            onChange={(e) => setLensFocalLength(e.target.value)}
+            className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+          />
+          <p className="text-xs text-zinc-500 mt-1">Used to auto-scale speed recommendations for your lens.</p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-zinc-300 mb-1">Laser Source Type</label>
+          <select
+            value={laserSourceType}
+            onChange={(e) => setLaserSourceType(e.target.value)}
+            className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100"
+          >
+            <option value="">Select type...</option>
+            {LASER_SOURCE_TYPES.map(t => (
+              <option key={t.value} value={t.value}>{t.label}</option>
+            ))}
+          </select>
+          <p className="text-xs text-zinc-500 mt-1">Unlocks engraving fields on the log page when applicable.</p>
         </div>
 
         <div>

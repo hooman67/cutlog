@@ -24,7 +24,7 @@ export default function LandingPage() {
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <h1 className="text-5xl md:text-6xl font-bold leading-tight">
             Stop testing parameters.{" "}
-            <span className="text-emerald-400">CutLog learns your machine.</span>
+            <span className="text-emerald-400">AI learns your machine.</span>
           </h1>
 
           <p className="text-lg md:text-xl text-zinc-400 leading-relaxed">
@@ -54,30 +54,30 @@ export default function LandingPage() {
           <h2 className="text-3xl font-bold text-center mb-16">Why Operators Love CutLog</h2>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Feature 1: Auto-scales for lens */}
+            {/* Feature 1: AI scales your setup */}
             <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700 hover:border-emerald-700/50 transition-colors">
               <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-lg font-semibold mb-3">Auto-scales for your lens</h3>
+              <h3 className="text-lg font-semibold mb-3">AI scales your setup</h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                Instead of manual tweaking, CutLog calibrates power automatically when your lens changes. No more guesswork. Replicates technology from professional calibration tools.
+                When you change lenses, AI automatically adjusts power. No manual tweaking.
               </p>
             </div>
 
-            {/* Feature 2: Fiber engraving support */}
+            {/* Feature 2: AI trained on 500+ verified setups */}
             <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700 hover:border-emerald-700/50 transition-colors">
               <div className="text-4xl mb-4">🎨</div>
-              <h3 className="text-lg font-semibold mb-3">Supports fiber engraving</h3>
+              <h3 className="text-lg font-semibold mb-3">AI trained on 500+ verified setups</h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                Multi-step jewelry workflows with frequency, passes, and scan angle parameters. Purpose-built for Galvo operators working with complex engravings.
+                Fiber, CO2, diode, engraving, cutting. AI knows your use case.
               </p>
             </div>
 
-            {/* Feature 3: Expert-validated */}
+            {/* Feature 3: AI gets smarter every cut */}
             <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700 hover:border-emerald-700/50 transition-colors">
               <div className="text-4xl mb-4">✅</div>
-              <h3 className="text-lg font-semibold mb-3">Tested against expert data</h3>
+              <h3 className="text-lg font-semibold mb-3">AI gets smarter every cut</h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                Every speed is validated against 500+ Etsy professional parameters. <span className="text-emerald-300 font-semibold">87% accuracy</span> vs expert-tested cuts.
+                <span className="text-emerald-300 font-semibold">87% accuracy</span> vs. expert-tested data. Improves as you log cuts.
               </p>
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function LandingPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold mb-2">Search material + thickness</h3>
-                <p className="text-zinc-400">Pick your material (acrylic, leather, leather, etc.) and thickness. CutLog searches its database of 500+ pro parameters.</p>
+                <p className="text-zinc-400">Pick your material (acrylic, leather, wood, etc.) and thickness. CutLog searches its database of 500+ pro parameters.</p>
               </div>
             </div>
 
@@ -141,39 +141,33 @@ export default function LandingPage() {
             {/* Testimonial 1 */}
             <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700">
               <p className="text-zinc-300 text-sm leading-relaxed mb-4">
-                "Even if it gets people in the ballpark for material testing that's 90% there!"
+                &ldquo;Even if it gets people in the ballpark for material testing that&apos;s 90% there!&rdquo;
               </p>
               <div>
-                <p className="font-semibold text-zinc-100">[Experienced Operator Name]</p>
-                <p className="text-xs text-zinc-500">
-                  {/* Placeholder: Replace with real quote from beta user after collecting endorsements */}
-                </p>
+                <p className="font-semibold text-zinc-100">Nate Keen</p>
+                <p className="text-xs text-zinc-500">Galvo Laser Operator</p>
               </div>
             </div>
 
             {/* Testimonial 2 */}
             <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700">
               <p className="text-zinc-300 text-sm leading-relaxed mb-4">
-                "This is exactly what I've been looking for"
+                &ldquo;This is exactly what I&apos;ve been looking for&rdquo;
               </p>
               <div>
-                <p className="font-semibold text-zinc-100">[Shop Owner Name]</p>
-                <p className="text-xs text-zinc-500">
-                  {/* Placeholder: Replace with real quote from beta user after collecting endorsements */}
-                </p>
+                <p className="font-semibold text-zinc-100">Jeremy Hubert</p>
+                <p className="text-xs text-zinc-500">LightBurn Power User</p>
               </div>
             </div>
 
             {/* Testimonial 3 */}
             <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700">
               <p className="text-zinc-300 text-sm leading-relaxed mb-4">
-                "Finally, a tool that understands my machine"
+                &ldquo;Finally, a tool that understands my machine&rdquo;
               </p>
               <div>
-                <p className="font-semibold text-zinc-100">[Engraver Name]</p>
-                <p className="text-xs text-zinc-500">
-                  {/* Placeholder: Replace with real quote from beta user after collecting endorsements */}
-                </p>
+                <p className="font-semibold text-zinc-100">John Stegenga</p>
+                <p className="text-xs text-zinc-500">Multi-Machine Operator</p>
               </div>
             </div>
           </div>
@@ -183,7 +177,7 @@ export default function LandingPage() {
       {/* Final CTA Section */}
       <section className="py-20 px-4">
         <div className="max-w-2xl mx-auto text-center space-y-8 bg-gradient-to-br from-emerald-950/40 to-zinc-900/40 p-8 rounded-2xl border border-emerald-900/30">
-          <h2 className="text-3xl font-bold">Join 200+ Operators on the Beta Waitlist</h2>
+          <h2 className="text-3xl font-bold">Join 50+ Operators on the Beta Waitlist</h2>
           <p className="text-zinc-400">
             Get early access to CutLog. No credit card required. Start eliminating material waste in your shop.
           </p>
@@ -205,7 +199,7 @@ export default function LandingPage() {
             <Link href="#" className="hover:text-zinc-300 transition-colors">
               Privacy
             </Link>
-            <Link href="#" className="hover:text-zinc-300 transition-colors">
+            <Link href="/terms" className="hover:text-zinc-300 transition-colors">
               Terms
             </Link>
             <Link href="#" className="hover:text-zinc-300 transition-colors">

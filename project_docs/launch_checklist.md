@@ -8,9 +8,27 @@
 
 ## Overview
 
-This is the 5-step execution checklist for **Week 1 of the Hybrid Launch** (Option C). Each step has a clear owner, deadline, and rollback plan.
+This is the execution checklist for **Week 1 of the Hybrid Launch** (Option C). Steps follow strict dependency order: Test -> Fix bugs -> Deploy -> Analytics -> Post -> DMs.
 
-**Success criteria**: All 5 steps complete by end of Week 1. If any step is not complete by deadline, execute rollback plan immediately and escalate.
+**Landing page URL**: `https://cutlog-two.vercel.app/landing`
+
+**Execution order (critical)**:
+1. TEST all 11 workflows (Step 0 below)
+2. FIX any bugs found during testing
+3. DEPLOY to Vercel (push to `main` triggers auto-deploy)
+4. VERIFY analytics (confirm landing page live at `https://cutlog-two.vercel.app/landing`, waitlist form works)
+5. POST in 3 Facebook groups (Step 4 below, link to `https://cutlog-two.vercel.app/landing`)
+6. DMs to 6 power users (Step 5/email templates below)
+
+**Success criteria**: All steps complete by end of Week 1. If any step is not complete by deadline, execute rollback plan immediately and escalate.
+
+---
+
+## Step 0: PREREQUISITE - App Testing Complete
+
+- [ ] PREREQUISITE: Complete prototype_1_workflows.md testing. All 11 workflows pass. No blocking bugs.
+
+> **Do NOT send any DMs or post to groups until app testing is complete. A buggy first impression with a power user cannot be recovered.**
 
 ---
 
@@ -23,7 +41,7 @@ This is the 5-step execution checklist for **Week 1 of the Hybrid Launch** (Opti
 **Effort**: 2-3 hours
 
 ### Deliverable
-A live page at `https://cutlog-two.vercel.app` or custom domain, with:
+A live page at `https://cutlog-two.vercel.app/landing` (already built), with:
 
 **Sections**:
 1. **Header** (Hero)
@@ -69,6 +87,8 @@ A live page at `https://cutlog-two.vercel.app` or custom domain, with:
 - [ ] Page loads in <3 sec on 4G
 - [ ] Mobile-responsive (looks good on iPhone)
 - [ ] No typos or broken links
+- [ ] Set up Vercel Analytics (1-click in Vercel dashboard → Analytics tab → Enable)
+- [ ] Add UTM parameters to landing page links in Facebook posts: `?utm_source=facebook&utm_medium=post&utm_campaign=beta_launch&utm_content=group_name`
 
 ### Tools
 - **Option A (Preferred)**: Next.js page
@@ -244,7 +264,7 @@ It's free to try. We're looking for operators willing to test it and give feedba
 
 Anyone interested?
 
-[Link to landing page]
+https://cutlog-two.vercel.app/landing
 ```
 
 **Post 2 (Educational)** — Post in "CO2 Laser Users" group (Day 2-3)
@@ -265,7 +285,7 @@ The way most operators handle it: trial and error. But what if your machine coul
 
 That's what we're exploring with a tool called CutLog. Would love to hear if this resonates with anyone.
 
-[Link]
+https://cutlog-two.vercel.app/landing
 ```
 
 **Post 3 (Value Prop)** — Post in "LightBurn Community" group (Day 4-5)
@@ -286,7 +306,7 @@ Early testers wanted us to share it. So here we are.
 
 Anyone want to try it?
 
-[Link]
+https://cutlog-two.vercel.app/landing
 ```
 
 ### Success Criteria

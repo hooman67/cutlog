@@ -1,6 +1,6 @@
 # CutLog Project Summary
 
-**Last updated**: 2026-06-15
+**Last updated**: 2026-06-17
 **Purpose**: Complete context transfer document. Any agent session reading this file should have everything needed to continue work on this project.
 
 ---
@@ -27,19 +27,20 @@
 
 ---
 
-## Current State (2026-06-15)
+## Current State (2026-06-17)
 
 ### Prototype: LIVE AND DEPLOYED
 
 | Component | Status | Details |
 |-----------|--------|---------|
-| **App** | ✅ Functional | Next.js 14 + Tailwind + Supabase, 7 screens (added /import + speed-focused /suggest) |
+| **App** | ✅ Functional | Next.js 14 + Tailwind + Supabase, 10 screens (added /import, /suggest, /landing, /waitlist, /tools/font-preview) |
 | **Database** | ✅ Seeded | 901 parameter sets across 60+ materials (724 original + 177 OMG Laser) |
 | **Auth** | ✅ Working | Supabase email auth |
 | **Hosting** | ✅ LIVE | **https://cutlog-two.vercel.app** (public, anyone can use) |
 | **Dev server** | ✅ Available | Pluto machine port 8000, SSH tunnel for dev |
 | **GitHub** | ✅ Pushed | `git@github.com:hooman67/cutlog.git` |
 | **PWA** | ✅ Installable | iPhone "Add to Home Screen" = native app feel. Smart install banner added for mobile users |
+| **Native App** | 🔲 Planned | Capacitor integration code exists on `migration_to_app` branch. Will merge after 5+ active beta users. |
 
 ### Customer Validation: IN PROGRESS
 
@@ -49,7 +50,7 @@
 | DM outreach (Round 1) | ✅ Complete | 3/5 responded positively, none booked calls yet |
 | Follow-up messages | ✅ Sent | Full product explanation + app link sent to Mike, Nate, Sean (2026-06-15) |
 | Facebook polls (Round 2) | ✅ Complete | 35+ comments, deeper engagement |
-| DM outreach (Round 2) | 🔄 In Progress | 4/6 DMs sent (Jeremy, Michael, George, Tinker via thread reply). Klaus + Lobo pending |
+| DM outreach (Round 2) | ✅ Complete | 6/6 DMs sent (Jeremy, Michael, George, Tinker, Klaus, Lobo). 2 replied (Jeremy, Tinker). |
 | Discovery calls | 🔲 Not yet | Zero calls booked so far |
 
 ### Data Collection: PARTIALLY COMPLETE
@@ -132,6 +133,9 @@
 5. `/suggest` — Speed recommendation engine. Hero display shows recommended speed (mm/min) with confidence level (HIGH/MEDIUM/LOW based on data points), range, and supporting params. 3-button quick feedback ("Too Slow" / "Perfect" / "Too Fast") stored in localStorage for future optimization. Full parameters (power, gas, focus, nozzle) in collapsible section below. Keeps 3-tier data source display (Your Data green, AI Baseline orange, Community blue). Page messaging: "How fast should I cut?"
 6. `/history` — Searchable cut history + "Export .clb" button (downloads LightBurn library file)
 7. `/import` — LightBurn .clb file import (drag-and-drop upload, preview entries, select & save to DB)
+8. `/landing` — Public landing page for hybrid launch (hero, problem/solution, features, demo video, waitlist CTA)
+9. `/waitlist` — Waitlist signup form (email capture to Supabase)
+10. `/tools/font-preview` — Font preview utility (relationship currency for Nate Keen)
 
 ### User Discovery & Onboarding UX (Added Session C)
 
@@ -154,7 +158,7 @@ The app includes four lightweight discovery features to help new users find valu
 
 ### Data Pipeline
 
-**Current state: 724 parameters in production DB (cold-start DONE)**
+**Current state: 901 parameters in production DB (cold-start DONE, OMG Laser added 2026-06-15)**
 
 Data files in `/mnt/localssd/laser_log/app/data/`:
 - `COMBINED_PASTE_ALL.sql` — All rows, one file (paste into Supabase SQL Editor to re-seed)
@@ -213,7 +217,7 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 | **John Stegenga** | Multi-machine operator | "I have 3 of the same machines, and they all are different" — strongest per-machine validation | Late reply. DM candidate for app link. |
 | **Jeremy Hubert** | Technical operator, LightBurn user | Saves tests in LightBurn material library. Systematic tester. | ✅ DM replied. Follow up re: sharing .clb library. |
 | **Tinker Withit** | Experienced CNC cutter (Raytool) | Uses book + web for starting points, adjusts speed. Confirms starting-point value. | ✅ Replied on thread. Warm. |
-| **Lobo Lightbringer** | Systematic thinker | "Speed is almost the same across brands for each laser source output power" — validates scaling math | DM drafted, not yet sent |
+| **Lobo Lightbringer** | Systematic thinker | "Speed is almost the same across brands for each laser source output power" — validates scaling math | ✅ DM sent (2026-06-17). Awaiting reply. |
 
 ### Validated Insights
 1. **Trial and error is dominant** — 80%+ of operators say "testing is the only way"
@@ -284,35 +288,43 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026:
 ## What Needs to Happen Next (Priority Order)
 
 ### This Week (June 17-23): Hybrid Launch Phase 1
-1. ~~**Send the app link**~~ — ✅ DONE (2026-06-15). Sent Option A (direct link) to Mike, Nate, Sean. Awaiting replies.
-2. ~~**Send Round 2 DMs**~~ — ✅ 4/6 sent. **Remaining: Klaus + Lobo** (DMs drafted, pending Facebook rate limit)
-3. ~~**Buy LaserSecrets on Etsy**~~ — ✅ DONE (2026-06-17). Bought 3 products, analyzed all. Key insight: lens files use power scaling math, not independent testing. See `etsy_files_analysis.md`
-4. ~~**Scrape OMG Laser**~~ — ✅ DONE (177 entries added to DB, total now 901)
-5. ~~**Validate speeds vs Etsy expert data**~~ — ✅ DONE (2026-06-17). Analyzed 3,839 Etsy settings against 64 DB entries. **Results: 87% accuracy, 60% match within 5%.** Outliers identified (cut operations are 6x slower in Etsy data). See `speed_validation_report.md`
-6. **[CRITICAL] Landing page deployed** — Public URL live, demo video embedded, waitlist form functional (Deadline: June 21). See [`launch_checklist.md`](launch_checklist.md) for details.
-7. **[CRITICAL] Send 6 DMs to power users** — Nate, Mike, Sean, Jeremy, Tinker, Lobo. Personal message + app link + landing page link (Deadline: June 19).
-8. **[CRITICAL] Facebook posts in 3 groups** — Laser Cutting Enthusiasts, CO2 Laser Users, LightBurn Community. Spaced 1-2 per day (Deadline: June 21).
+
+**PREREQUISITE (Before anything else):**
+1. **[CRITICAL] Test all 11 workflows** — See `prototype_1_workflows.md`. Systematic end-to-end testing of every feature (auth, machine setup, logging, suggestions, import, export, landing page, waitlist, history, onboarding, font-preview). Fix all bugs found. ~2 hours.
+
+**THEN: Deploy**
+2. **Deploy to Vercel** — Push to `main` to get all new features + bug fixes live. Verify landing page at `https://cutlog-two.vercel.app/landing`. Verify waitlist form works. Confirm no console errors on mobile.
+
+**THEN: Go-to-market**
+3. **[CRITICAL] Facebook posts in 3 groups** — Laser Cutting Enthusiasts, CO2 Laser Users, LightBurn Community. Spaced 1-2 per day (Deadline: June 21). Link to `https://cutlog-two.vercel.app/landing`.
+4. **[CRITICAL] Send 6 DMs to power users** — Nate, Mike, Sean, Jeremy, Tinker, Lobo. Personal message + app link + landing page link (Deadline: June 19).
+
+**Already completed:**
+- ~~**Send the app link**~~ — ✅ DONE (2026-06-15). Sent Option A (direct link) to Mike, Nate, Sean. Awaiting replies.
+- ~~**Send Round 2 DMs**~~ — ✅ 6/6 sent (Klaus + Lobo sent 2026-06-17). All DMs delivered.
+- ~~**Buy LaserSecrets on Etsy**~~ — ✅ DONE (2026-06-17). Bought 3 products, analyzed all. Key insight: lens files use power scaling math, not independent testing. See `etsy_files_analysis.md`
+- ~~**Scrape OMG Laser**~~ — ✅ DONE (177 entries added to DB, total now 901)
+- ~~**Validate speeds vs Etsy expert data**~~ — ✅ DONE (2026-06-17). Analyzed 3,839 Etsy settings against 64 DB entries. **Results: 87% accuracy, 60% match within 5%.** Outliers identified (cut operations are 6x slower in Etsy data). See `speed_validation_report.md`
 
 ### Short-Term (June 24-July 7): Hybrid Launch Phase 2-3
-9. **Deep-dive follow-ups** (Week 2) — 1:1 DMs with power users. Encourage them to try app. Ask what material/thickness they want to test.
-10. **Collect feedback** (Week 2-3) — Interview active users. Questions: Did suggestions make sense? Would you pay? What's missing?
-11. **Compile case studies** (Week 3) — Write 2-3 testimonials with specific wins from active testers.
-12. **Iterate landing page** (Week 2-3) — A/B test messaging if needed. Update with case studies + screenshots.
-13. **Monitor metrics** (Ongoing) — Track landing page signups (target 100+), DM reply rate (target 50%), app trial users (target 5+), active loggers (target 2-3).
+5. **Deep-dive follow-ups** (Week 2) — 1:1 DMs with power users. Encourage them to try app. Ask what material/thickness they want to test.
+6. **Collect feedback** (Week 2-3) — Interview active users. Questions: Did suggestions make sense? Would you pay? What's missing?
+7. **Compile case studies** (Week 3) — Write 2-3 testimonials with specific wins from active testers.
+8. **Iterate landing page** (Week 2-3) — A/B test messaging if needed. Update with case studies + screenshots.
+9. **Monitor metrics** (Ongoing) — Track landing page signups (target 100+), DM reply rate (target 50%), app trial users (target 5+), active loggers (target 2-3).
 
 ### Medium-Term (After Launch Phase Completes)
-14. **Deploy latest changes to Vercel** — push to main to get all new features live
-15. ~~**Build LightBurn .clb import/export**~~ — ✅ DONE (/import page, /api/import-clb, /api/export-clb, export button on /history)
-16. ~~**Make speed recommendation the hero feature**~~ — ✅ DONE (speed hero UX + 3-button feedback + collapsible full params)
-17. ~~**Integrate LaserParams Converter math**~~ — ✅ DONE (Python module at scripts/parameter_scaling.py, formulas extracted)
-18. **Scrape remaining sources** (Epilog PDFs, OEM manuals) — OMG Laser + lasertips + Reddit + LightBurn GitHub done
-19. **Investigate Beam Squadron partnership** — Chance Lawson's audience = our beta users
-20. **Integrate parameter_scaling.py into suggestion engine** — apply scaling to expand 901 raw params into 4,000-7,000 applicable suggestions
-21. **Get 5 beta users logging cuts** — validate daily logging habit (after public launch proves concept)
-22. **Train v1 ML model** (XGBoost) — speed prediction from material/thickness/machine
-23. **Wrap app in Capacitor** — publish to App Store + Google Play (plan at `migration_to_full_app_plan.md`, trigger: 5+ active users)
-24. **Build drift detection** — alert when machine parameters start degrading
-25. **OPC-UA connectivity** (Phase 3) — auto-log without manual entry
+10. ~~**Build LightBurn .clb import/export**~~ — ✅ DONE (/import page, /api/import-clb, /api/export-clb, export button on /history)
+11. ~~**Make speed recommendation the hero feature**~~ — ✅ DONE (speed hero UX + 3-button feedback + collapsible full params)
+12. ~~**Integrate LaserParams Converter math**~~ — ✅ DONE (Python module at scripts/parameter_scaling.py, formulas extracted)
+13. **Scrape remaining sources** (Epilog PDFs, OEM manuals) — OMG Laser + lasertips + Reddit + LightBurn GitHub done
+14. **Investigate Beam Squadron partnership** — Chance Lawson's audience = our beta users
+15. **Integrate parameter_scaling.py into suggestion engine** — apply scaling to expand 901 raw params into 4,000-7,000 applicable suggestions
+16. **Get 5 beta users logging cuts** — validate daily logging habit (after public launch proves concept)
+17. **Train v1 ML model** (XGBoost) — speed prediction from material/thickness/machine
+18. **Wrap app in Capacitor** — publish to App Store + Google Play (plan at `migration_to_full_app_plan.md`, trigger: 5+ active users). Capacitor integration code exists on `migration_to_app` branch. Will merge after 5+ active beta users.
+19. **Build drift detection** — alert when machine parameters start degrading
+20. **OPC-UA connectivity** (Phase 3) — auto-log without manual entry
 
 ---
 
@@ -350,6 +362,7 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026:
 | Session A (bedrock-laser-tmux) | Customer validation + research | Facebook outreach (2 rounds), competitor analysis (Beam Squadron, Etsy, LightBurn), data planning, DM drafts, speed analysis |
 | Session B (CutLog prototype) | Building + deploying the app | Next.js app built, Supabase DB, 724 params scraped/generated and seeded, suggestion engine fixed, deployed to Vercel (https://cutlog-two.vercel.app) |
 | Session C (cutlog-app, 2026-06-15) | Feature build + data + competitive intel + onboarding UX | OMG Laser scraped (177 entries → DB at 901 total), LightBurn .clb import/export built, LaserParams Converter formulas extracted to Python, suggestion engine refactored (speed-first hero UX + 3-button feedback), PWA install banner added, BeraTech CNC competitor analyzed (4/10 threat), Capacitor migration plan written, Lobo Lightbringer DM drafted, **user discovery/onboarding features added** (contextual hints, first-visit overlay, empty states that educate, smart nudges) |
+| Session D (cutlog-app, 2026-06-17) | Launch prep, code audit, bug fixes, go-to-market strategy | Landing page built (`/landing`), waitlist system (`/waitlist` + Supabase table), outreach docs (launch_checklist.md, launch_strategy_hybrid.md, prototype_1_workflows.md with 11 test workflows), **9 bug fixes** (code audit), strategy audit (hybrid launch = Option C chosen), DM status updated (Klaus sent, Lobo sent), font-preview tool (`/tools/font-preview`) |
 
 ---
 

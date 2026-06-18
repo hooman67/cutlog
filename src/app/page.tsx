@@ -59,7 +59,7 @@ export default function Home() {
           <h1 className="text-2xl font-bold">CutLog</h1>
           {machine && (
             <p className="text-sm text-zinc-500">
-              {machine.nickname || machine.brand} · {machine.wattage_w ? `${machine.wattage_w / 1000}kW` : ""}
+              {machine.nickname || machine.brand} · {machine.wattage_w ? (machine.wattage_w >= 1000 ? `${machine.wattage_w / 1000}kW` : `${machine.wattage_w}W`) : ""}
             </p>
           )}
         </div>
