@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
 import OnboardingOverlay from "@/components/OnboardingOverlay";
@@ -39,6 +40,7 @@ export default function RootLayout({
         <OnboardingOverlay />
         <SmartNudges />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
