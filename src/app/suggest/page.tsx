@@ -663,7 +663,112 @@ export default function Suggest() {
             </div>
           </div>
 
-          {/* Speed Profile Explanation */}
+          {/* Reference parameters section - shown right after the recommendation card */}
+          <div className="mb-4">
+            {/* Always-visible top parameters */}
+            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+              <p className="text-xs text-zinc-500 mb-3 font-medium uppercase tracking-wide">Reference Parameters</p>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                {speedRec.avgPower !== null && (
+                  <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg px-3 py-2">
+                    <span className="text-zinc-400 text-xs">Power</span>
+                    <span className="font-mono text-zinc-200">{speedRec.avgPower}%</span>
+                  </div>
+                )}
+                {speedRec.commonGasType && (
+                  <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg px-3 py-2">
+                    <span className="text-zinc-400 text-xs">Gas</span>
+                    <span className="font-mono text-zinc-200">{speedRec.commonGasType}{speedRec.avgGasPressure ? ` ${speedRec.avgGasPressure}bar` : ""}</span>
+                  </div>
+                )}
+                {speedRec.avgFocus !== null && (
+                  <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg px-3 py-2">
+                    <span className="text-zinc-400 text-xs">Focus</span>
+                    <span className="font-mono text-zinc-200">{speedRec.avgFocus}mm</span>
+                  </div>
+                )}
+                {speedRec.avgNozzle !== null && (
+                  <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg px-3 py-2">
+                    <span className="text-zinc-400 text-xs">Nozzle</span>
+                    <span className="font-mono text-zinc-200">{speedRec.avgNozzle}mm</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Expandable detailed cuts */}
+              <button
+                onClick={() => setShowFullParams(!showFullParams)}
+                className="w-full flex items-center justify-center gap-2 mt-3 pt-3 border-t border-zinc-800 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+              >
+                <span>{showFullParams ? "Hide detailed cuts" : "Show all cuts & details"}</span>
+                <span>{showFullParams ? "▲" : "▼"}</span>
+              </button>
+
+              {showFullParams && (
+                <div className="mt-3">
+                  <p className="text-xs text-zinc-500 mb-3">
+                    Individual cut data used for this recommendation. Adjust based on your machine setup.
+                  </p>
+
+                  {/* Tier-grouped detailed results */}
+                  {suggestions.map((group) => (
+                    <div key={group.source} className="mb-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className={`px-2 py-0.5 rounded-md border text-xs font-medium ${group.badge_color}`}>
+                          {group.source === "own" ? "YOUR DATA" : group.source === "similar_machine" ? "AI BASELINE" : "COMMUNITY"}
+                        </span>
+                        <span className="text-sm text-zinc-400">{group.label}</span>
+                        <span className="text-sm text-yellow-400 ml-auto">
+                          {"★".repeat(Math.round(group.avg_rating))} {group.avg_rating.toFixed(1)}
+                        </span>
+                      </div>
+
+                      {group.cuts.map((cut, i) => (
+                        <div key={cut.id || i} className="bg-zinc-800/30 border border-zinc-700 rounded-xl p-4 mb-2">
+                          <div className="grid grid-cols-3 gap-3 text-sm">
+                            <div>
+                              <span className="text-zinc-500 text-xs block">Power</span>
+                              <span className="font-mono">{formatParam(cut.scaled_power !== undefined ? cut.scaled_power : cut.power_pct, "%")}</span>
+                            </div>
+                            <div>
+                              <span className="text-zinc-500 text-xs block">Speed</span>
+                              <span className="font-mono text-emerald-400">{formatParam(cut.scaled_speed !== undefined ? cut.scaled_speed : cut.speed_mm_min, " mm/min")}</span>
+                            </div>
+                            <div>
+                              <span className="text-zinc-500 text-xs block">Gas</span>
+                              <span className="font-mono">{cut.gas_type || "—"} {cut.gas_pressure_bar ? `${cut.gas_pressure_bar}bar` : ""}</span>
+                            </div>
+                            <div>
+                              <span className="text-zinc-500 text-xs block">Focus</span>
+                              <span className="font-mono">{formatParam(cut.focus_position_mm, "mm")}</span>
+                            </div>
+                            <div>
+                              <span className="text-zinc-500 text-xs block">Nozzle</span>
+                              <span className="font-mono">{formatParam(cut.nozzle_diameter_mm, "mm")}</span>
+                            </div>
+                            <div>
+                              <span className="text-zinc-500 text-xs block">Rating</span>
+                              <span className="text-yellow-400">{"★".repeat(cut.quality_rating || 0)}</span>
+                            </div>
+                          </div>
+                          {cut.scaling_note && (
+                            <p className="text-xs text-zinc-400 mt-2">
+                              {cut.scaling_note}
+                            </p>
+                          )}
+                          {cut.notes && (
+                            <p className="text-xs text-zinc-500 mt-1 italic">&ldquo;{cut.notes}&rdquo;</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Speed Profile Explanation - now AFTER reference parameters */}
           <div className="bg-slate-900/30 border border-slate-700 rounded-xl p-4 mb-6 text-xs text-zinc-300">
             <p className="font-medium text-slate-200 mb-2">About Speed Profiles:</p>
             <div className="space-y-2">
@@ -722,7 +827,7 @@ export default function Suggest() {
                     : "bg-emerald-900/50 border border-emerald-600 text-emerald-300 hover:bg-emerald-800/60 active:scale-95"
                 }`}
               >
-                <span className="block text-lg mb-1">&check;</span>
+                <span className="block text-lg mb-1">✓</span>
                 Perfect
               </button>
               <button
@@ -748,79 +853,6 @@ export default function Suggest() {
               Thanks! This helps improve future recommendations.
             </div>
           )}
-
-          {/* Collapsible full parameters section */}
-          <div className="mb-6">
-            <button
-              onClick={() => setShowFullParams(!showFullParams)}
-              className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-sm text-zinc-300 hover:bg-zinc-800/50 transition-colors"
-            >
-              <span>Other parameters for reference</span>
-              <span className="text-zinc-500">{showFullParams ? "▲" : "▼"}</span>
-            </button>
-
-            {showFullParams && (
-              <div className="mt-2">
-                <p className="text-xs text-zinc-500 mb-3 px-1">
-                  These are typical values for this material. Adjust based on your machine setup.
-                </p>
-
-                {/* Tier-grouped detailed results */}
-                {suggestions.map((group) => (
-                  <div key={group.source} className="mb-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className={`px-2 py-0.5 rounded-md border text-xs font-medium ${group.badge_color}`}>
-                        {group.source === "own" ? "YOUR DATA" : group.source === "similar_machine" ? "AI BASELINE" : "COMMUNITY"}
-                      </span>
-                      <span className="text-sm text-zinc-400">{group.label}</span>
-                      <span className="text-sm text-yellow-400 ml-auto">
-                        {"★".repeat(Math.round(group.avg_rating))} {group.avg_rating.toFixed(1)}
-                      </span>
-                    </div>
-
-                    {group.cuts.map((cut, i) => (
-                      <div key={cut.id || i} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 mb-2">
-                        <div className="grid grid-cols-3 gap-3 text-sm">
-                          <div>
-                            <span className="text-zinc-500 text-xs block">Power</span>
-                            <span className="font-mono">{formatParam(cut.scaled_power !== undefined ? cut.scaled_power : cut.power_pct, "%")}</span>
-                          </div>
-                          <div>
-                            <span className="text-zinc-500 text-xs block">Speed</span>
-                            <span className="font-mono text-emerald-400">{formatParam(cut.scaled_speed !== undefined ? cut.scaled_speed : cut.speed_mm_min, " mm/min")}</span>
-                          </div>
-                          <div>
-                            <span className="text-zinc-500 text-xs block">Gas</span>
-                            <span className="font-mono">{cut.gas_type || "—"} {cut.gas_pressure_bar ? `${cut.gas_pressure_bar}bar` : ""}</span>
-                          </div>
-                          <div>
-                            <span className="text-zinc-500 text-xs block">Focus</span>
-                            <span className="font-mono">{formatParam(cut.focus_position_mm, "mm")}</span>
-                          </div>
-                          <div>
-                            <span className="text-zinc-500 text-xs block">Nozzle</span>
-                            <span className="font-mono">{formatParam(cut.nozzle_diameter_mm, "mm")}</span>
-                          </div>
-                          <div>
-                            <span className="text-zinc-500 text-xs block">Rating</span>
-                            <span className="text-yellow-400">{"★".repeat(cut.quality_rating || 0)}</span>
-                          </div>
-                        </div>
-                        {cut.scaling_note && (
-                          <p className="text-xs text-zinc-400 mt-2">
-                            {cut.scaling_note}
-                          </p>
-                        )}
-                        {cut.notes && (
-                          <p className="text-xs text-zinc-500 mt-1 italic">&ldquo;{cut.notes}&rdquo;</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
       )}
     </div>

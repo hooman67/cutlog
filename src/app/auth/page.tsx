@@ -1,5 +1,15 @@
 "use client";
 
+/**
+ * SUPABASE DASHBOARD CONFIGURATION REQUIRED FOR EMAIL CONFIRMATION:
+ *
+ * Go to: Supabase Dashboard -> Authentication -> URL Configuration
+ *   - Site URL: https://cutlog-two.vercel.app
+ *   - Redirect URLs: https://cutlog-two.vercel.app/**
+ *
+ * Without this, confirmation emails will redirect to localhost:3000.
+ */
+
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -24,7 +34,7 @@ export default function AuthPage() {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: `${window.location.origin}/` },
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
       });
       if (error) {
         setError(error.message);

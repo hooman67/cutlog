@@ -124,7 +124,6 @@ export default function Home() {
             <span className="font-medium">Cut History</span>
             <p className="text-sm text-zinc-500">View & search your logged cuts</p>
           </div>
-          <span className="text-zinc-600">→</span>
         </div>
       </button>
 
@@ -137,7 +136,6 @@ export default function Home() {
             <span className="font-medium">Import LightBurn Library</span>
             <p className="text-sm text-zinc-500">Upload .clb files to add parameters</p>
           </div>
-          <span className="text-zinc-600">→</span>
         </div>
       </button>
 
@@ -150,7 +148,6 @@ export default function Home() {
             <span className="font-medium">Machine Settings</span>
             <p className="text-sm text-zinc-500">Update hours, calibration</p>
           </div>
-          <span className="text-zinc-600">→</span>
         </div>
       </button>
     </div>

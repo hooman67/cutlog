@@ -97,7 +97,7 @@ export default function SmartNudges() {
                 onClick={dismiss}
                 className="inline-block mt-1.5 text-xs font-medium text-amber-400 hover:text-amber-300 transition-colors"
               >
-                {activeNudge.linkText} →
+                {activeNudge.linkText}
               </Link>
             )}
           </div>

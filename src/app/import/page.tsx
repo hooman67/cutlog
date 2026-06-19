@@ -213,7 +213,7 @@ export default function ImportPage() {
             onClick={() => router.push("/history")}
             className="block mt-2 text-emerald-400 hover:text-emerald-300 underline"
           >
-            View in Cut History →
+            View in Cut History
           </button>
         </div>
       )}

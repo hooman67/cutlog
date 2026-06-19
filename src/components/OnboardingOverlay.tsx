@@ -34,18 +34,6 @@ export default function OnboardingOverlay() {
 
         <div className="space-y-4 mb-6">
           <div className="flex items-start gap-3">
-            <span className="flex-shrink-0 text-xl leading-none mt-0.5">⚡</span>
-            <div>
-              <p className="text-sm font-medium text-zinc-200">
-                Auto-scales for Your Lens
-              </p>
-              <p className="text-xs text-zinc-400">
-                Parameters automatically scale for your specific lens focal length
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
             <span className="flex-shrink-0 text-xl leading-none mt-0.5">🎯</span>
             <div>
               <p className="text-sm font-medium text-zinc-200">
@@ -53,6 +41,18 @@ export default function OnboardingOverlay() {
               </p>
               <p className="text-xs text-zinc-400">
                 Enter material + thickness, verified against Etsy expert data
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <span className="flex-shrink-0 text-xl leading-none mt-0.5">🔧</span>
+            <div>
+              <p className="text-sm font-medium text-zinc-200">
+                Per-Machine Learning
+              </p>
+              <p className="text-xs text-zinc-400">
+                Set up your machine, CutLog personalizes over time
               </p>
             </div>
           </div>
@@ -70,6 +70,18 @@ export default function OnboardingOverlay() {
           </div>
 
           <div className="flex items-start gap-3">
+            <span className="flex-shrink-0 text-xl leading-none mt-0.5">⚡</span>
+            <div>
+              <p className="text-sm font-medium text-zinc-200">
+                Auto-scales for Your Lens
+              </p>
+              <p className="text-xs text-zinc-400">
+                Parameters automatically scale for your specific lens focal length
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
             <span className="flex-shrink-0 text-xl leading-none mt-0.5">🎨</span>
             <div>
               <p className="text-sm font-medium text-zinc-200">
@@ -80,25 +92,13 @@ export default function OnboardingOverlay() {
               </p>
             </div>
           </div>
-
-          <div className="flex items-start gap-3">
-            <span className="flex-shrink-0 text-xl leading-none mt-0.5">🔧</span>
-            <div>
-              <p className="text-sm font-medium text-zinc-200">
-                Per-Machine Learning
-              </p>
-              <p className="text-xs text-zinc-400">
-                Set up your machine, CutLog personalizes over time
-              </p>
-            </div>
-          </div>
         </div>
 
         <button
           onClick={handleDismiss}
           className="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-sm transition-colors"
         >
-          Get Started →
+          Get Started
         </button>
       </div>
     </div>
