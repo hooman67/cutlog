@@ -398,8 +398,10 @@ export default function Suggest() {
       saveFeedback(searchMaterial, thickness, type, rec.avgSpeed);
     }
     setFeedbackGiven(type);
-    setShowFeedbackToast(true);
-    setTimeout(() => setShowFeedbackToast(false), 3000);
+    if (type !== feedbackGiven) {
+      setShowFeedbackToast(true);
+      setTimeout(() => setShowFeedbackToast(false), 3000);
+    }
   }
 
   function formatParam(value: number | null, unit: string): string {
@@ -795,12 +797,9 @@ export default function Suggest() {
             <div className="grid grid-cols-3 gap-3">
               <button
                 onClick={() => handleFeedback("too_slow")}
-                disabled={feedbackGiven !== null}
                 className={`p-4 rounded-xl font-semibold text-sm transition-all ${
                   feedbackGiven === "too_slow"
                     ? "bg-amber-700 text-amber-100 ring-2 ring-amber-400"
-                    : feedbackGiven
-                    ? "bg-zinc-800 text-zinc-600 cursor-not-allowed"
                     : "bg-amber-900/50 border border-amber-700 text-amber-300 hover:bg-amber-800/60 active:scale-95"
                 }`}
               >
@@ -809,12 +808,9 @@ export default function Suggest() {
               </button>
               <button
                 onClick={() => handleFeedback("perfect")}
-                disabled={feedbackGiven !== null}
                 className={`p-4 rounded-xl font-semibold text-sm transition-all ${
                   feedbackGiven === "perfect"
                     ? "bg-emerald-700 text-emerald-100 ring-2 ring-emerald-400"
-                    : feedbackGiven
-                    ? "bg-zinc-800 text-zinc-600 cursor-not-allowed"
                     : "bg-emerald-900/50 border border-emerald-600 text-emerald-300 hover:bg-emerald-800/60 active:scale-95"
                 }`}
               >
@@ -823,12 +819,9 @@ export default function Suggest() {
               </button>
               <button
                 onClick={() => handleFeedback("too_fast")}
-                disabled={feedbackGiven !== null}
                 className={`p-4 rounded-xl font-semibold text-sm transition-all ${
                   feedbackGiven === "too_fast"
                     ? "bg-red-700 text-red-100 ring-2 ring-red-400"
-                    : feedbackGiven
-                    ? "bg-zinc-800 text-zinc-600 cursor-not-allowed"
                     : "bg-red-900/50 border border-red-700 text-red-300 hover:bg-red-800/60 active:scale-95"
                 }`}
               >
