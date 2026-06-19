@@ -365,7 +365,7 @@ export default function Suggest() {
       const avg = communityCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / communityCuts.length;
       groups.push({
         source: "community",
-        label: "Community",
+        label: "Shared Cuts",
         badge_color: "bg-blue-900/50 border-blue-600 text-blue-300",
         cuts: scaledCuts,
         avg_rating: avg,
@@ -375,6 +375,15 @@ export default function Suggest() {
     setSuggestions(groups);
     setSearched(true);
     setLoading(false);
+
+    // Restore previous feedback state for this material+thickness
+    const searchMat = material || materialSearch;
+    if (searchMat) {
+      const prev = getStoredFeedback(searchMat, thickness);
+      if (prev.length > 0) {
+        setFeedbackGiven(prev[prev.length - 1].feedback);
+      }
+    }
 
     // Track if search returned no results for nudge D
     if (groups.length === 0 && typeof window !== "undefined") {
@@ -643,24 +652,6 @@ export default function Suggest() {
               )}
             </div>
 
-            {/* Supporting parameters summary */}
-            <div className="mt-4 pt-4 border-t border-zinc-800">
-              <p className="text-xs text-zinc-500 mb-2">Assumes typical parameters:</p>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-zinc-400">
-                {speedRec.avgPower !== null && (
-                  <span>{speedRec.avgPower}% power</span>
-                )}
-                {speedRec.commonGasType && (
-                  <span>{speedRec.commonGasType}{speedRec.avgGasPressure ? ` at ${speedRec.avgGasPressure} bar` : ""}</span>
-                )}
-                {speedRec.avgFocus !== null && (
-                  <span>{speedRec.avgFocus}mm focus</span>
-                )}
-                {speedRec.avgNozzle !== null && (
-                  <span>{speedRec.avgNozzle}mm nozzle</span>
-                )}
-              </div>
-            </div>
           </div>
 
           {/* Reference parameters section - shown right after the recommendation card */}
