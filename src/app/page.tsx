@@ -81,15 +81,15 @@ export default function Home() {
           <p className="text-xs text-zinc-400 mb-2">Auto-scales parameters for your lens. Cutting & engraving. Validated against Etsy data.</p>
           <ol className="list-decimal list-inside space-y-1.5 text-zinc-400 text-xs">
             <li>
-              <Link href="/machine" className="text-sky-400 hover:text-sky-300">Set up your machine &rarr;</Link>
+              <Link href="/machine" className="text-sky-400 hover:text-sky-300">Set up your machine</Link>
             </li>
             <li>
               <Link href="/import" className="text-sky-400 hover:text-sky-300">Import your LightBurn library</Link>
               {" or "}
-              <Link href="/log" className="text-sky-400 hover:text-sky-300">log your first cut &rarr;</Link>
+              <Link href="/log" className="text-sky-400 hover:text-sky-300">log your first cut</Link>
             </li>
             <li>
-              <Link href="/suggest" className="text-sky-400 hover:text-sky-300">Get speed recommendations &rarr;</Link>
+              <Link href="/suggest" className="text-sky-400 hover:text-sky-300">Get speed recommendations</Link>
             </li>
           </ol>
         </DiscoveryHint>

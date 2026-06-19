@@ -109,13 +109,13 @@ export default function History() {
           <div className="space-y-3 text-sm">
             <p>
               <Link href="/import" className="text-sky-400 hover:text-sky-300">
-                Import your LightBurn library &rarr;
+                Import your LightBurn library
               </Link>
               <span className="block text-xs text-zinc-600">(cutting & engraving)</span>
             </p>
             <p>
               <Link href="/log" className="text-sky-400 hover:text-sky-300">
-                Log your first cut &rarr;
+                Log your first cut
               </Link>
             </p>
           </div>
@@ -127,7 +127,7 @@ export default function History() {
             onClick={() => setSearch("")}
             className="text-sky-400 hover:text-sky-300 text-sm"
           >
-            Clear filter &rarr;
+            Clear filter
           </button>
         </div>
       ) : (

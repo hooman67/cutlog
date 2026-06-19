@@ -420,7 +420,7 @@ export default function Suggest() {
       {!hasCuts && (
         <DiscoveryHint storageKey="suggest_import_clb">
           <p className="font-medium text-zinc-200 mb-1.5">New to CutLog?</p>
-          <p className="text-xs text-zinc-300 mb-2">Have a LightBurn library? <HintLink href="/import">Import your .clb file &rarr;</HintLink></p>
+          <p className="text-xs text-zinc-300 mb-2">Have a LightBurn library? <HintLink href="/import">Import your .clb file</HintLink></p>
           <p className="text-xs text-zinc-400">All recommendations auto-scale for your lens, and are validated against expert Etsy data.</p>
         </DiscoveryHint>
       )}
@@ -493,7 +493,7 @@ export default function Suggest() {
               <span className="text-emerald-400 font-bold mt-0.5">1.</span>
               <div>
                 <Link href="/import" className="text-sky-400 hover:text-sky-300 font-medium">
-                  Import your LightBurn library &rarr;
+                  Import your LightBurn library
                 </Link>
                 <p className="text-xs text-zinc-500 mt-0.5">Auto-scaled to your lens, engraving support included</p>
               </div>
@@ -506,7 +506,7 @@ export default function Suggest() {
                   onClick={() => { router.push("/log"); }}
                   className="text-sky-400 hover:text-sky-300 font-medium text-sm text-left"
                 >
-                  Log your first test cut &rarr;
+                  Log your first test cut
                 </button>
                 <p className="text-xs text-zinc-500 mt-0.5">Build a personalized baseline for this material</p>
               </div>
@@ -528,7 +528,7 @@ export default function Suggest() {
       {/* Contextual hint: results found but no machine set up */}
       {searched && suggestions.length > 0 && !hasMachine && (
         <DiscoveryHint storageKey="suggest_setup_machine">
-          <p className="text-sm text-zinc-300 mb-1.5"><HintLink href="/machine">Set up your machine profile &rarr;</HintLink> for auto-scaled parameters.</p>
+          <p className="text-sm text-zinc-300 mb-1.5"><HintLink href="/machine">Set up your machine profile</HintLink> for auto-scaled parameters.</p>
           <p className="text-xs text-zinc-400">We'll scale recommendations to your specific lens focal length for more accurate cuts.</p>
         </DiscoveryHint>
       )}
@@ -784,7 +784,7 @@ export default function Suggest() {
             {hasMachine && (
               <div className="mt-3 pt-3 border-t border-slate-600">
                 <Link href="/machine" className="text-slate-300 hover:text-slate-100 text-xs font-medium">
-                  Change your speed profile &rarr;
+                  Change your speed profile
                 </Link>
               </div>
             )}
