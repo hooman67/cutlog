@@ -67,9 +67,19 @@ export default function LogCut() {
     m.aliases?.some(a => a.toLowerCase().includes(materialSearch.toLowerCase()))
   ).slice(0, 8);
 
+  const [submitError, setSubmitError] = useState("");
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!machine || !material || !thickness || qualityRating === 0) return;
+    setSubmitError("");
+
+    // Use materialSearch as fallback if material wasn't selected from dropdown
+    const finalMaterial = material || materialSearch;
+
+    if (!machine) { setSubmitError("Please set up your machine first (go to Settings)"); return; }
+    if (!finalMaterial) { setSubmitError("Please select or type a material"); return; }
+    if (!thickness) { setSubmitError("Please enter a thickness"); return; }
+    if (qualityRating === 0) { setSubmitError("Please rate the cut quality (1-5 stars)"); return; }
     setLoading(true);
 
     const { data: { user } } = await supabase.auth.getUser();
@@ -78,7 +88,7 @@ export default function LogCut() {
     const { error } = await supabase.from("cuts").insert({
       machine_id: machine.id,
       user_id: user.id,
-      material,
+      material: finalMaterial,
       thickness_mm: parseFloat(thickness),
       power_pct: powerPct ? parseFloat(powerPct) : null,
       speed_mm_min: speed ? parseFloat(speed) : null,
@@ -435,9 +445,13 @@ export default function LogCut() {
           </div>
         </div>
 
+        {submitError && (
+          <p className="text-red-400 text-sm text-center mb-2">{submitError}</p>
+        )}
+
         <button
           type="submit"
-          disabled={loading || !material || !thickness || qualityRating === 0}
+          disabled={loading}
           className="w-full p-4 rounded-xl bg-emerald-700 hover:bg-emerald-600 font-semibold text-lg transition-colors disabled:opacity-50 sticky bottom-4"
         >
           {loading ? "Saving..." : "Log Cut ✓"}
