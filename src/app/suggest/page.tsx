@@ -192,9 +192,11 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
   const cv = mean > 0 ? stddev / mean : 1;
 
   let confidence: "HIGH" | "MEDIUM" | "LOW" = "LOW";
-  if (goodCuts.length >= 5 && cv < 0.2) confidence = "HIGH";
+  // If user has their own verified cut (4-5 stars), that's HIGH confidence — they tested it on their machine
+  const hasOwnVerifiedCut = goodCuts.some(c => c.source_tier_weight === 3 && c.quality_rating && c.quality_rating >= 4);
+  if (hasOwnVerifiedCut) confidence = "HIGH";
+  else if (goodCuts.length >= 5 && cv < 0.2) confidence = "HIGH";
   else if (goodCuts.length >= 3 || cv < 0.4) confidence = "MEDIUM";
-  // else stays LOW: count < 3 OR cv >= 0.4
 
   // Supporting params (use scaled power if available)
   const powers = goodCuts.filter((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct) !== null).map((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct)!);
