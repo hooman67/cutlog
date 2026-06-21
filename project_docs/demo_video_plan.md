@@ -93,65 +93,64 @@ Follow this script exactly. Each shot has specific timing and narration.
 
 ---
 
-### SHOT 2: VERIFIED BADGE [0:05-0:12] (7 seconds)
+### SHOT 2: VERIFIED BADGE + DATA SOURCES [0:05-0:14] (9 seconds)
 
 **Visual**:
 - Recommendation appears with speed hero number (e.g., "3500 mm/min")
-- KEY MOMENT: The BLUE "COMMUNITY" badge is visible on the result
 - Confidence badge shows "HIGH"
-- Hover cursor near the badge to draw attention to it
+- Tap "Show all cuts & details" to expand
+- Inside: GREEN "YOUR DATA" section and BLUE "COMMUNITY" section visible
 
 **Narration**:
-"See that badge? A real operator tested this on a similar machine."
+"See that? High confidence — because I've tested this myself AND two other operators verified it on similar machines. Tap to see exactly where every data point came from."
 
 **Action**:
 1. Let recommendation load (0:05-0:07)
-2. Pause — let viewer absorb the speed number (0:07-0:09)
-3. Move cursor to highlight the blue badge/tier label (0:09-0:12)
+2. Pause — let viewer absorb the speed + HIGH badge (0:07-0:09)
+3. Tap "Show all cuts & details" (0:09-0:10)
+4. Pause — let viewer see the green YOUR DATA and blue COMMUNITY sections (0:10-0:14)
 
-**Why this works**: This is the trust differentiator. BeraTech gives you a number. We give you a number + proof of where it came from.
+**Why this works**: Shows the trust layer transparently. You can see YOUR verified cut AND community data. No black box — every data point is traceable. Recording on phone so narration does the pointing instead of cursor.
 
 ---
 
-### SHOT 3: SCALING NOTE [0:12-0:18] (6 seconds)
+### SHOT 3: SCALING NOTE [0:14-0:20] (6 seconds)
 
 **Visual**:
-- Show the reference parameters grid (Power, Gas, Focus, Nozzle pills)
-- Show the "Scaled for your 150mm lens" note (or similar auto-scaling indicator)
-- The scaling note should be clearly visible
+- Scroll back up or collapse the detail to show the reference parameters grid (Power, Gas, Focus, Nozzle pills)
+- The "Scaled for your 175mm lens" note should be clearly visible
+- Reference params show the adjusted power value
 
 **Narration**:
-"AI auto-scales for YOUR specific lens. No manual tweaking."
+"Notice it says scaled for my 175mm lens. The community data was tested on a 110mm lens — AI automatically adjusted the power for my setup. No manual math."
 
 **Action**:
-1. The reference params should already be visible below the hero card (0:12-0:14)
-2. If scaling note is visible, hover near it briefly (0:14-0:16)
-3. Pause to let viewer read the params (0:16-0:18)
+1. Collapse the detail view or scroll up to the reference params (0:14-0:16)
+2. Pause — let viewer read the scaling note and params (0:16-0:20)
 
-**Why this works**: Shows personalization is automatic — not "set up a complex profile" but "it just knows your lens." This is the $32 LaserSecrets product, for free.
+**Why this works**: Explains the personalization concretely — "110mm data → 175mm auto-scaled." This is the $32 LaserSecrets product (which literally just does this math), for free. Narration replaces cursor pointing since recording on phone.
 
 ---
 
-### SHOT 4: FEEDBACK LOOP [0:18-0:25] (7 seconds)
+### SHOT 4: FEEDBACK LOOP [0:20-0:26] (6 seconds)
 
 **Visual**:
-- Show the 3-button feedback system ("Too Slow" / "Perfect ✓" / "Too Fast")
+- Scroll down to show the 3-button feedback system ("Too Slow" / "Perfect ✓" / "Too Fast")
 - Tap the "Perfect" button — it highlights in emerald green
-- Success animation/state change visible
 
 **Narration**:
-"Your feedback trains the AI for YOUR machine over time."
+"And when I use this speed on my machine, I tap Perfect. That feedback trains the AI — next time it's even more dialed in for MY setup."
 
 **Action**:
-1. Scroll to feedback buttons if needed (0:18-0:20)
-2. Tap "Perfect" button deliberately (0:20-0:22)
-3. Let the highlight/ring animation play (0:22-0:25)
+1. Scroll to feedback buttons (0:20-0:22)
+2. Tap "Perfect" button deliberately (0:22-0:24)
+3. Let the highlight/ring animation play (0:24-0:26)
 
-**Why this works**: Shows the loop — data goes IN, recommendations get BETTER. This is machine-specific learning in action. BeraTech's AI doesn't get better with use. Yours does.
+**Why this works**: Completes the loop — data goes IN, recommendations get BETTER. Narration makes it personal ("MY setup") since we can't hover/point on phone.
 
 ---
 
-### SHOT 5: CTA [0:25-0:30] (5 seconds)
+### SHOT 5: CTA [0:26-0:30] (4 seconds)
 
 **Visual**:
 - Cut to landing page (`/landing`) showing the hero section
@@ -179,16 +178,21 @@ Record these lines. You can do them in one take or piece them together in post-p
 [0:00-0:05]
 "Every AI tool guesses your laser parameters. CutLog actually verifies them."
 
-[0:05-0:12]
-"See that badge? A real operator tested this on a similar machine."
+[0:05-0:14]
+"See that? High confidence — because I've tested this myself AND two other 
+operators verified it on similar machines. Tap to see exactly where every 
+data point came from."
 
-[0:12-0:18]
-"AI auto-scales for YOUR specific lens. No manual tweaking."
+[0:14-0:20]
+"Notice it says scaled for my 175mm lens. The community data was tested 
+on a 110mm lens — AI automatically adjusted the power for my setup. 
+No manual math."
 
-[0:18-0:25]
-"Your feedback trains the AI for YOUR machine over time."
+[0:20-0:26]
+"And when I use this speed on my machine, I tap Perfect. That feedback 
+trains the AI — next time it's even more dialed in for MY setup."
 
-[0:25-0:30]
+[0:26-0:30]
 "AI recommendations. Human-verified. Join the beta."
 ```
 
@@ -197,10 +201,16 @@ Record these lines. You can do them in one take or piece them together in post-p
 | Shot | Message | Differentiator |
 |------|---------|---------------|
 | Hook | "CutLog verifies" | vs. BeraTech: they guess, we verify |
-| Badge | "Real operator tested this" | Trust layer — you can SEE the source |
-| Scaling | "YOUR specific lens" | Personalization — not generic tables |
-| Feedback | "Trains for YOUR machine" | Gets smarter — BeraTech is static |
+| Data Sources | "I tested + 2 operators verified" | Transparency — you see every source (YOUR DATA green, COMMUNITY blue) |
+| Scaling | "110mm data → 175mm auto-scaled" | Concrete personalization — not abstract "learns your machine" |
+| Feedback | "Tap Perfect → trains MY setup" | Gets smarter with use — BeraTech is static |
 | CTA | "Human-verified" | Tagline that sticks |
+
+### Phone Recording Notes
+- No cursor available — narration does all the pointing ("See that?", "Notice it says...")
+- Tap gestures should be deliberate and visible (pause finger over button before tapping)
+- Use portrait mode if targeting mobile viewers, landscape if for landing page embed
+- Speak conversationally — like you're showing a friend, not presenting to an audience
 
 ### Voiceover Recording Notes
 
@@ -292,10 +302,10 @@ Print this or have it open on second monitor while recording:
 
 ```
 0:00-0:05   →  HOOK (search material + thickness, bold claim)
-0:05-0:12   →  VERIFIED BADGE (recommendation + blue community badge)
-0:12-0:18   →  SCALING (reference params + "Scaled for your lens" note)
-0:18-0:25   →  FEEDBACK LOOP (tap "Perfect", show it learning)
-0:25-0:30   →  CTA (landing page or overlay text)
+0:05-0:14   →  VERIFIED DATA (recommendation + expand to show YOUR DATA + COMMUNITY sources)
+0:14-0:20   →  SCALING (show "Scaled for 175mm lens from 110mm" note)
+0:20-0:26   →  FEEDBACK LOOP (tap "Perfect", explain it trains YOUR machine)
+0:26-0:30   →  CTA (landing page or overlay text)
 ```
 
 Use a second device (iPhone) to run a timer in background. You can even use online stopwatch: https://www.online-stopwatch.com/
@@ -422,6 +432,30 @@ After recording, the video should demonstrate:
 
 ---
 
+## Optional Bonus Shot: AI Suggestion Fallback (15 seconds)
+
+**Purpose**: Separate 15-second clip for social media showing the Gemini fallback in action. Demonstrates that CutLog always has an answer, even for obscure materials.
+
+**Visual**:
+- Search for an obscure material (e.g., "Inconel 718" at "7mm")
+- Show "Asking AI for a starting point..." loading state
+- AI suggestion appears with gray badge: "AI SUGGESTION (Unverified)"
+- Gemini's confidence_note reasoning is visible
+- Show the "Was this helpful?" buttons
+
+**Narration** (optional):
+"No one's ever cut Inconel on a machine like yours? CutLog asks AI for a starting point. You validate it, and next time — it's in the database for everyone."
+
+**Why this works as social content**:
+- Shows CutLog never leaves you empty-handed
+- The "unverified" badge is honest and builds trust (not pretending AI is gospel)
+- The validation loop ("Was this helpful?") shows community-building aspect
+- 15 seconds = perfect for TikTok/Reels
+
+**When to record**: After the main 30-second demo is done. This is bonus content, not critical path.
+
+---
+
 ## Next Steps After Recording
 
 1. **Export final video** as MP4 (720p and 1080p versions)
@@ -431,6 +465,7 @@ After recording, the video should demonstrate:
 5. **Post on Facebook** with caption
 6. **Include in waitlist confirmation email**
 7. **Add link to GitHub README** under "Demo" section
+8. **(Optional) Record 15-sec AI fallback clip** for TikTok/Reels — see "Optional Bonus Shot" section above
 
 ---
 

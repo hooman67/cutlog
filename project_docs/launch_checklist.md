@@ -29,6 +29,8 @@ This is the execution checklist for **Week 1 of the Hybrid Launch** (Option C). 
 **Revised milestone order:**
 - [ ] Testing complete (all 11 workflows pass)
 - [ ] All bugs fixed + UX polished
+- [ ] Verify GEMINI_API_KEY is set in Vercel environment variables
+- [ ] Test AI fallback with obscure material search (e.g., "Inconel 718" at 7mm)
 - [ ] Nate's .clb files imported successfully
 - [ ] Nate confirms app is ready for video
 - [ ] Nate video published
@@ -563,6 +565,8 @@ If blocked:
 |---|-----------|--------|-------|
 | 1 | All 11 workflows tested and passing | [ ] | prerequisite_1_workflows.md |
 | 2 | All bugs fixed, UX polished | [ ] | Nate's condition: "bugs sorted out and fine tuned" |
+| 2a | GEMINI_API_KEY set in Vercel env vars | [ ] | Required for AI suggestion fallback |
+| 2b | AI fallback tested with obscure material | [ ] | Verify gray badge, "Was this helpful?", promotion flow |
 | 3 | Nate's .clb library imported successfully | [ ] | Proves onboarding flow with real data |
 | 4 | Font preview tool polished (his request) | [ ] | Relationship investment, cements partnership |
 | 5 | Nate confirms app is ready for video | [ ] | THE key unlock. Do not rush this. |

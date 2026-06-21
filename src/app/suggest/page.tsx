@@ -32,7 +32,7 @@ interface SpeedRecommendation {
   minSpeed: number;
   maxSpeed: number;
   dataPoints: number;
-  confidence: "HIGH" | "MEDIUM" | "LOW";
+  confidence: "HIGH" | "MEDIUM" | "LOW" | "UNVERIFIED";
   avgPower: number | null;
   commonGasType: string | null;
   avgGasPressure: number | null;
@@ -48,6 +48,17 @@ interface SpeedRecommendation {
   thicknessToleranceUsed?: number;
   // Material alias resolution
   matchedAliases?: string[];
+  // AI generation tracking
+  isAiGenerated?: boolean;
+}
+
+interface AiSuggestionResult {
+  speed_mm_min: number;
+  power_pct: number;
+  gas_type: string | null;
+  gas_pressure_bar: number | null;
+  frequency_hz: number | null;
+  confidence_note: string;
 }
 
 type FeedbackType = "too_slow" | "perfect" | "too_fast";
@@ -265,6 +276,10 @@ export default function Suggest() {
   const [showFeedbackToast, setShowFeedbackToast] = useState(false);
   const [thicknessToleranceUsed, setThicknessToleranceUsed] = useState<number>(0.5);
   const [matchedAliases, setMatchedAliases] = useState<string[]>([]);
+  const [aiSuggestion, setAiSuggestion] = useState<AiSuggestionResult | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [aiHelpfulFeedback, setAiHelpfulFeedback] = useState<"yes" | "no" | null>(null);
 
   const router = useRouter();
   const supabase = createClient();
@@ -321,6 +336,10 @@ export default function Suggest() {
     setShowFullParams(false);
     setThicknessToleranceUsed(0.5);
     setMatchedAliases([]);
+    setAiSuggestion(null);
+    setAiLoading(false);
+    setAiError(null);
+    setAiHelpfulFeedback(null);
 
     const thicknessMm = parseFloat(thickness);
 
@@ -496,6 +515,81 @@ export default function Suggest() {
     // Track if search returned no results for nudge D
     if (finalGroups.length === 0 && typeof window !== "undefined") {
       localStorage.setItem("cutlog-search-no-results", "true");
+
+      // --- AI Fallback: call Gemini when all DB queries return empty ---
+      setAiLoading(true);
+      setAiSuggestion(null);
+      setAiError(null);
+      setAiHelpfulFeedback(null);
+
+      // Check client-side cache first
+      const aiCacheKey = `ai_suggest_${searchMaterial.toLowerCase()}_${thicknessMm}_${userMachine?.wattage_w || 100}_${userMachine?.lens_focal_length_mm || 110}_${userMachine?.source_type || "fiber"}`;
+      const cachedAi = typeof window !== "undefined" ? localStorage.getItem(aiCacheKey) : null;
+
+      if (cachedAi) {
+        try {
+          setAiSuggestion(JSON.parse(cachedAi));
+          setAiLoading(false);
+          return;
+        } catch {
+          // Invalid cache, proceed with fetch
+        }
+      }
+
+      try {
+        const aiResponse = await fetch("/api/ai-suggest", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            material: searchMaterial,
+            thickness_mm: thicknessMm,
+            wattage: userMachine?.wattage_w || 100,
+            lens_mm: userMachine?.lens_focal_length_mm || 110,
+            laser_type: userMachine?.source_type || "fiber",
+          }),
+        });
+
+        if (aiResponse.ok) {
+          const aiData: AiSuggestionResult = await aiResponse.json();
+          setAiSuggestion(aiData);
+          // Cache on client side
+          if (typeof window !== "undefined") {
+            localStorage.setItem(aiCacheKey, JSON.stringify(aiData));
+          }
+        } else {
+          const errData = await aiResponse.json().catch(() => ({ error: "Unknown error" }));
+          setAiError(errData.error || "AI suggestion failed");
+        }
+      } catch {
+        setAiError("Could not reach AI service");
+      } finally {
+        setAiLoading(false);
+      }
+    }
+  }
+
+  async function handleAiHelpful(helpful: "yes" | "no") {
+    setAiHelpfulFeedback(helpful);
+    if (helpful === "yes" && aiSuggestion) {
+      // Save the AI suggestion to the database as source='ai_suggestion'
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || !userMachine) return;
+      const searchMat = material || materialSearch;
+      await supabase.from("cuts").insert({
+        machine_id: userMachine.id,
+        user_id: user.id,
+        material: searchMat,
+        thickness_mm: parseFloat(thickness),
+        power_pct: aiSuggestion.power_pct,
+        speed_mm_min: aiSuggestion.speed_mm_min,
+        gas_type: aiSuggestion.gas_type,
+        gas_pressure_bar: aiSuggestion.gas_pressure_bar,
+        frequency_hz: aiSuggestion.frequency_hz,
+        quality_rating: null,
+        source: "ai_baseline",
+        is_shared: false,
+        notes: `AI suggestion: ${aiSuggestion.confidence_note}`,
+      });
     }
   }
 
@@ -602,10 +696,132 @@ export default function Suggest() {
         </button>
       </form>
 
-      {/* No results state - enhanced empty state */}
-      {searched && suggestions.length === 0 && !loading && (
+      {/* AI Loading State */}
+      {searched && suggestions.length === 0 && !loading && aiLoading && (
+        <div className="border border-zinc-700 bg-zinc-900/50 rounded-xl p-6 text-center">
+          <div className="animate-pulse">
+            <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-zinc-700"></div>
+            <p className="text-zinc-300 font-medium">Asking AI for a starting point...</p>
+            <p className="text-xs text-zinc-500 mt-2">Generating parameters based on your machine setup</p>
+          </div>
+        </div>
+      )}
+
+      {/* AI Suggestion Result */}
+      {searched && suggestions.length === 0 && !loading && !aiLoading && aiSuggestion && (
+        <div className="mb-6">
+          {/* AI suggestion hero card */}
+          <div className="bg-zinc-800 border border-zinc-600 rounded-2xl p-6 mb-4">
+            <div className="text-center">
+              {/* AI badge */}
+              <div className="mb-3 flex items-center justify-center">
+                <span className="px-3 py-1 rounded-full text-sm font-medium bg-zinc-700/60 border border-zinc-500 text-zinc-300">
+                  AI SUGGESTION
+                </span>
+              </div>
+
+              <p className="text-sm text-zinc-400 mb-1 uppercase tracking-wide">
+                AI-Generated Speed
+              </p>
+              <p className="text-4xl sm:text-5xl font-bold text-zinc-300 font-mono mb-1">
+                {aiSuggestion.speed_mm_min.toLocaleString()}
+              </p>
+              <p className="text-sm text-zinc-400/70 mb-3">mm/min</p>
+
+              {/* UNVERIFIED confidence badge */}
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-700/60 text-zinc-400 border border-zinc-600">
+                  UNVERIFIED
+                </span>
+                <span className="text-xs text-zinc-500">Unverified &mdash; AI Generated</span>
+              </div>
+
+              {/* Warning disclaimer */}
+              <div className="bg-amber-900/20 border border-amber-800/50 rounded-lg p-3 mb-4">
+                <p className="text-xs text-amber-300/80">
+                  This is an AI-generated estimate. Always test on scrap material first.
+                </p>
+              </div>
+
+              {/* Confidence note from Gemini */}
+              {aiSuggestion.confidence_note && (
+                <p className="text-xs text-zinc-400 italic mb-4">
+                  &ldquo;{aiSuggestion.confidence_note}&rdquo;
+                </p>
+              )}
+            </div>
+
+            {/* Reference parameters */}
+            <div className="border-t border-zinc-700 pt-4 mt-2">
+              <p className="text-xs text-zinc-500 mb-3 font-medium uppercase tracking-wide">Suggested Parameters</p>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="flex items-center justify-between bg-zinc-900/50 rounded-lg px-3 py-2">
+                  <span className="text-zinc-400 text-xs">Power</span>
+                  <span className="font-mono text-zinc-200">{aiSuggestion.power_pct}%</span>
+                </div>
+                {aiSuggestion.gas_type && (
+                  <div className="flex items-center justify-between bg-zinc-900/50 rounded-lg px-3 py-2">
+                    <span className="text-zinc-400 text-xs">Gas</span>
+                    <span className="font-mono text-zinc-200">
+                      {aiSuggestion.gas_type}{aiSuggestion.gas_pressure_bar ? ` ${aiSuggestion.gas_pressure_bar}bar` : ""}
+                    </span>
+                  </div>
+                )}
+                {aiSuggestion.frequency_hz && (
+                  <div className="flex items-center justify-between bg-zinc-900/50 rounded-lg px-3 py-2">
+                    <span className="text-zinc-400 text-xs">Frequency</span>
+                    <span className="font-mono text-zinc-200">{aiSuggestion.frequency_hz} Hz</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Disclaimer */}
+            <div className="mt-4 pt-3 border-t border-zinc-700">
+              <p className="text-xs text-zinc-500 text-center">
+                Not verified by any operator. Use as a starting point only.
+              </p>
+            </div>
+          </div>
+
+          {/* Was this helpful? */}
+          {aiHelpfulFeedback === null ? (
+            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-center">
+              <p className="text-sm text-zinc-400 mb-3">Was this helpful?</p>
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  onClick={() => handleAiHelpful("yes")}
+                  className="px-4 py-2 rounded-lg bg-emerald-900/50 border border-emerald-700 text-emerald-300 text-sm font-medium hover:bg-emerald-800/60 active:scale-95 transition-all"
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={() => handleAiHelpful("no")}
+                  className="px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 text-sm font-medium hover:bg-zinc-700/60 active:scale-95 transition-all"
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-center">
+              <p className="text-sm text-zinc-400">
+                {aiHelpfulFeedback === "yes"
+                  ? "Saved to your history for future reference."
+                  : "Thanks for letting us know. Try logging a test cut for better results."}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* No results state - enhanced empty state (shown when AI also fails or no AI) */}
+      {searched && suggestions.length === 0 && !loading && !aiLoading && !aiSuggestion && (
         <div className="border border-zinc-800 bg-zinc-900/50 rounded-xl p-6">
           <p className="text-zinc-300 text-lg mb-2 font-medium">No exact match found for this combination.</p>
+          {aiError && (
+            <p className="text-xs text-amber-400 mb-3">AI suggestion unavailable: {aiError}</p>
+          )}
           <p className="text-sm text-zinc-400 mb-5">Here&apos;s what you can do:</p>
           <div className="space-y-4 text-sm">
             <div className="flex items-start gap-3">

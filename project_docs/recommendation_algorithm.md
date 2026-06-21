@@ -66,35 +66,40 @@ Cuts with `quality_rating < 3` are excluded. Null ratings are **included** (bene
 
 ### Speed Computation
 
-Speed is a **simple arithmetic mean** of all qualifying cuts across all tiers:
+Speed is a **weighted average** of all qualifying cuts across all tiers:
 
 ```
-avgSpeed = sum(scaled_speed || speed_mm_min) / count
+avgSpeed = sum(speed[i] * weight[i]) / sum(weight[i])
 ```
 
-- No weighting by source tier (own data weighted equally to community data)
-- No weighting by quality rating (a 3-star cut counts the same as a 5-star cut)
-- No weighting by recency
-- All tiers are pooled together into a single average
+**Source tier weights:**
+| Source | Weight | Rationale |
+|--------|--------|-----------|
+| User's own cuts | 3x | You tested it on YOUR machine |
+| Community shared | 2x | Another operator verified it |
+| AI baseline | 1x | Reference data, not human-verified |
 
-Supporting parameters are also averaged:
+Supporting parameters are also averaged (simple mean):
 - `avgPower` = mean of all power values
 - `avgGasPressure` = mean of gas pressures
 - `avgFocus` = mean of focus positions
 - `avgNozzle` = mean of nozzle diameters
 - `commonGasType` = mode (most frequently occurring gas type)
 
-### Confidence Determination
+### Confidence Determination (Updated 2026-06-21)
 
-Based purely on **count of qualifying data points**:
+Uses a **priority-based system** — personal verification overrides statistics:
 
-| Data Points | Confidence |
-|-------------|-----------|
-| >= 10       | HIGH      |
-| >= 5        | MEDIUM    |
-| < 5         | LOW       |
+| Condition | Confidence | Rationale |
+|-----------|-----------|-----------|
+| User has own cut rated 4-5 stars | **HIGH** | You tested it yourself, you trust it |
+| 5+ data points AND cv < 0.2 | **HIGH** | Lots of data that agrees |
+| 3+ data points OR cv < 0.4 | **MEDIUM** | Some data, moderate agreement |
+| Otherwise | **LOW** | Sparse or inconsistent |
 
-No consideration of data quality, consistency, or source tier.
+**Key insight:** If you logged a cut and rated it 4-5 stars, that means YOU verified it works on YOUR machine. That's the highest possible confidence — no amount of community disagreement should override your own tested experience.
+
+**Coefficient of Variation (cv):** `stddev / mean` of all speed values. Low cv = speeds agree. High cv = speeds disagree (different operators, different machines, inconsistent data).
 
 ### Parameter Scaling (Lens/Wattage)
 
@@ -131,14 +136,111 @@ The displayed "hero speed" is:
 - **Conservative**: `avgSpeed * 0.5`
 - **Fast** or **Auto**: `avgSpeed * 1.0`
 
-### No Match Behavior
+### No Match Behavior (Updated 2026-06-21)
 
-When **all three queries return zero results**, the page shows a static empty state with three suggestions:
+Before showing the empty state, the system now tries **progressive fallbacks**:
+
+1. **Material alias resolution** — queries the `materials` table for canonical name + all aliases (e.g., "304 Stainless" → also searches "Stainless Steel", "316 SS", "Inox")
+2. **Thickness widening** — progressively expands from ±0.5mm → ±1.5mm → ±3mm until data is found
+3. **Operation type filtering** — separates cutting from engraving results based on machine type
+
+If ALL fallbacks still return zero results, the system tries one final step:
+
+4. **Gemini AI Suggestion (Last Resort)** — Calls Gemini 2.0 Flash to generate a starting-point recommendation based on the material, thickness, and laser type. This is the lowest trust tier and is clearly marked as unverified.
+
+If Gemini also fails (API error, timeout, or returns no useful data), the page shows a structured empty state:
 1. Import your LightBurn library (.clb file)
 2. Log your first test cut
 3. Try a broader search
+4. "AI recommendations improve as more operators log cuts for this material."
 
-There is **no fallback logic** -- no relaxed search, no nearest-neighbor lookup, no interpolation.
+**UI indicators when fallback was used:**
+- Amber text: "Showing data for nearby thicknesses (±Xmm)" when thickness was widened
+- Zinc-500 text: "Also matched: 304 Stainless, 316 SS" when aliases resolved
+
+---
+
+## 1b. Tier 4: AI Suggestion (Gemini Fallback)
+
+### When It Triggers
+
+The Gemini fallback activates ONLY when ALL of the following have returned zero results:
+1. Tier 1 (Own Cuts) — no user cuts match
+2. Tier 2 (AI Baseline) — no pre-seeded baseline data matches
+3. Tier 3 (Community) — no shared community cuts match
+4. Material alias resolution — searching all known aliases found nothing
+5. Thickness widening — progressively expanding from +/-0.5mm to +/-3mm found nothing
+
+Only after exhausting every database query does the system call Gemini.
+
+### Prompt Sent to Gemini
+
+```
+You are a laser cutting/engraving parameter expert. A user is looking for 
+starting parameters for their laser machine.
+
+Material: {material}
+Thickness: {thickness_mm}mm
+Laser type: {source_type} (fiber/co2/diode)
+Laser wattage: {wattage}W
+Lens focal length: {lens_mm}mm
+
+Provide a conservative starting-point recommendation for cutting this material.
+Return JSON with these fields:
+- speed_mm_min: recommended speed in mm/min
+- power_pct: recommended power percentage (0-100)
+- gas_type: recommended assist gas (nitrogen, oxygen, air, or none)
+- gas_pressure_bar: recommended gas pressure in bar (or null)
+- focus_position_mm: recommended focus position in mm (or null)
+- confidence_note: 1-2 sentences explaining your reasoning and any caveats
+
+IMPORTANT: Be conservative. It's better to suggest too slow than too fast.
+These are STARTING POINTS that operators will adjust.
+```
+
+### Display & Trust Tier
+
+The result is displayed as the lowest confidence tier:
+
+| Tier | Badge | Color | Label |
+|------|-------|-------|-------|
+| Tier 1: Your Data | HIGH | Green | "YOUR DATA" |
+| Tier 2: Community | MEDIUM | Blue | "COMMUNITY" |
+| Tier 3: AI Baseline | LOW | Orange | "AI BASELINE" |
+| **Tier 4: AI Suggestion** | **UNVERIFIED** | **Gray** | **"AI SUGGESTION (Unverified)"** |
+
+**UI presentation:**
+- Gray badge with warning icon: "AI SUGGESTION (Unverified)"
+- Warning text below: "Not verified by any operator"
+- Gemini's `confidence_note` displayed as italic reasoning text
+- Loading state while waiting: "Asking AI for a starting point..."
+
+### 4-Tier Trust Architecture
+
+```
+YOUR DATA (green)      — You tested it on YOUR machine. Highest trust.
+    |
+COMMUNITY (blue)       — Other operators verified on similar machines.
+    |
+AI BASELINE (orange)   — Pre-seeded reference data, not human-verified.
+    |
+AI SUGGESTION (gray)   — Gemini-generated, never tested by anyone. Lowest trust.
+```
+
+### User Validation ("Was this helpful?")
+
+Below the AI suggestion, two buttons appear:
+- **"Was this helpful? Yes"** — Saves the Gemini-generated parameters to the `cuts` table with `source = 'ai_baseline'`, making it available for future searches. Effectively promotes the data from gray tier (AI Suggestion) to orange tier (AI Baseline).
+- **"Was this helpful? No"** — Records negative feedback. The suggestion is NOT saved to the database. Helps track Gemini accuracy over time.
+
+**Promotion flow:**
+1. User searches "Inconel 718" at 7mm — no data anywhere
+2. Gemini returns a suggestion — displayed with gray badge
+3. User taps "Yes" — parameters are inserted into `cuts` table with `source = 'ai_baseline'`
+4. Next user (or same user) searches "Inconel 718" at 7mm — now finds it in Tier 2 (AI Baseline) with orange badge
+5. Over time, as operators log real cuts for this material, it gets promoted through community and personal tiers
+
+This creates a **self-healing data gap system**: Gemini fills gaps, humans validate, and the database grows organically.
 
 ---
 
@@ -189,6 +291,31 @@ User Input
 +-----------------------------+
          |
          v
++-----------------------------+
+| Any results?                |
+| YES → continue to scaling  |
+| NO  → Gemini Fallback      |
++-----------------------------+
+         |                \
+         | (has data)      \ (no data)
+         v                  v
++-----------------------------+    +-------------------------------+
+| Scale Each Cut              |    | Tier 4: Gemini 2.0 Flash     |
+                                   | POST prompt with material,    |
+                                   | thickness, laser type, wattage|
+                                   | Returns: speed, power, gas,   |
+                                   | focus + confidence_note       |
+                                   +-------------------------------+
+                                            |
+                                            v
+                                   +-------------------------------+
+                                   | Display as GRAY badge         |
+                                   | "AI SUGGESTION (Unverified)"  |
+                                   | Show "Was this helpful?"      |
+                                   | Yes → save to cuts table      |
+                                   | No  → discard                 |
+                                   +-------------------------------+
+
 +-----------------------------+
 | Scale Each Cut              |
 | (if user machine differs    |

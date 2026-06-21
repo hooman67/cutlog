@@ -707,6 +707,33 @@ These tests span multiple workflows and catch integration issues:
 
 ---
 
+### Workflow 17: AI Suggestion Fallback (Gemini)
+
+**Goal:** Test that Gemini 2.0 Flash generates a suggestion when no database data exists
+**Time:** 5 min
+**Prerequisite:** GEMINI_API_KEY set in environment variables
+
+**Steps:**
+1. Go to /suggest
+2. Search for an obscure material that definitely has no data (e.g., "Inconel 718" at "7mm")
+3. Wait for "Asking AI for a starting point..." loading state to appear
+4. Verify AI suggestion appears with GRAY badge and "AI SUGGESTION (Unverified)" label
+5. Verify warning text: "Not verified by any operator"
+6. Verify Gemini's confidence_note is shown (its reasoning for the suggested parameters)
+7. Tap "Was this helpful? Yes" — verify it saves (success message appears)
+8. Search the same material again ("Inconel 718" at "7mm") — verify it now shows from database with orange "AI BASELINE" badge (promoted from AI suggestion)
+9. Test with a material that DOES have data (e.g., "Stainless Steel" at "3mm") — verify Gemini is NOT called (only triggers on empty results). The recommendation should show green/blue/orange badges as usual with no gray badge.
+
+**Expected:**
+- Gemini fallback only triggers when ALL database queries return nothing
+- Loading state is visible while waiting for Gemini response
+- AI suggestion displays with gray badge, warning text, and confidence reasoning
+- "Was this helpful? Yes" promotes the suggestion to the database (source = 'ai_baseline')
+- Subsequent searches for the same material find the promoted data in the database
+- Materials with existing data never trigger the Gemini fallback
+
+---
+
 ## Bug Catch Checklist
 
 As you go through all workflows, note any:
@@ -799,6 +826,7 @@ Use this section to record your progress:
 | 9. PWA Install | ⬜ |  |  |
 | 10. Font Tool | ⬜ |  |  |
 | 11. Onboarding | ⬜ |  |  |
+| 17. AI Suggestion Fallback | ⬜ |  |  |
 
 **Status key:** ⬜ = Not started | 🟨 = In progress | ✅ = Complete | ❌ = Failed
 

@@ -7,7 +7,7 @@
 
 ## What Is This Project?
 
-**CutLog** is a machine-specific laser cutting/engraving parameter journal with smart suggestions. It's a SaaS app where operators log cuts (30 seconds each), building a personal + community database that learns per-machine.
+**CutLog** is a machine-specific laser cutting/engraving parameter journal with smart suggestions. It's a SaaS app where operators log cuts (30 seconds each), building a personal + community database that learns per-machine. When no data exists for a material/thickness combination, CutLog falls back to Gemini 2.0 Flash AI to generate a conservative starting point, which users can validate to grow the database organically.
 
 **Tagline**: "Stop keeping parameters in your head. Let your machine remember."
 
@@ -76,6 +76,7 @@
 - **Backend**: Next.js API routes + Supabase client (serverless)
 - **Database**: Supabase PostgreSQL (free tier: 500MB, 50K rows)
 - **Auth**: Supabase Auth (email-based)
+- **AI Fallback**: Google Gemini 2.0 Flash (last-resort suggestion when no database data exists)
 - **Hosting**: Vercel (production: https://cutlog-two.vercel.app) + Pluto job machine for dev
 
 ### Code Location
@@ -96,6 +97,7 @@
   - `NEXT_PUBLIC_SUPABASE_URL` = `https://aobzsonuemamitlrakqs.supabase.co`
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = (in .env.local)
   - `SUPABASE_SERVICE_ROLE_KEY` = (in .env.local)
+  - `GEMINI_API_KEY` = (in .env.local) — Google Gemini 2.0 Flash API key for AI suggestion fallback
 
 ### Dev Access / Testing
 - **Pluto machine**: `100.64.21.99` (SSH gateway port `3000`)
@@ -130,7 +132,7 @@
 2. `/auth` — Email signup/signin
 3. `/machine` — Machine registration (one-time)
 4. `/log` — Cut logging form (30-second workflow, 10+ parameters)
-5. `/suggest` — Speed recommendation engine. Hero display shows recommended speed (mm/min) with confidence level (HIGH/MEDIUM/LOW based on data points), range, and supporting params. 3-button quick feedback ("Too Slow" / "Perfect" / "Too Fast") stored in localStorage for future optimization. Full parameters (power, gas, focus, nozzle) in collapsible section below. Keeps 3-tier data source display (Your Data green, AI Baseline orange, Community blue). Page messaging: "How fast should I cut?"
+5. `/suggest` — Speed recommendation engine. Hero display shows recommended speed (mm/min) with confidence level (HIGH/MEDIUM/LOW based on data points), range, and supporting params. 3-button quick feedback ("Too Slow" / "Perfect" / "Too Fast") stored in localStorage for future optimization. Full parameters (power, gas, focus, nozzle) in collapsible section below. 4-tier data source display: Your Data (green), Community (blue), AI Baseline (orange), AI Suggestion (gray). When no data exists, Gemini 2.0 Flash generates a starting point displayed with gray "AI SUGGESTION (Unverified)" badge + "Was this helpful?" validation buttons. Page messaging: "How fast should I cut?"
 6. `/history` — Searchable cut history + "Export .clb" button (downloads LightBurn library file)
 7. `/import` — LightBurn .clb file import (drag-and-drop upload, preview entries, select & save to DB)
 8. `/landing` — Public landing page for hybrid launch (hero, problem/solution, features, demo video, waitlist CTA)
