@@ -371,6 +371,58 @@ In the meantime — those font tool updates are live (crop, line spacing, logo u
 And if you ever want to throw your .clb file at the importer, I’ll make sure it handles your library perfectly. You’d be the first real test case.
 ```
 
-**Status:** SENT 2026-06-18. Awaiting reply.
+**Status:** SENT 2026-06-18.
 
-  
+---
+
+## Nate Keen reply (2026-06-19)
+```
+🫪 you're a machine haha 
+Can't wait to try the updates 👏🏻👏🏻👏🏻👏🏻
+
+Been a bit crazy this week haven't had a chance to upload a .clb to the app yet
+```
+
+**Assessment:** Still warm, still committed. Busy but excited. He'll upload his .clb when he has time. No pressure needed — let him come to it naturally. The relationship is solid.
+
+---
+
+## Mike AJ Guindon reply (2026-06-19)
+```
+Hey Matt, havn't forgot about ya, just been crazy still, we have a College and huge University here in London and both Convecations started last week, just been crazy busy...
+```
+
+**Assessment:** Third time he's apologized for being busy — pattern is consistent. He's running a real business and genuinely time-poor. Still warm (remembers you, proactively reached out). Don't push — wait for him to actually try it.
+
+---
+
+## Sean BeardyWeirdo reply (2026-06-19)
+```
+Sorry for the delay in messaging back. What machine's does this work on? I have a 10w and 20w diode.
+```
+
+**Assessment:** He's back! Asking a concrete product question = genuine interest. He runs DIODE lasers (not fiber) — this is a new market segment we haven't explicitly targeted. CutLog should work for diode too (we have diode data in the DB). This is a conversion opportunity.
+
+---
+
+## Reply Sent to Sean (2026-06-21) ✅ SENT
+
+> Works on any laser type — fiber, CO2, diode, all of it. You'd just set up your machine as "10W diode" or "20W diode" and it learns your specific setup from there.
+>
+> We've got some diode data in there already but honestly the fiber side is more built out right now. You'd actually be helping us build the diode library just by logging what works for you. Give it a try: https://cutlog-two.vercel.app
+
+**Status:** SENT 2026-06-21. Awaiting reply.
+**Note:** Sean has 10W + 20W diode lasers — new market segment. If he converts, validates CutLog for diode operators (not just fiber/CO2).
+
+---
+
+## Jason Zhang — Cold Message (2026-06-19)
+```
+Hello. Matt,
+Good morning.
+This is Jason from Upman Laser, how are you
+We are laser machine supplier such as laser welding, cleaning, cutting, etc, and all kinds of spare parts in stock, if you have doubt of lasers, please kindly let me know, I believe I can help, thank you for your time.
+```
+
+**Assessment:** Chinese laser supplier cold outreach. Not a user lead. However, could be useful later for: (1) getting OEM parameter documentation, (2) potential B2B partnership where they bundle CutLog with machine sales. Park for now — reply politely if you want to keep the door open, or ignore.
+
