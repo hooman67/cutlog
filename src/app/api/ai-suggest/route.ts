@@ -90,7 +90,10 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
             ],
             generationConfig: {
               temperature: 0.3,
-              maxOutputTokens: 256,
+              maxOutputTokens: 8192,
+              thinkingConfig: {
+                thinkingBudget: 0,
+              },
             },
           }),
           signal: controller.signal,
