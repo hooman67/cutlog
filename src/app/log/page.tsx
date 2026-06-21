@@ -8,6 +8,7 @@ import type { Machine, Material } from "@/lib/types";
 
 export default function LogCut() {
   const [machine, setMachine] = useState<Machine | null>(null);
+  const [allMachines, setAllMachines] = useState<Machine[]>([]);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [materialSearch, setMaterialSearch] = useState("");
   const [showMaterialDropdown, setShowMaterialDropdown] = useState(false);
@@ -44,13 +45,17 @@ export default function LogCut() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push("/auth"); return; }
 
+      // Feature 6: Load all machines, default to active
       const { data: machines } = await supabase
         .from("machines")
         .select("*")
         .eq("user_id", user.id)
-        .limit(1);
+        .order("is_active", { ascending: false, nullsFirst: false });
 
-      if (machines && machines.length > 0) setMachine(machines[0]);
+      if (machines && machines.length > 0) {
+        setAllMachines(machines as Machine[]);
+        setMachine(machines[0]); // First one is active (sorted by is_active desc)
+      }
 
       const { data: mats } = await supabase
         .from("materials")
@@ -184,6 +189,27 @@ export default function LogCut() {
             </div>
           )}
         </div>
+
+        {/* Feature 6: Machine selector (shown if user has >1 machine) */}
+        {allMachines.length > 1 && (
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-1">Machine</label>
+            <select
+              value={machine?.id || ""}
+              onChange={(e) => {
+                const selected = allMachines.find(m => m.id === e.target.value);
+                if (selected) setMachine(selected);
+              }}
+              className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100"
+            >
+              {allMachines.map(m => (
+                <option key={m.id} value={m.id}>
+                  {m.nickname || `${m.brand} ${m.model || ""}`} ({m.wattage_w ? `${m.wattage_w}W` : ""}){(m as any).is_active !== false ? " (Active)" : ""}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {/* Thickness */}
         <div>

@@ -18,7 +18,7 @@ CutLog logs your cuts, AI learns your specific setup (lens, power supply, all th
 Real talk: Most of you have 50+ hours of scrap metal from dialing in settings. AI cuts that down to one solid session.
 
 Join the waitlist:
-https://cutlog-two.vercel.app/landing?utm_source=facebook&utm_medium=post&utm_campaign=beta_launch&utm_content=GROUP_NAME
+https://cutlog-two.vercel.app/landing
 
 (No spam, just early access + honest feedback on what operators actually need 😂)
 ```
@@ -34,7 +34,7 @@ For engravers: I built this so AI handles the Galvo parameter chaos.
 You know that feeling — tweaking frequency, passes, scan angle on repeat. AI learns your machine and spits back what'll actually work next time.
 
 Join for beta:
-https://cutlog-two.vercel.app/landing?utm_source=facebook&utm_medium=post&utm_campaign=beta_launch&utm_content=GROUP_NAME
+https://cutlog-two.vercel.app/landing
 
 (Beta's free. Paid version coming, but first-in get locked in at founder pricing 🔥)
 ```
@@ -50,7 +50,7 @@ Running a Chinese fiber laser? AI learns YOUR specific setup instead of you manu
 I've got 40 files named "stainless_FINAL_v2_actually_final" on my drive. This tool exists because of that pain 😂
 
 Early access is free:
-https://cutlog-two.vercel.app/landing?utm_source=facebook&utm_medium=post&utm_campaign=beta_launch&utm_content=GROUP_NAME
+https://cutlog-two.vercel.app/landing
 
 (Real operators, real feedback. Let's figure out what actually works together.)
 ```
@@ -59,23 +59,23 @@ https://cutlog-two.vercel.app/landing?utm_source=facebook&utm_medium=post&utm_ca
 
 ## 16 Target Groups
 
-| # | Group Name | Members | Primary Template |
-|---|---|---|---|
+| # | Group Name | Members | Primary Template | Status |
+|---|---|---|---|---|
 | 1 | Fiber Laser Cutting Network | 20K+ | Template #1 |
-| 2 | Fiber Laser Cutting Machine \| Metal Laser Cutter Users | - | Template #1 + #3 |
-| 3 | CNC Fiber Laser Ninja (Fiber Laser Cutters) | - | Template #1 |
-| 4 | Fiber Laser Engraving Club | - | Template #1 |
-| 5 | Fiber Laser Tips, Tricks & Sales | - | Template #1 |
+| 2 | Fiber Laser Cutting Machine \| Metal Laser Cutter Users | - | Template #1 + #3 | Done with Temp1
+| 3 | CNC Fiber Laser Ninja (Fiber Laser Cutters) | - | Template #1 | Done with Temp1
+| 4 | Fiber Laser Engraving Club | - | Template #1 | Done with Temp2
+| 5 | Fiber Laser Tips, Tricks & Sales | - | Template #1 | Done with Temp1
 | 6 | DIY Fiber Laser | - | Template #2 |
 | 7 | Laser Engraver Group for Beginners ✅ | - | Template #1 |
 | 8 | Laser Engraving And Cutting | - | Template #1 |
 | 9 | UV laser and fiber laser community group | - | (Monitor, decide targeting) |
-| 10 | That Laser Dude Community - Laser Engraving & Cutting for All 🔥 | - | Template #1 |
+| 10 | That Laser Dude Community - Laser Engraving & Cutting for All 🔥 | - | Template #1 | Done with Temp1
 | 11 | CNC Fiber laser machine | - | (Monitor, decide targeting) |
-| 12 | Laser Engraver Group for Beginner | - | Template #2 |
-| 13 | Free Laser Files | - | Template #1 |
+| 12 | Laser Engraver Group for Beginner | - | Template #2 | Done with Temp2
+| 13 | Free Laser Files | - | Template #1 | Done with Temp1
 | 14 | Fiber Laser The Next Level | - | Template #3 |
-| 15 | Fiber Laser Engraving Club (alt) | - | Template #2 |
+| 15 | Fiber Laser Engraving Club (alt) | - | Template #2 | Done with Temp2
 | 16 | Laser Engraving And Cutting (alt) | - | Template #3 |
 
 ---

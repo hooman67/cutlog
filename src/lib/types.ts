@@ -13,6 +13,7 @@ export interface Machine {
   nickname: string | null
   laser_source_type: 'fiber_cutting' | 'fiber_engraving' | 'co2_cutting' | 'diode_engraving' | 'uv_marking' | null
   speed_profile: 'fast' | 'conservative' | 'auto'
+  is_active: boolean
   created_at: string
   updated_at: string
 }

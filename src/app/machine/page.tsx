@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { MACHINE_BRANDS, GAS_TYPES, SPEED_PROFILES, LASER_SOURCE_TYPES } from "@/lib/types";
+import type { Machine } from "@/lib/types";
 
 export default function MachineSetup() {
   const [brand, setBrand] = useState("");
@@ -20,6 +21,13 @@ export default function MachineSetup() {
   const [loading, setLoading] = useState(false);
   const [existingId, setExistingId] = useState<string | null>(null);
   const [speedProfile, setSpeedProfile] = useState<'fast' | 'conservative' | 'auto'>('auto');
+  // Feature 6: Multi-machine support
+  const [allMachines, setAllMachines] = useState<Machine[]>([]);
+  const [showAddForm, setShowAddForm] = useState(false);
+  // Feature 7: Data cleanup
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [resetting, setResetting] = useState(false);
+  const [resetResult, setResetResult] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
 
@@ -28,31 +36,122 @@ export default function MachineSetup() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push("/auth"); return; }
 
+      // Feature 6: Load ALL machines for this user
       const { data: machines } = await supabase
         .from("machines")
         .select("*")
         .eq("user_id", user.id)
-        .limit(1);
+        .order("created_at", { ascending: true });
 
       if (machines && machines.length > 0) {
-        const m = machines[0];
-        setExistingId(m.id);
-        setBrand(m.brand);
-        setModel(m.model || "");
-        setWattage(m.wattage_w ? String(m.wattage_w) : "");
-        setSourceType(m.source_type);
-        setHours(m.resonator_hours ? String(m.resonator_hours) : "");
-        setGasTypes(m.gas_types || []);
-        setController(m.controller || "");
-        setCountry(m.location_country || "");
-        setNickname(m.nickname || "");
-        setLensFocalLength(m.lens_focal_length_mm ? String(m.lens_focal_length_mm) : "110");
-        setLaserSourceType(m.laser_source_type || "");
-        setSpeedProfile(m.speed_profile || 'auto');
+        setAllMachines(machines as Machine[]);
+        // Load the active machine into the form (is_active=true, or first one)
+        const activeMachine = machines.find((m: any) => m.is_active !== false) || machines[0];
+        loadMachineIntoForm(activeMachine);
       }
     }
     loadExisting();
   }, []);
+
+  function loadMachineIntoForm(m: any) {
+    setExistingId(m.id);
+    setBrand(m.brand);
+    setModel(m.model || "");
+    setWattage(m.wattage_w ? String(m.wattage_w) : "");
+    setSourceType(m.source_type);
+    setHours(m.resonator_hours ? String(m.resonator_hours) : "");
+    setGasTypes(m.gas_types || []);
+    setController(m.controller || "");
+    setCountry(m.location_country || "");
+    setNickname(m.nickname || "");
+    setLensFocalLength(m.lens_focal_length_mm ? String(m.lens_focal_length_mm) : "110");
+    setLaserSourceType(m.laser_source_type || "");
+    setSpeedProfile(m.speed_profile || 'auto');
+  }
+
+  async function handleSetActive(machineId: string) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    // Set all machines to inactive
+    await supabase
+      .from("machines")
+      .update({ is_active: false })
+      .eq("user_id", user.id);
+
+    // Set selected machine to active
+    await supabase
+      .from("machines")
+      .update({ is_active: true })
+      .eq("id", machineId);
+
+    // Refresh the list
+    const { data: machines } = await supabase
+      .from("machines")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: true });
+
+    if (machines) {
+      setAllMachines(machines as Machine[]);
+      const activeMachine = machines.find((m: any) => m.is_active !== false) || machines[0];
+      loadMachineIntoForm(activeMachine);
+    }
+  }
+
+  function handleAddNew() {
+    setExistingId(null);
+    setBrand("");
+    setModel("");
+    setWattage("");
+    setSourceType("fiber");
+    setHours("");
+    setGasTypes([]);
+    setController("");
+    setCountry("");
+    setNickname("");
+    setLensFocalLength("110");
+    setLaserSourceType("");
+    setSpeedProfile('auto');
+    setShowAddForm(true);
+  }
+
+  async function handleResetData() {
+    setResetting(true);
+    setResetResult(null);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { setResetResult("Not authenticated"); setResetting(false); return; }
+
+      const res = await fetch("/api/admin/cleanup", {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (res.ok) {
+        const result = await res.json();
+        setResetResult(`Deleted: ${result.deleted.cuts} cuts, ${result.deleted.feedback} feedback, ${result.deleted.machines} machines`);
+        setAllMachines([]);
+        setExistingId(null);
+        setBrand("");
+        setModel("");
+        setWattage("");
+        // Clear localStorage feedback
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("cutlog_speed_feedback");
+        }
+      } else {
+        const err = await res.json();
+        setResetResult(`Error: ${err.error}`);
+      }
+    } catch {
+      setResetResult("Failed to reset data");
+    }
+    setResetting(false);
+    setShowResetConfirm(false);
+  }
 
   function toggleGas(gas: string) {
     setGasTypes(prev =>
@@ -81,11 +180,19 @@ export default function MachineSetup() {
       location_country: country || null,
       nickname: nickname || null,
       speed_profile: speedProfile,
+      is_active: true,
     };
 
     if (existingId) {
       await supabase.from("machines").update(machineData).eq("id", existingId);
     } else {
+      // For new machines, deactivate existing ones first
+      if (allMachines.length > 0) {
+        await supabase
+          .from("machines")
+          .update({ is_active: false })
+          .eq("user_id", user.id);
+      }
       await supabase.from("machines").insert(machineData);
       // Track first machine setup for nudge C
       if (typeof window !== "undefined") {
@@ -93,6 +200,7 @@ export default function MachineSetup() {
       }
     }
 
+    setShowAddForm(false);
     router.push("/");
     setLoading(false);
   }
@@ -106,10 +214,82 @@ export default function MachineSetup() {
         </h1>
       </div>
 
-      {!existingId && (
+      {!existingId && !showAddForm && (
         <p className="text-zinc-400 text-sm mb-6">
           Takes 2 minutes. This helps CutLog match you with similar machines for better suggestions.
         </p>
+      )}
+
+      {/* Feature 6: Multi-machine list */}
+      {allMachines.length > 1 && (
+        <div className="mb-6">
+          <h2 className="text-sm font-medium text-zinc-400 mb-3 uppercase tracking-wide">Your Machines</h2>
+          <div className="space-y-2 mb-4">
+            {allMachines.map((m) => (
+              <div
+                key={m.id}
+                className={`p-3 rounded-xl border transition-colors ${
+                  (m as any).is_active !== false
+                    ? "bg-emerald-900/20 border-emerald-700"
+                    : "bg-zinc-900 border-zinc-800"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="font-medium text-zinc-200">
+                      {m.nickname || `${m.brand} ${m.model || ""}`}
+                    </span>
+                    <span className="text-xs text-zinc-500 ml-2">
+                      {m.wattage_w ? (m.wattage_w >= 1000 ? `${m.wattage_w / 1000}kW` : `${m.wattage_w}W`) : ""}
+                      {m.source_type ? ` ${m.source_type}` : ""}
+                    </span>
+                    {(m as any).is_active !== false && (
+                      <span className="ml-2 px-2 py-0.5 rounded-full text-xs bg-emerald-900/60 text-emerald-300 border border-emerald-700">
+                        Active
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    {(m as any).is_active === false && (
+                      <button
+                        onClick={() => handleSetActive(m.id)}
+                        className="px-3 py-1 rounded-lg text-xs bg-emerald-900/50 border border-emerald-700 text-emerald-300 hover:bg-emerald-800/60 transition-colors"
+                      >
+                        Set Active
+                      </button>
+                    )}
+                    <button
+                      onClick={() => loadMachineIntoForm(m)}
+                      className="px-3 py-1 rounded-lg text-xs bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={handleAddNew}
+            className="w-full p-3 rounded-xl border-2 border-dashed border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300 transition-colors text-sm font-medium"
+          >
+            + Add Another Machine
+          </button>
+        </div>
+      )}
+
+      {/* Single machine - show Add Another button */}
+      {allMachines.length === 1 && existingId && (
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={handleAddNew}
+            className="text-sm text-sky-400 hover:text-sky-300 transition-colors"
+          >
+            + Add Another Machine
+          </button>
+        </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -312,6 +492,50 @@ export default function MachineSetup() {
           {loading ? "Saving..." : existingId ? "Update Machine" : "Register Machine"}
         </button>
       </form>
+
+      {/* Feature 7: Reset My Data */}
+      <div className="mt-12 pt-8 border-t border-zinc-800">
+        <h3 className="text-sm font-medium text-red-400 mb-2">Danger Zone</h3>
+        <p className="text-xs text-zinc-500 mb-4">
+          Permanently delete all your data including cuts, feedback, and machine profiles.
+        </p>
+        {resetResult && (
+          <div className={`mb-4 p-3 rounded-xl text-sm ${
+            resetResult.startsWith("Error") ? "bg-red-900/30 border border-red-800 text-red-300" : "bg-emerald-900/30 border border-emerald-800 text-emerald-300"
+          }`}>
+            {resetResult}
+          </div>
+        )}
+        {showResetConfirm ? (
+          <div className="bg-red-900/20 border border-red-800 rounded-xl p-4">
+            <p className="text-sm text-red-300 mb-3">
+              This will delete ALL your cuts, feedback, and machine profiles. This cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleResetData}
+                disabled={resetting}
+                className="px-4 py-2 rounded-lg bg-red-700 hover:bg-red-600 text-sm font-medium transition-colors disabled:opacity-50"
+              >
+                {resetting ? "Deleting..." : "Yes, Delete Everything"}
+              </button>
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                className="px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 text-sm font-medium hover:bg-zinc-700 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            onClick={() => setShowResetConfirm(true)}
+            className="px-4 py-2 rounded-lg bg-red-900/50 border border-red-800 text-red-400 hover:text-red-300 hover:border-red-600 text-sm font-medium transition-colors"
+          >
+            Reset My Data
+          </button>
+        )}
+      </div>
     </div>
   );
 }

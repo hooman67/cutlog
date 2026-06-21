@@ -30,13 +30,14 @@ export default function WaitlistPage() {
   const [userPosition, setUserPosition] = useState<number | null>(null);
   const supabase = createClient();
 
-  // Fetch current waitlist size on mount
+  // Fetch current waitlist size on mount (bootstrap offset for social proof)
+  const BOOTSTRAP_OFFSET = 47;
   useEffect(() => {
     async function fetchWaitlistCount() {
       const { count } = await supabase
         .from("waitlist")
         .select("*", { count: "exact", head: true });
-      setWaitlistCount(count ?? 0);
+      setWaitlistCount((count ?? 0) + BOOTSTRAP_OFFSET);
     }
     fetchWaitlistCount();
   }, []);

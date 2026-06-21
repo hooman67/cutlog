@@ -851,11 +851,115 @@ Use this section to record your progress:
 
 ---
 
+### Workflow 18: Edit & Delete Cuts
+
+**Goal:** Test that users can edit and delete their own cuts from the history page
+**Time:** 5 min
+**Prerequisite:** User has logged at least 1 cut
+
+**Steps:**
+1. Go to /history
+2. Find a cut you logged — verify "Edit" and "Delete" buttons appear
+3. Click "Edit" on a cut — verify inline edit form appears with Speed, Power, and Quality fields
+4. Change the speed value and click "Save" — verify the cut updates in the list
+5. Click "Cancel" on another edit — verify the form closes without changes
+6. Click "Delete" on a cut — verify a confirmation appears ("Confirm" / "Cancel")
+7. Click "Cancel" on the confirmation — verify the cut is NOT deleted
+8. Click "Delete" again, then "Confirm" — verify the cut is removed from the list
+9. Refresh the page — verify the deleted cut is still gone
+
+**Expected:** Users can edit speed/power/quality inline. Delete requires confirmation. Only user's own cuts show edit/delete buttons.
+
+---
+
+### Workflow 19: Multi-Machine Support
+
+**Goal:** Test that users can register and switch between multiple machines
+**Time:** 10 min
+**Prerequisite:** One machine already registered
+
+**Steps:**
+1. Go to /machine
+2. Verify you see your existing machine with an "Active" badge
+3. Click "+ Add Another Machine" button
+4. Fill in a second machine (different brand/wattage)
+5. Click "Register Machine" — verify it saves and becomes the active machine
+6. Go back to /machine — verify you see both machines listed
+7. The second machine should show "Active" badge
+8. Click "Set Active" on the first machine — verify it becomes active
+9. Go to /suggest and search for a material — verify the recommendation uses the active machine's parameters
+10. Go to /log — if you have multiple machines, verify a machine selector dropdown appears
+11. Select a different machine from the dropdown and log a cut
+
+**Expected:** Multiple machines can be registered. Only one is active at a time. Active machine is used for recommendations. Log page shows machine selector when >1 machine exists.
+
+---
+
+### Workflow 20: Admin Data Cleanup
+
+**Goal:** Test that users can delete all their data for testing cleanup
+**Time:** 5 min
+**Prerequisite:** User has cuts, machines, and/or feedback logged
+
+**Steps:**
+1. Go to /machine (scroll to bottom)
+2. Find "Danger Zone" section with "Reset My Data" button
+3. Click "Reset My Data" — verify confirmation dialog appears with warning text
+4. Click "Cancel" — verify nothing is deleted
+5. Click "Reset My Data" again, then "Yes, Delete Everything"
+6. Verify success message shows counts of deleted records
+7. Go to /history — verify all cuts are gone
+8. Go to /machine — verify machine profile is cleared
+9. Verify you're prompted to set up a new machine
+
+**Expected:** All user data (cuts, feedback, machines) is permanently deleted. LocalStorage feedback is also cleared. The user starts fresh.
+
+---
+
+### Workflow 21: Feedback Integration (Supabase)
+
+**Goal:** Verify that speed feedback saves to Supabase and influences future recommendations
+**Time:** 10 min
+**Prerequisite:** User has recommendation data for a material
+
+**Steps:**
+1. Go to /suggest, search for a material with data (e.g., "Stainless Steel 3mm")
+2. Note the recommended speed
+3. Click "Too Fast" feedback button 3 times (reload and re-search between each)
+4. After 3+ "Too Fast" feedbacks, search the same material again
+5. Verify the speed is now reduced by ~10% compared to the original
+6. Note: feedback is saved both to localStorage AND Supabase (server-side)
+7. The correction note "Adjusted -10% based on your feedback history" should appear
+
+**Expected:** Feedback saves to Supabase. After 3+ consistent feedbacks, the recommendation adjusts by 10% in the indicated direction.
+
+---
+
+### Workflow 22: Time-Decay & Interpolation
+
+**Goal:** Verify that older data is weighted less and thickness interpolation works
+**Time:** 5 min
+
+**Steps:**
+1. Go to /suggest
+2. Search for a material where you have data at nearby thicknesses but NOT the exact thickness
+   - Example: data at 3mm and 6mm, search for 4mm
+3. Verify you see an interpolation note: "Interpolated between 3mm and 6mm data"
+4. Verify the confidence badge is reduced by one level (e.g., HIGH becomes MEDIUM)
+5. The interpolated speed should be between the two bracket values (linear interpolation)
+6. For time-decay: older cuts (months old) count less than recent cuts
+   - If you have both old and new cuts for the same material, the recommendation should lean toward newer data
+
+**Expected:** Interpolation provides reasonable estimates between known thicknesses. Confidence is reduced when interpolating. Time-decay means fresh data outweighs stale data.
+
+---
+
 ## Document History
 
 | Date | Version | Notes |
 |------|---------|-------|
 | 2026-06-17 | 1.0 | Initial comprehensive testing plan created for Prototype 1 |
+| 2026-06-21 | 2.0 | Added Workflows 18-22: Edit/Delete Cuts, Multi-Machine, Data Cleanup, Feedback Integration, Time-Decay & Interpolation |
 
 ---
 

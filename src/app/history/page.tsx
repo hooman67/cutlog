@@ -11,6 +11,13 @@ export default function History() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [exporting, setExporting] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [editingCut, setEditingCut] = useState<Cut | null>(null);
+  const [editSpeed, setEditSpeed] = useState("");
+  const [editPower, setEditPower] = useState("");
+  const [editQuality, setEditQuality] = useState<number>(0);
   const router = useRouter();
   const supabase = createClient();
 
@@ -18,6 +25,7 @@ export default function History() {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push("/auth"); return; }
+      setUserId(user.id);
 
       const { data } = await supabase
         .from("cuts")
@@ -31,6 +39,51 @@ export default function History() {
     }
     load();
   }, []);
+
+  async function handleDelete(cutId: string) {
+    if (!userId) return;
+    setDeletingId(cutId);
+    const { error } = await supabase
+      .from("cuts")
+      .delete()
+      .eq("id", cutId)
+      .eq("user_id", userId);
+
+    if (!error) {
+      setCuts(prev => prev.filter(c => c.id !== cutId));
+    }
+    setDeletingId(null);
+    setConfirmDeleteId(null);
+  }
+
+  function startEdit(cut: Cut) {
+    setEditingCut(cut);
+    setEditSpeed(cut.speed_mm_min ? String(cut.speed_mm_min) : "");
+    setEditPower(cut.power_pct ? String(cut.power_pct) : "");
+    setEditQuality(cut.quality_rating || 0);
+  }
+
+  async function handleSaveEdit() {
+    if (!editingCut || !userId) return;
+    const { error } = await supabase
+      .from("cuts")
+      .update({
+        speed_mm_min: editSpeed ? parseFloat(editSpeed) : null,
+        power_pct: editPower ? parseFloat(editPower) : null,
+        quality_rating: editQuality || null,
+      })
+      .eq("id", editingCut.id)
+      .eq("user_id", userId);
+
+    if (!error) {
+      setCuts(prev => prev.map(c =>
+        c.id === editingCut.id
+          ? { ...c, speed_mm_min: editSpeed ? parseFloat(editSpeed) : null, power_pct: editPower ? parseFloat(editPower) : null, quality_rating: editQuality || null }
+          : c
+      ));
+    }
+    setEditingCut(null);
+  }
 
   const filtered = cuts.filter(c =>
     c.material.toLowerCase().includes(search.toLowerCase())
@@ -134,27 +187,122 @@ export default function History() {
         <div className="space-y-2">
           {filtered.map(cut => (
             <div key={cut.id} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-              <div className="flex items-center justify-between mb-2">
-                <div>
-                  <span className="font-medium">{cut.material}</span>
-                  <span className="text-zinc-500 text-sm ml-2">{cut.thickness_mm}mm</span>
+              {/* Inline edit form */}
+              {editingCut?.id === cut.id ? (
+                <div className="space-y-3">
+                  <p className="text-sm font-medium text-zinc-300 mb-2">Editing: {cut.material} {cut.thickness_mm}mm</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Speed (mm/min)</label>
+                      <input
+                        type="number"
+                        value={editSpeed}
+                        onChange={(e) => setEditSpeed(e.target.value)}
+                        className="w-full p-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Power (%)</label>
+                      <input
+                        type="number"
+                        value={editPower}
+                        onChange={(e) => setEditPower(e.target.value)}
+                        className="w-full p-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs text-zinc-500 mb-1">Quality Rating</label>
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map(star => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setEditQuality(star)}
+                          className={`text-xl ${star <= editQuality ? "text-yellow-400" : "text-zinc-700"}`}
+                        >
+                          ★
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleSaveEdit}
+                      className="px-4 py-2 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-sm font-medium transition-colors"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setEditingCut(null)}
+                      className="px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 text-sm font-medium hover:bg-zinc-700 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
-                <span className="text-yellow-400 text-sm">
-                  {"★".repeat(cut.quality_rating || 0)}
-                </span>
-              </div>
-              <div className="grid grid-cols-4 gap-2 text-xs text-zinc-400">
-                {cut.power_pct && <span>{cut.power_pct}%</span>}
-                {cut.speed_mm_min && <span>{cut.speed_mm_min}mm/min</span>}
-                {cut.gas_type && <span>{cut.gas_type} {cut.gas_pressure_bar}bar</span>}
-                {cut.focus_position_mm !== null && <span>F:{cut.focus_position_mm}mm</span>}
-              </div>
-              {cut.edge_quality && (
-                <span className="inline-block mt-2 px-2 py-0.5 rounded text-xs bg-zinc-800 text-zinc-400">
-                  {cut.edge_quality.replace("_", " ")}
-                </span>
+              ) : (
+                <>
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <span className="font-medium">{cut.material}</span>
+                      <span className="text-zinc-500 text-sm ml-2">{cut.thickness_mm}mm</span>
+                    </div>
+                    <span className="text-yellow-400 text-sm">
+                      {"★".repeat(cut.quality_rating || 0)}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2 text-xs text-zinc-400">
+                    {cut.power_pct && <span>{cut.power_pct}%</span>}
+                    {cut.speed_mm_min && <span>{cut.speed_mm_min}mm/min</span>}
+                    {cut.gas_type && <span>{cut.gas_type} {cut.gas_pressure_bar}bar</span>}
+                    {cut.focus_position_mm !== null && <span>F:{cut.focus_position_mm}mm</span>}
+                  </div>
+                  {cut.edge_quality && (
+                    <span className="inline-block mt-2 px-2 py-0.5 rounded text-xs bg-zinc-800 text-zinc-400">
+                      {cut.edge_quality.replace("_", " ")}
+                    </span>
+                  )}
+                  <div className="flex items-center justify-between mt-2">
+                    <div className="text-xs text-zinc-600">{formatDate(cut.created_at)}</div>
+                    {/* Edit & Delete buttons - only show for user's own cuts */}
+                    {cut.user_id === userId && (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => startEdit(cut)}
+                          className="px-2 py-1 rounded text-xs bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 transition-colors"
+                        >
+                          Edit
+                        </button>
+                        {confirmDeleteId === cut.id ? (
+                          <div className="flex gap-1">
+                            <button
+                              onClick={() => handleDelete(cut.id)}
+                              disabled={deletingId === cut.id}
+                              className="px-2 py-1 rounded text-xs bg-red-900 border border-red-700 text-red-300 hover:bg-red-800 transition-colors disabled:opacity-50"
+                            >
+                              {deletingId === cut.id ? "..." : "Confirm"}
+                            </button>
+                            <button
+                              onClick={() => setConfirmDeleteId(null)}
+                              className="px-2 py-1 rounded text-xs bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => setConfirmDeleteId(cut.id)}
+                            className="px-2 py-1 rounded text-xs bg-red-900/50 border border-red-800 text-red-400 hover:text-red-300 hover:border-red-600 transition-colors"
+                          >
+                            Delete
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </>
               )}
-              <div className="text-xs text-zinc-600 mt-2">{formatDate(cut.created_at)}</div>
             </div>
           ))}
         </div>

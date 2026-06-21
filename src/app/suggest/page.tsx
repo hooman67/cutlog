@@ -15,6 +15,8 @@ interface ScaledCut extends Cut {
   scaling_note?: string
   scaling_warning?: { level: 'warning' | 'danger'; message: string }
   source_tier_weight?: number
+  machine_wattage?: number | null
+  machine_source_type?: string | null
 }
 
 interface SuggestionGroup {
@@ -50,6 +52,12 @@ interface SpeedRecommendation {
   matchedAliases?: string[];
   // AI generation tracking
   isAiGenerated?: boolean;
+  // Interpolation metadata
+  interpolated?: boolean;
+  interpolationNote?: string;
+  // Feedback correction
+  feedbackCorrectionApplied?: boolean;
+  feedbackCorrectionDirection?: 'faster' | 'slower';
 }
 
 interface AiSuggestionResult {
@@ -161,7 +169,7 @@ function saveFeedback(material: string, thickness: string, feedback: FeedbackTyp
   localStorage.setItem(key, JSON.stringify(all));
 }
 
-function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Machine | null = null): SpeedRecommendation | null {
+function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Machine | null = null, feedbackCorrection?: { direction: 'faster' | 'slower' } | null, interpolated?: boolean): SpeedRecommendation | null {
   // Collect all cuts with quality_rating >= 3 and valid speed
   // Assign source tier weights: user=3x, community=2x, AI baseline=1x
   const goodCuts: ScaledCut[] = [];
@@ -177,17 +185,45 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
 
   if (goodCuts.length === 0) return null;
 
+  // Feature 4: Time-Decay Weighting
+  // Apply exponential decay with half-life of 6 months (180 days)
+  const now = Date.now();
+  const HALF_LIFE_DAYS = 180;
+
   // Use scaled speeds if available, otherwise original speeds
   const speeds = goodCuts.map((c) => c.scaled_speed || c.speed_mm_min!);
-  const weights = goodCuts.map((c) => c.source_tier_weight || 1);
+  const weights = goodCuts.map((c, i) => {
+    const baseTierWeight = goodCuts[i].source_tier_weight || 1;
+    // Calculate age-based decay
+    let decayWeight = 1;
+    if (goodCuts[i].created_at) {
+      const createdAt = new Date(goodCuts[i].created_at).getTime();
+      const ageDays = (now - createdAt) / (1000 * 60 * 60 * 24);
+      decayWeight = Math.pow(0.5, ageDays / HALF_LIFE_DAYS);
+    }
+    return baseTierWeight * decayWeight;
+  });
 
   // Weighted average speed
   const totalWeight = weights.reduce((a, b) => a + b, 0);
-  const avgSpeed = Math.round(
+  let avgSpeed = Math.round(
     speeds.reduce((sum, speed, i) => sum + speed * weights[i], 0) / totalWeight
   );
   const minSpeed = Math.min(...speeds);
   const maxSpeed = Math.max(...speeds);
+
+  // Feature 2: Apply feedback correction factor
+  let feedbackCorrectionApplied = false;
+  let feedbackCorrectionDirection: 'faster' | 'slower' | undefined;
+  if (feedbackCorrection) {
+    feedbackCorrectionApplied = true;
+    feedbackCorrectionDirection = feedbackCorrection.direction;
+    if (feedbackCorrection.direction === 'faster') {
+      avgSpeed = Math.round(avgSpeed * 1.1); // Increase by 10%
+    } else {
+      avgSpeed = Math.round(avgSpeed * 0.9); // Decrease by 10%
+    }
+  }
 
   // Calculate profile-specific speeds
   const fastSpeed = avgSpeed; // Fast profile keeps original speed
@@ -208,6 +244,12 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
   if (hasOwnVerifiedCut) confidence = "HIGH";
   else if (goodCuts.length >= 5 && cv < 0.2) confidence = "HIGH";
   else if (goodCuts.length >= 3 || cv < 0.4) confidence = "MEDIUM";
+
+  // Feature 3: Reduce confidence by one level when interpolation is used
+  if (interpolated) {
+    if (confidence === "HIGH") confidence = "MEDIUM";
+    else if (confidence === "MEDIUM") confidence = "LOW";
+  }
 
   // Supporting params (use scaled power if available)
   const powers = goodCuts.filter((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct) !== null).map((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct)!);
@@ -256,6 +298,8 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
     scalingWarning,
     scalingNote,
     activeProfile,
+    feedbackCorrectionApplied,
+    feedbackCorrectionDirection,
   };
 }
 
@@ -280,6 +324,9 @@ export default function Suggest() {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const [aiHelpfulFeedback, setAiHelpfulFeedback] = useState<"yes" | "no" | null>(null);
+  const [feedbackCorrection, setFeedbackCorrection] = useState<{ direction: 'faster' | 'slower' } | null>(null);
+  const [interpolationNote, setInterpolationNote] = useState<string | null>(null);
+  const [interpolationConfidenceReduced, setInterpolationConfidenceReduced] = useState(false);
 
   const router = useRouter();
   const supabase = createClient();
@@ -289,10 +336,12 @@ export default function Suggest() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push("/auth"); return; }
 
+      // Feature 6: Query for the active machine
       const { data: machines } = await supabase
         .from("machines")
         .select("*")
         .eq("user_id", user.id)
+        .order("is_active", { ascending: false, nullsFirst: false })
         .limit(1);
 
       if (machines && machines.length > 0) {
@@ -340,6 +389,9 @@ export default function Suggest() {
     setAiLoading(false);
     setAiError(null);
     setAiHelpfulFeedback(null);
+    setFeedbackCorrection(null);
+    setInterpolationNote(null);
+    setInterpolationConfidenceReduced(false);
 
     const thicknessMm = parseFloat(thickness);
 
@@ -461,10 +513,11 @@ export default function Suggest() {
       }
 
       // 3. Community (real user shared cuts) - slightly wider tolerance for community
+      // Feature 1: Also fetch machine metadata for similarity scoring
       const communityTolerance = Math.max(tolerance, 1);
       let communityQuery = supabase
         .from("cuts")
-        .select("*")
+        .select("*, machines!cuts_machine_id_fkey(wattage_w, source_type)")
         .neq("source", "ai_baseline")
         .or(materialFilter)
         .eq("is_shared", true)
@@ -480,8 +533,29 @@ export default function Suggest() {
       const { data: communityCuts } = await communityQuery;
 
       if (communityCuts && communityCuts.length > 0) {
-        const scaledCuts = communityCuts.map((cut) => scaleCutIfNeeded(cut, userMachine));
-        const avg = communityCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / communityCuts.length;
+        const scaledCuts = communityCuts.map((cut: any) => {
+          const scaled = scaleCutIfNeeded(cut, userMachine);
+          // Attach machine metadata for similarity scoring
+          if (cut.machines) {
+            scaled.machine_wattage = cut.machines.wattage_w;
+            scaled.machine_source_type = cut.machines.source_type;
+          }
+          return scaled;
+        });
+
+        // Feature 1: Machine Similarity Scoring
+        // Weight cuts from machines with similar wattage (+-20%) and same source_type at 2.5x
+        for (const cut of scaledCuts) {
+          if (cut.machine_wattage && userMachine?.wattage_w) {
+            const ratio = cut.machine_wattage / userMachine.wattage_w;
+            const sameSourceType = cut.machine_source_type === userMachine.source_type;
+            if (ratio >= 0.8 && ratio <= 1.2 && sameSourceType) {
+              cut.source_tier_weight = 2.5; // Similar machine boost (up from 2)
+            }
+          }
+        }
+
+        const avg = communityCuts.reduce((s: number, c: any) => s + (c.quality_rating || 0), 0) / communityCuts.length;
         groups.push({
           source: "community",
           label: "Shared Cuts",
@@ -497,6 +571,77 @@ export default function Suggest() {
         break;
       }
     }
+
+    // Feature 3: Thickness Interpolation
+    // If we found data at a wider tolerance but NOT at the exact thickness, attempt interpolation
+    if (finalGroups.length > 0 && finalTolerance > 0.5) {
+      // Collect all cuts from all groups
+      const allCuts = finalGroups.flatMap(g => g.cuts);
+      const cutsBelow = allCuts.filter(c => c.thickness_mm < thicknessMm && c.speed_mm_min);
+      const cutsAbove = allCuts.filter(c => c.thickness_mm > thicknessMm && c.speed_mm_min);
+
+      if (cutsBelow.length > 0 && cutsAbove.length > 0) {
+        // Find closest bracket below and above
+        const closestBelow = cutsBelow.reduce((prev, curr) =>
+          Math.abs(curr.thickness_mm - thicknessMm) < Math.abs(prev.thickness_mm - thicknessMm) ? curr : prev
+        );
+        const closestAbove = cutsAbove.reduce((prev, curr) =>
+          Math.abs(curr.thickness_mm - thicknessMm) < Math.abs(prev.thickness_mm - thicknessMm) ? curr : prev
+        );
+
+        const lowerThickness = closestBelow.thickness_mm;
+        const upperThickness = closestAbove.thickness_mm;
+        const lowerSpeed = closestBelow.scaled_speed || closestBelow.speed_mm_min!;
+        const upperSpeed = closestAbove.scaled_speed || closestAbove.speed_mm_min!;
+
+        // Linear interpolation
+        const interpolatedSpeed = Math.round(
+          lowerSpeed - (lowerSpeed - upperSpeed) * (thicknessMm - lowerThickness) / (upperThickness - lowerThickness)
+        );
+
+        setInterpolationNote(`Interpolated between ${lowerThickness}mm and ${upperThickness}mm data`);
+        setInterpolationConfidenceReduced(true);
+
+        // Create an interpolated synthetic cut and add it to the first group
+        if (finalGroups.length > 0) {
+          const syntheticCut: ScaledCut = {
+            ...closestBelow,
+            id: 'interpolated',
+            thickness_mm: thicknessMm,
+            speed_mm_min: interpolatedSpeed,
+            scaled_speed: interpolatedSpeed,
+            notes: `Interpolated between ${lowerThickness}mm (${lowerSpeed} mm/min) and ${upperThickness}mm (${upperSpeed} mm/min)`,
+            source_tier_weight: 1.5, // Slightly lower weight for interpolated data
+          };
+          finalGroups[0].cuts.unshift(syntheticCut);
+        }
+      }
+    }
+
+    // Feature 2: Fetch feedback from Supabase for this material+thickness
+    let dbFeedbackCorrection: { direction: 'faster' | 'slower' } | null = null;
+    try {
+      const { data: feedbackData } = await supabase
+        .from("feedback")
+        .select("feedback_type")
+        .eq("user_id", user.id)
+        .ilike("material", `%${searchMaterial}%`)
+        .gte("thickness_mm", thicknessMm - 0.5)
+        .lte("thickness_mm", thicknessMm + 0.5);
+
+      if (feedbackData && feedbackData.length >= 3) {
+        const tooFastCount = feedbackData.filter(f => f.feedback_type === 'too_fast').length;
+        const tooSlowCount = feedbackData.filter(f => f.feedback_type === 'too_slow').length;
+        if (tooFastCount >= 3) {
+          dbFeedbackCorrection = { direction: 'slower' };
+        } else if (tooSlowCount >= 3) {
+          dbFeedbackCorrection = { direction: 'faster' };
+        }
+      }
+    } catch {
+      // Feedback table may not exist yet, ignore errors
+    }
+    setFeedbackCorrection(dbFeedbackCorrection);
 
     setThicknessToleranceUsed(finalTolerance);
     setSuggestions(finalGroups);
@@ -593,11 +738,27 @@ export default function Suggest() {
     }
   }
 
-  function handleFeedback(type: FeedbackType) {
+  async function handleFeedback(type: FeedbackType) {
     const searchMaterial = material || materialSearch;
-    const rec = computeSpeedRecommendation(suggestions);
+    const rec = computeSpeedRecommendation(suggestions, userMachine, feedbackCorrection);
     if (rec && searchMaterial) {
       saveFeedback(searchMaterial, thickness, type, rec.avgSpeed);
+
+      // Feature 2: Also save feedback to Supabase
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          await supabase.from("feedback").insert({
+            user_id: user.id,
+            material: searchMaterial,
+            thickness_mm: parseFloat(thickness),
+            feedback_type: type,
+            recommended_speed: rec.avgSpeed,
+          });
+        }
+      } catch {
+        // Feedback table may not exist yet, silently fail
+      }
     }
     setFeedbackGiven(type);
     if (type !== feedbackGiven) {
@@ -611,7 +772,7 @@ export default function Suggest() {
     return `${value}${unit}`;
   }
 
-  const speedRec = suggestions.length > 0 ? computeSpeedRecommendation(suggestions, userMachine) : null;
+  const speedRec = suggestions.length > 0 ? computeSpeedRecommendation(suggestions, userMachine, feedbackCorrection, interpolationConfidenceReduced) : null;
   const searchMaterial = material || materialSearch;
 
   // Check for previous feedback on this material/thickness
@@ -926,6 +1087,20 @@ export default function Suggest() {
               {thicknessToleranceUsed > 0.5 && (
                 <p className="text-xs text-amber-400 mt-2">
                   Showing data for nearby thicknesses (&plusmn;{thicknessToleranceUsed}mm)
+                </p>
+              )}
+
+              {/* Feature 3: Interpolation indicator */}
+              {interpolationNote && (
+                <p className="text-xs text-sky-400 mt-1">
+                  {interpolationNote}
+                </p>
+              )}
+
+              {/* Feature 2: Feedback correction indicator */}
+              {speedRec.feedbackCorrectionApplied && (
+                <p className="text-xs text-purple-400 mt-1">
+                  Adjusted {speedRec.feedbackCorrectionDirection === 'faster' ? '+10%' : '-10%'} based on your feedback history
                 </p>
               )}
 

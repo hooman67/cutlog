@@ -22,10 +22,12 @@ export default function Home() {
         return;
       }
 
+      // Feature 6: Query for the active machine
       const { data: machines } = await supabase
         .from("machines")
         .select("*")
         .eq("user_id", user.id)
+        .order("is_active", { ascending: false, nullsFirst: false })
         .limit(1);
 
       if (machines && machines.length > 0) {
