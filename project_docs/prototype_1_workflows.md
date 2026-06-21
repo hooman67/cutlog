@@ -610,6 +610,103 @@ These tests span multiple workflows and catch integration issues:
 
 ---
 
+## New Features Added 2026-06-21
+
+### Workflow 12: Material Alias Resolution
+
+**Goal:** Test that searching by alias finds the same results as canonical name
+**Time:** 3 min
+**Prerequisite:** Database has materials with aliases populated
+
+**Steps:**
+1. Go to /suggest
+2. Search for "304 Stainless" (this is an alias for "Stainless Steel")
+3. Verify you get recommendations (should match "Stainless Steel" data)
+4. Note: you may see "Also matched: Stainless Steel, 316 SS" text
+5. Search for "Inox" (another common alias for stainless)
+6. Verify you get the same or similar recommendations
+7. Search for "Mild Steel" — should return Carbon Steel/Mild Steel results
+8. Try a material with no aliases (e.g., "Acrylic") — should work as before
+
+**Expected:** Aliases resolve correctly. Searching by any known name for a material returns the same parameter set.
+
+---
+
+### Workflow 13: Fuzzy Thickness Fallback
+
+**Goal:** Test that when exact thickness has no data, nearby thicknesses are shown
+**Time:** 3 min
+**Prerequisite:** Database has data for Stainless Steel at 3mm and 5mm (or similar)
+
+**Steps:**
+1. Go to /suggest
+2. Search "Stainless Steel" at "3mm" — should return exact match (no fallback indicator)
+3. Search "Stainless Steel" at "4mm" — this used to return "no results"
+4. Verify you now see recommendations with a note like "Showing data for nearby thicknesses (±1.5mm)" or similar
+5. The speed shown should be reasonable (between 3mm and 5mm speeds)
+6. Search "Stainless Steel" at "25mm" — likely no data even with ±3mm
+7. Verify you see the empty state (no false data shown for extreme thicknesses)
+8. Search a thickness that has exact data again — verify the fallback indicator is NOT shown
+
+**Expected:** Nearby thicknesses are found and displayed with clear indication. Extreme thicknesses still show empty state. Exact matches show no fallback indicator.
+
+---
+
+### Workflow 14: Operation Type Filtering
+
+**Goal:** Test that cutting and engraving recommendations don't mix
+**Time:** 3 min
+**Prerequisite:** Machine is set to "Fiber Cutting" or "Fiber Engraving" type
+
+**Steps:**
+1. Set machine type to "Fiber Cutting" (via /machine)
+2. Go to /suggest, search "Stainless Steel 3mm"
+3. Verify results are cutting-focused (higher speeds, gas parameters visible)
+4. Change machine type to "Fiber Engraving" (via /machine)
+5. Go to /suggest, search "Stainless Steel 3mm"
+6. Verify results differ — engraving speeds should be different from cutting speeds
+7. If engraving data exists, verify engraving parameters show (frequency, passes)
+
+**Expected:** Operation type filters results appropriately. Cutting machines get cutting speeds. Engraving machines get engraving speeds.
+
+---
+
+### Workflow 15: Source Tier Weighting (if implemented)
+
+**Goal:** Test that user's own cuts are weighted higher than AI baseline
+**Time:** 5 min
+**Prerequisite:** User has logged at least 1 cut for a material
+
+**Steps:**
+1. Log a cut for "Aluminum" at 3mm with speed 2000 mm/min (go to /log)
+2. Go to /suggest, search "Aluminum 3mm"
+3. Note the recommended speed
+4. The speed should be pulled toward YOUR logged value (2000) rather than the AI baseline average
+5. If AI baseline suggests 3000 mm/min but you logged 2000, the recommendation should be closer to 2000 (weighted toward your data)
+6. Log a second cut for the same material with speed 1800 mm/min
+7. Search again — speed should pull even more toward your values
+
+**Expected:** Your own cuts influence the recommendation more heavily than community/AI data.
+
+---
+
+### Workflow 16: Confidence Based on Consistency (if implemented)
+
+**Goal:** Test that confidence reflects data consistency, not just count
+**Time:** 3 min
+
+**Steps:**
+1. Search a material with many data points that agree (e.g., "Stainless Steel 3mm")
+2. Verify confidence shows "HIGH" (many entries, consistent speeds)
+3. Search a material where data points vary widely (if identifiable)
+4. Verify confidence shows "MEDIUM" even if count is high (data disagrees)
+5. Search a material with only 1-2 data points
+6. Verify confidence shows "LOW"
+
+**Expected:** Confidence badge reflects both quantity AND consistency of data.
+
+---
+
 ## Bug Catch Checklist
 
 As you go through all workflows, note any:

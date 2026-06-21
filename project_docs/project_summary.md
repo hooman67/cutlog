@@ -213,7 +213,7 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 |------|------|-------------|--------|
 | **Nate Keen** | Galvo laser operator (engraving) | Galvo lasers don't drift; different market than CNC cutters. "Even if it gets people in the ballpark that's 90% there!" Advised: polish before marketing. Offered YouTube/TikTok promo. | PARTNERSHIP: Offered to make video (20K YT + 225K TikTok). Polish app first, then he promotes. |
 | **Mike AJ Guindon** | Small business owner (EST) | Busy running shop, consistently willing but time-poor | ✅ App link sent, "will try this week." Follow up by 2026-06-20. |
-| **Sean BeardyWeirdo** | Skeptical operator | "I have reservations on how this could be achieved by another person" — THE core objection | ✅ App link sent, no reply yet |
+| **Sean BeardyWeirdo** | Skeptical operator | "I have reservations on how this could be achieved by another person" — THE core objection | ✅ Asked about diode compatibility. Reply sent 2026-06-21. Potential diode market validation. |
 | **John Stegenga** | Multi-machine operator | "I have 3 of the same machines, and they all are different" — strongest per-machine validation | Late reply. DM candidate for app link. |
 | **Jeremy Hubert** | Technical operator, LightBurn user | Saves tests in LightBurn material library. Systematic tester. | ✅ DM replied. Follow up re: sharing .clb library. |
 | **Tinker Withit** | Experienced CNC cutter (Raytool) | Uses book + web for starting points, adjusts speed. Confirms starting-point value. | ✅ Replied on thread. Warm. |

@@ -1,6 +1,6 @@
 # CutLog 30-Second Demo Video Plan
 
-**Last updated**: 2026-06-17  
+**Last updated**: 2026-06-21  
 **Target platform**: Social media (Facebook, email, landing page)  
 **Format**: 30-second landscape video (1440x900 or higher, downscaled for social)  
 **Hosting**: YouTube (unlisted) or Vimeo (embeds on landing page)
@@ -9,9 +9,11 @@
 
 ## Core Message
 
-**Tagline**: "Stop guessing parameters. CutLog learns your machine."
+**Tagline**: "AI recommendations. Human-verified."
 
-**Value prop in 30 seconds**: Show how CutLog takes material + thickness input, returns a personalized speed recommendation calibrated for YOUR specific machine, and collects feedback to improve over time.
+**Positioning**: Unlike other AI tools that just guess, CutLog shows you whether a recommendation comes from verified community data or AI inference. You get the speed of AI with the trust of real operator verification. Plus it learns YOUR specific machine over time.
+
+**Value prop in 30 seconds**: Show how CutLog gives you AI-powered recommendations that are transparently labeled (AI vs human-verified), auto-scaled for your specific lens, and continuously improved by your feedback.
 
 ---
 
@@ -72,110 +74,100 @@
 
 Follow this script exactly. Each shot has specific timing and narration.
 
-### SHOT 1: HERO SHOT [0:00-0:03] (3 seconds)
+### SHOT 1: HOOK [0:00-0:05] (5 seconds)
 
 **Visual**:
-- Screen shows CutLog home page (`/`)
-- UI should show "Get Recommendation" button prominently
-- Cursor clicks "Get Recommendation"
-- Page transitions to `/suggest` or search input
+- Screen shows CutLog `/suggest` page with search form
+- User types "Stainless Steel" into material field, "3mm" into thickness
+- Hit search
 
 **Narration**: 
-"Stop guessing parameters. CutLog learns your machine."
+"Every AI tool guesses your laser parameters. CutLog actually verifies them."
 
-**Action**: Single click on "Get Recommendation" button. Keep motion smooth and deliberate.
+**Action**: 
+1. Material field already focused — type "Stainless Steel" (0:00-0:03)
+2. Tab to thickness, type "3" (0:03-0:04)
+3. Hit search button (0:04-0:05)
 
----
-
-### SHOT 2: SEARCH INPUT [0:03-0:10] (7 seconds)
-
-**Visual**:
-- Suggestion page with search form visible
-- User interacts with dropdowns:
-  - Material dropdown: select "Stainless Steel"
-  - Thickness dropdown: select "3mm"
-- Show the form filling out
-- Do NOT hit submit yet
-
-**Narration**:
-"Tell CutLog your material and thickness."
-
-**Action**:
-1. Click Material dropdown (0:03-0:05)
-2. Type "Stainless" or scroll to "Stainless Steel", click (0:05-0:07)
-3. Click Thickness dropdown (0:07-0:08)
-4. Select "3mm" (0:08-0:10)
-
-Keep dropdown interactions visible on screen. Avoid rapid clicking.
+**Why this works**: Opens with a bold claim that differentiates from BeraTech and every other AI tool. Viewer immediately sees the app in action.
 
 ---
 
-### SHOT 3: RECOMMENDATION HERO [0:10-0:17] (7 seconds)
+### SHOT 2: VERIFIED BADGE [0:05-0:12] (7 seconds)
 
 **Visual**:
-- Large speed number appears (e.g., "3500 mm/min" or similar)
-- Confidence badge displays (should show "HIGH" if machine has data)
-- Color-coded badge (green = HIGH, yellow = MEDIUM, red = LOW)
-- Range displayed below speed (e.g., "3200-3800 mm/min")
-- Hero card is the dominant visual element
+- Recommendation appears with speed hero number (e.g., "3500 mm/min")
+- KEY MOMENT: The BLUE "COMMUNITY" badge is visible on the result
+- Confidence badge shows "HIGH"
+- Hover cursor near the badge to draw attention to it
 
 **Narration**:
-"Get a personalized speed recommendation in one second, calibrated for your specific machine."
+"See that badge? A real operator tested this on a similar machine."
 
 **Action**:
-1. Hit submit/search (0:10-0:11)
-2. Let page load and display hero card (0:11-0:12)
-3. Pause for 5 seconds to let viewers see the recommendation (0:12-0:17)
+1. Let recommendation load (0:05-0:07)
+2. Pause — let viewer absorb the speed number (0:07-0:09)
+3. Move cursor to highlight the blue badge/tier label (0:09-0:12)
 
-This shot should feel like the "wow moment" — viewers see the recommendation appear.
+**Why this works**: This is the trust differentiator. BeraTech gives you a number. We give you a number + proof of where it came from.
 
 ---
 
-### SHOT 4: FULL PARAMETERS [0:17-0:25] (8 seconds)
+### SHOT 3: SCALING NOTE [0:12-0:18] (6 seconds)
 
 **Visual**:
-- Scroll down to show collapsible "Full Parameters" section
-- Expand it to show:
-  - Power (%)
-  - Frequency (kHz)
-  - Gas Type (e.g., N2, Air)
-  - Gas Pressure (bar)
-  - Focus Position (mm)
-  - Nozzle Diameter (mm)
-  - Nozzle Distance (mm)
-- Show badge or note like "Auto-scaled for your lens"
-- Optional: Show "Conservative / Fast" toggle if visible on page
+- Show the reference parameters grid (Power, Gas, Focus, Nozzle pills)
+- Show the "Scaled for your 150mm lens" note (or similar auto-scaling indicator)
+- The scaling note should be clearly visible
 
 **Narration**:
-"All parameters auto-scale for your lens. No manual tweaking."
+"AI auto-scales for YOUR specific lens. No manual tweaking."
 
 **Action**:
-1. Scroll down smoothly (0:17-0:19)
-2. Click "Full Parameters" or similar to expand (0:19-0:20)
-3. Pause for 5 seconds to show all parameters visible (0:20-0:25)
+1. The reference params should already be visible below the hero card (0:12-0:14)
+2. If scaling note is visible, hover near it briefly (0:14-0:16)
+3. Pause to let viewer read the params (0:16-0:18)
 
-Keep scrolling smooth and deliberate. Don't rush through the parameters.
+**Why this works**: Shows personalization is automatic — not "set up a complex profile" but "it just knows your lens." This is the $32 LaserSecrets product, for free.
 
 ---
 
-### SHOT 5: FEEDBACK & CTA [0:25-0:30] (5 seconds)
+### SHOT 4: FEEDBACK LOOP [0:18-0:25] (7 seconds)
 
 **Visual**:
-- Show the 3-button feedback system:
-  - "Too Slow" (left button)
-  - "Perfect" (center button)
-  - "Too Fast" (right button)
-- OR show the landing page with "Join Beta" / "Join Waitlist" CTA button
-- Final frame should have call-to-action visible
+- Show the 3-button feedback system ("Too Slow" / "Perfect ✓" / "Too Fast")
+- Tap the "Perfect" button — it highlights in emerald green
+- Success animation/state change visible
 
 **Narration**:
-"Use your feedback to improve recommendations over time. Join the waitlist today."
+"Your feedback trains the AI for YOUR machine over time."
 
 **Action**:
-1. Scroll down to feedback buttons (0:25-0:27)
-2. Highlight buttons by hovering cursor over them (optional) (0:27-0:28)
-3. Pan to landing page or stay on feedback section (0:28-0:30)
-4. Freeze final frame with CTA visible
+1. Scroll to feedback buttons if needed (0:18-0:20)
+2. Tap "Perfect" button deliberately (0:20-0:22)
+3. Let the highlight/ring animation play (0:22-0:25)
+
+**Why this works**: Shows the loop — data goes IN, recommendations get BETTER. This is machine-specific learning in action. BeraTech's AI doesn't get better with use. Yours does.
+
+---
+
+### SHOT 5: CTA [0:25-0:30] (5 seconds)
+
+**Visual**:
+- Cut to landing page (`/landing`) showing the hero section
+- "AI learns your machine" headline visible
+- "Join 50+ Operators on the Beta Waitlist" CTA button visible
+- OR: Overlay text on screen: "AI recommendations. Human-verified. cutlog-two.vercel.app/landing"
+
+**Narration**:
+"AI recommendations. Human-verified. Join the beta."
+
+**Action**:
+1. Navigate to landing page (or use a pre-recorded clip) (0:25-0:27)
+2. Show the CTA button clearly (0:27-0:30)
+3. Freeze final frame
+
+**Why this works**: Tagline lands the positioning. Viewer knows exactly what to do next.
 
 ---
 
@@ -184,29 +176,37 @@ Keep scrolling smooth and deliberate. Don't rush through the parameters.
 Record these lines. You can do them in one take or piece them together in post-production.
 
 ```
-[0:00-0:03]
-"Stop guessing parameters. CutLog learns your machine."
+[0:00-0:05]
+"Every AI tool guesses your laser parameters. CutLog actually verifies them."
 
-[0:03-0:10]
-"Tell CutLog your material and thickness."
+[0:05-0:12]
+"See that badge? A real operator tested this on a similar machine."
 
-[0:10-0:17]
-"Get a personalized speed recommendation in one second, 
-calibrated for your specific machine."
+[0:12-0:18]
+"AI auto-scales for YOUR specific lens. No manual tweaking."
 
-[0:17-0:25]
-"All parameters auto-scale for your lens. No manual tweaking."
+[0:18-0:25]
+"Your feedback trains the AI for YOUR machine over time."
 
 [0:25-0:30]
-"Use your feedback to improve recommendations over time. 
-Join the waitlist today."
+"AI recommendations. Human-verified. Join the beta."
 ```
+
+### Key Messaging Beats
+
+| Shot | Message | Differentiator |
+|------|---------|---------------|
+| Hook | "CutLog verifies" | vs. BeraTech: they guess, we verify |
+| Badge | "Real operator tested this" | Trust layer — you can SEE the source |
+| Scaling | "YOUR specific lens" | Personalization — not generic tables |
+| Feedback | "Trains for YOUR machine" | Gets smarter — BeraTech is static |
+| CTA | "Human-verified" | Tagline that sticks |
 
 ### Voiceover Recording Notes
 
-- **Tone**: Calm, confident, professional (not sales-y)
+- **Tone**: Confident but conversational — like explaining to a colleague, not pitching on a stage
 - **Pace**: Speak slightly slower than normal — viewers are reading on phones
-- **Emphasis**: Emphasize "YOUR machine" (personalization), "one second" (speed), "no tweaking" (ease)
+- **Emphasis**: Stress "verifies" (shot 1), "real operator" (shot 2), "YOUR" (shots 3+4), "human-verified" (shot 5)
 - **Equipment**: Record in quiet room, use AirPods Pro or USB mic
 - **File format**: Export as .wav or .m4a, import into ScreenFlow or iMovie
 - **Sync**: Align audio to video frames in post-production
@@ -291,11 +291,11 @@ Join the waitlist today."
 Print this or have it open on second monitor while recording:
 
 ```
-0:00-0:03   →  HERO SHOT (click Get Recommendation)
-0:03-0:10   →  SEARCH (select material + thickness)
-0:10-0:17   →  RECOMMENDATION (see hero card + speed)
-0:17-0:25   →  PARAMETERS (scroll down, show full params)
-0:25-0:30   →  FEEDBACK & CTA (show 3-button feedback or landing page)
+0:00-0:05   →  HOOK (search material + thickness, bold claim)
+0:05-0:12   →  VERIFIED BADGE (recommendation + blue community badge)
+0:12-0:18   →  SCALING (reference params + "Scaled for your lens" note)
+0:18-0:25   →  FEEDBACK LOOP (tap "Perfect", show it learning)
+0:25-0:30   →  CTA (landing page or overlay text)
 ```
 
 Use a second device (iPhone) to run a timer in background. You can even use online stopwatch: https://www.online-stopwatch.com/
@@ -308,7 +308,7 @@ Use a second device (iPhone) to run a timer in background. You can even use onli
 - [ ] Audio and video are in sync (no lip-sync delay)
 - [ ] No stray cursor clicks or browser artifacts visible
 - [ ] Voiceover is clear and audible (no background noise)
-- [ ] Video starts with home page, ends with CTA
+- [ ] Video starts with search input, ends with CTA/landing page
 - [ ] Resolution is at least 720p
 - [ ] File format is MP4 (H.264)
 - [ ] File size is < 50 MB (compress if needed)
@@ -336,7 +336,7 @@ Use a second device (iPhone) to run a timer in background. You can even use onli
 ### Facebook
 1. Upload video directly to Facebook (don't embed YouTube)
 2. Facebook prioritizes native video uploads
-3. Add caption text (videos play muted by default): "Stop guessing parameters. CutLog learns your machine. 🔗 [link]"
+3. Add caption text (videos play muted by default): "Every AI tool guesses. CutLog verifies. 🔗 cutlog-two.vercel.app/landing"
 4. Use Square format (1:1) or landscape (16:9)
 
 ### Email

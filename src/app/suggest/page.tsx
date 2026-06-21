@@ -14,6 +14,7 @@ interface ScaledCut extends Cut {
   scaled_speed?: number
   scaling_note?: string
   scaling_warning?: { level: 'warning' | 'danger'; message: string }
+  source_tier_weight?: number
 }
 
 interface SuggestionGroup {
@@ -43,6 +44,10 @@ interface SpeedRecommendation {
   scalingNote?: string;
   // Speed profile
   activeProfile: 'fast' | 'conservative' | 'auto';
+  // Thickness fallback
+  thicknessToleranceUsed?: number;
+  // Material alias resolution
+  matchedAliases?: string[];
 }
 
 type FeedbackType = "too_slow" | "perfect" | "too_fast";
@@ -147,10 +152,13 @@ function saveFeedback(material: string, thickness: string, feedback: FeedbackTyp
 
 function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Machine | null = null): SpeedRecommendation | null {
   // Collect all cuts with quality_rating >= 3 and valid speed
+  // Assign source tier weights: user=3x, community=2x, AI baseline=1x
   const goodCuts: ScaledCut[] = [];
   for (const group of groups) {
+    const tierWeight = group.source === "own" ? 3 : group.source === "community" ? 2 : 1;
     for (const cut of group.cuts) {
       if (cut.speed_mm_min && (cut.quality_rating === null || cut.quality_rating >= 3)) {
+        cut.source_tier_weight = tierWeight;
         goodCuts.push(cut);
       }
     }
@@ -160,7 +168,13 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
 
   // Use scaled speeds if available, otherwise original speeds
   const speeds = goodCuts.map((c) => c.scaled_speed || c.speed_mm_min!);
-  const avgSpeed = Math.round(speeds.reduce((a, b) => a + b, 0) / speeds.length);
+  const weights = goodCuts.map((c) => c.source_tier_weight || 1);
+
+  // Weighted average speed
+  const totalWeight = weights.reduce((a, b) => a + b, 0);
+  const avgSpeed = Math.round(
+    speeds.reduce((sum, speed, i) => sum + speed * weights[i], 0) / totalWeight
+  );
   const minSpeed = Math.min(...speeds);
   const maxSpeed = Math.max(...speeds);
 
@@ -169,12 +183,18 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
   const conservativeSpeed = Math.round(avgSpeed * SPEED_PROFILE_MULTIPLIERS.conservative); // Conservative is ~50% of original
 
   // Determine active profile
-  let activeProfile: 'fast' | 'conservative' | 'auto' = userMachine?.speed_profile || 'auto';
+  const activeProfile: 'fast' | 'conservative' | 'auto' = userMachine?.speed_profile || 'auto';
 
-  // Confidence
+  // Confidence based on coefficient of variation (stddev / mean)
+  const mean = speeds.reduce((a, b) => a + b, 0) / speeds.length;
+  const variance = speeds.reduce((sum, s) => sum + Math.pow(s - mean, 2), 0) / speeds.length;
+  const stddev = Math.sqrt(variance);
+  const cv = mean > 0 ? stddev / mean : 1;
+
   let confidence: "HIGH" | "MEDIUM" | "LOW" = "LOW";
-  if (goodCuts.length >= 10) confidence = "HIGH";
-  else if (goodCuts.length >= 5) confidence = "MEDIUM";
+  if (goodCuts.length >= 5 && cv < 0.2) confidence = "HIGH";
+  else if (goodCuts.length >= 3 || cv < 0.4) confidence = "MEDIUM";
+  // else stays LOW: count < 3 OR cv >= 0.4
 
   // Supporting params (use scaled power if available)
   const powers = goodCuts.filter((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct) !== null).map((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct)!);
@@ -241,6 +261,8 @@ export default function Suggest() {
   const [showFullParams, setShowFullParams] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState<FeedbackType | null>(null);
   const [showFeedbackToast, setShowFeedbackToast] = useState(false);
+  const [thicknessToleranceUsed, setThicknessToleranceUsed] = useState<number>(0.5);
+  const [matchedAliases, setMatchedAliases] = useState<string[]>([]);
 
   const router = useRouter();
   const supabase = createClient();
@@ -295,84 +317,168 @@ export default function Suggest() {
     setFeedbackGiven(null);
     setShowFeedbackToast(false);
     setShowFullParams(false);
+    setThicknessToleranceUsed(0.5);
+    setMatchedAliases([]);
 
     const thicknessMm = parseFloat(thickness);
-    const groups: SuggestionGroup[] = [];
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    // 1. Own cuts (case-insensitive match)
-    const { data: ownCuts } = await supabase
-      .from("cuts")
-      .select("*")
-      .eq("user_id", user.id)
-      .ilike("material", `%${searchMaterial}%`)
-      .gte("thickness_mm", thicknessMm - 0.5)
-      .lte("thickness_mm", thicknessMm + 0.5)
-      .order("quality_rating", { ascending: false })
-      .limit(10);
+    // --- Priority 1, Item 1: Material Alias Resolution ---
+    // Query the materials table to find canonical name + all aliases
+    const { data: matchedMaterials } = await supabase
+      .from("materials")
+      .select("name, aliases")
+      .or(`name.ilike.%${searchMaterial}%,aliases.cs.{${searchMaterial}}`);
 
-    if (ownCuts && ownCuts.length > 0) {
-      const scaledCuts = ownCuts.map((cut) => scaleCutIfNeeded(cut, userMachine));
-      const avg = ownCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / ownCuts.length;
-      groups.push({
-        source: "own",
-        label: "Your History",
-        badge_color: "bg-emerald-900/50 border-emerald-600 text-emerald-300",
-        cuts: scaledCuts,
-        avg_rating: avg,
-      });
+    // Collect all possible names (canonical + aliases)
+    const allNames = new Set<string>();
+    const resolvedAliases: string[] = [];
+    if (matchedMaterials && matchedMaterials.length > 0) {
+      for (const m of matchedMaterials) {
+        allNames.add(m.name);
+        if (m.aliases) m.aliases.forEach((a: string) => allNames.add(a));
+      }
+      // Track which aliases were matched (excluding the search term itself)
+      const namesArray = Array.from(allNames);
+      for (let i = 0; i < namesArray.length; i++) {
+        if (namesArray[i].toLowerCase() !== searchMaterial.toLowerCase()) {
+          resolvedAliases.push(namesArray[i]);
+        }
+      }
+    }
+    if (allNames.size === 0) allNames.add(searchMaterial);
+    setMatchedAliases(resolvedAliases);
+
+    // Build material filter: use .or() with all matched names
+    const materialNames = Array.from(allNames);
+    const buildMaterialFilter = () => {
+      // Build an OR filter for all material names
+      return materialNames.map(n => `material.ilike.%${n}%`).join(",");
+    };
+    const materialFilter = buildMaterialFilter();
+
+    // --- Priority 1, Item 3: Operation Type Awareness ---
+    // Determine operation type based on user's machine laser_source_type
+    let operationType: string | null = null;
+    if (userMachine?.laser_source_type) {
+      const sourceType = userMachine.laser_source_type;
+      if (sourceType.includes('engraving') || sourceType === 'uv_marking') {
+        operationType = 'engrave';
+      } else {
+        operationType = 'cut';
+      }
     }
 
-    // 2. AI Baseline data
-    const { data: baselineCuts } = await supabase
-      .from("cuts")
-      .select("*")
-      .ilike("material", `%${searchMaterial}%`)
-      .eq("source", "ai_baseline")
-      .gte("thickness_mm", thicknessMm - 0.5)
-      .lte("thickness_mm", thicknessMm + 0.5)
-      .order("quality_rating", { ascending: false })
-      .limit(10);
+    // --- Priority 1, Item 2: Fuzzy Thickness Fallback ---
+    // Try progressively wider tolerances until we find results
+    const toleranceLevels = [0.5, 1.5, 3];
+    let finalGroups: SuggestionGroup[] = [];
+    let finalTolerance = 0.5;
 
-    if (baselineCuts && baselineCuts.length > 0) {
-      const scaledCuts = baselineCuts.map((cut) => scaleCutIfNeeded(cut, userMachine));
-      const avg = baselineCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / baselineCuts.length;
-      groups.push({
-        source: "similar_machine",
-        label: "AI Starting Point",
-        badge_color: "bg-orange-900/50 border-orange-600 text-orange-300",
-        cuts: scaledCuts,
-        avg_rating: avg,
-      });
+    for (const tolerance of toleranceLevels) {
+      const groups: SuggestionGroup[] = [];
+
+      // 1. Own cuts (case-insensitive match with alias resolution)
+      let ownQuery = supabase
+        .from("cuts")
+        .select("*")
+        .eq("user_id", user.id)
+        .or(materialFilter)
+        .gte("thickness_mm", thicknessMm - tolerance)
+        .lte("thickness_mm", thicknessMm + tolerance)
+        .order("quality_rating", { ascending: false })
+        .limit(10);
+
+      // Add operation_type filter (allow NULL values through)
+      if (operationType) {
+        ownQuery = ownQuery.or(`operation_type.eq.${operationType},operation_type.is.null`);
+      }
+
+      const { data: ownCuts } = await ownQuery;
+
+      if (ownCuts && ownCuts.length > 0) {
+        const scaledCuts = ownCuts.map((cut) => scaleCutIfNeeded(cut, userMachine));
+        const avg = ownCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / ownCuts.length;
+        groups.push({
+          source: "own",
+          label: "Your History",
+          badge_color: "bg-emerald-900/50 border-emerald-600 text-emerald-300",
+          cuts: scaledCuts,
+          avg_rating: avg,
+        });
+      }
+
+      // 2. AI Baseline data
+      let baselineQuery = supabase
+        .from("cuts")
+        .select("*")
+        .or(materialFilter)
+        .eq("source", "ai_baseline")
+        .gte("thickness_mm", thicknessMm - tolerance)
+        .lte("thickness_mm", thicknessMm + tolerance)
+        .order("quality_rating", { ascending: false })
+        .limit(10);
+
+      if (operationType) {
+        baselineQuery = baselineQuery.or(`operation_type.eq.${operationType},operation_type.is.null`);
+      }
+
+      const { data: baselineCuts } = await baselineQuery;
+
+      if (baselineCuts && baselineCuts.length > 0) {
+        const scaledCuts = baselineCuts.map((cut) => scaleCutIfNeeded(cut, userMachine));
+        const avg = baselineCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / baselineCuts.length;
+        groups.push({
+          source: "similar_machine",
+          label: "AI Starting Point",
+          badge_color: "bg-orange-900/50 border-orange-600 text-orange-300",
+          cuts: scaledCuts,
+          avg_rating: avg,
+        });
+      }
+
+      // 3. Community (real user shared cuts) - slightly wider tolerance for community
+      const communityTolerance = Math.max(tolerance, 1);
+      let communityQuery = supabase
+        .from("cuts")
+        .select("*")
+        .neq("source", "ai_baseline")
+        .or(materialFilter)
+        .eq("is_shared", true)
+        .gte("thickness_mm", thicknessMm - communityTolerance)
+        .lte("thickness_mm", thicknessMm + communityTolerance)
+        .order("quality_rating", { ascending: false })
+        .limit(10);
+
+      if (operationType) {
+        communityQuery = communityQuery.or(`operation_type.eq.${operationType},operation_type.is.null`);
+      }
+
+      const { data: communityCuts } = await communityQuery;
+
+      if (communityCuts && communityCuts.length > 0) {
+        const scaledCuts = communityCuts.map((cut) => scaleCutIfNeeded(cut, userMachine));
+        const avg = communityCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / communityCuts.length;
+        groups.push({
+          source: "community",
+          label: "Shared Cuts",
+          badge_color: "bg-blue-900/50 border-blue-600 text-blue-300",
+          cuts: scaledCuts,
+          avg_rating: avg,
+        });
+      }
+
+      if (groups.length > 0) {
+        finalGroups = groups;
+        finalTolerance = tolerance;
+        break;
+      }
     }
 
-    // 3. Community (real user shared cuts)
-    const { data: communityCuts } = await supabase
-      .from("cuts")
-      .select("*")
-      .neq("source", "ai_baseline")
-      .ilike("material", `%${searchMaterial}%`)
-      .eq("is_shared", true)
-      .gte("thickness_mm", thicknessMm - 1)
-      .lte("thickness_mm", thicknessMm + 1)
-      .order("quality_rating", { ascending: false })
-      .limit(10);
-
-    if (communityCuts && communityCuts.length > 0) {
-      const scaledCuts = communityCuts.map((cut) => scaleCutIfNeeded(cut, userMachine));
-      const avg = communityCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / communityCuts.length;
-      groups.push({
-        source: "community",
-        label: "Shared Cuts",
-        badge_color: "bg-blue-900/50 border-blue-600 text-blue-300",
-        cuts: scaledCuts,
-        avg_rating: avg,
-      });
-    }
-
-    setSuggestions(groups);
+    setThicknessToleranceUsed(finalTolerance);
+    setSuggestions(finalGroups);
     setSearched(true);
     setLoading(false);
 
@@ -386,7 +492,7 @@ export default function Suggest() {
     }
 
     // Track if search returned no results for nudge D
-    if (groups.length === 0 && typeof window !== "undefined") {
+    if (finalGroups.length === 0 && typeof window !== "undefined") {
       localStorage.setItem("cutlog-search-no-results", "true");
     }
   }
@@ -597,6 +703,20 @@ export default function Suggest() {
                   </span>
                 )}
               </p>
+
+              {/* Thickness fallback indicator */}
+              {thicknessToleranceUsed > 0.5 && (
+                <p className="text-xs text-amber-400 mt-2">
+                  Showing data for nearby thicknesses (&plusmn;{thicknessToleranceUsed}mm)
+                </p>
+              )}
+
+              {/* Material alias resolution indicator */}
+              {matchedAliases.length > 0 && (
+                <p className="text-xs text-zinc-500 mt-1">
+                  Also matched: {matchedAliases.slice(0, 5).join(", ")}
+                </p>
+              )}
               {speedRec.activeProfile === 'conservative' && (
                 <p className="text-xs text-zinc-500 mb-2">
                   Fast speed: {speedRec.fastSpeed.toLocaleString()} mm/min
