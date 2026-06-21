@@ -1,6 +1,6 @@
 # CutLog Project Summary
 
-**Last updated**: 2026-06-17
+**Last updated**: 2026-06-21
 **Purpose**: Complete context transfer document. Any agent session reading this file should have everything needed to continue work on this project.
 
 ---
@@ -27,7 +27,7 @@
 
 ---
 
-## Current State (2026-06-17)
+## Current State (2026-06-21)
 
 ### Prototype: LIVE AND DEPLOYED
 
@@ -40,6 +40,11 @@
 | **Dev server** | ✅ Available | Pluto machine port 8000, SSH tunnel for dev |
 | **GitHub** | ✅ Pushed | `git@github.com:hooman67/cutlog.git` |
 | **PWA** | ✅ Installable | iPhone "Add to Home Screen" = native app feel. Smart install banner added for mobile users |
+| **Algorithm** | ✅ Complete | All 10/10 recommendation algorithm improvements implemented (2026-06-21) |
+| **Multi-machine** | ✅ Live | Full multi-machine support — users can register and switch between machines |
+| **Edit/Delete** | ✅ Live | Users can edit and delete their logged cuts |
+| **Admin Tools** | ✅ Live | Admin data reset/cleanup functionality |
+| **Gemini AI** | ✅ Live | Gemini 2.0 Flash fallback for materials with no database data |
 | **Native App** | 🔲 Planned | Capacitor integration code exists on `migration_to_app` branch. Will merge after 5+ active beta users. |
 
 ### Customer Validation: IN PROGRESS
@@ -178,6 +183,9 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 2. `002_seed_materials.sql` — 85+ materials reference
 3. `PASTE_003_AND_004.sql` — Added `source` column + made user_id/machine_id nullable
 4. `COMBINED_PASTE_ALL.sql` — 724 parameter rows inserted
+5. `005` through `007` — Various schema improvements
+6. `008_feedback_table.sql` — Feedback table for "Too Fast / Perfect / Too Slow" responses (applied 2026-06-21)
+7. `009_is_active_on_machines.sql` — Added `is_active` column to machines table for multi-machine support (applied 2026-06-21)
 
 **To add new data**: Generate/scrape SQL, paste into Supabase SQL Editor at https://supabase.com/dashboard (no direct DB connection from Pluto). Use service role key for inserts that bypass RLS.
 
@@ -294,11 +302,9 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 
 ### This Week (June 17-23): Hybrid Launch Phase 1
 
-**PREREQUISITE (Before anything else):**
-1. **[CRITICAL] Test all 11 workflows** — See `prototype_1_workflows.md`. Systematic end-to-end testing of every feature (auth, machine setup, logging, suggestions, import, export, landing page, waitlist, history, onboarding, font-preview). Fix all bugs found. ~2 hours.
-
-**THEN: Deploy**
-2. **Deploy to Vercel** — Push to `main` to get all new features + bug fixes live. Verify landing page at `https://cutlog-two.vercel.app/landing`. Verify waitlist form works. Confirm no console errors on mobile.
+**COMPLETED (2026-06-21):**
+1. ~~**[CRITICAL] Test all 22 workflows**~~ — ✅ DONE. Workflows 18-22 added (multi-machine, edit/delete, admin data cleanup, feedback integration, algorithm improvements). All passing.
+2. ~~**Deploy to Vercel**~~ — ✅ DONE. All code pushed to `main` (auto-deploys). Supabase migrations 008 (feedback table) and 009 (is_active on machines) applied. All 10/10 algorithm improvements live. Multi-machine support, edit/delete cuts, admin data reset all live.
 
 **THEN: Go-to-market**
 3. **[CRITICAL] Facebook posts in 3 groups** — Laser Cutting Enthusiasts, CO2 Laser Users, LightBurn Community. Spaced 1-2 per day (Deadline: June 21). Link to `https://cutlog-two.vercel.app/landing`.
@@ -368,6 +374,7 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 | Session B (CutLog prototype) | Building + deploying the app | Next.js app built, Supabase DB, 724 params scraped/generated and seeded, suggestion engine fixed, deployed to Vercel (https://cutlog-two.vercel.app) |
 | Session C (cutlog-app, 2026-06-15) | Feature build + data + competitive intel + onboarding UX | OMG Laser scraped (177 entries → DB at 901 total), LightBurn .clb import/export built, LaserParams Converter formulas extracted to Python, suggestion engine refactored (speed-first hero UX + 3-button feedback), PWA install banner added, BeraTech CNC competitor analyzed (4/10 threat), Capacitor migration plan written, Lobo Lightbringer DM drafted, **user discovery/onboarding features added** (contextual hints, first-visit overlay, empty states that educate, smart nudges) |
 | Session D (cutlog-app, 2026-06-17) | Launch prep, code audit, bug fixes, go-to-market strategy | Landing page built (`/landing`), waitlist system (`/waitlist` + Supabase table), outreach docs (launch_checklist.md, launch_strategy_hybrid.md, prototype_1_workflows.md with 11 test workflows), **9 bug fixes** (code audit), strategy audit (hybrid launch = Option C chosen), DM status updated (Klaus sent, Lobo sent), font-preview tool (`/tools/font-preview`) |
+| Session E (cutlog-app, 2026-06-21) | Algorithm improvements, multi-machine, edit/delete, admin tools | **All 10/10 algorithm improvements implemented** (fuzzy thickness, material aliases, operation type filter, source tier weighting, consistency-based confidence, machine similarity, broader search fallback, feedback integration, thickness interpolation, time-decay weighting). Multi-machine support (migration 009: is_active on machines). Edit/delete cuts. Admin data cleanup. Feedback table (migration 008). Workflows 18-22 added to testing plan. All pushed to main (auto-deployed to Vercel). |
 
 ---
 

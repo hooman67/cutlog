@@ -66,17 +66,17 @@ https://cutlog-two.vercel.app/landing
 | 3 | CNC Fiber Laser Ninja (Fiber Laser Cutters) | - | Template #1 | Done with Temp1
 | 4 | Fiber Laser Engraving Club | - | Template #1 | Done with Temp2
 | 5 | Fiber Laser Tips, Tricks & Sales | - | Template #1 | Done with Temp1
-| 6 | DIY Fiber Laser | - | Template #2 |
-| 7 | Laser Engraver Group for Beginners ✅ | - | Template #1 |
-| 8 | Laser Engraving And Cutting | - | Template #1 |
-| 9 | UV laser and fiber laser community group | - | (Monitor, decide targeting) |
+| 6 | DIY Fiber Laser | - | Template #1 | Done with Temp1
+| 7 | Laser Engraver Group for Beginners ✅ | - | Template #1 | Done with Temp2
+| 8 | Laser Engraving And Cutting | - | Template #1 | Done with Temp2
+| 9 | UV laser and fiber laser community group | - | Template #1 | Done with Temp1
 | 10 | That Laser Dude Community - Laser Engraving & Cutting for All 🔥 | - | Template #1 | Done with Temp1
-| 11 | CNC Fiber laser machine | - | (Monitor, decide targeting) |
+| 11 | CNC Fiber laser machine | - | Template #1 | Done with Temp1
 | 12 | Laser Engraver Group for Beginner | - | Template #2 | Done with Temp2
 | 13 | Free Laser Files | - | Template #1 | Done with Temp1
-| 14 | Fiber Laser The Next Level | - | Template #3 |
+| 14 | Fiber Laser The Next Level | - | Template #1 | Done with Temp1
 | 15 | Fiber Laser Engraving Club (alt) | - | Template #2 | Done with Temp2
-| 16 | Laser Engraving And Cutting (alt) | - | Template #3 |
+| 16 | Laser Engraving And Cutting (alt) | - | Template #1 | Done with Temp2
 
 ---
 
@@ -103,9 +103,9 @@ https://cutlog-two.vercel.app/landing
 ### Template Assignment
 | Template | Groups | Count | Audience Focus |
 |---|---|---|---|
-| #1 (General) | 1, 2, 3, 4, 5, 7, 8, 10, 13 | 9 posts | Broad cutting operators |
-| #2 (Engraving) | 6, 12, 15 | 3 posts | Engraving specialists |
-| #3 (Chinese) | 2, 14, 16 | 3 posts | Budget/Chinese machine users |
+| #1 (General) | 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14, 16 | 13 posts | Default for any group |
+| #2 (Engraving) | 4, 12, 15 | 3 posts | Groups with "Engraving" in name AND confirmed engraving-focused content |
+| #3 (Chinese) | 2 (secondary repost) | 1 post | Only for Group 2 which explicitly mentions "Metal Laser Cutter Users" |
 
 **Note:** Group 2 gets Template #1 (primary) and Template #3 (secondary repost in 3+ days).
 

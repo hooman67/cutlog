@@ -15,10 +15,10 @@ This is the execution checklist for **Week 1 of the Hybrid Launch** (Option C). 
 **STRATEGY UPDATE (2026-06-17):** Nate Keen offered to make a video about CutLog (20K YT + 225K TikTok). This changes priorities: Polish is now the critical path. The big growth event is the Nate video, not Facebook posts. Facebook posts are secondary/parallel (still low-cost, still worth doing). New execution order reflects this.
 
 **Execution order (critical)**:
-1. TEST all 11 workflows (Step 0 below)
-2. FIX any bugs found during testing
-3. POLISH UX based on Nate's feedback (new priority)
-4. DEPLOY to Vercel (push to `main` triggers auto-deploy)
+1. ~~TEST all 22 workflows (Step 0 below)~~ — ✅ DONE (2026-06-21)
+2. ~~FIX any bugs found during testing~~ — ✅ DONE (2026-06-21)
+3. ~~POLISH UX based on Nate's feedback (new priority)~~ — ✅ DONE (2026-06-21, all 10/10 algo improvements live)
+4. ~~DEPLOY to Vercel (push to `main` triggers auto-deploy)~~ — ✅ DONE (2026-06-21)
 5. VERIFY analytics (confirm landing page live at `https://cutlog-two.vercel.app/landing`, waitlist form works)
 6. POST in 3 Facebook groups (Step 4 below — SECONDARY, parallel activity)
 7. DMs to 6 power users (Step 5/email templates below)
@@ -27,10 +27,14 @@ This is the execution checklist for **Week 1 of the Hybrid Launch** (Option C). 
 10. **SCALE** — Handle incoming traffic, iterate, grow
 
 **Revised milestone order:**
-- [ ] Testing complete (all 11 workflows pass)
-- [ ] All bugs fixed + UX polished
-- [ ] Verify GEMINI_API_KEY is set in Vercel environment variables
-- [ ] Test AI fallback with obscure material search (e.g., "Inconel 718" at 7mm)
+- [x] Testing complete (all 22 workflows pass — workflows 18-22 added 2026-06-21)
+- [x] All bugs fixed + UX polished
+- [x] Verify GEMINI_API_KEY is set in Vercel environment variables
+- [x] Test AI fallback with obscure material search (e.g., "Inconel 718" at 7mm)
+- [x] All code pushed to main (auto-deploys to Vercel) — DONE 2026-06-21
+- [x] Supabase migrations 008 (feedback table) + 009 (is_active on machines) applied — DONE 2026-06-21
+- [x] All 10/10 algorithm improvements implemented — DONE 2026-06-21
+- [x] Multi-machine support, edit/delete cuts, admin data cleanup live — DONE 2026-06-21
 - [ ] Nate's .clb files imported successfully
 - [ ] Nate confirms app is ready for video
 - [ ] Nate video published
@@ -42,7 +46,13 @@ This is the execution checklist for **Week 1 of the Hybrid Launch** (Option C). 
 
 ## Step 0: PREREQUISITE - App Testing Complete
 
-- [ ] PREREQUISITE: Complete prototype_1_workflows.md testing. All 11 workflows pass. No blocking bugs.
+- [x] PREREQUISITE: Complete prototype_1_workflows.md testing. All 22 workflows pass (workflows 18-22 added 2026-06-21). No blocking bugs.
+- [x] All code pushed to `main` branch — auto-deployed to Vercel (2026-06-21)
+- [x] Supabase migrations applied: 008 (feedback table), 009 (is_active on machines) (2026-06-21)
+- [x] All 10/10 algorithm improvements implemented and live (2026-06-21)
+- [x] Multi-machine support live (2026-06-21)
+- [x] Edit/delete cuts live (2026-06-21)
+- [x] Admin data cleanup/reset live (2026-06-21)
 
 > **Do NOT send any DMs or post to groups until app testing is complete. A buggy first impression with a power user cannot be recovered.**
 
@@ -563,10 +573,12 @@ If blocked:
 
 | # | Milestone | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | All 11 workflows tested and passing | [ ] | prerequisite_1_workflows.md |
-| 2 | All bugs fixed, UX polished | [ ] | Nate's condition: "bugs sorted out and fine tuned" |
-| 2a | GEMINI_API_KEY set in Vercel env vars | [ ] | Required for AI suggestion fallback |
-| 2b | AI fallback tested with obscure material | [ ] | Verify gray badge, "Was this helpful?", promotion flow |
+| 1 | All 22 workflows tested and passing | [x] | Workflows 18-22 added 2026-06-21 (multi-machine, edit/delete, admin, feedback, algorithm) |
+| 2 | All bugs fixed, UX polished | [x] | All algorithm improvements (10/10) complete. Code pushed to main. |
+| 2a | GEMINI_API_KEY set in Vercel env vars | [x] | Required for AI suggestion fallback |
+| 2b | AI fallback tested with obscure material | [x] | Verify gray badge, "Was this helpful?", promotion flow |
+| 2c | Supabase migrations 008 + 009 applied | [x] | Feedback table + is_active on machines (2026-06-21) |
+| 2d | Multi-machine, edit/delete, admin cleanup live | [x] | All deployed to production (2026-06-21) |
 | 3 | Nate's .clb library imported successfully | [ ] | Proves onboarding flow with real data |
 | 4 | Font preview tool polished (his request) | [ ] | Relationship investment, cements partnership |
 | 5 | Nate confirms app is ready for video | [ ] | THE key unlock. Do not rush this. |

@@ -357,135 +357,99 @@ User Input
 
 ---
 
-## 3. Known Limitations
+## 3. Known Limitations (Updated 2026-06-21)
 
-### 3.1 No Fuzzy Matching on Material Name
-The `ILIKE '%material%'` is a substring match, not a fuzzy match. Searching "Stainless Steel" will match "Stainless Steel" and "304 Stainless Steel" but will NOT match:
-- "SS304" (no substring overlap)
-- "Inox" (European term for stainless)
-- Typos like "Stainles Steel"
+> **Note:** All Priority 1, 2, and 3 items from the improvement backlog have been implemented as of 2026-06-21. The limitations below reflect what remains unsolved (Priority 4 / future work).
 
-### 3.2 No Interpolation Between Thicknesses
-If data exists for 3mm and 5mm stainless but NOT 4mm:
-- Tier 1 and 2 search +/- 0.5mm (3.5 to 4.5mm) -- misses both
-- Tier 3 searches +/- 1.0mm (3.0 to 5.0mm) -- might catch one or both
+### ~~3.1 No Fuzzy Matching on Material Name~~ — SOLVED
+✅ Material alias resolution now queries the `materials` table for canonical name + all aliases. Searching "Stainless Steel" also searches "304 Stainless", "316 SS", "Inox", etc. (Implemented 2026-06-21)
 
-If only community data has adjacent thicknesses, they appear. But there is no mathematical interpolation (e.g., averaging 3mm and 5mm speeds to estimate 4mm).
+### ~~3.2 No Interpolation Between Thicknesses~~ — SOLVED
+✅ Progressive thickness widening (±0.5mm → ±1.5mm → ±3mm) plus linear interpolation between bracketing thicknesses. Users almost always see useful data now. (Implemented 2026-06-21)
 
-### 3.3 No Weighting by Source Tier
-Own cuts (proven on your machine) are weighted identically to community cuts (unknown machine, unknown conditions). A single community cut with rating 3 counts the same as your own verified 5-star cut.
+### ~~3.3 No Weighting by Source Tier~~ — SOLVED
+✅ Source tier weighting implemented: own cuts at 3x, community at 2x, AI baseline at 1x. Personal verified data always dominates recommendations. (Implemented 2026-06-21)
 
-### 3.4 No Machine Similarity Weighting
-Community cuts from a 500W Trumpf and a 1500W Bodor are treated equally regardless of how similar they are to the user's machine. Scaling adjusts for lens/wattage, but doesn't weight by similarity.
+### ~~3.4 No Machine Similarity Weighting~~ — SOLVED
+✅ Machine similarity scoring implemented for community data. Cuts from machines with similar wattage (±20%) and same source type are weighted higher. (Implemented 2026-06-21)
 
-### 3.5 Confidence Based Only on Count
-A recommendation from 10 cuts with wildly different speeds (1000-5000 mm/min range) gets HIGH confidence, while 4 extremely consistent cuts (all within 50 mm/min) gets LOW confidence. The variance/consistency is ignored.
+### ~~3.5 Confidence Based Only on Count~~ — SOLVED
+✅ Confidence now uses coefficient of variation (stddev/mean) in addition to count. Personal verified cuts (4-5 stars) automatically get HIGH confidence. High count + low variance = HIGH. High count + high variance = MEDIUM. (Implemented 2026-06-21)
 
-### 3.6 Feedback Not Used in Computation
-The "Too Fast / Perfect / Too Slow" feedback is saved to localStorage only. It is never fed back into the recommendation algorithm or sent to the database. It is purely for future reference display.
+### ~~3.6 Feedback Not Used in Computation~~ — SOLVED
+✅ Feedback now saved to Supabase (migration 008). "Too Fast/Too Slow" feedback is used as a correction factor in recommendations. (Implemented 2026-06-21)
 
-### 3.7 Fixed Thickness Tolerance Windows
-The +/- 0.5mm (own/AI) and +/- 1.0mm (community) windows are hardcoded. For thin materials (0.5mm sheet), +/- 0.5mm is extremely broad (would match 0-1mm). For thick materials (25mm plate), it may be too narrow.
+### ~~3.7 Fixed Thickness Tolerance Windows~~ — SOLVED
+✅ Progressive fallback system replaces fixed windows. Searches widen automatically from ±0.5mm → ±1.5mm → ±3mm until data is found. (Implemented 2026-06-21)
 
-### 3.8 No Consideration of Operation Type
-Cuts for different operations (cut, engrave, mark, score) are all pooled together. A marking speed for stainless at 4mm would be averaged with a through-cut speed, producing a meaningless result.
+### ~~3.8 No Consideration of Operation Type~~ — SOLVED
+✅ Operation type filtering implemented. Separates cutting from engraving results based on machine type. (Implemented 2026-06-21)
+
+### 3.9 Remaining Limitations (Future Work)
+- **No true ML model** — Still using weighted averages, not XGBoost/LightGBM (Priority 4 item)
+- **No collaborative filtering** — No "users with similar machines" matrix factorization yet (Priority 4 item)
+- **No typo correction** — Material alias resolution handles known aliases but not arbitrary typos
+- **No OPC-UA auto-logging** — Manual entry still required
 
 ---
 
 ## 4. Improvement Backlog (Prioritized)
 
-### Priority 1 -- High Impact, Low Effort
+> **Status: 10/10 improvements implemented as of 2026-06-21.** All Priority 1, 2, and 3 items are live in production. Only Priority 4 (transformational, high-effort) items remain for future work.
 
-1. **Fuzzy thickness fallback** -- If no exact match within +/- 0.5mm, automatically widen to +/- 1mm, then +/- 2mm, with clear UI indication ("Showing results for nearby thicknesses"). Could also interpolate linearly between the two nearest data points.
+### Priority 1 -- High Impact, Low Effort — ✅ ALL IMPLEMENTED (2026-06-21)
 
-2. **Material alias matching via the materials table** -- The `materials` table already has an `aliases` field. The current code only uses aliases for autocomplete filtering but does NOT use them in the Supabase cut query. The fix: resolve the user's search to a canonical material name + all aliases, then query with `material IN (name, alias1, alias2, ...)` instead of a single ILIKE.
+1. ✅ **Fuzzy thickness fallback** — IMPLEMENTED. Progressive widening from ±0.5mm → ±1.5mm → ±3mm with clear UI indication ("Showing data for nearby thicknesses (±Xmm)").
 
-3. **Filter by operation type** -- Add operation_type to the query (default: 'cut'). This prevents mixing cutting speeds with engraving speeds in the same recommendation.
+2. ✅ **Material alias matching via the materials table** — IMPLEMENTED. Resolves user search to canonical material name + all aliases, queries with all known names.
 
-### Priority 2 -- High Impact, Medium Effort
+3. ✅ **Filter by operation type** — IMPLEMENTED. Separates cutting from engraving results based on machine type.
 
-4. **Source tier weighting** -- Weight own cuts at 3x, AI baseline at 1x, community at 0.5x (or similar). This makes recommendations more personalized without dropping community data.
+### Priority 2 -- High Impact, Medium Effort — ✅ ALL IMPLEMENTED (2026-06-21)
 
-5. **Confidence based on consistency** -- Use coefficient of variation (stddev/mean) in addition to count. High count + low variance = HIGH. High count + high variance = MEDIUM. Low count = LOW.
+4. ✅ **Source tier weighting** — IMPLEMENTED. Own cuts weighted 3x, community 2x, AI baseline 1x.
 
-6. **Machine similarity scoring for community data** -- When querying community cuts, also fetch the machine metadata. Weight cuts from machines with similar wattage (+/- 20%) and same source type higher than dissimilar machines.
+5. ✅ **Confidence based on consistency** — IMPLEMENTED. Uses coefficient of variation (stddev/mean) + personal verification override (own cuts rated 4-5 stars = HIGH confidence automatically).
 
-7. **Broader search fallback with UI** -- When no results found, automatically run a second query with relaxed constraints and show: "No exact match for Stainless Steel 4mm. Here's what we have:" with nearby materials/thicknesses displayed as suggestions.
+6. ✅ **Machine similarity scoring for community data** — IMPLEMENTED. Weights cuts from machines with similar wattage (±20%) and same source type higher.
 
-### Priority 3 -- Medium Impact, Higher Effort
+7. ✅ **Broader search fallback with UI** — IMPLEMENTED. Progressive fallbacks with UI indicators showing what was matched and how.
 
-8. **Historical feedback integration** -- Save "Too Fast/Too Slow" feedback to Supabase (not just localStorage). Use it as a correction factor: if 3 users reported "too fast" for a combo, reduce the recommended speed by 10-15%.
+### Priority 3 -- Medium Impact, Higher Effort — ✅ ALL IMPLEMENTED (2026-06-21)
 
-9. **Thickness interpolation** -- If data exists for 3mm (speed=2000) and 6mm (speed=800), estimate 4mm via linear interpolation: `2000 - (2000-800) * (4-3)/(6-3) = 1600 mm/min`. Display with appropriate confidence reduction.
+8. ✅ **Historical feedback integration** — IMPLEMENTED. Feedback saved to Supabase via migration 008 (feedback table). "Too Fast/Too Slow" used as correction factor in speed computation.
 
-10. **Time-decay weighting** -- Recent cuts weighted higher than old cuts (laser tubes degrade, techniques improve). Exponential decay with half-life of 6 months.
+9. ✅ **Thickness interpolation** — IMPLEMENTED. Linear interpolation between bracketing thicknesses when no exact match exists. Displayed with appropriate confidence reduction.
 
-### Priority 4 -- Transformational, High Effort
+10. ✅ **Time-decay weighting** — IMPLEMENTED. Recent cuts weighted higher than old cuts using exponential decay with 6-month half-life.
 
-11. **True ML model (v2)** -- Train XGBoost/LightGBM on all cut data with features: material_encoded, thickness, wattage, lens, source_type, operation_type. Predict speed directly. Falls back to current algorithm when insufficient training data for a combination.
+### Priority 4 -- Transformational, High Effort (FUTURE WORK)
 
-12. **Collaborative filtering** -- "Users with similar machines who cut this material used these settings." Matrix factorization or nearest-neighbor approach across user-material-thickness triples.
+11. 🔲 **True ML model (v2)** -- Train XGBoost/LightGBM on all cut data with features: material_encoded, thickness, wattage, lens, source_type, operation_type. Predict speed directly. Falls back to current algorithm when insufficient training data for a combination.
 
----
-
-## 5. Quick Wins (Can Implement This Week)
-
-### Quick Win 1: Material Alias Resolution in Query (1-2 hours)
-
-**Problem it solves**: Searching "Stainless Steel" misses cuts logged as "304 Stainless", "316 SS", "Inox".
-
-**Implementation**:
-```typescript
-// Before querying cuts, resolve material to all known names
-const matchedMaterial = materials.find(m =>
-  m.name.toLowerCase() === searchMaterial.toLowerCase() ||
-  m.aliases?.some(a => a.toLowerCase() === searchMaterial.toLowerCase())
-);
-
-// Build OR query with all aliases
-const allNames = matchedMaterial
-  ? [matchedMaterial.name, ...(matchedMaterial.aliases || [])]
-  : [searchMaterial];
-
-// Use .or() filter in Supabase for each name
-```
-
-**Why it's quick**: The data model already supports aliases. The materials table already has them populated. Only the query construction needs to change.
-
-### Quick Win 2: Automatic Thickness Widening with Interpolation (2-3 hours)
-
-**Problem it solves**: "Stainless Steel 4mm" returns nothing when data exists for 3mm and 5mm.
-
-**Implementation**:
-```typescript
-// If primary search returns 0 results, widen search
-if (groups.length === 0) {
-  // Search with +/- 3mm tolerance
-  const { data: nearbyCuts } = await supabase
-    .from("cuts")
-    .select("*")
-    .ilike("material", `%${searchMaterial}%`)
-    .gte("thickness_mm", thicknessMm - 3)
-    .lte("thickness_mm", thicknessMm + 3)
-    .order("thickness_mm")
-    .limit(20);
-
-  // Group by thickness, show as "Nearby data available"
-  // Optionally interpolate between bracketing thicknesses
-}
-```
-
-**Why it's quick**: It's an additive change (only triggers on the current empty-state path). No existing behavior changes.
-
-### Recommended First Ship
-
-**Do Quick Win 2 first.** It directly solves the "Stainless Steel 4mm -> no results" problem the user hit. The fallback search with nearby thicknesses means users almost always see *something* useful instead of an empty screen. Material alias resolution (Quick Win 1) is also important but affects fewer searches.
+12. 🔲 **Collaborative filtering** -- "Users with similar machines who cut this material used these settings." Matrix factorization or nearest-neighbor approach across user-material-thickness triples.
 
 ---
 
-## 6. Why "Stainless Steel 4mm" Returned No Results
+## 5. Quick Wins — ✅ ALL COMPLETED (2026-06-21)
 
-The specific failure case:
+Both quick wins were implemented as part of the full 10/10 algorithm improvement sweep.
+
+### ✅ Quick Win 1: Material Alias Resolution in Query — DONE
+
+Searching "Stainless Steel" now also searches "304 Stainless", "316 SS", "Inox", etc. via the materials table aliases field.
+
+### ✅ Quick Win 2: Automatic Thickness Widening with Interpolation — DONE
+
+Progressive widening (±0.5mm → ±1.5mm → ±3mm) plus linear interpolation between bracketing thicknesses. Users almost always see useful data now instead of empty states.
+
+---
+
+## 6. Why "Stainless Steel 4mm" Returned No Results (Historical — Now Solved)
+
+> **UPDATE 2026-06-21:** This failure case is now fully resolved by the implemented improvements: material alias resolution (searches all known names), progressive thickness widening (±0.5mm → ±1.5mm → ±3mm), thickness interpolation, and Gemini AI fallback. Users will now almost always see useful results.
+
+The specific failure case (before fixes):
 
 1. User searched: material = "Stainless Steel", thickness = 4mm
 2. Tier 1 (own cuts): Queried `material ILIKE '%Stainless Steel%'` with thickness 3.5-4.5mm -- user has no matching cuts
@@ -493,8 +457,8 @@ The specific failure case:
 4. Tier 3 (community): Searched thickness 3.0-5.0mm with `is_shared = true` -- no community cuts shared for stainless in this range
 5. All three groups empty => "No exact match found" displayed
 
-**Root causes:**
-- The AI baseline data may not include "Stainless Steel" at 4mm (data gap)
-- The material might be stored under a different name ("304 Stainless Steel", "SS 304") that doesn't match the ILIKE pattern
-- The thickness tolerance window is too narrow for the available data
-- There is no fallback or graceful degradation
+**Root causes (all now addressed):**
+- ~~The AI baseline data may not include "Stainless Steel" at 4mm (data gap)~~ → Progressive thickness widening + interpolation
+- ~~The material might be stored under a different name ("304 Stainless Steel", "SS 304") that doesn't match the ILIKE pattern~~ → Material alias resolution
+- ~~The thickness tolerance window is too narrow for the available data~~ → Progressive widening ±0.5mm → ±1.5mm → ±3mm
+- ~~There is no fallback or graceful degradation~~ → Gemini AI fallback as last resort
