@@ -17,10 +17,10 @@ CutLog logs your cuts, AI learns your specific setup (lens, power supply, all th
 
 Real talk: Most of you have 50+ hours of scrap metal from dialing in settings. AI cuts that down to one solid session.
 
-Join the waitlist:
-https://cutlog-two.vercel.app/landing
+Try it free:
+https://cutlog-two.vercel.app
 
-(No spam, just early access + honest feedback on what operators actually need 😂)
+(No signup wall. Just set up your machine, search a material, see what AI recommends 😂)
 ```
 
 ---
@@ -33,10 +33,10 @@ For engravers: I built this so AI handles the Galvo parameter chaos.
 
 You know that feeling — tweaking frequency, passes, scan angle on repeat. AI learns your machine and spits back what'll actually work next time.
 
-Join for beta:
-https://cutlog-two.vercel.app/landing
+Try it free:
+https://cutlog-two.vercel.app
 
-(Beta's free. Paid version coming, but first-in get locked in at founder pricing 🔥)
+(Set up your machine in 1 min. Get your first recommendation in 30 sec 🔥)
 ```
 
 ---
@@ -49,8 +49,8 @@ Running a Chinese fiber laser? AI learns YOUR specific setup instead of you manu
 
 I've got 40 files named "stainless_FINAL_v2_actually_final" on my drive. This tool exists because of that pain 😂
 
-Early access is free:
-https://cutlog-two.vercel.app/landing
+Try it free:
+https://cutlog-two.vercel.app
 
 (Real operators, real feedback. Let's figure out what actually works together.)
 ```
@@ -121,16 +121,16 @@ https://cutlog-two.vercel.app/landing
 ### Response Scripts
 
 **For "Can it handle [specific machine]?" questions:**
-> Yes, absolutely! That's exactly what I built CutLog for. I'd love your feedback on [specific machine] once you get early access. Join the waitlist and I'll prioritize your machine in beta testing.
+> Yes, absolutely! That's exactly what I built CutLog for. Try it right now — set up your machine in 1 min and search a material: https://cutlog-two.vercel.app
 
 **For skeptical comments ("Why should I try this?" / "What's different?"):**
-> Great question. Unlike generic parameter lists, CutLog learns *your specific machine* — your lens, your power supply, your cuts. Most operators tell me they waste 50+ hours dialing in parameters. We're cutting that to one session. 50+ have already joined for early access.
+> Great question. Unlike generic parameter lists, CutLog learns *your specific machine* — your lens, your power supply, your cuts. 50+ operators are using it. Try it free and see if the recommendations are in the ballpark for your setup: https://cutlog-two.vercel.app
 
 **For "Is this free?" questions:**
-> Beta is free + you help shape the product. Paid tier in production, but early adopters locked in at founder pricing. Plus your feedback directly influences what features ship first.
+> Totally free right now. No signup wall. Just set up your machine, search a material, get a recommendation. Takes 30 seconds: https://cutlog-two.vercel.app
 
 **For "I want to stay updated" / "Tell me when it launches":**
-> Perfect, that's exactly what the waitlist is for. You'll get beta access first + be in the Slack community for feature requests. Can't wait to get your input.
+> It's live right now! Give it a try: https://cutlog-two.vercel.app — set up your machine and search any material. Takes 30 seconds.
 
 ### Engagement Metrics to Track
 - Comment response time (target: <15 min)
@@ -141,12 +141,12 @@ https://cutlog-two.vercel.app/landing
 
 ## Success Metrics & Targets
 
-### Primary Goals
-- **Target:** 10-30 signups in Week 1 is a genuine success. 50+ by Week 3 is excellent.
-- **Per-group target:** 1-3 signups per post (realistic cold organic)
-- **Red flag:** <2 signups from a large group after 48 hours suggests messaging misalignment
+> **Note:** The waitlist approach failed (0 signups, 8 views in 18 hours). Pivoted to direct app invites. The app is the product — let people experience it immediately instead of making them wait.
 
-> **Industry benchmarks:** Organic cold-post conversion in niche Facebook groups is 0.5-2% of viewers. Setting expectations above this leads to false "failure" signals and premature pivots.
+### Primary Goals
+- **Target:** 3-5 people who actually try the app (sign up + search a material)
+- **Per-group target:** 1-2 actual app users per post
+- **Red flag:** 0 signups from a large group after 48 hours suggests messaging misalignment
 
 ### Quality Metrics
 - **Engagement rate:** 5-10% (comments on posts)

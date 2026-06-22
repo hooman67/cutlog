@@ -33,10 +33,10 @@ export default function LandingPage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Link
-              href="/waitlist"
+              href="https://cutlog-two.vercel.app/auth"
               className="px-8 py-4 rounded-lg bg-emerald-600 text-zinc-950 font-semibold hover:bg-emerald-500 transition-colors"
             >
-              Join the Beta Waitlist
+              Try CutLog Free
             </Link>
             <Link
               href="#how-it-works"
@@ -177,16 +177,16 @@ export default function LandingPage() {
       {/* Final CTA Section */}
       <section className="py-20 px-4">
         <div className="max-w-2xl mx-auto text-center space-y-8 bg-gradient-to-br from-emerald-950/40 to-zinc-900/40 p-8 rounded-2xl border border-emerald-900/30">
-          <h2 className="text-3xl font-bold">Join 50+ Operators on the Beta Waitlist</h2>
+          <h2 className="text-3xl font-bold">50+ Operators Are Using CutLog</h2>
           <p className="text-zinc-400">
-            Get early access to CutLog. No credit card required. Start eliminating material waste in your shop.
+            No credit card required. Set up your machine in 1 minute, get your first recommendation in 30 seconds.
           </p>
 
           <Link
-            href="/waitlist"
+            href="https://cutlog-two.vercel.app/auth"
             className="inline-block px-8 py-4 rounded-lg bg-emerald-600 text-zinc-950 font-semibold hover:bg-emerald-500 transition-colors"
           >
-            Get Early Access
+            Try It Now — Free
           </Link>
         </div>
       </section>
@@ -196,6 +196,9 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-zinc-500">
           <p>© 2026 CutLog. Built for laser operators.</p>
           <div className="flex gap-6">
+            <Link href="/waitlist" className="hover:text-zinc-300 transition-colors">
+              Want updates instead? Join the waitlist
+            </Link>
             <Link href="#" className="hover:text-zinc-300 transition-colors">
               Privacy
             </Link>
