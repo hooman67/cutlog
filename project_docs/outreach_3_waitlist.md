@@ -45,7 +45,7 @@ https://cutlog-two.vercel.app
 **Use in groups:** 2, 14, 16
 
 ```
-Running a Chinese fiber laser? AI learns YOUR specific setup instead of you manually testing forever.
+Running a Chinese fiber laser? Or constantly getting orders for new material? AI learns YOUR specific setup instead of you manually testing forever.
 
 I've got 40 files named "stainless_FINAL_v2_actually_final" on my drive. This tool exists because of that pain 😂
 
@@ -61,22 +61,22 @@ https://cutlog-two.vercel.app
 
 | # | Group Name | Members | Primary Template | Status |
 |---|---|---|---|---|
-| 1 | Fiber Laser Cutting Network | 20K+ | Template #1 |
-| 2 | Fiber Laser Cutting Machine \| Metal Laser Cutter Users | - | Template #1 + #3 | Done with Temp1
-| 3 | CNC Fiber Laser Ninja (Fiber Laser Cutters) | - | Template #1 | Done with Temp1
-| 4 | Fiber Laser Engraving Club | - | Template #1 | Done with Temp2
-| 5 | Fiber Laser Tips, Tricks & Sales | - | Template #1 | Done with Temp1
-| 6 | DIY Fiber Laser | - | Template #1 | Done with Temp1
-| 7 | Laser Engraver Group for Beginners ✅ | - | Template #1 | Done with Temp2
-| 8 | Laser Engraving And Cutting | - | Template #1 | Done with Temp2
-| 9 | UV laser and fiber laser community group | - | Template #1 | Done with Temp1
-| 10 | That Laser Dude Community - Laser Engraving & Cutting for All 🔥 | - | Template #1 | Done with Temp1
-| 11 | CNC Fiber laser machine | - | Template #1 | Done with Temp1
-| 12 | Laser Engraver Group for Beginner | - | Template #2 | Done with Temp2
-| 13 | Free Laser Files | - | Template #1 | Done with Temp1
-| 14 | Fiber Laser The Next Level | - | Template #1 | Done with Temp1
-| 15 | Fiber Laser Engraving Club (alt) | - | Template #2 | Done with Temp2
-| 16 | Laser Engraving And Cutting (alt) | - | Template #1 | Done with Temp2
+| 1 | Fiber Laser Cutting Network | 20K+ | Template #1 | Round 2 posted 2026-06-22
+| 2 | Fiber Laser Cutting Machine \| Metal Laser Cutter Users | - | Template #1 + #3 | Round 2 posted 2026-06-22
+| 3 | CNC Fiber Laser Ninja (Fiber Laser Cutters) | - | Template #1 | Round 2 posted 2026-06-22
+| 4 | Fiber Laser Engraving Club | - | Template #1 | Round 2 posted 2026-06-22
+| 5 | Fiber Laser Tips, Tricks & Sales | - | Template #1 | Round 2 posted 2026-06-22
+| 6 | DIY Fiber Laser | - | Template #1 | Round 2 posted 2026-06-22
+| 7 | Laser Engraver Group for Beginners ✅ | - | Template #1 | Round 2 posted 2026-06-22
+| 8 | Laser Engraving And Cutting | - | Template #1 | Round 2 posted 2026-06-22
+| 9 | UV laser and fiber laser community group | - | Template #1 | Round 2 posted 2026-06-22
+| 10 | That Laser Dude Community - Laser Engraving & Cutting for All 🔥 | - | Template #1 | Round 2 posted 2026-06-22
+| 11 | CNC Fiber laser machine | - | Template #1 | Round 2 posted 2026-06-22
+| 12 | Laser Engraver Group for Beginner | - | Template #2 | Round 2 posted 2026-06-22
+| 13 | Free Laser Files | - | Template #1 | Round 2 posted 2026-06-22
+| 14 | Fiber Laser The Next Level | - | Template #1 | Round 2 posted 2026-06-22
+| 15 | Fiber Laser Engraving Club (alt) | - | Template #2 | Round 2 posted 2026-06-22
+| 16 | Laser Engraving And Cutting (alt) | - | Template #1 | Round 2 posted 2026-06-22
 
 ---
 
@@ -189,3 +189,22 @@ Ensure landing page includes:
 - [ ] Response scripts saved in phone notes
 - [ ] Slack/Discord open for community discussion during campaign
 - [ ] Success metrics dashboard ready (spreadsheet to track signups by group)
+
+---
+
+## Round 2 Repost (2026-06-22)
+
+Reposted in all 16 groups with a unified message (Template #3 variant):
+
+```
+Running a Chinese fiber laser? Or constantly getting orders for new material? AI learns YOUR specific setup instead of you manually testing forever.
+
+I've got 40 files named "stainless_FINAL_v2_actually_final" on my drive. This tool exists because of that pain 😂
+
+Try it free:
+https://cutlog-two.vercel.app
+
+(Real operators, real feedback. Let's figure out what actually works together.)
+```
+
+All 16 groups posted on 2026-06-22. Monitoring for engagement.

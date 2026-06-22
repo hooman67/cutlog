@@ -226,10 +226,11 @@ no signup wall, takes 30 sec to get your first recommendation.
 ## Sending Strategy
 
 ### Timeline:
-- **Today (2026-06-22):** Send Tier 3 DMs (Michael Bergeron, Joshua Scott, Brandon Dalton, Les Strickland, John Collings)
-- **Tomorrow:** Send Tier 4 DMs (Keith, Benjamin, Cory)
+- **Tier 1 + 2:** Sent (Jeremy, Tinker, Lobo, Michael S., George, Klaus)
+- **Tier 3:** ✅ All sent (2026-06-22) — Michael Bergeron, Joshua Scott, Brandon Dalton, Les Strickland, John Collings
+- **Tier 4:** ✅ All sent (2026-06-22) — Keith, Benjamin, Cory
+- **All tiers sent. Now monitoring for replies.**
 - **Ongoing:** If anyone reacts/comments on your posts, DM them immediately with the generic template
-- Tier 1 + 2 already sent (Jeremy, Tinker, Lobo, Michael S., George, Klaus)
 
 ### If Someone Replies:
 - Match their energy. Keep it short.
@@ -255,14 +256,14 @@ no signup wall, takes 30 sec to get your first recommendation.
 | Michael Stanislawczyk | ✅ (2026-06-22) | ⏳ | ⏳ |
 | George Diffey | ✅ (2026-06-22) | ⏳ | ⏳ |
 | Klaus Wojczykowski | ✅ (2026-06-22) | ⏳ | ⏳ |
-| Michael Bergeron | 🔲 Today | — | — |
-| Joshua Scott | 🔲 Today | — | — |
-| Brandon Dalton | 🔲 Today | — | — |
-| Les Strickland | 🔲 Today | — | — |
-| John Collings | 🔲 Today | — | — |
-| Keith E. Fleming | 🔲 Tomorrow | — | — |
-| Benjamin H Long Sr. | 🔲 Tomorrow | — | — |
-| Cory Ryker | 🔲 Tomorrow | — | — |
+| Michael Bergeron | ✅ Sent (2026-06-22) | ⏳ | ⏳ |
+| Joshua Scott | ✅ Sent (2026-06-22) | ⏳ | ⏳ |
+| Brandon Dalton | ✅ Sent (2026-06-22) | ⏳ | ⏳ |
+| Les Strickland | ✅ Sent (2026-06-22) | ⏳ | ⏳ |
+| John Collings | ✅ Sent (2026-06-22) | ⏳ | ⏳ |
+| Keith E. Fleming | ✅ Sent (2026-06-22) | ⏳ | ⏳ |
+| Benjamin H Long Sr. | ✅ Sent (2026-06-22) | ⏳ | ⏳ |
+| Cory Ryker | ✅ Sent (2026-06-22) | ⏳ | ⏳ |
 | John Stegenga | ✅ | ✅ Declined | ❌ Not interested |
 
 ---
