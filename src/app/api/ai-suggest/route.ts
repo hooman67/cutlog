@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createServerSupabase } from "@/lib/supabase/server";
 
 interface AiSuggestRequest {
   material: string;
@@ -27,6 +28,16 @@ function getCacheKey(params: AiSuggestRequest): string {
 
 export async function POST(request: NextRequest) {
   try {
+    // Verify authentication
+    const supabase = await createServerSupabase();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(

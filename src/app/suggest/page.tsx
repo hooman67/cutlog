@@ -395,197 +395,75 @@ export default function Suggest() {
 
     const thicknessMm = parseFloat(thickness);
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    // --- Fetch search data from server-side API route ---
+    const response = await fetch('/api/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ material: searchMaterial, thickness: thicknessMm }),
+    });
 
-    // --- Priority 1, Item 1: Material Alias Resolution ---
-    // Query the materials table to find canonical name + all aliases
-    const { data: matchedMaterials } = await supabase
-      .from("materials")
-      .select("name, aliases")
-      .or(`name.ilike.%${searchMaterial}%,aliases.cs.{${searchMaterial}}`);
-
-    // Collect all possible names (canonical + aliases)
-    const allNames = new Set<string>();
-    const resolvedAliases: string[] = [];
-    if (matchedMaterials && matchedMaterials.length > 0) {
-      for (const m of matchedMaterials) {
-        allNames.add(m.name);
-        if (m.aliases) m.aliases.forEach((a: string) => allNames.add(a));
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({ error: 'Search failed' }));
+      if (response.status === 401) {
+        router.push("/auth");
+        return;
       }
-      // Track which aliases were matched (excluding the search term itself)
-      const namesArray = Array.from(allNames);
-      for (let i = 0; i < namesArray.length; i++) {
-        if (namesArray[i].toLowerCase() !== searchMaterial.toLowerCase()) {
-          resolvedAliases.push(namesArray[i]);
+      console.error("Search API error:", errData.error);
+      setSearched(true);
+      setLoading(false);
+      return;
+    }
+
+    const { groups: serverGroups, matchedAliases: serverAliases, tolerance: finalTolerance, feedbackData, userMachine: serverMachine } = await response.json();
+
+    // Update machine state if returned from server (keeps client in sync)
+    if (serverMachine && !userMachine) {
+      setUserMachine(serverMachine);
+    }
+
+    setMatchedAliases(serverAliases || []);
+
+    // Apply client-side scaling to cuts (uses local machine state)
+    const activeMachine = userMachine || serverMachine;
+    let finalGroups: SuggestionGroup[] = (serverGroups || []).map((group: SuggestionGroup) => ({
+      ...group,
+      cuts: group.cuts.map((cut: any) => {
+        const scaled = scaleCutIfNeeded(cut, activeMachine);
+        // Preserve machine metadata from server for similarity scoring
+        if (cut.machine_wattage !== undefined) {
+          scaled.machine_wattage = cut.machine_wattage;
+          scaled.machine_source_type = cut.machine_source_type;
         }
-      }
-    }
-    if (allNames.size === 0) allNames.add(searchMaterial);
-    setMatchedAliases(resolvedAliases);
+        return scaled;
+      }),
+    }));
 
-    // Build material filter: use .or() with all matched names
-    const materialNames = Array.from(allNames);
-    const buildMaterialFilter = () => {
-      // Build an OR filter for all material names
-      return materialNames.map(n => `material.ilike.%${n}%`).join(",");
-    };
-    const materialFilter = buildMaterialFilter();
-
-    // --- Priority 1, Item 3: Operation Type Awareness ---
-    // Determine operation type based on user's machine laser_source_type
-    let operationType: string | null = null;
-    if (userMachine?.laser_source_type) {
-      const sourceType = userMachine.laser_source_type;
-      if (sourceType.includes('engraving') || sourceType === 'uv_marking') {
-        operationType = 'engrave';
-      } else {
-        operationType = 'cut';
-      }
-    }
-
-    // --- Priority 1, Item 2: Fuzzy Thickness Fallback ---
-    // Try progressively wider tolerances until we find results
-    const toleranceLevels = [0.5, 1.5, 3];
-    let finalGroups: SuggestionGroup[] = [];
-    let finalTolerance = 0.5;
-
-    for (const tolerance of toleranceLevels) {
-      const groups: SuggestionGroup[] = [];
-
-      // 1. Own cuts (case-insensitive match with alias resolution)
-      let ownQuery = supabase
-        .from("cuts")
-        .select("*")
-        .eq("user_id", user.id)
-        .or(materialFilter)
-        .gte("thickness_mm", thicknessMm - tolerance)
-        .lte("thickness_mm", thicknessMm + tolerance)
-        .order("quality_rating", { ascending: false })
-        .limit(10);
-
-      // Add operation_type filter (allow NULL values through)
-      if (operationType) {
-        ownQuery = ownQuery.or(`operation_type.eq.${operationType},operation_type.is.null`);
-      }
-
-      const { data: ownCuts } = await ownQuery;
-
-      if (ownCuts && ownCuts.length > 0) {
-        const scaledCuts = ownCuts.map((cut) => scaleCutIfNeeded(cut, userMachine));
-        const avg = ownCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / ownCuts.length;
-        groups.push({
-          source: "own",
-          label: "Your History",
-          badge_color: "bg-emerald-900/50 border-emerald-600 text-emerald-300",
-          cuts: scaledCuts,
-          avg_rating: avg,
-        });
-      }
-
-      // 2. AI Baseline data
-      let baselineQuery = supabase
-        .from("cuts")
-        .select("*")
-        .or(materialFilter)
-        .eq("source", "ai_baseline")
-        .gte("thickness_mm", thicknessMm - tolerance)
-        .lte("thickness_mm", thicknessMm + tolerance)
-        .order("quality_rating", { ascending: false })
-        .limit(10);
-
-      if (operationType) {
-        baselineQuery = baselineQuery.or(`operation_type.eq.${operationType},operation_type.is.null`);
-      }
-
-      const { data: baselineCuts } = await baselineQuery;
-
-      if (baselineCuts && baselineCuts.length > 0) {
-        const scaledCuts = baselineCuts.map((cut) => scaleCutIfNeeded(cut, userMachine));
-        const avg = baselineCuts.reduce((s, c) => s + (c.quality_rating || 0), 0) / baselineCuts.length;
-        groups.push({
-          source: "similar_machine",
-          label: "AI Starting Point",
-          badge_color: "bg-orange-900/50 border-orange-600 text-orange-300",
-          cuts: scaledCuts,
-          avg_rating: avg,
-        });
-      }
-
-      // 3. Community (real user shared cuts) - slightly wider tolerance for community
-      // Feature 1: Also fetch machine metadata for similarity scoring
-      const communityTolerance = Math.max(tolerance, 1);
-      let communityQuery = supabase
-        .from("cuts")
-        .select("*, machines!cuts_machine_id_fkey(wattage_w, source_type)")
-        .neq("source", "ai_baseline")
-        .or(materialFilter)
-        .eq("is_shared", true)
-        .gte("thickness_mm", thicknessMm - communityTolerance)
-        .lte("thickness_mm", thicknessMm + communityTolerance)
-        .order("quality_rating", { ascending: false })
-        .limit(10);
-
-      if (operationType) {
-        communityQuery = communityQuery.or(`operation_type.eq.${operationType},operation_type.is.null`);
-      }
-
-      const { data: communityCuts } = await communityQuery;
-
-      if (communityCuts && communityCuts.length > 0) {
-        const scaledCuts = communityCuts.map((cut: any) => {
-          const scaled = scaleCutIfNeeded(cut, userMachine);
-          // Attach machine metadata for similarity scoring
-          if (cut.machines) {
-            scaled.machine_wattage = cut.machines.wattage_w;
-            scaled.machine_source_type = cut.machines.source_type;
-          }
-          return scaled;
-        });
-
-        // Feature 1: Machine Similarity Scoring
-        // Weight cuts from machines with similar wattage (+-20%) and same source_type at 2.5x
-        for (const cut of scaledCuts) {
-          if (cut.machine_wattage && userMachine?.wattage_w) {
-            const ratio = cut.machine_wattage / userMachine.wattage_w;
-            const sameSourceType = cut.machine_source_type === userMachine.source_type;
+    // Feature 1: Machine Similarity Scoring (client-side weighting)
+    for (const group of finalGroups) {
+      if (group.source === "community") {
+        for (const cut of group.cuts) {
+          if (cut.machine_wattage && activeMachine?.wattage_w) {
+            const ratio = cut.machine_wattage / activeMachine.wattage_w;
+            const sameSourceType = cut.machine_source_type === activeMachine.source_type;
             if (ratio >= 0.8 && ratio <= 1.2 && sameSourceType) {
-              cut.source_tier_weight = 2.5; // Similar machine boost (up from 2)
+              cut.source_tier_weight = 2.5; // Similar machine boost
             }
           }
         }
-
-        const avg = communityCuts.reduce((s: number, c: any) => s + (c.quality_rating || 0), 0) / communityCuts.length;
-        groups.push({
-          source: "community",
-          label: "Shared Cuts",
-          badge_color: "bg-blue-900/50 border-blue-600 text-blue-300",
-          cuts: scaledCuts,
-          avg_rating: avg,
-        });
-      }
-
-      if (groups.length > 0) {
-        finalGroups = groups;
-        finalTolerance = tolerance;
-        break;
       }
     }
 
     // Feature 3: Thickness Interpolation
-    // If we found data at a wider tolerance but NOT at the exact thickness, attempt interpolation
     if (finalGroups.length > 0 && finalTolerance > 0.5) {
-      // Collect all cuts from all groups
-      const allCuts = finalGroups.flatMap(g => g.cuts);
-      const cutsBelow = allCuts.filter(c => c.thickness_mm < thicknessMm && c.speed_mm_min);
-      const cutsAbove = allCuts.filter(c => c.thickness_mm > thicknessMm && c.speed_mm_min);
+      const allCuts = finalGroups.flatMap((g: SuggestionGroup) => g.cuts);
+      const cutsBelow = allCuts.filter((c: any) => c.thickness_mm < thicknessMm && c.speed_mm_min);
+      const cutsAbove = allCuts.filter((c: any) => c.thickness_mm > thicknessMm && c.speed_mm_min);
 
       if (cutsBelow.length > 0 && cutsAbove.length > 0) {
-        // Find closest bracket below and above
-        const closestBelow = cutsBelow.reduce((prev, curr) =>
+        const closestBelow = cutsBelow.reduce((prev: any, curr: any) =>
           Math.abs(curr.thickness_mm - thicknessMm) < Math.abs(prev.thickness_mm - thicknessMm) ? curr : prev
         );
-        const closestAbove = cutsAbove.reduce((prev, curr) =>
+        const closestAbove = cutsAbove.reduce((prev: any, curr: any) =>
           Math.abs(curr.thickness_mm - thicknessMm) < Math.abs(prev.thickness_mm - thicknessMm) ? curr : prev
         );
 
@@ -594,7 +472,6 @@ export default function Suggest() {
         const lowerSpeed = closestBelow.scaled_speed || closestBelow.speed_mm_min!;
         const upperSpeed = closestAbove.scaled_speed || closestAbove.speed_mm_min!;
 
-        // Linear interpolation
         const interpolatedSpeed = Math.round(
           lowerSpeed - (lowerSpeed - upperSpeed) * (thicknessMm - lowerThickness) / (upperThickness - lowerThickness)
         );
@@ -602,7 +479,6 @@ export default function Suggest() {
         setInterpolationNote(`Interpolated between ${lowerThickness}mm and ${upperThickness}mm data`);
         setInterpolationConfidenceReduced(true);
 
-        // Create an interpolated synthetic cut and add it to the first group
         if (finalGroups.length > 0) {
           const syntheticCut: ScaledCut = {
             ...closestBelow,
@@ -611,35 +487,23 @@ export default function Suggest() {
             speed_mm_min: interpolatedSpeed,
             scaled_speed: interpolatedSpeed,
             notes: `Interpolated between ${lowerThickness}mm (${lowerSpeed} mm/min) and ${upperThickness}mm (${upperSpeed} mm/min)`,
-            source_tier_weight: 1.5, // Slightly lower weight for interpolated data
+            source_tier_weight: 1.5,
           };
           finalGroups[0].cuts.unshift(syntheticCut);
         }
       }
     }
 
-    // Feature 2: Fetch feedback from Supabase for this material+thickness
+    // Feature 2: Feedback correction from server-provided feedback data
     let dbFeedbackCorrection: { direction: 'faster' | 'slower' } | null = null;
-    try {
-      const { data: feedbackData } = await supabase
-        .from("feedback")
-        .select("feedback_type")
-        .eq("user_id", user.id)
-        .ilike("material", `%${searchMaterial}%`)
-        .gte("thickness_mm", thicknessMm - 0.5)
-        .lte("thickness_mm", thicknessMm + 0.5);
-
-      if (feedbackData && feedbackData.length >= 3) {
-        const tooFastCount = feedbackData.filter(f => f.feedback_type === 'too_fast').length;
-        const tooSlowCount = feedbackData.filter(f => f.feedback_type === 'too_slow').length;
-        if (tooFastCount >= 3) {
-          dbFeedbackCorrection = { direction: 'slower' };
-        } else if (tooSlowCount >= 3) {
-          dbFeedbackCorrection = { direction: 'faster' };
-        }
+    if (feedbackData && feedbackData.length >= 3) {
+      const tooFastCount = feedbackData.filter((f: any) => f.feedback_type === 'too_fast').length;
+      const tooSlowCount = feedbackData.filter((f: any) => f.feedback_type === 'too_slow').length;
+      if (tooFastCount >= 3) {
+        dbFeedbackCorrection = { direction: 'slower' };
+      } else if (tooSlowCount >= 3) {
+        dbFeedbackCorrection = { direction: 'faster' };
       }
-    } catch {
-      // Feedback table may not exist yet, ignore errors
     }
     setFeedbackCorrection(dbFeedbackCorrection);
 

@@ -34,7 +34,7 @@
 | Component | Status | Details |
 |-----------|--------|---------|
 | **App** | ✅ Functional | Next.js 14 + Tailwind + Supabase, 10 screens (added /import, /suggest, /landing, /waitlist, /tools/font-preview) |
-| **Database** | ✅ Seeded | 901 parameter sets across 60+ materials (724 original + 177 OMG Laser) |
+| **Database** | ✅ Seeded | **5,653 parameter sets** across 562+ materials (scraped_public: 5,091, ai_baseline: 554, user_logged: 8). Updated 2026-06-23. |
 | **Auth** | ✅ Working | Supabase email auth |
 | **Hosting** | ✅ LIVE | **https://cutlog-two.vercel.app** (public, anyone can use) |
 | **Dev server** | ✅ Available | Pluto machine port 8000, SSH tunnel for dev |
@@ -69,10 +69,12 @@
 | Reddit/forums | 80 | ✅ In DB |
 | Manual user logs | 2 | ✅ In DB |
 | OMG Laser (omglaser.com) | 177 | ✅ In DB (scraped 2026-06-15) |
-| lasertips.org UV + CO2 galvo | 62 | 🔄 Scraping in progress (2026-06-23) |
-| Bonny Creations | TBD | 🔄 Scraping in progress (2026-06-23) |
-| LaserCutSettings.com | TBD | 🔄 Scraping in progress (2026-06-23) |
-| **Total in DB** | **901** | |
+| lasertips.org UV + CO2 galvo | 62 | ✅ In DB (scraped 2026-06-23) |
+| lasertips.org fiber (full) | 134 | ✅ In DB (scraped 2026-06-23) |
+| Bonny Creations | 3,650 | ✅ In DB (scraped 2026-06-23) |
+| LaserCutSettings.com | 205 | ✅ In DB (scraped 2026-06-23) |
+| LSARMS.net | 693 | ✅ In DB (scraped 2026-06-23) |
+| **Total in DB** | **5,653** | **562 unique materials** |
 | Etsy .CLB files (3 products) | 3,839 settings | ✅ Purchased & analyzed (2026-06-17). LaserSecrets=188, BenMyers=19, HolsterGeek=10, + Nate Keen=82. See `etsy_files_analysis.md`. **Validation: 500 matched to our DB (13%), 87% overall accuracy**. See `speed_validation_report.md` |
 | OEM manuals | 0 | 🔲 Planned |
 
@@ -169,7 +171,7 @@ The app includes four lightweight discovery features to help new users find valu
 
 ### Data Pipeline
 
-**Current state: 901 parameters in production DB (cold-start DONE, OMG Laser added 2026-06-15)**
+**Current state: 5,653 parameters in production DB (massive data expansion 2026-06-23: +4,744 from Bonny Creations, LSARMS, LaserCutSettings, lasertips.org full scrape)**
 
 Data files in `/mnt/localssd/laser_log/app/data/`:
 - `COMBINED_PASTE_ALL.sql` — All rows, one file (paste into Supabase SQL Editor to re-seed)
