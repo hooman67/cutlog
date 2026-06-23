@@ -322,6 +322,31 @@ echo "See SCRAPING_ROADMAP.md for detailed instructions"
 
 ---
 
+## In-Progress Scrapes (2026-06-23)
+
+### Lasertips.org UV + CO2 Galvo — In Progress
+
+**Target:** uv.lasertips.org (51 UV entries) + CO2 galvo entries from main site (~11 additional)
+**Expected Entries:** ~62
+**Status:** 🔄 Scraping in progress
+**Notes:** UV subdomain has zero external discoverability, never promoted. Main site has declined to 2 entries in 2026 (212 total across 7 years). Solo Norwegian hobbyist operator on home server, 2,300 monthly visits. Data fully scrapeable — same HTML table format as previously scraped CO2 fiber entries.
+
+### Bonny Creations — In Progress
+
+**Target:** https://www.bonnycreations.com/ laser settings database
+**Expected Entries:** 3,800+ (largest community DB identified)
+**Status:** 🔄 Scraping in progress
+**Notes:** Flat database covering 59+ machines and 118+ materials. No AI, no per-machine learning. Revenue from SVG files + Amazon affiliates. Settings DB is free/public. Largest single source of community laser parameters found to date.
+
+### LaserCutSettings.com — In Progress
+
+**Target:** https://www.lasercutsettings.com/
+**Expected Entries:** 260 settings across 115 machines (13 brands)
+**Status:** 🔄 Scraping in progress
+**Notes:** Clean UX, supports .clb download (can parse XML directly). Built by LaserJobManager team. Static data, no AI. Good structured source with brand/machine categorization.
+
+---
+
 ## Completed Scrapes
 
 ### OMG Laser (omglaser.com/laser-settings/) - Completed 2026-06-14

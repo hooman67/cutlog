@@ -133,7 +133,7 @@ Hey Brandon — your comment about similar lasers helping with starting points i
 
 try it: https://cutlog-two.vercel.app
 ```
-
+Sent this to him on 2026-06-23
 ---
 
 ### Les Strickland — Post-Installation Senfeng Owner
@@ -145,7 +145,7 @@ Hey Les — once the senfeng install honeymoon wears off and you hit a material 
 
 try it free: https://cutlog-two.vercel.app
 ```
-
+Sent this to him on 2026-06-23
 ---
 
 ### John Collings — Multi-Laser, Transfers Knowledge
@@ -158,7 +158,7 @@ hey john — you mentioned applying principles from one laser to another. cutlog
 give it a try: https://cutlog-two.vercel.app
 supports multiple machines too.
 ```
-
+Sent this to him on 2026-06-23
 ---
 
 ## TIER 4: Secondary Targets (Send Tomorrow)
@@ -174,7 +174,7 @@ hey keith — built a free tool that gives you those starting points automatical
 
 https://cutlog-two.vercel.app
 ```
-
+Sent this to him on 2026-06-23
 ---
 
 ### Benjamin H Long Sr. — Pure Trial and Error (Maximum Pain)

@@ -138,13 +138,14 @@ A live page at `https://cutlog-two.vercel.app/landing` (already built), with:
 
 ---
 
-## Step 2: Demo Video (30 sec) Recorded
+## Step 2: Demo Video (30 sec) Recorded ✅ DONE (2026-06-23)
 
 **Objective**: 30-second screen recording showing `/suggest` feature in action. Viewers understand value in one watch.
 
 **Owner**: You  
 **Deadline**: Thursday, June 20, 2026 (EOD)  
-**Effort**: 30 min
+**Effort**: 30 min  
+**Status**: ✅ COMPLETE (2026-06-23)
 
 ### Deliverable
 Video file (.mp4 or .webm) showing:

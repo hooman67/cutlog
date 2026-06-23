@@ -40,6 +40,15 @@ https://cutlog-two.vercel.app
 Think your audience would dig it. Happy to collab if you're interested.
 ```
 
+
+Replied to this guy in email on 2026-06-21
+Hey Alex, 
+Big fan of Laser Everything. You cover parameters every week, so I figured you'd appreciate this: I built CutLog, a free AI tool that recommends fiber laser speeds personalized to your specific machine. Imports LightBurn .clb files too.
+
+Would love to demo it on The Laser Source if you're ever looking for guests. Either way, curious what you think: https://cutlog-two.vercel.app
+
+Matt,
+
 ---
 
 ### 2. Justin Laser (@justinlaser)
@@ -75,6 +84,8 @@ https://cutlog-two.vercel.app
 Think it could be useful for your students. Happy to chat if you wanna check it out.
 ```
 
+Replied to Justine using his form on 2026-06-21
+
 ---
 
 ### 3. OMG Laser (Richard)
@@ -108,6 +119,20 @@ Hey Richard — AI engineer who got into lasers. Built a free parameter tool at 
 Think your customers would benefit. Open to a partnership?
 ```
 
+Sent email to Richard on 2026-06-21
+Hey Richard,
+
+I'm an AI engineer who got into fiber lasers. Your settings page on omglaser.com was one of the resources that helped me when I was starting out.                                                                             
+
+It inspired me to build CutLog; a free tool that gives operators personalized parameter recommendations for their specific     machine. It imports LightBurn .clb files and auto-scales for different lenses.                                                
+                                                                                                                                  
+Could be a nice value-add to recommend to OMG Laser customers: "set up your machine in CutLog, get instant recommendations for any material."                                                                                                                  
+                                                                                                                                  
+https://cutlog-two.vercel.app
+
+Happy to do a demo if you're interested.                                              
+
+Matt, 
 ---
 
 ### 4. Jessie Jones / Jones Laser Craft
@@ -416,6 +441,36 @@ Would love feedback from experienced operators — are the recommendations in th
 | Day 4 | Reddit post | r/lasercutting |
 | Day 5 | Victor Wolansky | Facebook DM |
 | Day 5 | Join new Facebook groups (12, 13, 14) | Facebook |
+
+---
+
+## Status Log
+
+| # | Who | Platform | DM Sent | Replied? | Status |
+|---|-----|----------|---------|----------|--------|
+| 4 | Jessie Jones / Jones Laser Craft | Instagram | ✅ (2026-06-22) | ✅ "Hey Matt, I'll take a look. Thanks." (2026-06-22). Follow-up reply sent (2026-06-23). | WARM — sent concrete ask, waiting |
+| 1 | Laser Everything (Alex) | Email | ✅ (2026-06-21) | — No reply yet | Sent — awaiting reply |
+| 2 | Justin Laser | Website form | ✅ (2026-06-21) | — No reply yet | Sent — awaiting reply |
+| 3 | OMG Laser (Richard) | Email | ✅ (2026-06-21) | — No reply yet | Sent — awaiting reply |
+| 5 | Alisha Pate (Laser Lounge) | Facebook | 🔲 Not yet | — | Queue |
+| 6 | Chance Lawson (Beam Squadron) | Instagram | 🔲 Not yet | — | Queue |
+| 7 | Victor Wolansky | Facebook | 🔲 Not yet | — | Queue |
+| 8 | OMG Laser Mike Kartchner | Facebook | 🔲 Not yet | — | Queue |
+| 9 | Russ Sadler | LaserUser.com | 🔲 Not yet | — | Queue |
+| 10 | Laser Livestream | Facebook | 🔲 Not yet | — | Queue |
+| 11 | McCarty's Creations | TikTok | 🔲 Not yet | — | Queue |
+
+---
+
+## Replies Received
+
+### Jessie Jones (2026-06-22)
+**Her reply:** "Hey Matt, I'll take a look. Thanks."
+
+**Assessment:** Polite, open. She's acknowledged it — now give her 3-4 days to actually look, then follow up with something specific and easy to act on. Don't push.
+
+**Follow-up message (send 2026-06-25 or 2026-06-26):**
+See "Next Steps" section below.
 
 ---
 

@@ -1,6 +1,7 @@
 # CutLog 30-Second Demo Video Plan
 
-**Last updated**: 2026-06-21  
+**Last updated**: 2026-06-23  
+**Status**: ✅ RECORDED (2026-06-23)  
 **Target platform**: Social media (Facebook, email, landing page)  
 **Format**: 30-second landscape video (1440x900 or higher, downscaled for social)  
 **Hosting**: YouTube (unlisted) or Vimeo (embeds on landing page)

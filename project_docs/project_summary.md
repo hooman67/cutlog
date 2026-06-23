@@ -1,6 +1,6 @@
 # CutLog Project Summary
 
-**Last updated**: 2026-06-21
+**Last updated**: 2026-06-23
 **Purpose**: Complete context transfer document. Any agent session reading this file should have everything needed to continue work on this project.
 
 ---
@@ -27,7 +27,7 @@
 
 ---
 
-## Current State (2026-06-21)
+## Current State (2026-06-23)
 
 ### Prototype: LIVE AND DEPLOYED
 
@@ -41,6 +41,7 @@
 | **GitHub** | ✅ Pushed | `git@github.com:hooman67/cutlog.git` |
 | **PWA** | ✅ Installable | iPhone "Add to Home Screen" = native app feel. Smart install banner added for mobile users |
 | **Algorithm** | ✅ Complete | All 10/10 recommendation algorithm improvements implemented (2026-06-21) |
+| **Demo Video** | ✅ Complete | 30-sec demo video recorded (2026-06-23) |
 | **Multi-machine** | ✅ Live | Full multi-machine support — users can register and switch between machines |
 | **Edit/Delete** | ✅ Live | Users can edit and delete their logged cuts |
 | **Admin Tools** | ✅ Live | Admin data reset/cleanup functionality |
@@ -68,6 +69,9 @@
 | Reddit/forums | 80 | ✅ In DB |
 | Manual user logs | 2 | ✅ In DB |
 | OMG Laser (omglaser.com) | 177 | ✅ In DB (scraped 2026-06-15) |
+| lasertips.org UV + CO2 galvo | 62 | 🔄 Scraping in progress (2026-06-23) |
+| Bonny Creations | TBD | 🔄 Scraping in progress (2026-06-23) |
+| LaserCutSettings.com | TBD | 🔄 Scraping in progress (2026-06-23) |
 | **Total in DB** | **901** | |
 | Etsy .CLB files (3 products) | 3,839 settings | ✅ Purchased & analyzed (2026-06-17). LaserSecrets=188, BenMyers=19, HolsterGeek=10, + Nate Keen=82. See `etsy_files_analysis.md`. **Validation: 500 matched to our DB (13%), 87% overall accuracy**. See `speed_validation_report.md` |
 | OEM manuals | 0 | 🔲 Planned |
@@ -203,7 +207,9 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 
 | Competitor | Threat | What They Do | Our Advantage |
 |-----------|--------|------------|---------------|
-| **lasertips.org** | 3/10 | Free static tables, Chinese OEMs only, no search | Dynamic ML, all brands, per-machine |
+| **lasertips.org** | 2/10 | Static database, 212 entries across 7 years, declining activity (2 entries in 2026), zero community, no AI, no per-machine learning. Data fully scrapeable. Solo Norwegian hobbyist operator on home server. 2,300 monthly visits. UV subdomain (uv.lasertips.org) has 51 entries, zero external discoverability, never promoted. | Dynamic ML, all brands, per-machine, growing community |
+| **Bonny Creations** | 3/10 | Largest community DB (3,800+ entries, 59+ machines, 118+ materials). Flat database, no AI, no per-machine learning. Revenue from SVG files + Amazon affiliates. | Per-machine ML, AI fallback, LightBurn integration, adaptive learning |
+| **LaserCutSettings.com** | 2/10 | 260 settings, 115 machines, 13 brands. Clean UX, supports .clb download. Built by LaserJobManager team. Static data, no AI. | Per-machine learning, community growth, AI suggestions, feedback loop |
 | **OMG Laser settings** | 2/10 | 130+ static entries, sales funnel | Same as above |
 | **LaserParams Converter** (GitHub) | 1/10 | Wattage/lens math converter, dormant | Different problem, but integrate their math |
 | **Beam Squadron** (Chance Lawson) | 4/10 | Education ($30-50/mo), engraving courses | We're a tool, not education. Partner opportunity |
@@ -306,9 +312,11 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 1. ~~**[CRITICAL] Test all 22 workflows**~~ — ✅ DONE. Workflows 18-22 added (multi-machine, edit/delete, admin data cleanup, feedback integration, algorithm improvements). All passing.
 2. ~~**Deploy to Vercel**~~ — ✅ DONE. All code pushed to `main` (auto-deploys). Supabase migrations 008 (feedback table) and 009 (is_active on machines) applied. All 10/10 algorithm improvements live. Multi-machine support, edit/delete cuts, admin data reset all live.
 
-**THEN: Go-to-market**
-3. **[CRITICAL] Facebook posts in 3 groups** — Laser Cutting Enthusiasts, CO2 Laser Users, LightBurn Community. Spaced 1-2 per day (Deadline: June 21). Link to `https://cutlog-two.vercel.app/landing`.
-4. **[CRITICAL] Send 6 DMs to power users** — Nate, Mike, Sean, Jeremy, Tinker, Lobo. Personal message + app link + landing page link (Deadline: June 19).
+**THEN: Go-to-market — ✅ ALL COMPLETE (2026-06-23)**
+3. ~~**[CRITICAL] Facebook posts in 16 groups**~~ — ✅ DONE (2026-06-22). All 16 groups posted (Round 1 + Round 2).
+4. ~~**[CRITICAL] Send DMs to power users**~~ — ✅ DONE (2026-06-22). All tiers sent (17 people total across Tier 1-4).
+5. ~~**Record 30-sec demo video**~~ — ✅ DONE (2026-06-23).
+6. ~~**Parameter scaling integration**~~ — ✅ DONE. Scaling applied in suggestion engine.
 
 **Already completed:**
 - ~~**Send the app link**~~ — ✅ DONE (2026-06-15). Sent Option A (direct link) to Mike, Nate, Sean. Awaiting replies.
@@ -328,9 +336,9 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 10. ~~**Build LightBurn .clb import/export**~~ — ✅ DONE (/import page, /api/import-clb, /api/export-clb, export button on /history)
 11. ~~**Make speed recommendation the hero feature**~~ — ✅ DONE (speed hero UX + 3-button feedback + collapsible full params)
 12. ~~**Integrate LaserParams Converter math**~~ — ✅ DONE (Python module at scripts/parameter_scaling.py, formulas extracted)
-13. **Scrape remaining sources** (Epilog PDFs, OEM manuals) — OMG Laser + lasertips + Reddit + LightBurn GitHub done
+13. **Scrape remaining sources** (Epilog PDFs, OEM manuals) — OMG Laser + lasertips + Reddit + LightBurn GitHub done. **In progress (2026-06-23):** lasertips UV/CO2 galvo (62 entries), Bonny Creations (3,800+ entries), LaserCutSettings.com (260 settings)
 14. **Investigate Beam Squadron partnership** — Chance Lawson's audience = our beta users
-15. **Integrate parameter_scaling.py into suggestion engine** — apply scaling to expand 901 raw params into 4,000-7,000 applicable suggestions
+15. ~~**Integrate parameter_scaling.py into suggestion engine**~~ — ✅ DONE. Scaling applied in suggestion engine to expand raw params into applicable suggestions.
 16. **Get 5 beta users logging cuts** — validate daily logging habit (after public launch proves concept)
 17. **Train v1 ML model** (XGBoost) — speed prediction from material/thickness/machine
 18. **Wrap app in Capacitor** — publish to App Store + Google Play (plan at `migration_to_full_app_plan.md`, trigger: 5+ active users). Capacitor integration code exists on `migration_to_app` branch. Will merge after 5+ active beta users.
@@ -375,6 +383,7 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 | Session C (cutlog-app, 2026-06-15) | Feature build + data + competitive intel + onboarding UX | OMG Laser scraped (177 entries → DB at 901 total), LightBurn .clb import/export built, LaserParams Converter formulas extracted to Python, suggestion engine refactored (speed-first hero UX + 3-button feedback), PWA install banner added, BeraTech CNC competitor analyzed (4/10 threat), Capacitor migration plan written, Lobo Lightbringer DM drafted, **user discovery/onboarding features added** (contextual hints, first-visit overlay, empty states that educate, smart nudges) |
 | Session D (cutlog-app, 2026-06-17) | Launch prep, code audit, bug fixes, go-to-market strategy | Landing page built (`/landing`), waitlist system (`/waitlist` + Supabase table), outreach docs (launch_checklist.md, launch_strategy_hybrid.md, prototype_1_workflows.md with 11 test workflows), **9 bug fixes** (code audit), strategy audit (hybrid launch = Option C chosen), DM status updated (Klaus sent, Lobo sent), font-preview tool (`/tools/font-preview`) |
 | Session E (cutlog-app, 2026-06-21) | Algorithm improvements, multi-machine, edit/delete, admin tools | **All 10/10 algorithm improvements implemented** (fuzzy thickness, material aliases, operation type filter, source tier weighting, consistency-based confidence, machine similarity, broader search fallback, feedback integration, thickness interpolation, time-decay weighting). Multi-machine support (migration 009: is_active on machines). Edit/delete cuts. Admin data cleanup. Feedback table (migration 008). Workflows 18-22 added to testing plan. All pushed to main (auto-deployed to Vercel). |
+| Session F (laser_log, 2026-06-23) | Go-to-market completion, demo video, context reload | Facebook posts in 16 groups (done), all DMs sent (17 people across Tier 1-4), parameter scaling integrated into suggestion engine, 30-sec demo video recorded, influencer outreach strategy finalized. All go-to-market Phase 1 items complete. Now monitoring for DM replies and waiting on Nate Keen. |
 
 ---
 

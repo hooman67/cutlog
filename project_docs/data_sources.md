@@ -298,6 +298,80 @@ site:reddit.com/r/Maker laser cutting parameters
 
 ---
 
+### 8b. Bonny Creations Laser Settings Database
+**URL:** https://www.bonnycreations.com/  
+**Content Type:** Community-contributed laser settings database
+
+**Parameters Available:**
+- Machine brand and model (59+ machines)
+- Material type (118+ materials)
+- Power percentage
+- Speed (mm/s or %)
+- Passes
+- Thickness
+
+**Data Count:** 3,800+ parameter combinations (largest community DB identified)
+**Business Model:** Revenue from SVG files + Amazon affiliate links (settings DB is free)
+
+**Extraction Method:**
+- **Semi-Automatic:** HTML scraping or API inspection
+  - Flat database structure, no AI layer
+  - Covers 59+ machines across multiple brands
+  - 118+ material types with settings per machine
+
+**Scrapeability Score:** ⭐⭐⭐⭐ (Web-based, structured data)
+**Reliability:** Medium-High (Community-contributed, large sample size)
+**Status:** 🔄 Scraping in progress (2026-06-23)
+
+---
+
+### 8c. LaserCutSettings.com
+**URL:** https://www.lasercutsettings.com/  
+**Content Type:** Structured laser settings database with .clb download support
+
+**Parameters Available:**
+- Machine brand and model (115 machines, 13 brands)
+- Material type
+- Power, speed, passes
+- Supports .clb file download
+
+**Data Count:** 260 settings across 115 machines
+**Built By:** LaserJobManager team (related product ecosystem)
+
+**Extraction Method:**
+- **Semi-Automatic:** HTML scraping
+  - Clean UX with structured data
+  - .clb download available (XML-parseable)
+  - 13 brand categories
+
+**Scrapeability Score:** ⭐⭐⭐⭐⭐ (Clean structure + .clb files available)
+**Reliability:** Medium-High (Curated by software team)
+**Status:** 🔄 Scraping in progress (2026-06-23)
+
+---
+
+### 8d. Lasertips.org UV + CO2 Galvo Subdomain
+**URL:** https://uv.lasertips.org/  
+**Content Type:** UV and CO2 galvo laser settings (separate from main CO2/fiber site)
+
+**Parameters Available:**
+- Laser type (UV, CO2 galvo)
+- Power, speed, frequency
+- Material type
+- Q-pulse settings
+
+**Data Count:** 51 entries (UV subdomain) + additional CO2 galvo entries = ~62 total
+**Notes:** Zero external discoverability, never promoted. Supplements the 212 entries on main lasertips.org.
+
+**Extraction Method:**
+- **Automatic:** HTML table parsing (same structure as main site)
+
+**Scrapeability Score:** ⭐⭐⭐⭐⭐ (Same format as main site, already parsed)
+**Reliability:** Medium (Solo operator, small dataset)
+**Status:** 🔄 Scraping in progress (2026-06-23)
+
+---
+
 ## Tier 3: Specialized/Niche Sources
 
 ### 9. GitHub Open-Source Projects
