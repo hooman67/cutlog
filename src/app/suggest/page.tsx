@@ -399,6 +399,7 @@ export default function Suggest() {
     const response = await fetch('/api/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ material: searchMaterial, thickness: thicknessMm }),
     });
 

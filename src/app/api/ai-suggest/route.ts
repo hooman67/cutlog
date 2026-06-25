@@ -86,12 +86,11 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
     let response: Response;
     try {
       response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-goog-api-key": apiKey,
           },
           body: JSON.stringify({
             contents: [
@@ -125,6 +124,14 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
 
     if (!response.ok) {
       const status = response.status;
+      let errorDetail = "";
+      try {
+        const errBody = await response.json();
+        errorDetail = errBody?.error?.message || JSON.stringify(errBody).slice(0, 200);
+        console.error("Gemini API error:", status, errorDetail);
+      } catch {
+        console.error("Gemini API error:", status, "(could not parse error body)");
+      }
       if (status === 429) {
         return NextResponse.json(
           { error: "AI service rate limited. Please wait a moment and try again." },
@@ -132,7 +139,7 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
         );
       }
       return NextResponse.json(
-        { error: `AI service returned error (${status})` },
+        { error: `AI service returned error (${status}): ${errorDetail || "unknown"}` },
         { status: 502 }
       );
     }
