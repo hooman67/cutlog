@@ -80,7 +80,7 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
   "confidence_note": <one sentence explaining your reasoning>
 }`;
 
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`;
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
     const geminiBody = JSON.stringify({
       contents: [
         {
