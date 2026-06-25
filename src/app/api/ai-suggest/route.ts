@@ -80,42 +80,61 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
   "confidence_note": <one sentence explaining your reasoning>
 }`;
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-    let response: Response;
-    try {
-      response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`;
+    const geminiBody = JSON.stringify({
+      contents: [
         {
+          parts: [{ text: prompt }],
+        },
+      ],
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: 8192,
+      },
+    });
+
+    let response: Response | null = null;
+    const MAX_RETRIES = 3;
+
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+      try {
+        response = await fetch(geminiUrl, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [{ text: prompt }],
-              },
-            ],
-            generationConfig: {
-              temperature: 0.3,
-              maxOutputTokens: 8192,
-            },
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: geminiBody,
           signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+
+        if (response.status === 429 && attempt < MAX_RETRIES - 1) {
+          await new Promise(r => setTimeout(r, (attempt + 1) * 3000));
+          continue;
         }
-      );
-    } catch (err: unknown) {
-      clearTimeout(timeoutId);
-      if (err instanceof Error && err.name === "AbortError") {
-        return NextResponse.json(
-          { error: "AI service timed out. Please try again." },
-          { status: 504 }
-        );
+        break;
+      } catch (err: unknown) {
+        clearTimeout(timeoutId);
+        if (attempt === MAX_RETRIES - 1) {
+          if (err instanceof Error && err.name === "AbortError") {
+            return NextResponse.json(
+              { error: "AI service timed out. Please try again." },
+              { status: 504 }
+            );
+          }
+          return NextResponse.json(
+            { error: "Failed to reach AI service" },
+            { status: 502 }
+          );
+        }
+        await new Promise(r => setTimeout(r, (attempt + 1) * 2000));
       }
+    }
+
+    if (!response) {
       return NextResponse.json(
-        { error: "Failed to reach AI service" },
+        { error: "Failed to reach AI service after retries" },
         { status: 502 }
       );
     }
