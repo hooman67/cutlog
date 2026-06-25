@@ -139,8 +139,6 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
       );
     }
 
-    clearTimeout(timeoutId);
-
     if (!response.ok) {
       const status = response.status;
       let errorDetail = "";
