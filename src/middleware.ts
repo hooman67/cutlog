@@ -76,8 +76,13 @@ function cleanupStores() {
   lastCleanup = now
 
   const cutoff = now - WINDOW_MS
-  for (const store of [authenticatedStore, unauthenticatedStore]) {
-    for (const [key, entry] of store.entries()) {
+  const stores = [authenticatedStore, unauthenticatedStore]
+  for (let s = 0; s < stores.length; s++) {
+    const store = stores[s]
+    const keys = Array.from(store.keys())
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      const entry = store.get(key)!
       entry.timestamps = entry.timestamps.filter(t => t > cutoff)
       if (entry.timestamps.length === 0) {
         store.delete(key)
