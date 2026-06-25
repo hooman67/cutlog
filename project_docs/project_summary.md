@@ -46,6 +46,7 @@
 | **Edit/Delete** | ✅ Live | Users can edit and delete their logged cuts |
 | **Admin Tools** | ✅ Live | Admin data reset/cleanup functionality |
 | **Gemini AI** | ✅ Live | Gemini 2.0 Flash fallback for materials with no database data |
+| **Data Security** | ✅ Live | RLS lockdown (auth required for all data), server-side API routes, rate limiting (30 req/min), auth gates on all endpoints (2026-06-23) |
 | **Native App** | 🔲 Planned | Capacitor integration code exists on `migration_to_app` branch. Will merge after 5+ active beta users. |
 
 ### Customer Validation: IN PROGRESS
@@ -341,6 +342,7 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 13. **Scrape remaining sources** (Epilog PDFs, OEM manuals) — OMG Laser + lasertips + Reddit + LightBurn GitHub done. **In progress (2026-06-23):** lasertips UV/CO2 galvo (62 entries), Bonny Creations (3,800+ entries), LaserCutSettings.com (260 settings)
 14. **Investigate Beam Squadron partnership** — Chance Lawson's audience = our beta users
 15. ~~**Integrate parameter_scaling.py into suggestion engine**~~ — ✅ DONE. Scaling applied in suggestion engine to expand raw params into applicable suggestions.
+    - ~~**Data security**~~ — ✅ DONE (2026-06-23). RLS lockdown, server-side API routes, rate limiting, auth gates. No action needed.
 16. **Get 5 beta users logging cuts** — validate daily logging habit (after public launch proves concept)
 17. **Train v1 ML model** (XGBoost) — speed prediction from material/thickness/machine
 18. **Wrap app in Capacitor** — publish to App Store + Google Play (plan at `migration_to_full_app_plan.md`, trigger: 5+ active users). Capacitor integration code exists on `migration_to_app` branch. Will merge after 5+ active beta users.
@@ -358,6 +360,7 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 5. **Minimum 10 data points per material/thickness combo** for useful speed predictions
 6. **Target: 600+ unique params covering 20+ materials and 4 laser types** within 3 weeks
 7. **Discovery UX via localStorage, not server state** — All onboarding/nudge tracking (first-visit flag, nudge counters, dismissals) stored in localStorage. Zero backend cost, no migrations, instant. Approach: subtle education (blue hints, amber nudges) rather than aggressive popups. One-time nudges that respect the user's time
+8. **Data protection via server-side queries** — All data queries moved from client-side Supabase calls to server-side API routes (/api/search). Rate limiting at 30 req/min authenticated, 5 req/min anon. RLS blocks all unauthenticated reads. Prevents competitors from scraping our 5,653-entry database.
 
 ---
 
@@ -385,7 +388,7 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 | Session C (cutlog-app, 2026-06-15) | Feature build + data + competitive intel + onboarding UX | OMG Laser scraped (177 entries → DB at 901 total), LightBurn .clb import/export built, LaserParams Converter formulas extracted to Python, suggestion engine refactored (speed-first hero UX + 3-button feedback), PWA install banner added, BeraTech CNC competitor analyzed (4/10 threat), Capacitor migration plan written, Lobo Lightbringer DM drafted, **user discovery/onboarding features added** (contextual hints, first-visit overlay, empty states that educate, smart nudges) |
 | Session D (cutlog-app, 2026-06-17) | Launch prep, code audit, bug fixes, go-to-market strategy | Landing page built (`/landing`), waitlist system (`/waitlist` + Supabase table), outreach docs (launch_checklist.md, launch_strategy_hybrid.md, prototype_1_workflows.md with 11 test workflows), **9 bug fixes** (code audit), strategy audit (hybrid launch = Option C chosen), DM status updated (Klaus sent, Lobo sent), font-preview tool (`/tools/font-preview`) |
 | Session E (cutlog-app, 2026-06-21) | Algorithm improvements, multi-machine, edit/delete, admin tools | **All 10/10 algorithm improvements implemented** (fuzzy thickness, material aliases, operation type filter, source tier weighting, consistency-based confidence, machine similarity, broader search fallback, feedback integration, thickness interpolation, time-decay weighting). Multi-machine support (migration 009: is_active on machines). Edit/delete cuts. Admin data cleanup. Feedback table (migration 008). Workflows 18-22 added to testing plan. All pushed to main (auto-deployed to Vercel). |
-| Session F (laser_log, 2026-06-23) | Go-to-market completion, demo video, context reload | Facebook posts in 16 groups (done), all DMs sent (17 people across Tier 1-4), parameter scaling integrated into suggestion engine, 30-sec demo video recorded, influencer outreach strategy finalized. All go-to-market Phase 1 items complete. Now monitoring for DM replies and waiting on Nate Keen. |
+| Session F (laser_log, 2026-06-23) | Go-to-market completion, demo video, context reload, security hardening | Facebook posts in 16 groups (done), all DMs sent (17 people across Tier 1-4), parameter scaling integrated into suggestion engine, 30-sec demo video recorded, influencer outreach strategy finalized. All go-to-market Phase 1 items complete. Now monitoring for DM replies and waiting on Nate Keen. Security hardening deployed (RLS lockdown, server-side API routes, rate limiting middleware, auth gates). |
 
 ---
 

@@ -549,6 +549,7 @@ export default function Suggest() {
         const aiResponse = await fetch("/api/ai-suggest", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
             material: searchMaterial,
             thickness_mm: thicknessMm,

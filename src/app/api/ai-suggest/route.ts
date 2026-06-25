@@ -86,7 +86,7 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
     let response: Response;
     try {
       response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent",
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
         {
           method: "POST",
           headers: {
@@ -102,9 +102,6 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
             generationConfig: {
               temperature: 0.3,
               maxOutputTokens: 8192,
-              thinkingConfig: {
-                thinkingBudget: 0,
-              },
             },
           }),
           signal: controller.signal,
