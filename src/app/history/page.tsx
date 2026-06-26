@@ -168,25 +168,45 @@ export default function History() {
       const params = new URLSearchParams();
       if (search) params.set("material", search);
 
-      const res = await fetch(`/api/export-clb?${params.toString()}`);
+      const res = await fetch(`/api/export-clb?${params.toString()}`, {
+        credentials: "include",
+      });
 
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json().catch(() => ({ error: "Export failed" }));
         alert(data.error || "Export failed");
         setExporting(false);
         return;
       }
 
-      // Download the file
       const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `CutLog_Export_${new Date().toISOString().split("T")[0]}.clb`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      const filename = `CutLog_Export_${new Date().toISOString().split("T")[0]}.clb`;
+
+      // Mobile-compatible download approach
+      if (typeof navigator !== "undefined" && navigator.share && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Use Web Share API on mobile (allows saving to Files app)
+        const file = new File([blob], filename, { type: "application/xml" });
+        try {
+          await navigator.share({ files: [file], title: "CutLog Export" });
+        } catch (shareErr: unknown) {
+          // User cancelled share or share not supported for files — fall back to open in new tab
+          if (shareErr instanceof Error && shareErr.name !== "AbortError") {
+            const url = URL.createObjectURL(blob);
+            window.open(url, "_blank");
+            setTimeout(() => URL.revokeObjectURL(url), 5000);
+          }
+        }
+      } else {
+        // Desktop download via anchor click
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
     } catch {
       alert("Export failed. Please try again.");
     }

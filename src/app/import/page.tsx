@@ -42,6 +42,7 @@ export default function ImportPage() {
       const res = await fetch("/api/import-clb", {
         method: "POST",
         body: formData,
+        credentials: "include",
       });
 
       const data = await res.json();
@@ -166,37 +167,59 @@ export default function ImportPage() {
 
       {/* File Upload Area */}
       {entries.length === 0 && (
-        <div
-          onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
-          onDragLeave={() => setDragActive(false)}
-          onDrop={handleDrop}
-          className={`border-2 border-dashed rounded-2xl p-12 text-center transition-colors cursor-pointer ${
-            dragActive
-              ? "border-emerald-500 bg-emerald-900/20"
-              : "border-zinc-700 hover:border-zinc-500 bg-zinc-900/50"
-          }`}
-          onClick={() => document.getElementById("file-input")?.click()}
-        >
-          <div className="text-4xl mb-4">📂</div>
-          {parsing ? (
-            <p className="text-zinc-300">Parsing file...</p>
-          ) : (
-            <>
-              <p className="text-zinc-300 font-medium mb-2">
-                Drop your .clb file here
-              </p>
-              <p className="text-zinc-500 text-sm">
-                or click to browse
-              </p>
-            </>
-          )}
+        <div className="space-y-4">
+          {/* Drag and drop zone (desktop) */}
+          <div
+            onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
+            onDragLeave={() => setDragActive(false)}
+            onDrop={handleDrop}
+            className={`border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center transition-colors cursor-pointer ${
+              dragActive
+                ? "border-emerald-500 bg-emerald-900/20"
+                : "border-zinc-700 hover:border-zinc-500 bg-zinc-900/50"
+            }`}
+            onClick={() => document.getElementById("file-input")?.click()}
+          >
+            <div className="text-4xl mb-4">📂</div>
+            {parsing ? (
+              <p className="text-zinc-300">Parsing file...</p>
+            ) : (
+              <>
+                <p className="text-zinc-300 font-medium mb-2">
+                  Tap to select your .clb file
+                </p>
+                <p className="text-zinc-500 text-sm hidden sm:block">
+                  or drag and drop
+                </p>
+                <p className="text-zinc-500 text-xs mt-2">
+                  Accepts .clb and .xml files from LightBurn
+                </p>
+              </>
+            )}
+          </div>
+
+          {/* Explicit button for mobile (more obvious tap target) */}
+          <button
+            onClick={() => document.getElementById("file-input")?.click()}
+            disabled={parsing}
+            className="w-full p-4 rounded-xl bg-blue-700 hover:bg-blue-600 font-semibold transition-colors disabled:opacity-50 sm:hidden"
+          >
+            {parsing ? "Parsing..." : "Choose .clb File from Phone"}
+          </button>
+
           <input
             id="file-input"
             type="file"
-            accept=".clb,.CLB,.xml,.XML"
+            accept=".clb,.CLB,.xml,.XML,application/xml,text/xml"
             onChange={handleFileInput}
             className="hidden"
           />
+
+          {/* Help text for mobile */}
+          <div className="text-xs text-zinc-500 space-y-1 sm:hidden">
+            <p>Your .clb file is in your LightBurn folder, usually under Documents/LightBurn/Library.</p>
+            <p>If you transferred it to your phone, check Downloads or Files app.</p>
+          </div>
         </div>
       )}
 
