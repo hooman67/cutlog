@@ -1,5 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
-  <rect width="192" height="192" rx="40" fill="#0a0a0a"/>
-  <circle cx="96" cy="96" r="70" fill="none" stroke="#3b82f6" stroke-width="6"/>
-  <text x="96" y="110" font-family="Arial,sans-serif" font-size="52" font-weight="bold" fill="#f4f4f5" text-anchor="middle">CL</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <rect width="180" height="180" rx="36" fill="#0a0a0f"/>
+  <defs>
+    <linearGradient id="beam1" x1="90" y1="20" x2="90" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.1"/>
+      <stop offset="80%" stop-color="#10b981" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#6ee7b7" stop-opacity="1"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="90" cy="100" r="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#10b981" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Converging beam lines -->
+  <polygon points="72,20 90,100 76,100" fill="url(#beam1)" opacity="0.6"/>
+  <polygon points="108,20 90,100 104,100" fill="url(#beam1)" opacity="0.6"/>
+  <!-- Center beam -->
+  <line x1="90" y1="20" x2="90" y2="100" stroke="#10b981" stroke-width="2.5" opacity="0.9"/>
+  <!-- Focal glow -->
+  <circle cx="90" cy="100" r="28" fill="url(#glow1)"/>
+  <circle cx="90" cy="100" r="5" fill="#ffffff"/>
+  <!-- Material surface line -->
+  <line x1="30" y1="115" x2="150" y2="115" stroke="#3f3f46" stroke-width="2.5"/>
+  <!-- Cut groove -->
+  <line x1="68" y1="115" x2="112" y2="115" stroke="#10b981" stroke-width="2.5" opacity="0.8"/>
+  <!-- Sparks -->
+  <circle cx="78" cy="94" r="2" fill="#fbbf24" opacity="0.8"/>
+  <circle cx="104" cy="90" r="1.5" fill="#fbbf24" opacity="0.6"/>
+  <circle cx="84" cy="88" r="1.5" fill="#fbbf24" opacity="0.7"/>
+  <!-- CutLog text -->
+  <text x="90" y="152" font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="#e4e4e7" text-anchor="middle">CutLog</text>
 </svg>
