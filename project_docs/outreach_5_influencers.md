@@ -452,13 +452,14 @@ Would love feedback from experienced operators — are the recommendations in th
 | 1 | Laser Everything (Alex) | Email | ✅ (2026-06-21) | — No reply yet | Sent — awaiting reply |
 | 2 | Justin Laser | Website form | ✅ (2026-06-21) | — No reply yet | Sent — awaiting reply |
 | 3 | OMG Laser (Richard) | Email | ✅ (2026-06-21) | — No reply yet | Sent — awaiting reply |
-| 5 | Alisha Pate (Laser Lounge) | Facebook | 🔲 Not yet | — | Queue |
-| 6 | Chance Lawson (Beam Squadron) | Instagram | 🔲 Not yet | — | Queue |
-| 7 | Victor Wolansky | Facebook | 🔲 Not yet | — | Queue |
+| 5 | Alisha Pate (Laser Lounge) | Instagram | ✅ (2026-06-25) | ⏳ | Sent — awaiting reply |
+| 6 | Chance Lawson (Beam Squadron) | Instagram | ✅ (2026-06-25) | ⏳ | Sent — awaiting reply |
+| 7 | Victor Wolansky | Facebook | ✅ (2026-06-25) | ⏳ | Sent — awaiting reply |
 | 8 | OMG Laser Mike Kartchner | Facebook | 🔲 Not yet | — | Queue |
 | 9 | Russ Sadler | LaserUser.com | 🔲 Not yet | — | Queue |
 | 10 | Laser Livestream | Facebook | 🔲 Not yet | — | Queue |
 | 11 | McCarty's Creations | TikTok | 🔲 Not yet | — | Queue |
+| — | Nate Keen | Instagram DM | Multiple | Active (2026-06-25) — sent video of text-stacking tool, still engaged | WARM — building relationship, video partnership pending |
 
 ---
 
@@ -471,6 +472,39 @@ Would love feedback from experienced operators — are the recommendations in th
 
 **Follow-up message (send 2026-06-25 or 2026-06-26):**
 See "Next Steps" section below.
+
+### Chance Lawson (2026-06-25) — SENT via Instagram
+
+**Message sent:**
+"Hey Chance, I built a laser settings tool and honestly I need someone who actually knows what they're talking about to tell me if the recommendations are garbage or not. You're the obvious person to ask.
+
+https://cutlog-two.vercel.app
+
+Would take you 30 seconds to search a material and see if the speed is in the right ballpark for a 30W fiber."
+
+**Status:** SENT 2026-06-25. Awaiting reply.
+
+### Alisha Pate / The Laser Lounge (2026-06-25) — SENT via Instagram @pateranchcreations
+
+**Message sent:**
+"Hey Alisha, I built a free laser settings tool and I need someone who runs a real production shop to tell me if the numbers make sense. You run 10 machines so you'd spot bad recommendations immediately.
+
+https://cutlog-two.vercel.app
+
+Try searching any material you cut daily and see if the speed is in the right ballpark. Takes 30 seconds. Happy to hear it's garbage too, that's useful feedback."
+
+**Status:** SENT 2026-06-25. Awaiting reply. Podcast pitch saved for follow-up if she engages.
+
+### Victor Wolansky (2026-06-25) — SENT via Facebook DM
+
+**Message sent:**
+"Hey Victor, I built a free laser settings tool and I'm trying to figure out if it's any good for precision engraving work. Most of my data is from cutting guys and I'm not sure the numbers translate.
+
+https://cutlog-two.vercel.app
+
+Would you search brass or stainless and tell me if the speeds are anywhere close to what you'd actually use for portrait work? Takes 30 seconds. Totally fine to tell me it's useless for what you do."
+
+**Status:** SENT 2026-06-25. Awaiting reply.
 
 ---
 

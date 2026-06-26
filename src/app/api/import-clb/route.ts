@@ -44,19 +44,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!file.name.endsWith(".clb") && !file.name.endsWith(".xml")) {
+    const lowerName = file.name.toLowerCase();
+    if (!lowerName.endsWith(".clb") && !lowerName.endsWith(".xml")) {
       return NextResponse.json(
         { error: "Invalid file type. Please upload a .clb or .xml file." },
         { status: 400 }
       );
     }
 
-    const text = await file.text();
+    const rawText = await file.text();
+    // Strip BOM and normalize whitespace issues
+    const text = rawText.replace(/^﻿/, "").trim();
+
+    if (!text.includes("<LightBurnLibrary") && !text.includes("<Material")) {
+      return NextResponse.json(
+        { error: "This doesn't appear to be a LightBurn library file. Expected XML with <LightBurnLibrary> or <Material> tags." },
+        { status: 400 }
+      );
+    }
+
     const entries = parseClbXml(text);
 
     if (entries.length === 0) {
       return NextResponse.json(
-        { error: "No valid entries found in the file. Make sure it is a valid LightBurn library file." },
+        { error: "No cut settings found in the file. The file structure was recognized but no <CutSetting> entries could be parsed. The file may use a newer LightBurn format — please contact support." },
         { status: 400 }
       );
     }
@@ -153,6 +164,19 @@ function parseClbXml(xml: string): ParsedEntry[] {
         const frequencyHz = extractValue(cutContent, "frequency");
         const scanAngle = extractValue(cutContent, "scanAngle");
 
+        // Extract galvo-specific parameters
+        const qPulseWidth = extractValue(cutContent, "QPulseWidth");
+        const dpi = extractValue(cutContent, "DPI");
+        const bidir = extractValue(cutContent, "bidir");
+        const crossHatch = extractValue(cutContent, "crossHatch");
+        const overscanning = extractValue(cutContent, "overscanning");
+
+        // Add galvo/extra params to notes
+        if (qPulseWidth !== null) noteParts.push(`Q-Pulse: ${qPulseWidth}us`);
+        if (dpi !== null) noteParts.push(`DPI: ${dpi}`);
+        if (bidir !== null && bidir === 1) noteParts.push("Bidirectional");
+        if (overscanning !== null) noteParts.push(`Overscan: ${overscanning}%`);
+
         // Determine operation_type based on cutType
         let operationType: string | null = null;
         if (cutType) {
@@ -163,8 +187,10 @@ function parseClbXml(xml: string): ParsedEntry[] {
             "Score": "score",
             "Fill": "fill",
             "Outline": "outline",
+            "Scan": "engrave",
+            "Image": "engrave",
           };
-          operationType = typeMap[cutType] || null;
+          operationType = typeMap[cutType] || cutType.toLowerCase();
         }
 
         entries.push({
@@ -179,7 +205,7 @@ function parseClbXml(xml: string): ParsedEntry[] {
           min_power_pct: minPower,
           frequency_hz: frequencyHz !== null ? Math.round(frequencyHz) : null,
           operation_type: operationType,
-          cross_hatch: null, // Not typically in LightBurn XML, can be set during import review
+          cross_hatch: crossHatch !== null ? crossHatch === 1 : null,
           scan_angle_degrees: scanAngle,
         });
       }
@@ -190,10 +216,18 @@ function parseClbXml(xml: string): ParsedEntry[] {
 }
 
 function extractValue(content: string, tagName: string): number | null {
+  // Try Value="..." attribute (standard LightBurn format)
   const regex = new RegExp(`<${tagName}\\s+Value="([^"]*)"`, "i");
   const match = content.match(regex);
   if (match) {
     const val = parseFloat(match[1]);
+    return isNaN(val) ? null : val;
+  }
+  // Try value="..." (lowercase variant) or just the tag with text content
+  const altRegex = new RegExp(`<${tagName}>([^<]*)</${tagName}>`, "i");
+  const altMatch = content.match(altRegex);
+  if (altMatch) {
+    const val = parseFloat(altMatch[1]);
     return isNaN(val) ? null : val;
   }
   return null;

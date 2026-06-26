@@ -102,9 +102,10 @@ describe('Parameter Scaling', () => {
 
   describe('checkScalingWarning', () => {
     it('should warn for large scaling factor (>1.5x)', () => {
-      // 30W/110mm -> 100W/300mm
-      // This is a large upgrade but manageable
-      const warning = checkScalingWarning(30, 100, 110, 300)
+      // 30W/110mm -> 30W/300mm (same wattage, lens 2.7x larger)
+      // lensFactor = 300/110 = 2.73, wattageFactor = 30/30 = 1.0
+      // combinedFactor = 2.73 -> >2 so it's 'danger'
+      const warning = checkScalingWarning(30, 30, 110, 300)
       expect(warning.level).toBeDefined()
       expect(warning.message).toContain('scaling factor')
     })

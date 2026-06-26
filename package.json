@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "gen:baseline": "node scripts/generate-baseline-data.js",
     "gen:baseline:dry": "node scripts/generate-baseline-data.js --dry-run",
     "gen:baseline:json": "node scripts/generate-baseline-data.js --json",
@@ -29,6 +31,7 @@
     "eslint-config-next": "14.2.35",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.6"
   }
 }

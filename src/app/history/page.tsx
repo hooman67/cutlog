@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Cut } from "@/lib/types";
+import { EDGE_QUALITIES, GAS_TYPES, OPERATION_TYPES } from "@/lib/types";
 
 export default function History() {
   const [cuts, setCuts] = useState<Cut[]>([]);
@@ -15,9 +16,25 @@ export default function History() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [editingCut, setEditingCut] = useState<Cut | null>(null);
+  const [editMaterial, setEditMaterial] = useState("");
+  const [editThickness, setEditThickness] = useState("");
   const [editSpeed, setEditSpeed] = useState("");
   const [editPower, setEditPower] = useState("");
+  const [editFrequency, setEditFrequency] = useState("");
+  const [editGasType, setEditGasType] = useState("");
+  const [editGasPressure, setEditGasPressure] = useState("");
+  const [editFocusPosition, setEditFocusPosition] = useState("");
+  const [editNozzleDiameter, setEditNozzleDiameter] = useState("");
+  const [editLineInterval, setEditLineInterval] = useState("");
+  const [editPasses, setEditPasses] = useState("");
+  const [editNozzleDistance, setEditNozzleDistance] = useState("");
+  const [editNotes, setEditNotes] = useState("");
   const [editQuality, setEditQuality] = useState<number>(0);
+  const [editOperationType, setEditOperationType] = useState("");
+  const [editEdgeQuality, setEditEdgeQuality] = useState("");
+  const [editIsShared, setEditIsShared] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
   const router = useRouter();
   const supabase = createClient();
 
@@ -58,31 +75,81 @@ export default function History() {
 
   function startEdit(cut: Cut) {
     setEditingCut(cut);
+    setEditMaterial(cut.material || "");
+    setEditThickness(cut.thickness_mm ? String(cut.thickness_mm) : "");
     setEditSpeed(cut.speed_mm_min ? String(cut.speed_mm_min) : "");
     setEditPower(cut.power_pct ? String(cut.power_pct) : "");
+    setEditFrequency(cut.frequency_hz ? String(cut.frequency_hz) : (cut.pulse_frequency_hz ? String(cut.pulse_frequency_hz) : ""));
+    setEditGasType(cut.gas_type || "");
+    setEditGasPressure(cut.gas_pressure_bar ? String(cut.gas_pressure_bar) : "");
+    setEditFocusPosition(cut.focus_position_mm !== null && cut.focus_position_mm !== undefined ? String(cut.focus_position_mm) : "");
+    setEditNozzleDiameter(cut.nozzle_diameter_mm ? String(cut.nozzle_diameter_mm) : "");
+    setEditNozzleDistance(cut.nozzle_distance_mm ? String(cut.nozzle_distance_mm) : "");
+    setEditLineInterval(cut.line_interval_mm ? String(cut.line_interval_mm) : "");
+    setEditPasses(cut.num_passes ? String(cut.num_passes) : "");
+    setEditNotes(cut.notes || "");
     setEditQuality(cut.quality_rating || 0);
+    setEditOperationType(cut.operation_type || "");
+    setEditEdgeQuality(cut.edge_quality || "");
+    setEditIsShared(cut.is_shared ?? true);
+    setSaveError("");
   }
 
   async function handleSaveEdit() {
     if (!editingCut || !userId) return;
+    setSaving(true);
+    setSaveError("");
+
+    if (!editMaterial.trim()) {
+      setSaveError("Material is required.");
+      setSaving(false);
+      return;
+    }
+    if (!editThickness) {
+      setSaveError("Thickness is required.");
+      setSaving(false);
+      return;
+    }
+
+    const updates: Record<string, unknown> = {
+      material: editMaterial.trim(),
+      thickness_mm: parseFloat(editThickness),
+      speed_mm_min: editSpeed ? parseFloat(editSpeed) : null,
+      power_pct: editPower ? parseFloat(editPower) : null,
+      frequency_hz: editFrequency ? parseInt(editFrequency) : null,
+      gas_type: editGasType || null,
+      gas_pressure_bar: editGasPressure ? parseFloat(editGasPressure) : null,
+      focus_position_mm: editFocusPosition ? parseFloat(editFocusPosition) : null,
+      nozzle_diameter_mm: editNozzleDiameter ? parseFloat(editNozzleDiameter) : null,
+      nozzle_distance_mm: editNozzleDistance ? parseFloat(editNozzleDistance) : null,
+      line_interval_mm: editLineInterval ? parseFloat(editLineInterval) : null,
+      num_passes: editPasses ? parseInt(editPasses) : null,
+      notes: editNotes.trim() || null,
+      quality_rating: editQuality || null,
+      operation_type: editOperationType || null,
+      edge_quality: editEdgeQuality || null,
+      is_shared: editIsShared,
+    };
+
     const { error } = await supabase
       .from("cuts")
-      .update({
-        speed_mm_min: editSpeed ? parseFloat(editSpeed) : null,
-        power_pct: editPower ? parseFloat(editPower) : null,
-        quality_rating: editQuality || null,
-      })
+      .update(updates)
       .eq("id", editingCut.id)
       .eq("user_id", userId);
 
-    if (!error) {
-      setCuts(prev => prev.map(c =>
-        c.id === editingCut.id
-          ? { ...c, speed_mm_min: editSpeed ? parseFloat(editSpeed) : null, power_pct: editPower ? parseFloat(editPower) : null, quality_rating: editQuality || null }
-          : c
-      ));
+    if (error) {
+      setSaveError("Failed to save changes. Please try again.");
+      setSaving(false);
+      return;
     }
+
+    setCuts(prev => prev.map(c =>
+      c.id === editingCut.id
+        ? { ...c, ...updates } as Cut
+        : c
+    ));
     setEditingCut(null);
+    setSaving(false);
   }
 
   const filtered = cuts.filter(c =>
@@ -190,52 +257,259 @@ export default function History() {
               {/* Inline edit form */}
               {editingCut?.id === cut.id ? (
                 <div className="space-y-3">
-                  <p className="text-sm font-medium text-zinc-300 mb-2">Editing: {cut.material} {cut.thickness_mm}mm</p>
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-sm font-medium text-emerald-400">Editing Cut</p>
+                    <span className="text-xs text-zinc-600">{formatDate(cut.created_at)}</span>
+                  </div>
+
+                  {/* Material & Thickness */}
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Speed (mm/min)</label>
+                      <label className="block text-xs text-zinc-500 mb-1">Material *</label>
                       <input
-                        type="number"
-                        value={editSpeed}
-                        onChange={(e) => setEditSpeed(e.target.value)}
-                        className="w-full p-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        type="text"
+                        value={editMaterial}
+                        onChange={(e) => setEditMaterial(e.target.value)}
+                        placeholder="e.g. Mild Steel"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
                       />
                     </div>
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Thickness (mm) *</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={editThickness}
+                        onChange={(e) => setEditThickness(e.target.value)}
+                        placeholder="3.0"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Power & Speed */}
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs text-zinc-500 mb-1">Power (%)</label>
                       <input
                         type="number"
+                        step="1"
                         value={editPower}
                         onChange={(e) => setEditPower(e.target.value)}
-                        className="w-full p-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        placeholder="85"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Speed (mm/min)</label>
+                      <input
+                        type="number"
+                        step="10"
+                        value={editSpeed}
+                        onChange={(e) => setEditSpeed(e.target.value)}
+                        placeholder="4200"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
                       />
                     </div>
                   </div>
+
+                  {/* Gas Type & Pressure */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Gas Type</label>
+                      <select
+                        value={editGasType}
+                        onChange={(e) => setEditGasType(e.target.value)}
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      >
+                        <option value="">--</option>
+                        {GAS_TYPES.map(g => <option key={g} value={g}>{g}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Gas Pressure (bar)</label>
+                      <input
+                        type="number"
+                        step="0.5"
+                        value={editGasPressure}
+                        onChange={(e) => setEditGasPressure(e.target.value)}
+                        placeholder="14"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Focus & Line Interval */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Focus Position (mm)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={editFocusPosition}
+                        onChange={(e) => setEditFocusPosition(e.target.value)}
+                        placeholder="-1.5"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Line Interval (mm)</label>
+                      <input
+                        type="number"
+                        step="0.001"
+                        value={editLineInterval}
+                        onChange={(e) => setEditLineInterval(e.target.value)}
+                        placeholder="0.05"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Nozzle Diameter & Distance */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Nozzle Diameter (mm)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={editNozzleDiameter}
+                        onChange={(e) => setEditNozzleDiameter(e.target.value)}
+                        placeholder="2.0"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Nozzle Distance (mm)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={editNozzleDistance}
+                        onChange={(e) => setEditNozzleDistance(e.target.value)}
+                        placeholder="0.8"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Frequency & Passes */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Frequency (Hz)</label>
+                      <input
+                        type="number"
+                        value={editFrequency}
+                        onChange={(e) => setEditFrequency(e.target.value)}
+                        placeholder="80000"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Number of Passes</label>
+                      <input
+                        type="number"
+                        step="1"
+                        min="1"
+                        value={editPasses}
+                        onChange={(e) => setEditPasses(e.target.value)}
+                        placeholder="1"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Operation Type & Edge Quality */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Operation Type</label>
+                      <select
+                        value={editOperationType}
+                        onChange={(e) => setEditOperationType(e.target.value)}
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      >
+                        <option value="">--</option>
+                        {OPERATION_TYPES.map(op => <option key={op.value} value={op.value}>{op.label}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Edge Quality</label>
+                      <select
+                        value={editEdgeQuality}
+                        onChange={(e) => setEditEdgeQuality(e.target.value)}
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      >
+                        <option value="">--</option>
+                        {EDGE_QUALITIES.map(eq => <option key={eq.value} value={eq.value}>{eq.label}</option>)}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Quality Rating */}
                   <div>
                     <label className="block text-xs text-zinc-500 mb-1">Quality Rating</label>
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 items-center">
                       {[1, 2, 3, 4, 5].map(star => (
                         <button
                           key={star}
                           type="button"
                           onClick={() => setEditQuality(star)}
-                          className={`text-xl ${star <= editQuality ? "text-yellow-400" : "text-zinc-700"}`}
+                          className={`text-2xl transition-transform ${star <= editQuality ? "text-yellow-400 scale-110" : "text-zinc-700 hover:text-zinc-500"}`}
                         >
                           ★
                         </button>
                       ))}
+                      {editQuality > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setEditQuality(0)}
+                          className="ml-2 text-xs text-zinc-600 hover:text-zinc-400"
+                        >
+                          clear
+                        </button>
+                      )}
                     </div>
                   </div>
-                  <div className="flex gap-2">
+
+                  {/* Notes */}
+                  <div>
+                    <label className="block text-xs text-zinc-500 mb-1">Notes</label>
+                    <textarea
+                      value={editNotes}
+                      onChange={(e) => setEditNotes(e.target.value)}
+                      placeholder="e.g. Slight dross on bottom edge at corners"
+                      rows={2}
+                      className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm resize-none"
+                    />
+                  </div>
+
+                  {/* Shared toggle */}
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editIsShared}
+                      onChange={(e) => setEditIsShared(e.target.checked)}
+                      className="w-4 h-4 rounded bg-zinc-800 border border-zinc-700 checked:bg-emerald-600 checked:border-emerald-600"
+                    />
+                    <span className="text-xs text-zinc-400">Share with community</span>
+                  </label>
+
+                  {/* Error message */}
+                  {saveError && (
+                    <p className="text-red-400 text-xs">{saveError}</p>
+                  )}
+
+                  {/* Save / Cancel buttons */}
+                  <div className="flex gap-2 pt-1">
                     <button
                       onClick={handleSaveEdit}
-                      className="px-4 py-2 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-sm font-medium transition-colors"
+                      disabled={saving}
+                      className="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-sm font-medium transition-colors disabled:opacity-50"
                     >
-                      Save
+                      {saving ? "Saving..." : "Save Changes"}
                     </button>
                     <button
                       onClick={() => setEditingCut(null)}
-                      className="px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 text-sm font-medium hover:bg-zinc-700 transition-colors"
+                      disabled={saving}
+                      className="px-4 py-2.5 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-400 text-sm font-medium hover:bg-zinc-700 transition-colors disabled:opacity-50"
                     >
                       Cancel
                     </button>

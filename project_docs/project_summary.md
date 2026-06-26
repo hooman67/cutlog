@@ -1,6 +1,6 @@
 # CutLog Project Summary
 
-**Last updated**: 2026-06-23
+**Last updated**: 2026-06-25
 **Purpose**: Complete context transfer document. Any agent session reading this file should have everything needed to continue work on this project.
 
 ---
@@ -27,7 +27,7 @@
 
 ---
 
-## Current State (2026-06-23)
+## Current State (2026-06-25)
 
 ### Prototype: LIVE AND DEPLOYED
 
@@ -58,6 +58,9 @@
 | Follow-up messages | ✅ Sent | Full product explanation + app link sent to Mike, Nate, Sean (2026-06-15) |
 | Facebook polls (Round 2) | ✅ Complete | 35+ comments, deeper engagement |
 | DM outreach (Round 2) | ✅ Complete | 6/6 DMs sent (Jeremy, Michael, George, Tinker, Klaus, Lobo). 2 replied (Jeremy, Tinker). |
+| Manual DMs (All Tiers) | ✅ Complete | 17 people DM'd across Tier 1-4 (2026-06-22). Monitoring for replies. |
+| Influencer outreach | 🔄 In Progress | Jessie Jones replied (2026-06-22). Alex, Justin, Richard emailed (2026-06-21). Chance/Alisha next. |
+| Reddit campaign | 🔄 In Progress | First post in r/ChineseLaserCutters (2026-06-25). 8 more subs planned over 3 weeks. |
 | Discovery calls | 🔲 Not yet | Zero calls booked so far |
 
 ### Data Collection: PARTIALLY COMPLETE
@@ -334,6 +337,7 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 7. **Compile case studies** (Week 3) — Write 2-3 testimonials with specific wins from active testers.
 8. **Iterate landing page** (Week 2-3) — A/B test messaging if needed. Update with case studies + screenshots.
 9. **Monitor metrics** (Ongoing) — Track landing page signups (target 100+), DM reply rate (target 50%), app trial users (target 5+), active loggers (target 2-3).
+10. **Reddit campaign** (June 25-July 12) — Posting across 9 subreddits (r/ChineseLaserCutters done, r/laserengraving next). See `reddit_strategy.md` for schedule and posts.
 
 ### Medium-Term (After Launch Phase Completes)
 10. ~~**Build LightBurn .clb import/export**~~ — ✅ DONE (/import page, /api/import-clb, /api/export-clb, export button on /history)
@@ -388,7 +392,7 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 | Session C (cutlog-app, 2026-06-15) | Feature build + data + competitive intel + onboarding UX | OMG Laser scraped (177 entries → DB at 901 total), LightBurn .clb import/export built, LaserParams Converter formulas extracted to Python, suggestion engine refactored (speed-first hero UX + 3-button feedback), PWA install banner added, BeraTech CNC competitor analyzed (4/10 threat), Capacitor migration plan written, Lobo Lightbringer DM drafted, **user discovery/onboarding features added** (contextual hints, first-visit overlay, empty states that educate, smart nudges) |
 | Session D (cutlog-app, 2026-06-17) | Launch prep, code audit, bug fixes, go-to-market strategy | Landing page built (`/landing`), waitlist system (`/waitlist` + Supabase table), outreach docs (launch_checklist.md, launch_strategy_hybrid.md, prototype_1_workflows.md with 11 test workflows), **9 bug fixes** (code audit), strategy audit (hybrid launch = Option C chosen), DM status updated (Klaus sent, Lobo sent), font-preview tool (`/tools/font-preview`) |
 | Session E (cutlog-app, 2026-06-21) | Algorithm improvements, multi-machine, edit/delete, admin tools | **All 10/10 algorithm improvements implemented** (fuzzy thickness, material aliases, operation type filter, source tier weighting, consistency-based confidence, machine similarity, broader search fallback, feedback integration, thickness interpolation, time-decay weighting). Multi-machine support (migration 009: is_active on machines). Edit/delete cuts. Admin data cleanup. Feedback table (migration 008). Workflows 18-22 added to testing plan. All pushed to main (auto-deployed to Vercel). |
-| Session F (laser_log, 2026-06-23) | Go-to-market completion, demo video, context reload, security hardening | Facebook posts in 16 groups (done), all DMs sent (17 people across Tier 1-4), parameter scaling integrated into suggestion engine, 30-sec demo video recorded, influencer outreach strategy finalized. All go-to-market Phase 1 items complete. Now monitoring for DM replies and waiting on Nate Keen. Security hardening deployed (RLS lockdown, server-side API routes, rate limiting middleware, auth gates). |
+| Session F (laser_log, 2026-06-23 to 2026-06-25) | Data expansion, security, go-to-market, Reddit | Facebook posts in 16 groups (done), all manual DMs sent (17 people Tier 1-4), parameter scaling integrated, 30-sec demo video recorded, influencer outreach (Jessie Jones replied, Alex/Justin/Richard emailed), **massive data expansion** (901→5,653 entries from 5 competitor scrapes), **security hardening** (RLS lockdown, server-side API routes, rate limiting, auth gates), Gemini AI fix deployed, first Reddit post (r/ChineseLaserCutters), Reddit strategy doc written (8 subs + r/sideproject + r/indiehackers), karma building in r/laserengraving and r/lightburn. |
 
 ---
 

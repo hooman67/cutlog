@@ -67,6 +67,10 @@ I'd genuinely love feedback from this community because you all run the widest v
 
 What materials/setups would you want to test first? And is there anything about your workflow I should think about that I might be missing?
 
+
+Matt: Sent above post on 2026-06-25
+link below:
+https://www.reddit.com/r/ChineseLaserCutters/s/5VUEmxLe16
 ---
 
 ### POST 2: r/laserengraving
@@ -97,6 +101,8 @@ Questions for you all:
 - Do you care more about photo engraving settings or vector engraving settings?
 - Anyone else frustrated that engraving parameters are basically never included in "laser settings" posts that only cover cutting?
 
+
+Matt: Joined on 2026-06-25 and made a helpful comment. 
 ---
 
 ### POST 3: r/lightburn
@@ -125,6 +131,7 @@ Completely free, no signup required.
 
 Would love feedback from this community specifically because you're the most technically sophisticated laser users I know. What would make this more useful to your LightBurn workflow? Any integration ideas?
 
+Matt: Joined on 2026-06-25 and made a helpful comment. 
 ---
 
 ### POST 4: r/glowforge
@@ -151,6 +158,7 @@ It's completely free -- I built it as a side project because I was frustrated wi
 
 Has anyone here found a reliable system for tracking settings across different material sources? I'm curious what workflows people have developed. And if you try CutLog, what materials would you test first?
 
+Matt: Joined on 2026-06-25 and made a helpful comment.
 ---
 
 ### POST 5: r/diodelaser
@@ -412,3 +420,149 @@ If a post is removed or heavily downvoted:
 *Strategy document created: June 2026*
 *Tool: CutLog (https://cutlog-two.vercel.app)*
 *Approach: Authentic maker sharing a passion project, not a product launch*
+
+---
+
+### POST 9: r/sideproject
+
+**Title:** I built a free AI tool that recommends laser cutting speeds for your specific machine (5,653 parameters across 562+ materials)
+
+**Body:**
+
+Hey everyone. Wanted to share what I've been building nights and weekends for the past 6 weeks.
+
+**What it is:** CutLog is a free web app that recommends cutting and engraving speeds for laser machines. You tell it your machine type, wattage, and lens, and it gives you parameters based on what's worked for similar setups. It learns from your feedback over time.
+
+https://cutlog-two.vercel.app
+
+**Why I built it:** I'm an AI engineer at Adobe by day, and I got into laser cutting about a year ago. The universal experience for new laser owners is burning through expensive material doing test grids because every machine behaves differently. Settings from YouTube videos or forums never quite match your tube's actual output. I wanted something smarter than a spreadsheet.
+
+**What it does:**
+
+1. Recommends speed/power/passes for your specific machine config
+2. Imports LightBurn .clb material libraries (so you don't start from scratch)
+3. Auto-scales parameters when you swap lenses or upgrade wattage
+4. Learns per-machine from your pass/fail feedback
+5. 5,653 community parameters across 562+ materials
+6. Supports fiber, CO2, diode, and UV lasers
+
+**Tech stack:**
+
+Next.js 14, Tailwind CSS, Supabase (auth + database), deployed on Vercel. Gemini 2.0 Flash handles the AI fallback when the community data is thin for a specific machine/material combo. The per-machine learning is a custom scoring system, not a full ML model.
+
+**What's next:**
+
+Working on a LightBurn export feature (so you can push optimized settings back to your machine), better multi-pass logic for thick materials, and a community leaderboard showing which users have contributed the most verified parameters.
+
+**The honest truth:** Zero paying users because there's nothing to pay for. No paywall, no VC funding, no premium tier planned. Hosting is free on Vercel. I built it because I needed it and figured other laser owners would too.
+
+Would love feedback from fellow builders. What would you change? What's missing? And if any of you happen to own a laser, I'd genuinely appreciate a test run.
+
+---
+
+### POST 10: r/indiehackers
+
+**Title:** I scored 74 startup ideas, picked #1, validated it with 30+ polls and $46 of competitor data, then built it in 6 weeks. Here's everything.
+
+**Body:**
+
+I want to share the full journey of building CutLog because I think the validation process is more interesting than the product itself.
+
+**The problem space:** Laser cutting/engraving machines have exploded in popularity (think Cricut but for wood/metal/acrylic). Every machine behaves differently, and there's no universal parameter database. Owners burn through expensive material doing test grids. Forums are flooded with "what settings for X on Y?" posts.
+
+**How I picked this idea:**
+
+I ran 74 potential startup ideas through a systematic scoring framework (market size, pain severity, willingness to pay, competition, my ability to build it). Laser parameter optimization scored #1. Not because the market is massive, but because pain severity was 10/10 and competition was surprisingly weak.
+
+**Validation (before writing a line of code):**
+
+1. Posted 30+ polls in laser Facebook groups asking about their biggest frustrations. "Finding the right settings" was consistently top 3
+2. DM'd 17 laser operators directly to understand their workflow
+3. Purchased $46 worth of competitor settings files on Etsy to benchmark accuracy (my recommendations matched 87% of their verified parameters)
+4. Scraped 5 competitor databases to understand what data existed and where the gaps were
+5. Joined 8 Reddit laser communities to understand the language and pain points
+
+**The build (6 weeks of nights/weekends):**
+
+Next.js 14, Tailwind, Supabase, Vercel, Gemini 2.0 Flash for AI recommendations. The core insight was that laser parameters scale predictably when you account for wattage, lens focal length, and laser type. So if a 60W CO2 cuts 3mm birch at 20mm/s and 65% power, you can extrapolate what a 40W CO2 with a different lens would need.
+
+**Current numbers:**
+
+1. 5,653 parameter entries across 562+ materials in the database
+2. Supports fiber, CO2, diode, and UV lasers
+3. Imports LightBurn .clb files (the dominant laser control software)
+4. Per-machine learning from user feedback
+5. Zero paying users (it's completely free, no paywall)
+6. 1 influencer partnership pending (laser YouTuber with 45K subscribers)
+7. Posted in r/ChineseLaserCutters with positive reception
+
+**What worked:**
+
+1. The validation process gave me extreme confidence before building. I never had "should I build this?" doubt
+2. Scraping competitor data gave me a massive head start on the database
+3. Buying Etsy files let me benchmark accuracy objectively (87% match)
+4. Focusing on LightBurn import was smart because it eliminates the cold start problem for users
+
+**What hasn't worked (yet):**
+
+1. Nobody has booked a call or asked for a paid feature. The "free" positioning might be a trap
+2. My 17 DMs to operators resulted in only 3 meaningful conversations
+3. I haven't cracked distribution beyond Reddit and Facebook groups
+4. The per-machine learning needs more feedback data to be genuinely useful (chicken and egg)
+
+**What I'm struggling with:**
+
+The tool is free and people like it, but I have no monetization path that doesn't feel forced. Material suppliers could sponsor listings. Laser manufacturers could white-label it. But I'm a maker, not a salesperson, and cold outreach makes me want to close my laptop.
+
+**Live tool:** https://cutlog-two.vercel.app
+
+**My question for this community:** For those of you who built free tools that gained traction, at what point did you introduce monetization, and how did the community react? I'm worried that adding any paywall will kill the trust I'm building. But I'm also aware that "free forever" isn't a business model.
+
+---
+
+## Revised Posting Schedule (Updated 2026-06-25)
+
+**Status key:** DONE = posted, SKIP = not posting, READY = drafted and waiting, ACTIVE = currently engaging pre-post
+
+| Date | Subreddit | Status | Notes |
+|------|-----------|--------|-------|
+| 2026-06-25 (Wed) | r/ChineseLaserCutters | DONE | Posted, positive reception. Link: https://www.reddit.com/r/ChineseLaserCutters/s/5VUEmxLe16 |
+| 2026-06-25 (Wed) | r/laserengraving | ACTIVE | Joined, made karma-building comment (2026-06-25). Post when 2 weeks of engagement complete. |
+| 2026-06-25 (Wed) | r/lightburn | ACTIVE | Joined, made karma-building comment (2026-06-25). Post when 2 weeks of engagement complete. |
+| 2026-06-25 (Wed) | r/glowforge | SKIP | Dead sub, low engagement. Not worth the effort. |
+| 2026-06-28 (Sat) | r/diodelaser | READY | Post 5. Small but receptive community. |
+| 2026-07-01 (Tue) | r/laserengraving | READY | Post 2. Adjust tone based on r/ChineseLaserCutters feedback. |
+| 2026-07-04 (Fri) | r/lightburn | READY | Post 3. Weekend timing for engaged hobbyists. |
+| 2026-07-07 (Mon) | r/lasercutting | ACTIVE | Post 6. Biggest audience, most polished post needed. Careful approach. Karma-building comments started 2026-06-25. |
+| 2026-07-10 (Thu) | r/hobbycnc | ACTIVE | (2026-06-25) joined, commenting. Post 7. Must include disclosure. |
+| 2026-07-13 (Sun) | r/xToolOfficial | ACTIVE | (2026-06-25) joined, commenting. Post 8. Only if previous posts went well. |
+| 2026-07-16 (Wed) | r/sideproject | READY | Post 9. Builder-to-builder tone, share tech stack and what's next. |
+| 2026-07-19 (Sat) | r/indiehackers | READY | Post 10. Journey-focused, share validation process and real numbers. |
+
+**Notes on revised schedule:**
+1. r/glowforge removed (dead sub, skip entirely)
+2. r/sideproject and r/indiehackers added as new targets (no pre-engagement period required for these subs since they exist specifically for sharing projects)
+3. Laser-specific subs posted first to build social proof and gather feedback before builder/indie communities
+4. 3-day spacing maintained between posts
+5. r/sideproject and r/indiehackers scheduled last so the post can reference community reception from laser subs as additional social proof
+
+---
+
+## Activity Log
+
+### 2026-06-25 -- Karma-Building Comments (No CutLog Mention)
+
+| Subreddit | Post URL | Topic | Comment Summary |
+|-----------|----------|-------|-----------------|
+| r/laserengraving | -- | -- | Helpful comment, pure karma building. No CutLog mention. |
+| r/lightburn | -- | -- | Helpful comment, pure karma building. No CutLog mention. |
+| r/lasercutting | https://www.reddit.com/r/lasercutting/comments/1uewzxl/xtool_f1_ultra_worth_it/ | Someone asking if xTool F1 Ultra is worth it for metal engraving | Gave advice about fiber vs CO2 vs diode for metal marking, tube degradation lifespan, customer service reality in sub-$5K market. Pure karma building, no CutLog mention. |
+| r/hobbycnc | -- | Motor connection post (direct coupling vs timing belt for NEMA34 gantry) | Joined sub. Made helpful comment on motor connection post (direct coupling vs timing belt for NEMA34 gantry). Pure karma building, no CutLog mention. |
+| r/xToolOfficial | -- | Thick wood cutting post | Joined sub. Made helpful comment on thick wood cutting post (air assist, speed settings, plywood glue issues for P2S). Pure karma building, no CutLog mention. |
+
+**Karma-building status (2026-06-25):**
+- r/laserengraving: ACTIVE (commenting/building karma)
+- r/lightburn: ACTIVE (commenting/building karma)
+- r/lasercutting: ACTIVE (commenting/building karma)
+- r/hobbycnc: ACTIVE (commenting/building karma)
+- r/xToolOfficial: ACTIVE (commenting/building karma)

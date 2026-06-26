@@ -426,3 +426,43 @@ We are laser machine supplier such as laser welding, cleaning, cutting, etc, and
 
 **Assessment:** Chinese laser supplier cold outreach. Not a user lead. However, could be useful later for: (1) getting OEM parameter documentation, (2) potential B2B partnership where they bundle CutLog with machine sales. Park for now — reply politely if you want to keep the door open, or ignore.
 
+---
+
+## Nate Keen reply (2026-06-25)
+
+**His messages:**
+"you're a machine haha 
+Can't wait to try the updates 👏🏻👏🏻👏🏻👏🏻
+
+Been a bit crazy this week haven't had a chance to upload a .clb to the app yet"
+
+Then sent a video showing a professional text-on-image stacking tool (similar to our /tools/font-preview but more polished). Said "This is really cool" — signaling he wants similar features for his customer preview workflow.
+
+**Assessment:** Still warm, still engaged. He's showing us what he wants built (text stacking on product images). This is the next feature request for the font-preview tool. The video partnership is still alive — he just needs the tools polished to his standard before committing to a video.
+
+---
+
+## Reply Sent to Nate (2026-06-25) ✅ SENT
+
+Oh nice — you want me to add that to the font tool? Stacking text on images is easy enough, just tell me what your customers need and I'll throw it in.
+
+Also whenever you get a sec to play with CutLog properly, reckon it'd make a good video for your channel? No rush — just figured you've basically been the unofficial product manager at this point so you might as well get the credit 😂
+
+**Status:** SENT 2026-06-25. Asked about video + offered to build text-stacking features. Awaiting reply.
+
+---
+
+## Nate Keen feedback (2026-06-25)
+
+**His messages:**
+"Doesn't seem to recognise .clb files"
+"Settings input looks pretty good."
+"Doesn't look like I can open a stored setting and edit other than speed and frequency."
+
+**Assessment:** CRITICAL FEEDBACK. He's actually trying the app now! Three issues:
+1. .clb import not working for his files — MUST FIX immediately (this is our key onboarding flow)
+2. Settings display is good — positive signal
+3. Edit functionality too limited — needs full field editing on stored cuts
+
+**Priority:** Fix .clb import FIRST (blocking his onboarding), then improve edit UX.
+

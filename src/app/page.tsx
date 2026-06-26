@@ -7,10 +7,13 @@ import Link from "next/link";
 import type { Machine } from "@/lib/types";
 import { DiscoveryHint } from "@/components/DiscoveryHint";
 
+const ADMIN_EMAIL = "houman_sh2001@hotmail.com";
+
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [machine, setMachine] = useState<Machine | null>(null);
   const [cutCount, setCutCount] = useState<number | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -20,6 +23,10 @@ export default function Home() {
       if (!user) {
         router.push("/auth");
         return;
+      }
+
+      if (user.email === ADMIN_EMAIL) {
+        setIsAdmin(true);
       }
 
       // Feature 6: Query for the active machine
@@ -152,6 +159,20 @@ export default function Home() {
           </div>
         </div>
       </button>
+
+      {isAdmin && (
+        <button
+          onClick={() => router.push("/admin")}
+          className="w-full p-4 rounded-xl bg-amber-900/30 border border-amber-800 hover:bg-amber-900/50 transition-colors text-left mt-4"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="font-medium text-amber-200">Admin Dashboard</span>
+              <p className="text-sm text-amber-600">User management & site stats</p>
+            </div>
+          </div>
+        </button>
+      )}
     </div>
   );
 }

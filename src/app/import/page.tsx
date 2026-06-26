@@ -193,7 +193,7 @@ export default function ImportPage() {
           <input
             id="file-input"
             type="file"
-            accept=".clb,.xml"
+            accept=".clb,.CLB,.xml,.XML"
             onChange={handleFileInput}
             className="hidden"
           />
