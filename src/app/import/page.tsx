@@ -33,6 +33,14 @@ export default function ImportPage() {
     setError("");
     setSuccess("");
     setEntries([]);
+
+    // Validate file extension client-side (since accept attribute is removed for iOS compatibility)
+    const lowerName = file.name.toLowerCase();
+    if (!lowerName.endsWith(".clb") && !lowerName.endsWith(".xml")) {
+      setError("Invalid file type. Please select a .clb or .xml file from LightBurn.");
+      return;
+    }
+
     setParsing(true);
 
     const formData = new FormData();
@@ -210,7 +218,6 @@ export default function ImportPage() {
           <input
             id="file-input"
             type="file"
-            accept=".clb,.CLB,.xml,.XML,application/xml,text/xml"
             onChange={handleFileInput}
             className="hidden"
           />
