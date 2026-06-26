@@ -1,34 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
   <rect width="192" height="192" rx="40" fill="#0a0a0f"/>
   <defs>
-    <linearGradient id="beam1" x1="96" y1="20" x2="96" y2="120" gradientUnits="userSpaceOnUse">
+    <linearGradient id="beam1" x1="96" y1="14" x2="96" y2="100" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#10b981" stop-opacity="0.1"/>
       <stop offset="80%" stop-color="#10b981" stop-opacity="0.8"/>
       <stop offset="100%" stop-color="#6ee7b7" stop-opacity="1"/>
     </linearGradient>
-    <radialGradient id="glow1" cx="96" cy="96" r="35" gradientUnits="userSpaceOnUse">
+    <radialGradient id="glow1" cx="96" cy="100" r="42" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.9"/>
       <stop offset="50%" stop-color="#10b981" stop-opacity="0.4"/>
       <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <!-- Converging beam lines -->
-  <polygon points="76,24 96,96 78,96" fill="url(#beam1)" opacity="0.6"/>
-  <polygon points="116,24 96,96 114,96" fill="url(#beam1)" opacity="0.6"/>
+  <!-- Converging beam lines - wider and taller -->
+  <polygon points="60,14 96,100 74,100" fill="url(#beam1)" opacity="0.6"/>
+  <polygon points="132,14 96,100 118,100" fill="url(#beam1)" opacity="0.6"/>
+  <!-- Outer beam edges for more drama -->
+  <polygon points="52,14 96,100 70,100" fill="url(#beam1)" opacity="0.3"/>
+  <polygon points="140,14 96,100 122,100" fill="url(#beam1)" opacity="0.3"/>
   <!-- Center beam -->
-  <line x1="96" y1="24" x2="96" y2="96" stroke="#10b981" stroke-width="2.5" opacity="0.9"/>
+  <line x1="96" y1="14" x2="96" y2="100" stroke="#10b981" stroke-width="3" opacity="0.9"/>
   <!-- Focal glow -->
-  <circle cx="96" cy="96" r="28" fill="url(#glow1)"/>
-  <circle cx="96" cy="96" r="5" fill="#ffffff"/>
+  <circle cx="96" cy="100" r="38" fill="url(#glow1)"/>
+  <circle cx="96" cy="100" r="6" fill="#ffffff"/>
   <!-- Material surface line -->
-  <line x1="36" y1="108" x2="156" y2="108" stroke="#3f3f46" stroke-width="2.5"/>
+  <line x1="22" y1="128" x2="170" y2="128" stroke="#3f3f46" stroke-width="2.5"/>
   <!-- Cut groove -->
-  <line x1="76" y1="108" x2="116" y2="108" stroke="#10b981" stroke-width="2.5" opacity="0.8"/>
+  <line x1="58" y1="128" x2="134" y2="128" stroke="#10b981" stroke-width="2.5" opacity="0.8"/>
   <!-- Sparks -->
-  <circle cx="82" cy="90" r="2" fill="#fbbf24" opacity="0.8"/>
-  <circle cx="112" cy="86" r="1.5" fill="#fbbf24" opacity="0.6"/>
-  <circle cx="88" cy="84" r="1.5" fill="#fbbf24" opacity="0.7"/>
-  <circle cx="104" cy="82" r="1" fill="#fbbf24" opacity="0.5"/>
-  <!-- CutLog text below -->
-  <text x="96" y="148" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#e4e4e7" text-anchor="middle">CutLog</text>
+  <circle cx="78" cy="88" r="2.5" fill="#fbbf24" opacity="0.8"/>
+  <circle cx="116" cy="84" r="2" fill="#fbbf24" opacity="0.6"/>
+  <circle cx="84" cy="82" r="2" fill="#fbbf24" opacity="0.7"/>
+  <circle cx="108" cy="78" r="1.5" fill="#fbbf24" opacity="0.5"/>
+  <circle cx="92" cy="76" r="1.5" fill="#fbbf24" opacity="0.6"/>
 </svg>
