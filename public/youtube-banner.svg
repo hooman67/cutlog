@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1440" viewBox="0 0 2560 1440">
+  <rect width="2560" height="1440" fill="#0a0a0f"/>
+  <defs>
+    <linearGradient id="beam1" x1="1280" y1="100" x2="1280" y2="750" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.1"/>
+      <stop offset="80%" stop-color="#10b981" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#6ee7b7" stop-opacity="1"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="1280" cy="750" r="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#10b981" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="surface" x1="0" y1="850" x2="2560" y2="850" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3f3f46" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#3f3f46" stop-opacity="1"/>
+      <stop offset="70%" stop-color="#3f3f46" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#3f3f46" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Converging beam lines -->
+  <polygon points="1120,100 1280,750 1200,750" fill="url(#beam1)" opacity="0.5"/>
+  <polygon points="1440,100 1280,750 1360,750" fill="url(#beam1)" opacity="0.5"/>
+  <polygon points="1080,100 1280,750 1180,750" fill="url(#beam1)" opacity="0.25"/>
+  <polygon points="1480,100 1280,750 1380,750" fill="url(#beam1)" opacity="0.25"/>
+  <!-- Center beam -->
+  <line x1="1280" y1="100" x2="1280" y2="750" stroke="#10b981" stroke-width="8" opacity="0.9"/>
+  <!-- Focal glow -->
+  <circle cx="1280" cy="750" r="180" fill="url(#glow1)"/>
+  <circle cx="1280" cy="750" r="20" fill="#ffffff"/>
+  <!-- Material surface line -->
+  <line x1="400" y1="850" x2="2160" y2="850" stroke="url(#surface)" stroke-width="4"/>
+  <!-- Cut groove -->
+  <line x1="1080" y1="850" x2="1480" y2="850" stroke="#10b981" stroke-width="4" opacity="0.7"/>
+  <!-- Sparks -->
+  <circle cx="1220" cy="720" r="7" fill="#fbbf24" opacity="0.8"/>
+  <circle cx="1350" cy="700" r="5" fill="#fbbf24" opacity="0.6"/>
+  <circle cx="1250" cy="690" r="6" fill="#fbbf24" opacity="0.7"/>
+  <circle cx="1310" cy="680" r="4" fill="#fbbf24" opacity="0.5"/>
+  <circle cx="1270" cy="670" r="4" fill="#fbbf24" opacity="0.6"/>
+  <!-- CutLog text -->
+  <text x="1280" y="1050" font-family="Arial,sans-serif" font-size="120" font-weight="bold" fill="#f4f4f5" text-anchor="middle" letter-spacing="4">CutLog</text>
+  <!-- Tagline -->
+  <text x="1280" y="1130" font-family="Arial,sans-serif" font-size="40" fill="#a1a1aa" text-anchor="middle">AI Laser Settings. Community Verified.</text>
+  <!-- Subtle grid dots in background -->
+  <circle cx="200" cy="300" r="1.5" fill="#27272a"/>
+  <circle cx="400" cy="200" r="1.5" fill="#27272a"/>
+  <circle cx="600" cy="400" r="1.5" fill="#27272a"/>
+  <circle cx="800" cy="150" r="1.5" fill="#27272a"/>
+  <circle cx="1800" cy="300" r="1.5" fill="#27272a"/>
+  <circle cx="2000" cy="200" r="1.5" fill="#27272a"/>
+  <circle cx="2200" cy="400" r="1.5" fill="#27272a"/>
+  <circle cx="2400" cy="250" r="1.5" fill="#27272a"/>
+</svg>
