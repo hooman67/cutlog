@@ -11,7 +11,7 @@ export interface Machine {
   controller: string | null
   location_country: string | null
   nickname: string | null
-  laser_source_type: 'fiber_cutting' | 'fiber_engraving' | 'co2_cutting' | 'diode_engraving' | 'uv_marking' | null
+  laser_source_type: 'fiber_cutting' | 'fiber_engraving' | 'co2_cutting' | 'co2_engraving' | 'diode_engraving' | 'uv_marking' | null
   speed_profile: 'fast' | 'conservative' | 'auto'
   is_active: boolean
   created_at: string
@@ -114,3 +114,28 @@ export const SPEED_PROFILE_MULTIPLIERS = {
   conservative: 0.5,
   auto: undefined,
 } as const
+
+/**
+ * Returns true if the machine is a galvo/engraving laser where cutting-specific
+ * fields (gas, nozzle, focus, edge quality) are irrelevant.
+ * Galvo modes: fiber_engraving, uv_marking
+ * Engraving modes (hide some fields): co2_engraving, diode_engraving
+ */
+export function isGalvoMode(machine: Machine | null): boolean {
+  if (!machine?.laser_source_type) return false
+  return machine.laser_source_type === 'fiber_engraving' || machine.laser_source_type === 'uv_marking'
+}
+
+/**
+ * Returns true if the machine is any engraving/marking type where cutting
+ * fields are less relevant (galvo + co2_engraving + diode_engraving).
+ */
+export function isEngravingMode(machine: Machine | null): boolean {
+  if (!machine?.laser_source_type) return false
+  return (
+    machine.laser_source_type === 'fiber_engraving' ||
+    machine.laser_source_type === 'uv_marking' ||
+    machine.laser_source_type === 'co2_engraving' ||
+    machine.laser_source_type === 'diode_engraving'
+  )
+}

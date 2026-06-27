@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import type { Cut } from "@/lib/types";
-import { EDGE_QUALITIES, GAS_TYPES, OPERATION_TYPES } from "@/lib/types";
+import type { Cut, Machine } from "@/lib/types";
+import { EDGE_QUALITIES, GAS_TYPES, OPERATION_TYPES, isGalvoMode } from "@/lib/types";
 
 export default function History() {
   const [cuts, setCuts] = useState<Cut[]>([]);
+  const [activeMachine, setActiveMachine] = useState<Machine | null>(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [exporting, setExporting] = useState(false);
@@ -44,6 +45,18 @@ export default function History() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push("/auth"); return; }
       setUserId(user.id);
+
+      // Load active machine for galvo mode detection
+      const { data: machines } = await supabase
+        .from("machines")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("is_active", { ascending: false, nullsFirst: false })
+        .limit(1);
+
+      if (machines && machines.length > 0) {
+        setActiveMachine(machines[0] as Machine);
+      }
 
       const { data } = await supabase
         .from("cuts")
@@ -336,83 +349,118 @@ export default function History() {
                     </div>
                   </div>
 
-                  {/* Gas Type & Pressure */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Gas Type</label>
-                      <select
-                        value={editGasType}
-                        onChange={(e) => setEditGasType(e.target.value)}
-                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
-                      >
-                        <option value="">--</option>
-                        {GAS_TYPES.map(g => <option key={g} value={g}>{g}</option>)}
-                      </select>
+                  {/* Gas Type & Pressure - hidden in galvo mode */}
+                  {!isGalvoMode(activeMachine) && (
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs text-zinc-500 mb-1">Gas Type</label>
+                        <select
+                          value={editGasType}
+                          onChange={(e) => setEditGasType(e.target.value)}
+                          className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        >
+                          <option value="">--</option>
+                          {GAS_TYPES.map(g => <option key={g} value={g}>{g}</option>)}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs text-zinc-500 mb-1">Gas Pressure (bar)</label>
+                        <input
+                          type="number"
+                          step="0.5"
+                          value={editGasPressure}
+                          onChange={(e) => setEditGasPressure(e.target.value)}
+                          placeholder="14"
+                          className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Gas Pressure (bar)</label>
-                      <input
-                        type="number"
-                        step="0.5"
-                        value={editGasPressure}
-                        onChange={(e) => setEditGasPressure(e.target.value)}
-                        placeholder="14"
-                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
-                      />
-                    </div>
-                  </div>
+                  )}
 
-                  {/* Focus & Line Interval */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Focus Position (mm)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={editFocusPosition}
-                        onChange={(e) => setEditFocusPosition(e.target.value)}
-                        placeholder="-1.5"
-                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
-                      />
+                  {/* Line Interval - shown prominently for galvo mode */}
+                  {isGalvoMode(activeMachine) && (
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs text-emerald-400 mb-1 font-medium">Line Interval (mm)</label>
+                        <input
+                          type="number"
+                          step="0.001"
+                          value={editLineInterval}
+                          onChange={(e) => setEditLineInterval(e.target.value)}
+                          placeholder="0.05"
+                          className="w-full p-2.5 rounded-xl bg-zinc-800 border border-emerald-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-zinc-500 mb-1">Passes</label>
+                        <input
+                          type="number"
+                          step="1"
+                          min="1"
+                          value={editPasses}
+                          onChange={(e) => setEditPasses(e.target.value)}
+                          placeholder="1"
+                          className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Line Interval (mm)</label>
-                      <input
-                        type="number"
-                        step="0.001"
-                        value={editLineInterval}
-                        onChange={(e) => setEditLineInterval(e.target.value)}
-                        placeholder="0.05"
-                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
-                      />
-                    </div>
-                  </div>
+                  )}
 
-                  {/* Nozzle Diameter & Distance */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Nozzle Diameter (mm)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={editNozzleDiameter}
-                        onChange={(e) => setEditNozzleDiameter(e.target.value)}
-                        placeholder="2.0"
-                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
-                      />
+                  {/* Focus & Line Interval - hidden focus in galvo mode */}
+                  {!isGalvoMode(activeMachine) && (
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs text-zinc-500 mb-1">Focus Position (mm)</label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={editFocusPosition}
+                          onChange={(e) => setEditFocusPosition(e.target.value)}
+                          placeholder="-1.5"
+                          className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-zinc-500 mb-1">Line Interval (mm)</label>
+                        <input
+                          type="number"
+                          step="0.001"
+                          value={editLineInterval}
+                          onChange={(e) => setEditLineInterval(e.target.value)}
+                          placeholder="0.05"
+                          className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Nozzle Distance (mm)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={editNozzleDistance}
-                        onChange={(e) => setEditNozzleDistance(e.target.value)}
-                        placeholder="0.8"
-                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
-                      />
+                  )}
+
+                  {/* Nozzle Diameter & Distance - hidden in galvo mode */}
+                  {!isGalvoMode(activeMachine) && (
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs text-zinc-500 mb-1">Nozzle Diameter (mm)</label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={editNozzleDiameter}
+                          onChange={(e) => setEditNozzleDiameter(e.target.value)}
+                          placeholder="2.0"
+                          className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-zinc-500 mb-1">Nozzle Distance (mm)</label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={editNozzleDistance}
+                          onChange={(e) => setEditNozzleDistance(e.target.value)}
+                          placeholder="0.8"
+                          className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        />
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Frequency, Q-Pulse & Passes */}
                   <div className="grid grid-cols-3 gap-3">
@@ -452,7 +500,7 @@ export default function History() {
                   </div>
 
                   {/* Operation Type & Edge Quality */}
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className={`grid ${isGalvoMode(activeMachine) ? "grid-cols-1" : "grid-cols-2"} gap-3`}>
                     <div>
                       <label className="block text-xs text-zinc-500 mb-1">Operation Type</label>
                       <select
@@ -464,17 +512,19 @@ export default function History() {
                         {OPERATION_TYPES.map(op => <option key={op.value} value={op.value}>{op.label}</option>)}
                       </select>
                     </div>
-                    <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Edge Quality</label>
-                      <select
-                        value={editEdgeQuality}
-                        onChange={(e) => setEditEdgeQuality(e.target.value)}
-                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
-                      >
-                        <option value="">--</option>
-                        {EDGE_QUALITIES.map(eq => <option key={eq.value} value={eq.value}>{eq.label}</option>)}
-                      </select>
-                    </div>
+                    {!isGalvoMode(activeMachine) && (
+                      <div>
+                        <label className="block text-xs text-zinc-500 mb-1">Edge Quality</label>
+                        <select
+                          value={editEdgeQuality}
+                          onChange={(e) => setEditEdgeQuality(e.target.value)}
+                          className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                        >
+                          <option value="">--</option>
+                          {EDGE_QUALITIES.map(eq => <option key={eq.value} value={eq.value}>{eq.label}</option>)}
+                        </select>
+                      </div>
+                    )}
                   </div>
 
                   {/* Quality Rating */}

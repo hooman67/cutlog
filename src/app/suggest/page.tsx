@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Machine, Material, Cut } from "@/lib/types";
-import { SPEED_PROFILE_MULTIPLIERS } from "@/lib/types";
+import { SPEED_PROFILE_MULTIPLIERS, isGalvoMode } from "@/lib/types";
 import { DiscoveryHint, HintLink } from "@/components/DiscoveryHint";
 import { scaleParameters, checkScalingWarning, canScaleBetweenTypes, formatScalingNote } from "@/lib/scaling";
 
@@ -656,11 +656,18 @@ export default function Suggest() {
     <div className="min-h-screen p-4 max-w-lg mx-auto pb-20">
       <div className="flex items-center gap-3 mb-2 pt-2">
         <button onClick={() => router.back()} className="text-zinc-400 hover:text-zinc-200 text-lg">&larr;</button>
-        <h1 className="text-xl font-bold">How fast should I cut?</h1>
+        <h1 className="text-xl font-bold">{isGalvoMode(userMachine) ? "How fast should I engrave?" : "How fast should I cut?"}</h1>
       </div>
-      <p className="text-sm text-zinc-500 mb-6 ml-8">
+      <p className="text-sm text-zinc-500 mb-4 ml-8">
         Enter your material and thickness. We&apos;ll tell you how fast to go.
       </p>
+
+      {isGalvoMode(userMachine) && (
+        <div className="mb-4 ml-8 px-3 py-2 rounded-xl bg-purple-900/30 border border-purple-700 inline-flex items-center gap-2">
+          <span className="text-purple-300 text-sm font-medium">Galvo Mode</span>
+          <span className="text-purple-400/70 text-xs">— showing engraving fields only</span>
+        </div>
+      )}
 
       {/* Contextual hint: no cuts yet - suggest import */}
       {!hasCuts && (
@@ -792,7 +799,8 @@ export default function Suggest() {
                   <span className="text-zinc-400 text-xs">Power</span>
                   <span className="font-mono text-zinc-200">{aiSuggestion.power_pct}%</span>
                 </div>
-                {aiSuggestion.gas_type && (
+                {/* Gas - hidden in galvo mode */}
+                {!isGalvoMode(userMachine) && aiSuggestion.gas_type && (
                   <div className="flex items-center justify-between bg-zinc-900/50 rounded-lg px-3 py-2">
                     <span className="text-zinc-400 text-xs">Gas</span>
                     <span className="font-mono text-zinc-200">
@@ -802,7 +810,7 @@ export default function Suggest() {
                 )}
                 {aiSuggestion.frequency_hz && (
                   <div className="flex items-center justify-between bg-zinc-900/50 rounded-lg px-3 py-2">
-                    <span className="text-zinc-400 text-xs">Frequency</span>
+                    <span className={`text-xs ${isGalvoMode(userMachine) ? "text-emerald-400 font-medium" : "text-zinc-400"}`}>Frequency</span>
                     <span className="font-mono text-zinc-200">{aiSuggestion.frequency_hz} Hz</span>
                   </div>
                 )}
@@ -1053,25 +1061,36 @@ export default function Suggest() {
                     <span className="font-mono text-zinc-200">{speedRec.avgPower}%</span>
                   </div>
                 )}
-                {speedRec.commonGasType && (
+                {/* Q-Pulse shown prominently for galvo users */}
+                {isGalvoMode(userMachine) && speedRec.avgQPulseNs !== null && (
+                  <div className="flex items-center justify-between bg-emerald-900/30 border border-emerald-800 rounded-lg px-3 py-2">
+                    <span className="text-emerald-400 text-xs font-medium">Q-Pulse</span>
+                    <span className="font-mono text-emerald-200">{speedRec.avgQPulseNs}ns</span>
+                  </div>
+                )}
+                {/* Gas - hidden in galvo mode */}
+                {!isGalvoMode(userMachine) && speedRec.commonGasType && (
                   <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg px-3 py-2">
                     <span className="text-zinc-400 text-xs">Gas</span>
                     <span className="font-mono text-zinc-200">{speedRec.commonGasType}{speedRec.avgGasPressure ? ` ${speedRec.avgGasPressure}bar` : ""}</span>
                   </div>
                 )}
-                {speedRec.avgFocus !== null && (
+                {/* Focus - hidden in galvo mode */}
+                {!isGalvoMode(userMachine) && speedRec.avgFocus !== null && (
                   <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg px-3 py-2">
                     <span className="text-zinc-400 text-xs">Focus</span>
                     <span className="font-mono text-zinc-200">{speedRec.avgFocus}mm</span>
                   </div>
                 )}
-                {speedRec.avgNozzle !== null && (
+                {/* Nozzle - hidden in galvo mode */}
+                {!isGalvoMode(userMachine) && speedRec.avgNozzle !== null && (
                   <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg px-3 py-2">
                     <span className="text-zinc-400 text-xs">Nozzle</span>
                     <span className="font-mono text-zinc-200">{speedRec.avgNozzle}mm</span>
                   </div>
                 )}
-                {speedRec.avgQPulseNs !== null && (
+                {/* Q-Pulse for non-galvo users (standard display) */}
+                {!isGalvoMode(userMachine) && speedRec.avgQPulseNs !== null && (
                   <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg px-3 py-2">
                     <span className="text-zinc-400 text-xs">Q-Pulse</span>
                     <span className="font-mono text-zinc-200">{speedRec.avgQPulseNs}ns</span>
@@ -1118,28 +1137,40 @@ export default function Suggest() {
                               <span className="text-zinc-500 text-xs block">Speed</span>
                               <span className="font-mono text-emerald-400">{formatParam(cut.scaled_speed !== undefined ? cut.scaled_speed : cut.speed_mm_min, " mm/min")}</span>
                             </div>
-                            <div>
-                              <span className="text-zinc-500 text-xs block">Gas</span>
-                              <span className="font-mono">{cut.gas_type || "—"} {cut.gas_pressure_bar ? `${cut.gas_pressure_bar}bar` : ""}</span>
-                            </div>
-                            <div>
-                              <span className="text-zinc-500 text-xs block">Focus</span>
-                              <span className="font-mono">{formatParam(cut.focus_position_mm, "mm")}</span>
-                            </div>
-                            <div>
-                              <span className="text-zinc-500 text-xs block">Nozzle</span>
-                              <span className="font-mono">{formatParam(cut.nozzle_diameter_mm, "mm")}</span>
-                            </div>
+                            {!isGalvoMode(userMachine) && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Gas</span>
+                                <span className="font-mono">{cut.gas_type || "—"} {cut.gas_pressure_bar ? `${cut.gas_pressure_bar}bar` : ""}</span>
+                              </div>
+                            )}
+                            {!isGalvoMode(userMachine) && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Focus</span>
+                                <span className="font-mono">{formatParam(cut.focus_position_mm, "mm")}</span>
+                              </div>
+                            )}
+                            {!isGalvoMode(userMachine) && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Nozzle</span>
+                                <span className="font-mono">{formatParam(cut.nozzle_diameter_mm, "mm")}</span>
+                              </div>
+                            )}
+                            {cut.q_pulse_ns && (
+                              <div>
+                                <span className={`text-xs block ${isGalvoMode(userMachine) ? "text-emerald-400 font-medium" : "text-zinc-500"}`}>Q-Pulse</span>
+                                <span className="font-mono">{cut.q_pulse_ns}ns</span>
+                              </div>
+                            )}
+                            {isGalvoMode(userMachine) && cut.line_interval_mm && (
+                              <div>
+                                <span className="text-emerald-400 text-xs block font-medium">Line Interval</span>
+                                <span className="font-mono">{cut.line_interval_mm}mm</span>
+                              </div>
+                            )}
                             <div>
                               <span className="text-zinc-500 text-xs block">Rating</span>
                               <span className="text-yellow-400">{"★".repeat(cut.quality_rating || 0)}</span>
                             </div>
-                            {cut.q_pulse_ns && (
-                              <div>
-                                <span className="text-zinc-500 text-xs block">Q-Pulse</span>
-                                <span className="font-mono">{cut.q_pulse_ns}ns</span>
-                              </div>
-                            )}
                           </div>
                           {cut.scaling_note && (
                             <p className="text-xs text-zinc-400 mt-2">

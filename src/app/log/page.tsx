@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import { EDGE_QUALITIES, GAS_TYPES, OPERATION_TYPES } from "@/lib/types";
+import { EDGE_QUALITIES, GAS_TYPES, OPERATION_TYPES, isGalvoMode, isEngravingMode } from "@/lib/types";
 import type { Machine, Material } from "@/lib/types";
 
 export default function LogCut() {
@@ -55,7 +55,12 @@ export default function LogCut() {
 
       if (machines && machines.length > 0) {
         setAllMachines(machines as Machine[]);
-        setMachine(machines[0]); // First one is active (sorted by is_active desc)
+        const activeMachine = machines[0] as Machine; // First one is active (sorted by is_active desc)
+        setMachine(activeMachine);
+        // Default thickness to 0 for galvo/engraving machines (surface-level work)
+        if (isGalvoMode(activeMachine)) {
+          setThickness("0");
+        }
       }
 
       const { data: mats } = await supabase
@@ -151,8 +156,15 @@ export default function LogCut() {
     <div className="min-h-screen p-4 max-w-lg mx-auto pb-20">
       <div className="flex items-center gap-3 mb-6 pt-2">
         <button onClick={() => router.back()} className="text-zinc-400 hover:text-zinc-200">←</button>
-        <h1 className="text-xl font-bold">Log a Cut</h1>
+        <h1 className="text-xl font-bold">{isGalvoMode(machine) ? "Log an Engraving" : "Log a Cut"}</h1>
       </div>
+
+      {isGalvoMode(machine) && (
+        <div className="mb-4 px-3 py-2 rounded-xl bg-purple-900/30 border border-purple-700 flex items-center gap-2">
+          <span className="text-purple-300 text-sm font-medium">Galvo Mode</span>
+          <span className="text-purple-400/70 text-xs">— showing engraving fields only</span>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Material */}
@@ -215,16 +227,21 @@ export default function LogCut() {
 
         {/* Thickness */}
         <div>
-          <label className="block text-sm font-medium text-zinc-300 mb-1">Thickness (mm) *</label>
+          <label className="block text-sm font-medium text-zinc-300 mb-1">
+            Thickness (mm) {isGalvoMode(machine) ? "" : "*"}
+          </label>
           <input
             type="number"
             step="0.1"
-            placeholder="e.g. 3.0"
+            placeholder={isGalvoMode(machine) ? "0 (surface engraving)" : "e.g. 3.0"}
             value={thickness}
             onChange={(e) => setThickness(e.target.value)}
-            className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+            className={`w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500 ${isGalvoMode(machine) ? "text-zinc-500" : ""}`}
             required
           />
+          {isGalvoMode(machine) && (
+            <p className="text-xs text-zinc-500 mt-1">Usually 0 for surface engraving. Change if deep-engraving.</p>
+          )}
         </div>
 
         {/* Parameters section */}
@@ -248,7 +265,7 @@ export default function LogCut() {
               <input
                 type="number"
                 step="10"
-                placeholder="4200"
+                placeholder={isGalvoMode(machine) ? "1000" : "4200"}
                 value={speed}
                 onChange={(e) => setSpeed(e.target.value)}
                 className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
@@ -256,108 +273,171 @@ export default function LogCut() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mt-3">
-            <div>
-              <label className="block text-xs text-zinc-500 mb-1">Gas Type</label>
-              <select
-                value={gasType}
-                onChange={(e) => setGasType(e.target.value)}
-                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100"
-              >
-                <option value="">—</option>
-                {GAS_TYPES.map(g => <option key={g} value={g}>{g}</option>)}
-              </select>
+          {/* Galvo-priority fields: Line Interval and Q-Pulse shown first for galvo users */}
+          {isGalvoMode(machine) && (
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <div>
+                <label className="block text-xs text-emerald-400 mb-1 font-medium">Line Interval (mm)</label>
+                <input
+                  type="number"
+                  step="0.001"
+                  placeholder="0.05"
+                  value={lineInterval}
+                  onChange={(e) => setLineInterval(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-emerald-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-emerald-400 mb-1 font-medium">Q-Pulse (ns)</label>
+                <input
+                  type="number"
+                  step="1"
+                  placeholder="e.g. 20"
+                  value={qPulseNs}
+                  onChange={(e) => setQPulseNs(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-emerald-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-xs text-zinc-500 mb-1">Gas Pressure (bar)</label>
-              <input
-                type="number"
-                step="0.5"
-                placeholder="14"
-                value={gasPressure}
-                onChange={(e) => setGasPressure(e.target.value)}
-                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
-              />
-            </div>
-          </div>
+          )}
 
-          <div className="grid grid-cols-2 gap-3 mt-3">
-            <div>
-              <label className="block text-xs text-zinc-500 mb-1">Focus Position (mm)</label>
-              <input
-                type="number"
-                step="0.1"
-                placeholder="-1.5"
-                value={focusPosition}
-                onChange={(e) => setFocusPosition(e.target.value)}
-                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
-              />
+          {isGalvoMode(machine) && (
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Pulse Frequency (Hz)</label>
+                <input
+                  type="number"
+                  placeholder="e.g. 80000"
+                  value={pulseFreq}
+                  onChange={(e) => setPulseFreq(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Number of Passes</label>
+                <input
+                  type="number"
+                  step="1"
+                  min="1"
+                  placeholder="1"
+                  value={numPasses}
+                  onChange={(e) => setNumPasses(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-xs text-zinc-500 mb-1">Line Interval (mm)</label>
-              <input
-                type="number"
-                step="0.001"
-                placeholder="0.05"
-                value={lineInterval}
-                onChange={(e) => setLineInterval(e.target.value)}
-                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
-              />
-            </div>
-          </div>
+          )}
 
-          <div className="grid grid-cols-2 gap-3 mt-3">
-            <div>
-              <label className="block text-xs text-zinc-500 mb-1">Nozzle Diameter (mm)</label>
-              <input
-                type="number"
-                step="0.1"
-                placeholder="2.0"
-                value={nozzleDiameter}
-                onChange={(e) => setNozzleDiameter(e.target.value)}
-                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
-              />
+          {/* Gas fields - hidden in galvo mode */}
+          {!isGalvoMode(machine) && (
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Gas Type</label>
+                <select
+                  value={gasType}
+                  onChange={(e) => setGasType(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100"
+                >
+                  <option value="">—</option>
+                  {GAS_TYPES.map(g => <option key={g} value={g}>{g}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Gas Pressure (bar)</label>
+                <input
+                  type="number"
+                  step="0.5"
+                  placeholder="14"
+                  value={gasPressure}
+                  onChange={(e) => setGasPressure(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-xs text-zinc-500 mb-1">Nozzle Distance (mm)</label>
-              <input
-                type="number"
-                step="0.1"
-                placeholder="0.8"
-                value={nozzleDistance}
-                onChange={(e) => setNozzleDistance(e.target.value)}
-                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
-              />
-            </div>
-          </div>
+          )}
 
-          <div className="grid grid-cols-2 gap-3 mt-3">
-            <div>
-              <label className="block text-xs text-zinc-500 mb-1">Pulse Frequency (Hz)</label>
-              <input
-                type="number"
-                placeholder="CW = blank"
-                value={pulseFreq}
-                onChange={(e) => setPulseFreq(e.target.value)}
-                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-zinc-500 mb-1">Q-Pulse (ns)</label>
-              <input
-                type="number"
-                step="1"
-                placeholder="e.g. 20"
-                value={qPulseNs}
-                onChange={(e) => setQPulseNs(e.target.value)}
-                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
-              />
-            </div>
-          </div>
+          {/* Focus & Nozzle fields - hidden in galvo mode */}
+          {!isGalvoMode(machine) && (
+            <>
+              <div className="grid grid-cols-2 gap-3 mt-3">
+                <div>
+                  <label className="block text-xs text-zinc-500 mb-1">Focus Position (mm)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    placeholder="-1.5"
+                    value={focusPosition}
+                    onChange={(e) => setFocusPosition(e.target.value)}
+                    className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-zinc-500 mb-1">Line Interval (mm)</label>
+                  <input
+                    type="number"
+                    step="0.001"
+                    placeholder="0.05"
+                    value={lineInterval}
+                    onChange={(e) => setLineInterval(e.target.value)}
+                    className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 mt-3">
+                <div>
+                  <label className="block text-xs text-zinc-500 mb-1">Nozzle Diameter (mm)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    placeholder="2.0"
+                    value={nozzleDiameter}
+                    onChange={(e) => setNozzleDiameter(e.target.value)}
+                    className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-zinc-500 mb-1">Nozzle Distance (mm)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    placeholder="0.8"
+                    value={nozzleDistance}
+                    onChange={(e) => setNozzleDistance(e.target.value)}
+                    className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 mt-3">
+                <div>
+                  <label className="block text-xs text-zinc-500 mb-1">Pulse Frequency (Hz)</label>
+                  <input
+                    type="number"
+                    placeholder="CW = blank"
+                    value={pulseFreq}
+                    onChange={(e) => setPulseFreq(e.target.value)}
+                    className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-zinc-500 mb-1">Q-Pulse (ns)</label>
+                  <input
+                    type="number"
+                    step="1"
+                    placeholder="e.g. 20"
+                    value={qPulseNs}
+                    onChange={(e) => setQPulseNs(e.target.value)}
+                    className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
-        {/* Engraving parameters section - only show for engraving machines */}
-        {machine?.laser_source_type?.includes('engraving') && (
+        {/* Engraving parameters section - show for engraving/galvo machines */}
+        {(isEngravingMode(machine) || machine?.laser_source_type?.includes('engraving')) && !isGalvoMode(machine) && (
           <div className="border-t border-zinc-800 pt-4">
             <h3 className="text-sm font-medium text-zinc-400 mb-3">ENGRAVING (optional)</h3>
 
@@ -427,6 +507,52 @@ export default function LogCut() {
           </div>
         )}
 
+        {/* Galvo-specific engraving extras (operation type, scan angle, cross-hatch) */}
+        {isGalvoMode(machine) && (
+          <div className="border-t border-zinc-800 pt-4">
+            <h3 className="text-sm font-medium text-zinc-400 mb-3">ENGRAVING DETAILS</h3>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Operation Type</label>
+                <select
+                  value={operationType}
+                  onChange={(e) => setOperationType(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100"
+                >
+                  <option value="">—</option>
+                  {OPERATION_TYPES.map(op => <option key={op.value} value={op.value}>{op.label}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Scan Angle (degrees)</label>
+                <input
+                  type="number"
+                  step="1"
+                  placeholder="0"
+                  min="-90"
+                  max="90"
+                  value={scanAngle}
+                  onChange={(e) => setScanAngle(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+                />
+              </div>
+            </div>
+
+            <div className="mt-3">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={crossHatch}
+                  onChange={(e) => setCrossHatch(e.target.checked)}
+                  className="w-4 h-4 rounded bg-zinc-900 border border-zinc-700 checked:bg-emerald-600 checked:border-emerald-600"
+                />
+                <span className="text-xs text-zinc-500">Cross-hatch fill used</span>
+              </label>
+            </div>
+          </div>
+        )}
+
         {/* Result section */}
         <div className="border-t border-zinc-800 pt-4">
           <h3 className="text-sm font-medium text-zinc-400 mb-3">RESULT *</h3>
@@ -452,26 +578,28 @@ export default function LogCut() {
             </div>
           </div>
 
-          {/* Edge quality */}
-          <div className="mb-4">
-            <label className="block text-xs text-zinc-500 mb-2">Edge Quality</label>
-            <div className="grid grid-cols-2 gap-2">
-              {EDGE_QUALITIES.map(eq => (
-                <button
-                  key={eq.value}
-                  type="button"
-                  onClick={() => setEdgeQuality(eq.value === edgeQuality ? "" : eq.value)}
-                  className={`px-3 py-2 rounded-lg border text-sm transition-colors ${
-                    edgeQuality === eq.value
-                      ? "bg-emerald-900/50 border-emerald-600 text-emerald-300"
-                      : "bg-zinc-900 border-zinc-700 text-zinc-400 hover:border-zinc-500"
-                  }`}
-                >
-                  {eq.label}
-                </button>
-              ))}
+          {/* Edge quality - hidden in galvo mode */}
+          {!isGalvoMode(machine) && (
+            <div className="mb-4">
+              <label className="block text-xs text-zinc-500 mb-2">Edge Quality</label>
+              <div className="grid grid-cols-2 gap-2">
+                {EDGE_QUALITIES.map(eq => (
+                  <button
+                    key={eq.value}
+                    type="button"
+                    onClick={() => setEdgeQuality(eq.value === edgeQuality ? "" : eq.value)}
+                    className={`px-3 py-2 rounded-lg border text-sm transition-colors ${
+                      edgeQuality === eq.value
+                        ? "bg-emerald-900/50 border-emerald-600 text-emerald-300"
+                        : "bg-zinc-900 border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                    }`}
+                  >
+                    {eq.label}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Notes */}
           <div>
