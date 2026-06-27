@@ -28,6 +28,7 @@ export default function History() {
   const [editLineInterval, setEditLineInterval] = useState("");
   const [editPasses, setEditPasses] = useState("");
   const [editNozzleDistance, setEditNozzleDistance] = useState("");
+  const [editQPulseNs, setEditQPulseNs] = useState("");
   const [editNotes, setEditNotes] = useState("");
   const [editQuality, setEditQuality] = useState<number>(0);
   const [editOperationType, setEditOperationType] = useState("");
@@ -87,6 +88,7 @@ export default function History() {
     setEditNozzleDistance(cut.nozzle_distance_mm ? String(cut.nozzle_distance_mm) : "");
     setEditLineInterval(cut.line_interval_mm ? String(cut.line_interval_mm) : "");
     setEditPasses(cut.num_passes ? String(cut.num_passes) : "");
+    setEditQPulseNs(cut.q_pulse_ns ? String(cut.q_pulse_ns) : "");
     setEditNotes(cut.notes || "");
     setEditQuality(cut.quality_rating || 0);
     setEditOperationType(cut.operation_type || "");
@@ -124,6 +126,7 @@ export default function History() {
       nozzle_distance_mm: editNozzleDistance ? parseFloat(editNozzleDistance) : null,
       line_interval_mm: editLineInterval ? parseFloat(editLineInterval) : null,
       num_passes: editPasses ? parseInt(editPasses) : null,
+      q_pulse_ns: editQPulseNs ? parseFloat(editQPulseNs) : null,
       notes: editNotes.trim() || null,
       quality_rating: editQuality || null,
       operation_type: editOperationType || null,
@@ -411,8 +414,8 @@ export default function History() {
                     </div>
                   </div>
 
-                  {/* Frequency & Passes */}
-                  <div className="grid grid-cols-2 gap-3">
+                  {/* Frequency, Q-Pulse & Passes */}
+                  <div className="grid grid-cols-3 gap-3">
                     <div>
                       <label className="block text-xs text-zinc-500 mb-1">Frequency (Hz)</label>
                       <input
@@ -424,7 +427,18 @@ export default function History() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Number of Passes</label>
+                      <label className="block text-xs text-zinc-500 mb-1">Q-Pulse (ns)</label>
+                      <input
+                        type="number"
+                        step="1"
+                        value={editQPulseNs}
+                        onChange={(e) => setEditQPulseNs(e.target.value)}
+                        placeholder="e.g. 20"
+                        className="w-full p-2.5 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Passes</label>
                       <input
                         type="number"
                         step="1"
@@ -551,6 +565,7 @@ export default function History() {
                     {cut.speed_mm_min && <span>{cut.speed_mm_min}mm/min</span>}
                     {cut.gas_type && <span>{cut.gas_type} {cut.gas_pressure_bar}bar</span>}
                     {cut.focus_position_mm !== null && <span>F:{cut.focus_position_mm}mm</span>}
+                    {cut.q_pulse_ns && <span>Q:{cut.q_pulse_ns}ns</span>}
                   </div>
                   {cut.edge_quality && (
                     <span className="inline-block mt-2 px-2 py-0.5 rounded text-xs bg-zinc-800 text-zinc-400">

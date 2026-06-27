@@ -454,7 +454,7 @@ Would love feedback from experienced operators — are the recommendations in th
 | 3 | OMG Laser (Richard) | Email | ✅ (2026-06-21) | — No reply yet | Sent — awaiting reply |
 | 5 | Alisha Pate (Laser Lounge) | Instagram | ✅ (2026-06-25) | ⏳ | Sent — awaiting reply |
 | 6 | Chance Lawson (Beam Squadron) | Instagram | ✅ (2026-06-25) | ⏳ | Sent — awaiting reply |
-| 7 | Victor Wolansky | Facebook | ✅ (2026-06-25) | ⏳ | Sent — awaiting reply |
+| 7 | Victor Wolansky | Facebook | ✅ (2026-06-25) | ✅ "I'll take a look after classes" (2026-06-25) | WARM — waiting for him to try it |
 | 8 | OMG Laser Mike Kartchner | Facebook | 🔲 Not yet | — | Queue |
 | 9 | Russ Sadler | LaserUser.com | 🔲 Not yet | — | Queue |
 | 10 | Laser Livestream | Facebook | 🔲 Not yet | — | Queue |
@@ -505,6 +505,16 @@ https://cutlog-two.vercel.app
 Would you search brass or stainless and tell me if the speeds are anywhere close to what you'd actually use for portrait work? Takes 30 seconds. Totally fine to tell me it's useless for what you do."
 
 **Status:** SENT 2026-06-25. Awaiting reply.
+
+### Victor Wolansky reply (2026-06-25)
+**His reply:** "Hello. 👋. I'll take a look after classes."
+
+**Assessment:** Positive. He acknowledged and committed to looking. "After classes" suggests he teaches or takes classes — don't rush him. Follow up in 3-4 days if no further response.
+
+**Reply sent (2026-06-25):**
+"No rush at all. When you get a chance, try searching "brass" or "stainless steel" and see if the engraving speeds are anywhere near what you use. Curious how it does on portrait-type work."
+
+**Status:** Reply sent. Waiting for him to try the app.
 
 ---
 

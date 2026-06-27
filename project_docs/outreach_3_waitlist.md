@@ -208,3 +208,18 @@ https://cutlog-two.vercel.app
 ```
 
 All 16 groups posted on 2026-06-22. Monitoring for engagement.
+
+---
+
+## Round 3: Lead Gen Post (2026-06-26)
+
+Posted "Settings you'd pay money for" in all 16 groups. Goal: generate commenters who become DM targets.
+
+Post text:
+"If someone handed you a perfect, verified parameter sheet for ONE material on YOUR specific machine, what material would you pick?
+
+Not "general starting points from the internet." I mean dialed-in, production-ready settings that you could run all day without babysitting.
+
+What's the one material you'd pay money to never have to test again?"
+
+Status: LIVE in all 16 groups. Monitoring for comments.

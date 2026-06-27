@@ -1,6 +1,6 @@
 # CutLog Project Summary
 
-**Last updated**: 2026-06-25
+**Last updated**: 2026-06-26
 **Purpose**: Complete context transfer document. Any agent session reading this file should have everything needed to continue work on this project.
 
 ---
@@ -61,6 +61,7 @@
 | Manual DMs (All Tiers) | ✅ Complete | 17 people DM'd across Tier 1-4 (2026-06-22). Monitoring for replies. |
 | Influencer outreach | 🔄 In Progress | Jessie Jones replied (2026-06-22). Alex, Justin, Richard emailed (2026-06-21). Chance/Alisha next. |
 | Reddit campaign | 🔄 In Progress | First post in r/ChineseLaserCutters (2026-06-25). 8 more subs planned over 3 weeks. |
+| Facebook lead-gen (Round 3) | 🔄 In Progress | Post Option C ("Settings you'd pay money for") posted in ALL 16 groups on 2026-06-26. Monitoring for commenters → DM targets. |
 | Discovery calls | 🔲 Not yet | Zero calls booked so far |
 
 ### Data Collection: PARTIALLY COMPLETE
@@ -312,6 +313,16 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 
 ## What Needs to Happen Next (Priority Order)
 
+### STRATEGIC PIVOT (2026-06-26): Focus, Don't Spread
+
+Based on r/indiehackers research (see `indiehackers_learnings.md` and `strategy_pivot_june26.md`):
+1. **Primary channel:** Reddit + YouTube comments (45 min/day answering laser questions with data + link)
+2. **Every interaction solves a problem first** — tool mentioned as source, not as pitch
+3. **Value before contribution** — deliver recommendation → user tries → prompt "did it work?" (not "log your cuts")
+4. **SEO pages** for long-tail "best settings for [material] on [machine]" queries
+5. **Product Hunt launch** planned for Month 2
+6. Nate Keen and influencers = bonus, not primary strategy
+
 ### This Week (June 17-23): Hybrid Launch Phase 1
 
 **COMPLETED (2026-06-21):**
@@ -392,16 +403,66 @@ We are executing a **hybrid launch strategy** starting Week of June 17, 2026, wi
 | Session C (cutlog-app, 2026-06-15) | Feature build + data + competitive intel + onboarding UX | OMG Laser scraped (177 entries → DB at 901 total), LightBurn .clb import/export built, LaserParams Converter formulas extracted to Python, suggestion engine refactored (speed-first hero UX + 3-button feedback), PWA install banner added, BeraTech CNC competitor analyzed (4/10 threat), Capacitor migration plan written, Lobo Lightbringer DM drafted, **user discovery/onboarding features added** (contextual hints, first-visit overlay, empty states that educate, smart nudges) |
 | Session D (cutlog-app, 2026-06-17) | Launch prep, code audit, bug fixes, go-to-market strategy | Landing page built (`/landing`), waitlist system (`/waitlist` + Supabase table), outreach docs (launch_checklist.md, launch_strategy_hybrid.md, prototype_1_workflows.md with 11 test workflows), **9 bug fixes** (code audit), strategy audit (hybrid launch = Option C chosen), DM status updated (Klaus sent, Lobo sent), font-preview tool (`/tools/font-preview`) |
 | Session E (cutlog-app, 2026-06-21) | Algorithm improvements, multi-machine, edit/delete, admin tools | **All 10/10 algorithm improvements implemented** (fuzzy thickness, material aliases, operation type filter, source tier weighting, consistency-based confidence, machine similarity, broader search fallback, feedback integration, thickness interpolation, time-decay weighting). Multi-machine support (migration 009: is_active on machines). Edit/delete cuts. Admin data cleanup. Feedback table (migration 008). Workflows 18-22 added to testing plan. All pushed to main (auto-deployed to Vercel). |
-| Session F (laser_log, 2026-06-23 to 2026-06-25) | Data expansion, security, go-to-market, Reddit | Facebook posts in 16 groups (done), all manual DMs sent (17 people Tier 1-4), parameter scaling integrated, 30-sec demo video recorded, influencer outreach (Jessie Jones replied, Alex/Justin/Richard emailed), **massive data expansion** (901→5,653 entries from 5 competitor scrapes), **security hardening** (RLS lockdown, server-side API routes, rate limiting, auth gates), Gemini AI fix deployed, first Reddit post (r/ChineseLaserCutters), Reddit strategy doc written (8 subs + r/sideproject + r/indiehackers), karma building in r/laserengraving and r/lightburn. |
+| Session F (laser_log, 2026-06-23 to 2026-06-26) | Data expansion, security, marketing pivot, community presence | **Data:** 901→5,653 entries (scraped Bonny Creations 3,650, LSARMS 693, LaserCutSettings 205, lasertips.org full 196). **Security:** RLS lockdown, server-side API routes (/api/search), rate limiting middleware (30 req/min), auth gates on all endpoints. **Marketing pivot (June 26):** Based on r/indiehackers research, shifted from broad shallow outreach to deep community presence. Primary channel: Reddit + YouTube + Facebook (CNC Fiber Laser Ninja). **Outreach:** Influencer DMs sent to Jessie Jones (replied!), Chance Lawson, Alisha Pate, Victor Wolansky (replied!), Alex/Justin/Richard (email). All manual DMs complete (17 people). Lead-gen Facebook post ("what material would you pay money for?") posted in all 16 groups. **Reddit:** Posts in r/ChineseLaserCutters (3 upvotes + reply), karma building in 5 subs (r/lasercutting, r/laserengraving, r/lightburn, r/hobbycnc, r/xToolOfficial). **YouTube:** 5 comments on fiber laser videos with real parameter data + CutLog link. **Facebook:** Helpful replies in CNC Fiber Laser Ninja with CutLog mentions. **Nate Keen:** He tried the app! Reported .clb import bug + limited edit form → both fixed same day. Sent reply. Video partnership still pending. **Technical fixes:** Gemini AI model name fix, retry with backoff, mobile .clb import (removed accept attribute for iOS), mobile export (Web Share API), new laser beam app icon, admin dashboard, per-cut edit/delete with 16-field form, unit tests (135 tests via vitest). **Docs:** Reddit strategy, YouTube comments strategy, indiehackers learnings, strategy pivot, lead gen posts, competitive analysis (lasertips.org, Bonny Creations, LaserCutSettings, LSARMS). |
 
 ---
 
-## How to Continue This Work
+### Project Documentation Index
 
-1. **Read this file first** — it has everything
-2. **Check `/home/colligo/hs_scripts/claude/auto_research/deep_research/laser_cutting_optimization/`** for detailed docs on any topic
-3. **For app work**: cd to `/mnt/localssd/laser_log/app/` and read the code
-4. **For customer validation**: read `04_customer_validation.md` for full history
-5. **For data collection**: read `overall_data_plan.md` for priorities and `extraction_strategy.md` for code
-6. **For ML model design**: read `speed_recommendation_analysis.md`
-7. **For LightBurn integration**: read `lightburn_integration_research.md`
+| File | Purpose |
+|------|---------|
+| `project_summary.md` | Master overview — read this FIRST. Has everything. |
+| `01_product_definition.md` | Problem statement, MVP scope, pricing, ideal customer |
+| `02_competitive_analysis.md` | Full competitive landscape |
+| `03_feasibility_and_prototype.md` | Architecture, build instructions, risk register |
+| `04_customer_validation.md` | All validation work: polls, DMs, replies, analysis |
+| `05_comparison_scorecard.md` | Weighted scoring vs alternatives |
+| `recommendation_algorithm.md` | How the suggest engine works (4-tier, scaling, confidence) |
+| `launch_strategy_hybrid.md` | Hybrid launch plan + Nate Keen video partnership |
+| `launch_checklist.md` | Week 1 execution checklist |
+| `outreach_3_waitlist.md` | Facebook group posts (3 rounds) |
+| `outreach_4_manual_dms.md` | All 17 manual DMs sent + status |
+| `outreach_5_influencers.md` | Influencer outreach (11 targets, status log) |
+| `outreach_6_lead_gen.md` | Lead gen posts + 13 new DM targets + templates |
+| `round1_dms_and_replies.md` | Full DM conversation history (Mike, Nate, Sean, Jeremy, etc.) |
+| `round2_dms_and_replies.md` | Round 2 Facebook post results + all comments |
+| `reddit_strategy.md` | Reddit posting schedule, 10 posts, activity log |
+| `youtube_comments_strategy.md` | YouTube comment approach, 15 video targets, templates |
+| `indiehackers_learnings.md` | Research: what indie hackers do differently. Critical insights. |
+| `strategy_pivot_june26.md` | The strategic pivot: focus > spread. Daily routine. |
+| `demo_video_plan.md` | 30-sec demo video shot list and script |
+| `beta_invite_emails.md` | 7 email templates for beta lifecycle |
+| `speed_validation_report.md` | CutLog vs Etsy expert data (87% accuracy) |
+| `etsy_files_analysis.md` | Analysis of $46 purchased Etsy parameter files |
+| `migration_to_full_app_plan.md` | Capacitor native app plan (trigger: 5+ users) |
+| `data_sources.md` | All data sources with scrapeability scores |
+| `SCRAPING_ROADMAP.md` | Scraping plan and status |
+| `beam_squadron_competitive_analysis.md` | Beam Squadron / Chance Lawson analysis |
+| `beratech_cnc_competitive_analysis.md` | BeraTech CNC competitor analysis |
+| `lightburn_integration_research.md` | .clb format research |
+| `overall_data_plan.md` | Data collection priorities |
+| `speed_recommendation_analysis.md` | Why speed is the key variable |
+| `academic_papers.md` | 10 papers proving ML for laser cutting works |
+
+---
+
+## How to Continue This Work (Updated 2026-06-26)
+
+1. **Read this file first** — it has the full picture
+2. **Read `strategy_pivot_june26.md`** — the current strategy (focus > spread)
+3. **Read `indiehackers_learnings.md`** — why we pivoted
+4. **Daily routine (non-negotiable):**
+   - 15 min: Answer 3-5 "what settings?" questions on YouTube/Reddit/Facebook (CNC Fiber Laser Ninja)
+   - 15 min: Check DM replies, respond to Facebook lead-gen post comments
+   - 15 min: DM new leads from comments
+5. **This week priorities:**
+   - Reddit post to r/diodelaser (June 28, story format — see `reddit_strategy.md` POST 5 REVISED)
+   - Send DMs to 5 new targets from Round 2 commenters (see `outreach_6_lead_gen.md` PART 5)
+   - Monitor Facebook lead-gen post for comments → DM each commenter
+   - Enable Gemini billing (API key quota exhausted — see ai-suggest route)
+   - Continue YouTube comments (2-3/day with real parameter data)
+6. **Nate Keen status:** He tried the app, reported bugs (fixed), awaiting his next response. DO NOT MESSAGE — let him come back naturally.
+7. **Key pending replies:** Chance Lawson, Alisha Pate (awaiting), Jessie Jones (follow up June 28 if no reply)
+8. **Git setup:** Repo-local config at `/mnt/localssd/laser_log/cutlog`. Identity: hooman67, SSH key at `/mnt/localssd/laser_log/hs_personal_github_ssh_key`. Run `npx vitest run` before all commits.
+9. **Supabase:** Project aobzsonuemamitlrakqs. Credentials in `/mnt/localssd/laser_log/supabase_creds.txt`. SQL changes via SQL Editor (paste), not direct DB connection.
+10. **Deployment:** Push to main → Vercel auto-deploys. Production: https://cutlog-two.vercel.app

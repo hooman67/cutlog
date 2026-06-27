@@ -14,6 +14,11 @@ interface ParsedEntry {
   cut_type: string;
   num_passes: number | null;
   min_power_pct: number | null;
+  frequency_hz: number | null;
+  operation_type: string | null;
+  cross_hatch: boolean | null;
+  scan_angle_degrees: number | null;
+  q_pulse_ns: number | null;
 }
 
 export default function ImportPage() {
@@ -138,6 +143,12 @@ export default function ImportPage() {
       power_pct: entry.power_pct,
       speed_mm_min: entry.speed_mm_min,
       line_interval_mm: entry.line_interval_mm,
+      frequency_hz: entry.frequency_hz,
+      num_passes: entry.num_passes,
+      operation_type: entry.operation_type,
+      cross_hatch: entry.cross_hatch,
+      scan_angle_degrees: entry.scan_angle_degrees,
+      q_pulse_ns: entry.q_pulse_ns,
       notes: entry.notes,
       source: "user_logged" as const,
       is_shared: true,

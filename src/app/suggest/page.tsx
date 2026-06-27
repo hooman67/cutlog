@@ -52,6 +52,8 @@ interface SpeedRecommendation {
   matchedAliases?: string[];
   // AI generation tracking
   isAiGenerated?: boolean;
+  // Engraving/galvo params
+  avgQPulseNs: number | null;
   // Interpolation metadata
   interpolated?: boolean;
   interpolationNote?: string;
@@ -269,6 +271,9 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
   const nozzles = goodCuts.filter((c) => c.nozzle_diameter_mm !== null).map((c) => c.nozzle_diameter_mm!);
   const avgNozzle = nozzles.length > 0 ? Math.round(nozzles.reduce((a, b) => a + b, 0) / nozzles.length * 10) / 10 : null;
 
+  const qPulses = goodCuts.filter((c) => c.q_pulse_ns !== null && c.q_pulse_ns !== undefined).map((c) => c.q_pulse_ns!);
+  const avgQPulseNs = qPulses.length > 0 ? Math.round(qPulses.reduce((a, b) => a + b, 0) / qPulses.length) : null;
+
   // Check for scaling warnings - use the first cut that has scaling applied
   let scalingApplied = false;
   let scalingWarning: { level: 'warning' | 'danger'; message: string } | undefined;
@@ -294,6 +299,7 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
     avgGasPressure,
     avgFocus,
     avgNozzle,
+    avgQPulseNs,
     scalingApplied,
     scalingWarning,
     scalingNote,
@@ -1065,6 +1071,12 @@ export default function Suggest() {
                     <span className="font-mono text-zinc-200">{speedRec.avgNozzle}mm</span>
                   </div>
                 )}
+                {speedRec.avgQPulseNs !== null && (
+                  <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg px-3 py-2">
+                    <span className="text-zinc-400 text-xs">Q-Pulse</span>
+                    <span className="font-mono text-zinc-200">{speedRec.avgQPulseNs}ns</span>
+                  </div>
+                )}
               </div>
 
               {/* Expandable detailed cuts */}
@@ -1122,6 +1134,12 @@ export default function Suggest() {
                               <span className="text-zinc-500 text-xs block">Rating</span>
                               <span className="text-yellow-400">{"★".repeat(cut.quality_rating || 0)}</span>
                             </div>
+                            {cut.q_pulse_ns && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Q-Pulse</span>
+                                <span className="font-mono">{cut.q_pulse_ns}ns</span>
+                              </div>
+                            )}
                           </div>
                           {cut.scaling_note && (
                             <p className="text-xs text-zinc-400 mt-2">

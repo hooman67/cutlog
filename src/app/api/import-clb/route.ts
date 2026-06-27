@@ -15,6 +15,7 @@ interface ParsedEntry {
   operation_type: string | null;
   cross_hatch: boolean | null;
   scan_angle_degrees: number | null;
+  q_pulse_ns: number | null;
 }
 
 /**
@@ -207,6 +208,7 @@ function parseClbXml(xml: string): ParsedEntry[] {
           operation_type: operationType,
           cross_hatch: crossHatch !== null ? crossHatch === 1 : null,
           scan_angle_degrees: scanAngle,
+          q_pulse_ns: qPulseWidth !== null ? Math.round(qPulseWidth * 1000) : null,
         });
       }
     }

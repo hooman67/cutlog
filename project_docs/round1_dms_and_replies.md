@@ -466,3 +466,29 @@ Also whenever you get a sec to play with CutLog properly, reckon it'd make a goo
 
 **Priority:** Fix .clb import FIRST (blocking his onboarding), then improve edit UX.
 
+---
+
+## Reply Sent to Nate re: bug fixes (2026-06-26) ✅ SENT
+
+"Fixed! Try the .clb import again, should work now. Had a bug with how it handled galvo file formats.
+
+Also expanded the edit form so you can change any field on a stored setting now, not just speed and frequency. Let me know if there's anything else that feels clunky."
+
+**Status:** SENT 2026-06-26. Fixed both issues he reported (.clb import + limited edit form). Awaiting his next test/response.
+
+---
+
+## Nate Keen reply (2026-06-27)
+
+**His message:**
+"Cool. I'll have another look when I get a chance. It's been a bit crazy this week I've been out on service calls.
+
+I mainly use my Galvo lasers so I don't know much about cutting terminology or familiar with a lot of the brands on the list. Actually just one thing might be missing does it have q pulse in the settings ? I don't remember seeing that."
+
+**Assessment:** Still engaged, still busy. Key feedback:
+1. The cutting terminology and brand list don't apply to his galvo world — might need a galvo-specific UX or filtering
+2. **Q-pulse (pulse width) is missing from the log/edit form** — this is a critical parameter for MOPA/galvo fiber lasers. Without it, the tool is incomplete for his use case.
+3. He's still planning to look more when less busy. Don't pressure.
+
+**Action needed:** Add Q-pulse (pulse width) field to the cut logging form and edit form. This is a MOPA-specific parameter measured in nanoseconds (ns). Common values: 2ns, 4ns, 6ns, 8ns, 10ns, 20ns, 30ns, 50ns, 100ns, 200ns.
+

@@ -46,6 +46,7 @@ export interface Cut {
   operation_type: 'engrave' | 'mark' | 'cut' | 'score' | 'fill' | 'outline' | null
   cross_hatch: boolean | null
   scan_angle_degrees: number | null
+  q_pulse_ns: number | null
   // Optional fields for parameter scaling
   recorded_wattage_w?: number | null
   recorded_lens_focal_length_mm?: number | null

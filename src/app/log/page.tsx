@@ -36,6 +36,7 @@ export default function LogCut() {
   const [operationType, setOperationType] = useState("");
   const [crossHatch, setCrossHatch] = useState(false);
   const [scanAngle, setScanAngle] = useState("");
+  const [qPulseNs, setQPulseNs] = useState("");
 
   const router = useRouter();
   const supabase = createClient();
@@ -114,6 +115,7 @@ export default function LogCut() {
       operation_type: operationType || null,
       cross_hatch: crossHatch || null,
       scan_angle_degrees: scanAngle ? parseFloat(scanAngle) : null,
+      q_pulse_ns: qPulseNs ? parseFloat(qPulseNs) : null,
     });
 
     if (!error) {
@@ -329,15 +331,28 @@ export default function LogCut() {
             </div>
           </div>
 
-          <div className="mt-3">
-            <label className="block text-xs text-zinc-500 mb-1">Pulse Frequency (Hz)</label>
-            <input
-              type="number"
-              placeholder="Leave blank for CW mode"
-              value={pulseFreq}
-              onChange={(e) => setPulseFreq(e.target.value)}
-              className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
-            />
+          <div className="grid grid-cols-2 gap-3 mt-3">
+            <div>
+              <label className="block text-xs text-zinc-500 mb-1">Pulse Frequency (Hz)</label>
+              <input
+                type="number"
+                placeholder="CW = blank"
+                value={pulseFreq}
+                onChange={(e) => setPulseFreq(e.target.value)}
+                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-zinc-500 mb-1">Q-Pulse (ns)</label>
+              <input
+                type="number"
+                step="1"
+                placeholder="e.g. 20"
+                value={qPulseNs}
+                onChange={(e) => setQPulseNs(e.target.value)}
+                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
+              />
+            </div>
           </div>
         </div>
 
