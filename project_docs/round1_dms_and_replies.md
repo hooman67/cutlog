@@ -492,3 +492,15 @@ I mainly use my Galvo lasers so I don't know much about cutting terminology or f
 
 **Action needed:** Add Q-pulse (pulse width) field to the cut logging form and edit form. This is a MOPA-specific parameter measured in nanoseconds (ns). Common values: 2ns, 4ns, 6ns, 8ns, 10ns, 20ns, 30ns, 50ns, 100ns, 200ns.
 
+---
+
+## Reply Sent to Nate re: Q-pulse + galvo mode (2026-06-27) ✅ SENT
+
+"Good catch, Q-pulse wasn't in there. Just added it. Should show up in the log form and edit form now as "Q-Pulse (ns)". Also shows in the recommendations if the data has it.
+
+Also added galvo mode. Since your machine is set up as fiber engraving, you'll only see the fields that matter now. No more gas pressure, nozzle diameter, focus position clutter. Line interval and Q-pulse are front and center. Should feel way less noisy.
+
+No rush on looking, whenever you surface from service calls."
+
+**Status:** SENT 2026-06-27. Added Q-pulse field + galvo mode filtering based on his feedback. Both features deployed. Awaiting his next test.
+

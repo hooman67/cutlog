@@ -275,7 +275,7 @@ Hey John, 100% agree. Nothing is push to play. That's literally why I named the 
 
 Search something you run daily and tell me if the starting number is even close: https://cutlog-two.vercel.app
 ```
-
+Sent above mesage on 2026-06-27
 ---
 
 ### 3. Matthew Olds (Free Laser Files)
@@ -288,7 +288,7 @@ Hey Matthew, agreed on manuals being useless. This doesn't replace your LightBur
 
 Search "aluminum" or whatever you cut most: https://cutlog-two.vercel.app
 ```
-
+Sent above mesage on 2026-06-27
 ---
 
 ### 4. Sebastian Fernandez (Fiber Laser The Next Level)
@@ -301,7 +301,7 @@ Hey Sebastian, you're not wrong. Supplier variation kills any "guaranteed" setti
 
 Try searching stainless or whatever gives you the most grief: https://cutlog-two.vercel.app
 ```
-
+Sent above mesage on 2026-06-27
 ---
 
 ### 5. Warren Eales (Fiber Laser Tips, Tricks & Sales)
@@ -314,3 +314,251 @@ Hey Warren, good call on the LightBurn test tool. I built something that works a
 
 Search a material and see if the speed range makes sense to you: https://cutlog-two.vercel.app
 ```
+
+---
+
+## PART 6: Lead Gen Post Results (2026-06-27)
+
+Post Option C ("Settings you'd pay money for") was posted across all 16 Facebook groups on 2026-06-26. Below are the first replies received within 24 hours.
+
+---
+
+### All Commenters and Analysis
+
+#### Group: Laser Engraving for Beginners by VectorWitch
+
+| # | Name | Comment | Category | Reasoning |
+|---|------|---------|----------|-----------|
+| 1 | Marc's | "No two Machines and environments are exactly the same and my cork coasters are not exactly identical as yours so it is an unrealistic question." | WARM (Skeptic) | Didn't name a material but engaged seriously. CO2 user (cork coasters). Not a fiber lead but shows strong opinions about the problem space. Worth a thread reply to build rapport. |
+| 2 | Michael Greenstein | "None. I've developed my own go-to settings, and that's how I prefer it." | WARM (Skeptic) | Experienced operator who already has his workflow. No named material. Not a DM target yet but a thread reply can keep the conversation going. |
+| 3 | Olga Campbell | "Leather" | HOT LEAD | Named a specific material. Short, direct answer to the question. Perfect DM target. |
+
+#### Group: CNC Fiber Laser Ninja (Fiber Laser Cutters) — Post 1
+
+| # | Name | Comment | Category | Reasoning |
+|---|------|---------|----------|-----------|
+| 4 | Levi Taylor | "Carbon steel gr 50 P&O" | HOT LEAD | Named a specific material with grade. Fiber laser cutter. Ideal DM target. |
+| 5 | Hugh Owings | "2kw Machine, Raytools Head. 3/8 HRPO Cut and Engrave. Piercing Included" | HOT LEAD | Named machine specs, material, thickness, AND operations. This is the most detailed response. Extremely high value lead. |
+| 6 | Paul Malfroid | ".625 stainless steel 316L" | HOT LEAD | Named exact thickness and alloy grade. Cutting thick stainless is a major pain point. High value lead. |
+
+#### Group: DIY Fiber Laser
+
+| # | Name | Comment | Category | Reasoning |
+|---|------|---------|----------|-----------|
+| 7 | Nicklas Löfgren | "25mm carbon steel and 15mm stainless" | HOT LEAD | Named TWO materials with exact thicknesses. Cutting very thick material = high pain, high value. |
+| 8 | Michael Barry | "It can change from sheet to sheet to be perfect" | WARM (Skeptic) | Engaged but skeptical. Didn't name a material. Same "every sheet is different" viewpoint. Thread reply candidate. |
+| 9 | Tony Smiley | "I think this has a lot to do with machine and software. I run several different materials dialed in with no issues without the need for testing." | WARM (Skeptic) | Claims he's already dialed in. Interesting because he's either genuinely solved it or overstating. Not a DM target now but a thread reply keeps him engaged. |
+| 10 | Paul Allen Durr Jr. | "That's hard to do as every machine is different by a little bit. Even production built machines differ based on where the machine is the environment and the material as no piece is the same." | WARM (Skeptic) | Understands the problem deeply. Didn't name a material. Same archetype as Bradley Andlovec and John Lifer. Thread reply candidate. |
+
+---
+
+### Summary Statistics
+
+- **Total comments:** 10 (across 3 groups, within 24 hours)
+- **HOT LEADs (named specific material):** 5 (Olga, Levi, Hugh, Paul Malfroid, Nicklas)
+- **WARM/Skeptics (engaged but no material named):** 5 (Marc's, Michael Greenstein, Michael Barry, Tony Smiley, Paul Allen Durr Jr.)
+- **SKIPs:** 0
+
+**Conversion rate:** 50% of commenters gave us a specific material to reference in a DM. This is excellent for Post Option C. The "pay money for" framing works.
+
+**Observation:** The fiber laser groups (CNC Fiber Laser Ninja, DIY Fiber Laser) generated the most actionable leads. The beginner group produced more skepticism and one CO2/leather lead.
+
+---
+
+### ExcitingHedgehog7844 — First Confirmed "Will Try" Response
+
+**Context:** In a separate thread, we gave pierce advice to ExcitingHedgehog7844 (a fiber laser user). He replied:
+
+> "Matt St thanks for your response. This is very helpful and I'll give it a try when I'm back at work"
+
+**Significance:** This is our FIRST confirmed "will try our advice" from a social media interaction where CutLog was mentioned or implied. He's going back to his shop to test what we recommended. Follow up in 3 to 5 days to ask how it went. If positive, this becomes a testimonial opportunity.
+
+**Follow-up action:** DM him around 2026-06-30 to 2026-07-02 asking "hey, did the pierce settings work out?"
+
+---
+
+### Tracking Table Update
+
+| Name | Group | Post They Commented On | What They Said | DM Sent | Replied? |
+|------|-------|----------------------|----------------|---------|----------|
+| Marc's | Laser Engraving for Beginners | Post C (pay money) | "No two Machines and environments are exactly the same..." | Thread reply only | |
+| Michael Greenstein | Laser Engraving for Beginners | Post C (pay money) | "None. I've developed my own go-to settings." | Thread reply only | |
+| Olga Campbell | Laser Engraving for Beginners | Post C (pay money) | "Leather" | | |
+| Levi Taylor | CNC Fiber Laser Ninja | Post C (pay money) | "Carbon steel gr 50 P&O" | | |
+| Hugh Owings | CNC Fiber Laser Ninja | Post C (pay money) | "2kw Machine, Raytools Head. 3/8 HRPO Cut and Engrave. Piercing Included" | | |
+| Paul Malfroid | CNC Fiber Laser Ninja | Post C (pay money) | ".625 stainless steel 316L" | | |
+| Nicklas Löfgren | DIY Fiber Laser | Post C (pay money) | "25mm carbon steel and 15mm stainless" | | |
+| Michael Barry | DIY Fiber Laser | Post C (pay money) | "It can change from sheet to sheet to be perfect" | Thread reply only | |
+| Tony Smiley | DIY Fiber Laser | Post C (pay money) | "I think this has a lot to do with machine and software..." | Thread reply only | |
+| Paul Allen Durr Jr. | DIY Fiber Laser | Post C (pay money) | "That's hard to do as every machine is different..." | Thread reply only | |
+| ExcitingHedgehog7844 | (Pierce advice thread) | Pierce settings | "This is very helpful and I'll give it a try when I'm back at work" | Already engaged | Positive |
+
+---
+
+## PART 7: DMs for Lead Gen Post Commenters (2026-06-27)
+
+**One-liner for "every machine is different" objection (use in DMs if they push back):**
+"That's exactly why it adjusts for your specific wattage and setup. It's not giving you someone else's settings — it's scaling the data to YOUR machine."
+
+**Note:** Migration 011_add_q_pulse.sql has been applied (2026-06-27).
+
+Personalized DMs for each HOT LEAD from the lead-gen post. Each references their specific comment, positions CutLog as a starting point for their exact material, and stays under 60 words.
+
+---
+
+### 1. Olga Campbell (Laser Engraving for Beginners by VectorWitch)
+
+**Her comment:** "Leather"
+
+**DM:**
+```
+Hey Olga, you said leather. I've been building a tool that has data for that exact material. Gives you speed and power starting points based on your machine specs so you're not guessing on every new hide.
+
+Want me to send you what it recommends for your wattage?
+
+https://cutlog-two.vercel.app
+```
+
+---
+
+### 2. Levi Taylor (CNC Fiber Laser Ninja)
+
+**His comment:** "Carbon steel gr 50 P&O"
+
+**DM:**
+```
+Hey Levi, you said carbon steel gr 50 P&O. I've been building a tool that has data for that exact material. Recommends speed and power based on your wattage and thickness so your first cut isn't a total guess.
+
+Want me to send you what it shows for your setup?
+
+https://cutlog-two.vercel.app
+```
+
+---
+
+### 3. Hugh Owings (CNC Fiber Laser Ninja)
+
+**His comment:** "2kw Machine, Raytools Head. 3/8 HRPO Cut and Engrave. Piercing Included"
+
+**DM:**
+```
+Hey Hugh, you mentioned 3/8 HRPO on a 2kw with Raytools. That's a specific enough setup that I can show you exactly what my tool recommends. It pulls real operator data for HRPO at that thickness and factors in your wattage.
+
+Want me to send the numbers it gives for cut and engrave?
+
+https://cutlog-two.vercel.app
+```
+
+---
+
+### 4. Paul Malfroid (CNC Fiber Laser Ninja)
+
+**His comment:** ".625 stainless steel 316L"
+
+**DM:**
+```
+Hey Paul, you said .625 stainless 316L. That's a beast of a cut. I've been building a tool that has data for 316L at various thicknesses. Gives you speed, power, and gas pressure starting points based on your wattage.
+
+Want to see what it recommends for .625?
+
+https://cutlog-two.vercel.app
+```
+
+---
+
+### 5. Nicklas Löfgren (DIY Fiber Laser)
+
+**His comment:** "25mm carbon steel and 15mm stainless"
+
+**DM:**
+```
+Hey Nicklas, you said 25mm carbon steel and 15mm stainless. I've been building a tool that has data for both. Gives you speed, power, gas, and focus starting points based on your wattage. Thick material like that is exactly where good starting points save the most stock.
+
+Want me to send what it shows?
+
+https://cutlog-two.vercel.app
+```
+
+---
+
+## PART 8: Thread Replies for Skeptics (2026-06-27)
+
+**Status:** All 5 thread replies posted on 2026-06-27. Monitoring for responses.
+
+For commenters who didn't name a material but engaged with skepticism. Goal: agree with them, validate the problem, keep conversation going. Do NOT mention CutLog in these replies.
+
+---
+
+### 1. Reply to Marc's (Laser Engraving for Beginners)
+
+**His comment:** "No two Machines and environments are exactly the same and my cork coasters are not exactly identical as yours so it is an unrealistic question."
+
+**Thread reply:**
+```
+Fair point. I guess my thinking was more like "what material would you want a better starting point for" rather than expecting plug-and-play. But you're right that environment matters a ton. Do you find cork changes much batch to batch or is it mostly consistent once you nail it?
+```
+
+---
+
+### 2. Reply to Michael Greenstein (Laser Engraving for Beginners)
+
+**His comment:** "None. I've developed my own go-to settings, and that's how I prefer it."
+
+**Thread reply:**
+```
+Respect that. How long did it take you to build up your library? I'm always curious whether people keep a notebook, save files, or just remember what works.
+```
+
+---
+
+### 3. Reply to Michael Barry (DIY Fiber Laser)
+
+**His comment:** "It can change from sheet to sheet to be perfect"
+
+**Thread reply:**
+```
+Yeah that's the frustrating part. Do you find it varies more between suppliers or even within the same order? I've noticed some batches of mild steel are all over the place even from the same distributor.
+```
+
+---
+
+### 4. Reply to Tony Smiley (DIY Fiber Laser)
+
+**His comment:** "I think this has a lot to do with machine and software. I run several different materials dialed in with no issues without the need for testing."
+
+**Thread reply:**
+```
+That's solid. Sounds like you put in the time upfront and now you're reaping it. Do you find those settings hold when you switch suppliers or get a new batch of the same material?
+```
+
+---
+
+### 5. Reply to Paul Allen Durr Jr. (DIY Fiber Laser)
+
+**His comment:** "That's hard to do as every machine is different by a little bit. Even production built machines differ based on where the machine is the environment and the material as no piece is the same."
+
+**Thread reply:**
+```
+Totally agree. Even two identical machines in different shops won't cut the same. What do you think accounts for the biggest variance? I've been thinking it's gas quality and ambient temp more than the machine itself, but curious what you've seen.
+```
+
+---
+
+## Next Steps (2026-06-27)
+
+### TOP PRIORITY FOR TOMORROW (2026-06-28):
+Send DMs to the 5 HOT LEADs from the lead-gen post (hit Facebook DM limit today, couldn't send):
+1. Olga Campbell (Laser Engraving for Beginners by VectorWitch group)
+2. Levi Taylor (CNC Fiber Laser Ninja group)
+3. Hugh Owings (CNC Fiber Laser Ninja group)
+4. Paul Malfroid (CNC Fiber Laser Ninja group)
+5. Nicklas Löfgren (DIY Fiber Laser group)
+
+DM texts are in PART 7 above. Send first thing in the morning.
+
+1. **Today:** Post the 5 thread replies to skeptics. Keep conversations alive.
+2. **Today + 30 min after posting replies:** Send DMs to the 5 HOT LEADs (Olga, Levi, Hugh, Paul Malfroid, Nicklas).
+3. **2026-06-28:** Check for new comments on all 16 group posts. Any new commenter who names a material gets a DM within 24 hours.
+4. **2026-06-30 to 2026-07-02:** Follow up with ExcitingHedgehog7844 to ask if pierce settings worked.
+5. **2026-06-30:** Send DMs to remaining Category 1 targets from Part 5 (Matthew Olds, Sebastian Fernandez, Warren Eales, etc.).
+6. **Ongoing:** Monitor which DMs get replies. Track in the table above. Anyone who replies positively gets the app link if they haven't received it yet.

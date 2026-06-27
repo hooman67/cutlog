@@ -194,17 +194,17 @@ Would appreciate any testing and honest feedback.
 
 When I got my first diode laser (10W optical output, nothing fancy), I thought cutting 3mm birch plywood would be straightforward. Every YouTube video showed clean cuts on their machine, so I just copied their settings. Charred edges. Incomplete cuts. Material warping from too many slow passes.
 
-It took me about three months of wasted plywood to figure out that the sweet spot for my setup was 150 mm/min at 80% power, 3 passes with air assist -- but only after I realized my particular unit runs about 10-15% hotter than spec. Before that I was doing 100% power at 100 mm/min in a single pass and wondering why everything was burning. Turns out slower with less power and more passes gives way cleaner edges than blasting through in one go.
+It took me about three months of wasted plywood to figure out that the sweet spot for my setup was 150 mm/min at 80% power, 3 passes with air assist. Before that I was doing 100% power at 100 mm/min in a single pass and wondering why everything was burning. Turns out slower with less power and more passes gives way cleaner edges than blasting through in one go.
 
 The annoying part was that every time I tried a new material, I was starting that whole process from scratch. 3mm acrylic needed completely different thinking (faster, higher power, single pass or it melts back together). Leather was its own universe. And any time someone in a forum shared their settings, I'd try them and get different results because their 10W wasn't my 10W.
 
-So I started logging everything obsessively -- material, thickness, speed, power, passes, whether I used air assist, what the actual result looked like. After a while I had enough data points that I could start predicting what would work for materials I hadn't tried yet. Like if I knew 3mm birch at 150/80%/3 passes worked, I could estimate that 3mm basswood would want maybe 180/75%/3 passes since it's less dense.
+So I started logging everything obsessively. Material, thickness, speed, power, passes, whether I used air assist, what the actual result looked like. After a while I had enough data points that I could start predicting what would work for materials I hadn't tried yet. Like if I knew 3mm birch at 150/80%/3 passes worked, I could estimate that 3mm basswood would want maybe 180/75%/3 passes since it's less dense.
 
-Eventually I turned that whole mess into a web app so I wouldn't lose it all in a spreadsheet: https://cutlog-two.vercel.app
+Eventually that logging habit turned into a web app called CutLog so I wouldn't lose everything in a spreadsheet: https://cutlog-two.vercel.app
 
-It's not perfect -- it requires a free account to save your machine profile, and for unusual material/wattage combos it's basically making an educated guess based on similar setups rather than verified data. But it's gotten me to a usable starting point faster than blind test grids, especially for materials where I'd otherwise have no clue where to begin.
+It's not perfect. It requires a free account to save your machine profile, and for unusual material/wattage combos it's basically making an educated guess based on similar setups rather than verified data. But it's gotten me to a usable starting point faster than blind test grids, especially for materials where I'd otherwise have no clue where to begin.
 
-The thing I'm still struggling with is thick material multi-pass logic for diodes specifically. CO2 users can punch through 6mm ply in one pass, but for us it's 4-6 passes minimum with refocusing between passes, and the relationship between passes isn't linear (pass 5 cuts less than pass 1 because of char buildup). I'm honestly not sure my tool handles that well yet.
+The thing I'm still genuinely struggling with is thick material multi-pass logic for diodes specifically. CO2 users can punch through 6mm ply in one pass, but for us it's 4 to 6 passes minimum with refocusing between passes, and the relationship between passes isn't linear. Pass 5 cuts less than pass 1 because of char buildup blocking the beam. I've been logging my refocus offsets (I drop 0.5mm per pass on anything over 4mm) but I'm not confident that's optimal.
 
 What's your approach to thick cuts? Do you refocus between passes? And is there a material that took you an unreasonable amount of time to dial in? I'm curious if there are common pain points I should be thinking about.
 
@@ -597,6 +597,9 @@ The tool is free and people like it, but I have no monetization path that doesn'
 | 2026-06-26 | Facebook: CNC Fiber Laser Ninja | Replied to PrettyFlamingo9681's corner quality issue (corner power, acceleration, dynamic power). Pure karma. |
 | 2026-06-26 | Facebook: CNC Fiber Laser Ninja | Replied to ExcitingHedgehog7844's 16mm stainless pierce blowback (3-stage pierce recipe + height control) + CutLog mention. |
 | 2026-06-26 | Facebook: CNC Fiber Laser Ninja | Replied to Bilal Jameel's protective lens overheating (back-reflection physics, focal position, gas pressure, nozzle standoff) + CutLog mention. |
+| 2026-06-27 | Facebook: Laser Engraving for Beginners | Replied to skeptics Marc's + Michael Greenstein on lead-gen post. Conversational, no CutLog mention. |
+| 2026-06-27 | Facebook: DIY Fiber Laser | Replied to skeptics Michael Barry + Tony Smiley + Paul Allen Durr Jr. on lead-gen post. Conversational, no CutLog mention. |
+| 2026-06-28 | Facebook: CNC Fiber Laser Ninja | Replied to Jacob Aldrich's quoting software question. Gave actual software recommendations (SecturaSOFT, Lantek, Paperless Parts) + mentioned CutLog for the parameter estimation piece of quoting. |
 
 **Karma-building status (2026-06-25):**
 - r/laserengraving: ACTIVE (commenting/building karma)

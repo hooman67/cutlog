@@ -62,3 +62,24 @@
 - 5+ people who give feedback (too fast/perfect/too slow)
 - 50+ new signups from community presence
 - First organic search traffic from SEO pages
+
+---
+
+## Key Learnings (Updated 2026-06-27)
+
+### From Lead-Gen Post Results:
+
+1. **Cutting operators > engraving operators for lead gen.** CNC Fiber Laser Ninja produced 3 of 5 hot leads. Engraving/beginner groups produced mostly skeptics. Cutting operators deal with more variables (gas, pierce, focus, thick material) and higher cost per failure.
+
+2. **Post Option C ("what material would you pay money for?") = 50% hot lead rate.** 5 of 10 commenters named a specific material. Repeat this format.
+
+3. **CNC Fiber Laser Ninja is the #1 Facebook channel.** Go deep here. Serious operators, specific asks, least skepticism.
+
+4. **"Every machine is different" is the universal objection.** 4 of 10 commenters said this. One-liner comeback for DMs: "That's exactly why it adjusts for your specific wattage and setup. It's not giving you someone else's settings — it's scaling the data to YOUR machine."
+
+5. **Thick material (12mm+) is where the most pain lives.** Hot leads asked for: 25mm carbon steel, 15mm stainless, .625" 316L, 3/8" HRPO, carbon gr 50. This is the sweet spot — high material cost per failed cut, most variables to dial in.
+
+### Target Audience Refinement:
+- **PRIMARY:** Industrial/semi-industrial fiber laser CUTTING operators (2kW-12kW), thick material (6mm+), mild steel/stainless/HRPO
+- **SECONDARY:** Galvo fiber engraving operators (Nate Keen's world)
+- **TERTIARY:** Hobbyist CO2/diode users (lower pain, lower conversion)
