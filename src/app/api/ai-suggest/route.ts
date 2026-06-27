@@ -80,7 +80,7 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
   "confidence_note": <one sentence explaining your reasoning>
 }`;
 
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
     const geminiBody = JSON.stringify({
       contents: [
         {
@@ -103,7 +103,10 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
       try {
         response = await fetch(geminiUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "X-goog-api-key": apiKey,
+          },
           body: geminiBody,
           signal: controller.signal,
         });
