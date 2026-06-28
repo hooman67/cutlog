@@ -405,7 +405,7 @@ document.querySelectorAll('th[data-col]').forEach(th => {
       // Shift+Click: add/toggle in stack (max 3)
       if (existing !== -1) {
         sortStack[existing].dir = sortStack[existing].dir === 'asc' ? 'desc' : 'asc';
-      } else if (sortStack.length < 3) {
+      } else if (sortStack.length < 10) {
         sortStack.push({ col, dir: defaultDir });
       }
     } else {
