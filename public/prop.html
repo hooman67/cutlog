@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Research Dashboard — All Neighborhoods</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #0f172a; color: #e2e8f0; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; color: #f8fafc; }
+.subtitle { color: #94a3b8; margin-bottom: 20px; font-size: 0.95rem; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; align-items: center; }
+.controls label { font-size: 0.85rem; color: #94a3b8; }
+.controls select, .controls input { background: #1e293b; border: 1px solid #334155; color: #e2e8f0; padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; }
+.controls input[type="text"] { width: 200px; }
+.legend { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #94a3b8; }
+.legend-swatch { width: 14px; height: 14px; border-radius: 3px; }
+.tier-a { background: #10b981; }
+.tier-b { background: #3b82f6; }
+.tier-c { background: #f59e0b; }
+.tier-d { background: #ef4444; }
+.tier-e { background: #6b7280; }
+table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+thead { position: sticky; top: 0; z-index: 10; }
+th { background: #1e293b; color: #94a3b8; padding: 10px 8px; text-align: left; cursor: pointer; user-select: none; white-space: nowrap; border-bottom: 2px solid #334155; }
+th:hover { color: #e2e8f0; background: #334155; }
+th.sorted-asc::after { content: ' ▲'; color: #60a5fa; }
+th.sorted-desc::after { content: ' ▼'; color: #60a5fa; }
+td { padding: 8px; border-bottom: 1px solid #1e293b; white-space: nowrap; }
+tr { background: #0f172a; }
+tr:hover { background: #1e293b; }
+tr.tier-A { border-left: 3px solid #10b981; }
+tr.tier-B { border-left: 3px solid #3b82f6; }
+tr.tier-C { border-left: 3px solid #f59e0b; }
+tr.tier-D { border-left: 3px solid #ef4444; }
+tr.tier-E { border-left: 3px solid #6b7280; }
+.score-cell { text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.score-10 { color: #10b981; }
+.score-9 { color: #34d399; }
+.score-8 { color: #60a5fa; }
+.score-7 { color: #93c5fd; }
+.score-6 { color: #fbbf24; }
+.score-5 { color: #f59e0b; }
+.score-4 { color: #fb923c; }
+.score-3 { color: #f87171; }
+.score-2 { color: #ef4444; }
+.score-1 { color: #dc2626; }
+.weighted-cell { font-weight: 700; font-size: 0.9rem; }
+.tier-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
+.badge-A { background: #065f46; color: #6ee7b7; }
+.badge-B { background: #1e3a5f; color: #93c5fd; }
+.badge-C { background: #78350f; color: #fde68a; }
+.badge-D { background: #7f1d1d; color: #fca5a5; }
+.badge-E { background: #374151; color: #9ca3af; }
+.recommendation { font-weight: 600; }
+.rec-strong-buy { color: #10b981; }
+.rec-buy { color: #60a5fa; }
+.rec-hold { color: #f59e0b; }
+.rec-pass { color: #ef4444; }
+.summary-bar { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+.stat-card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px 16px; min-width: 140px; }
+.stat-card .label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-card .value { font-size: 1.3rem; font-weight: 700; color: #f8fafc; margin-top: 4px; }
+.table-wrapper { overflow-x: auto; border-radius: 8px; border: 1px solid #334155; }
+.weights-row td { font-size: 0.7rem; color: #64748b; font-style: italic; text-align: center; background: #1e293b; }
+/* Column header tooltips */
+th[data-tooltip] { position: relative; }
+th[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.45;
+  white-space: normal;
+  width: max-content;
+  max-width: 300px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+th[data-tooltip]::after {
+  content: '';
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: #475569;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+th[data-tooltip]:hover::before,
+th[data-tooltip]:hover::after {
+  opacity: 1;
+}
+/* Click-to-explain popover */
+#explainPopover {
+  display: none;
+  position: fixed;
+  background: #1e293b;
+  border: 1px solid #475569;
+  border-radius: 10px;
+  padding: 16px 20px;
+  max-width: 380px;
+  min-width: 280px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  z-index: 200;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #e2e8f0;
+}
+#explainPopover.visible { display: block; }
+#explainPopover .pop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #334155;
+}
+#explainPopover .pop-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #f8fafc;
+}
+#explainPopover .pop-score {
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 2px 10px;
+  border-radius: 4px;
+  background: #334155;
+}
+#explainPopover .pop-body { color: #cbd5e1; }
+#explainPopover .pop-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+#explainPopover .pop-close:hover { color: #f8fafc; }
+.score-cell.clickable { cursor: pointer; }
+.score-cell.clickable:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>California Property Research Dashboard</h1>
+<p class="subtitle">48 neighborhoods across 5 regions — 11 weighted criteria — Scored June 2026 — Click any score for explanation</p>
+
+<div class="summary-bar">
+<div class="stat-card"><div class="label">Neighborhoods</div><div class="value">48</div></div>
+<div class="stat-card"><div class="label">Regions</div><div class="value">5</div></div>
+<div class="stat-card"><div class="label">Tier A</div><div class="value" style="color:#10b981">6</div></div>
+<div class="stat-card"><div class="label">#1 Pick</div><div class="value" style="color:#10b981;font-size:1rem">Fremont</div></div>
+<div class="stat-card"><div class="label">Budget</div><div class="value" style="font-size:1rem">≤$2M</div></div>
+</div>
+
+<div class="controls">
+<div>
+<label>Region:</label>
+<select id="filterRegion">
+<option value="all">All Regions</option>
+<option value="East Bay — Alameda">East Bay — Alameda</option>
+<option value="East Bay — Contra Costa">East Bay — Contra Costa</option>
+<option value="Peninsula">Peninsula</option>
+<option value="South Bay">South Bay</option>
+<option value="San Jose">San Jose</option>
+<option value="Sacramento Valley">Sacramento Valley</option>
+<option value="Santa Cruz County">Santa Cruz County</option>
+</select>
+</div>
+<div>
+<label>Tier:</label>
+<select id="filterTier">
+<option value="all">All Tiers</option>
+<option value="A">Tier A (≥7.5)</option>
+<option value="B">Tier B (6.5-7.4)</option>
+<option value="C">Tier C (5.5-6.4)</option>
+<option value="D">Tier D (4.5-5.4)</option>
+<option value="E">Tier E (<4.5)</option>
+</select>
+</div>
+<div>
+<label>Search:</label>
+<input type="text" id="searchBox" placeholder="Filter by name...">
+</div>
+<div>
+<label>Step 3 Only:</label>
+<input type="checkbox" id="filterStep3">
+</div>
+</div>
+
+<div class="legend">
+<div class="legend-item"><div class="legend-swatch tier-a"></div>Tier A (Deep Dive)</div>
+<div class="legend-item"><div class="legend-swatch tier-b"></div>Tier B (Contender)</div>
+<div class="legend-item"><div class="legend-swatch tier-c"></div>Tier C (Compromises)</div>
+<div class="legend-item"><div class="legend-swatch tier-d"></div>Tier D (Marginal)</div>
+<div class="legend-item"><div class="legend-swatch tier-e"></div>Tier E (Eliminated)</div>
+</div>
+
+<div class="table-wrapper">
+<table id="mainTable">
+<thead>
+<tr>
+<th data-col="rank">#</th>
+<th data-col="region">Region</th>
+<th data-col="neighborhood">Neighborhood</th>
+<th data-col="weighted" data-tooltip="Composite score using all 11 criteria with their percentage weights. Formula: Jobs x 16% + Schools x 13% + Growth x 12% + Safety x 11% + Diversity x 10% + Price x 10% + Community x 9% + Property x 6% + Survival x 6% + Beach x 4% + Climate x 3%">Weighted</th>
+<th data-col="tier">Tier</th>
+<th data-col="jobs" data-tooltip="Commute time to Adobe Downtown San Jose + density of AI/ML jobs within 30-minute drive. Higher = shorter commute + more jobs nearby.">Jobs<br><span style="font-size:0.65rem;color:#475569">16%</span></th>
+<th data-col="schools" data-tooltip="GreatSchools district average rating + count of alternative schools (Montessori, Waldorf, homeschool co-ops) within 15 min. Important: family needs vaccination-exempt options.">Schools<br><span style="font-size:0.65rem;color:#475569">13%</span></th>
+<th data-col="growth" data-tooltip="5-year home price appreciation percentage. Higher = stronger market momentum and investment upside.">Growth<br><span style="font-size:0.65rem;color:#475569">12%</span></th>
+<th data-col="safety" data-tooltip="Combined violent crime rate per 1K residents + property crime rate. Higher = safer neighborhood.">Safety<br><span style="font-size:0.65rem;color:#475569">11%</span></th>
+<th data-col="diversity" data-tooltip="Simpson Diversity Index + % non-white population + immigrant-friendly culture. Critical for brown Middle Eastern family safety and belonging.">Diversity<br><span style="font-size:0.65rem;color:#475569">10%</span></th>
+<th data-col="price" data-tooltip="How much house $2M budget buys here. Higher = more affordable (better value). Based on median 3BR SFH price.">Price<br><span style="font-size:0.65rem;color:#475569">10%</span></th>
+<th data-col="community" data-tooltip="Neighborhood cohesion, owner-occupancy rate, walkable third places, community events, Persian/Brazilian diaspora presence. Higher = stronger social bonds.">Community<br><span style="font-size:0.65rem;color:#475569">9%</span></th>
+<th data-col="property" data-tooltip="Typical lot size and availability of SFH with yards. Higher = larger lots suitable for gardening, dogs, and outdoor living.">Property<br><span style="font-size:0.65rem;color:#475569">6%</span></th>
+<th data-col="survival" data-tooltip="Water supply reliability, well drilling feasibility, air quality, growing zone potential, solar viability. Higher = better self-sufficiency potential.">Survival<br><span style="font-size:0.65rem;color:#475569">6%</span></th>
+<th data-col="beach" data-tooltip="Drive time to nearest swimmable ocean beach. Higher = closer to beach (wife loves beaches).">Beach<br><span style="font-size:0.65rem;color:#475569">4%</span></th>
+<th data-col="climate" data-tooltip="Wildfire zone risk, flood zone, earthquake fault proximity, extreme heat days. Higher = fewer natural disaster risks.">Climate<br><span style="font-size:0.65rem;color:#475569">3%</span></th>
+<th data-col="median" data-tooltip="Median price for a 3BR+ single-family home in this neighborhood (2026 data).">Median $</th>
+<th data-col="commute" data-tooltip="Rush hour (8 AM weekday) drive time to Adobe's Downtown San Jose office.">Commute</th>
+<th data-col="recommendation" data-tooltip="Final recommendation from Step 3 deep dive analysis. Only Tier A neighborhoods received deep-dive recommendations.">Rec.</th>
+</tr>
+</thead>
+<tbody id="tableBody">
+</tbody>
+</table>
+</div>
+
+<script>
+const DATA = [
+  // East Bay — Alameda County (8)
+  {region:"East Bay — Alameda", neighborhood:"Fremont", weighted:8.0, tier:"A", jobs:9.5, schools:7.0, growth:8.0, safety:6.0, diversity:10.0, price:9.5, community:8.0, property:8.5, survival:6.0, beach:5.5, climate:6.5, median:"$1.15M", commute:"35 min", recommendation:"STRONG BUY", step3:true, rationale:{jobs:"35-min commute to DTSJ via I-880. 150+ AI/ML jobs within 30 min (Tesla 25K, Lam Research, Western Digital). Reliable multi-route freeway access.",schools:"FUSD GreatSchools avg 7.2/10. Mission San Jose feeder 10/10. 8 alternative schools including Montessori West (4 campuses), ILM Academy (Islamic K-12), Peace Terrace Academy. Homeschool PSA = no vax required.",growth:"6.8% annual appreciation (steady). Market stalled at 0.13% last 12 months — potential buyer opportunity. Tesla/BART development pipeline.",safety:"Violent crime 4.2/1K, property crime 28/1K. Moderate — above national avg for property crime (car theft). Safer neighborhoods away from I-880 corridor.",diversity:"83.4% non-white — one of most diverse US cities. Large Afghan/Persian community (Little Kabul), Indian, Chinese, Vietnamese. 51% foreign-born. Triple sanctuary protection.",price:"Median $1.15M. $2M buys 4BR/1,900+ sqft on 7,000 sqft lot in Centerville/Irvington. Exceptional value for Bay Area with this diversity level.",community:"Large immigrant communities (Persian, Indian, Chinese). Little Kabul cultural anchor. Walk Score 88. Central Park (450 acres). Niles historic district. 60% owner-occupancy.",property:"Typical lots 6,500-8,500 sqft. SFH 56% of housing. Good for backyard and garden. Older homes (1960s-70s) on standard lots in Centerville/Irvington.",survival:"ACWD water adequate — diversified sources (State Water Project, SFPUC, Niles Cone aquifer). Low fire risk in flatlands. USDA zone 10a/10b. Year-round growing.",beach:"45-60 min to Half Moon Bay or Santa Cruz beaches via I-880 to Hwy 92 or Hwy 17. Not close.",climate:"Low wildfire in flatlands (non-VHFHSZ). No flood zone. Moderate earthquake (Hayward Fault 5 mi). Air quality concern near I-880 and during fire season."}},
+  {region:"East Bay — Alameda", neighborhood:"Castro Valley", weighted:7.63, tier:"B", jobs:8.5, schools:7.0, growth:8.0, safety:5.25, diversity:9.5, price:9.0, community:8.5, property:7.5, survival:6.0, beach:6.0, climate:6.0, median:"$1.28M", commute:"40 min", recommendation:"", step3:false, rationale:{jobs:"40-min commute to DTSJ via I-580/I-880. 75 AI/ML jobs within 30 min (Oakland/Emeryville tech hubs spillover).",schools:"GreatSchools avg 7.4. 7 alternative schools nearby. Homeschool co-ops active in East Bay.",growth:"6.9% annual appreciation. Steady, not speculative. Undervalued East Bay gem.",safety:"Violent 5.8/1K, property 32/1K. Elevated vs suburbs. Gentrifying areas improving.",diversity:"65.2% non-white. Strong immigrant networks. Family-oriented diverse neighborhoods.",price:"$1.28M median. $2M buys 4BR with good yard. Excellent East Bay value.",community:"Tight-knit diverse community. Strong local parks and schools. 8.5/10 community cohesion. Family-oriented.",property:"Typical lots 7,800 sqft. Hillside locations. Good for backyard but terrain varies.",survival:"EBMUD water stable. Moderate fire risk in hillside areas. Good growing zone.",beach:"60 min to Half Moon Bay via I-580/Hwy 92.",climate:"Valley location. Moderate fire risk. 60-70°F typical. Some hillside exposure."}},
+  {region:"East Bay — Alameda", neighborhood:"Alameda", weighted:7.61, tier:"B", jobs:8.0, schools:8.0, growth:8.5, safety:6.75, diversity:10.0, price:7.0, community:7.5, property:5.0, survival:7.0, beach:7.0, climate:7.0, median:"$1.42M", commute:"38 min", recommendation:"", step3:false, rationale:{jobs:"38-min commute to DTSJ. 40 AI/ML jobs within 30 min. Limited local tech but good bridge access.",schools:"GreatSchools avg 7.6. 6 alternative schools. Island community schools well-funded.",growth:"7.3% annual appreciation. Island charm + SF proximity driving demand.",safety:"Violent 5.2/1K, property 26/1K. Bay-side moderate crime.",diversity:"72.1% non-white. Highly diverse island city. Very welcoming to immigrants.",price:"$1.42M median. $2M buys solid home but lots are small (island constraint).",community:"Island isolation creates tight community. Walkable downtown. Strong cohesion.",property:"Typical lots 5,500 sqft — SMALL. Island constraints limit land availability.",survival:"EBMUD water reliable. Bay-side = lowest fire risk. No flood risk. Earthquake zone (standard Bay Area).",beach:"Bay shore adjacent but cold water. 45-60 min to ocean beaches.",climate:"Bay moderation (55-65°F). Lowest fire risk. Moderate earthquake."}},
+  {region:"East Bay — Alameda", neighborhood:"Dublin", weighted:7.59, tier:"B", jobs:6.5, schools:9.0, growth:8.5, safety:8.75, diversity:8.0, price:8.0, community:6.5, property:8.5, survival:5.0, beach:5.0, climate:6.0, median:"$1.38M", commute:"55 min", recommendation:"", step3:false, rationale:{jobs:"55-min commute to DTSJ via I-680. 60 AI/ML jobs within 30 min. Furthest from DTSJ in Alameda set.",schools:"GreatSchools avg 8.2. Strong new suburban schools. 4 alternative options.",growth:"7.1% annual appreciation. New development premium. Population growing.",safety:"Violent 2.4/1K, property 16/1K. Very safe new suburb.",diversity:"48.5% non-white. Increasingly diverse new suburb. Growing tech worker immigration.",price:"$1.38M median. $2M buys spacious 4BR in planned community.",community:"New development; less established bonds. More car-dependent. Growing but not yet cohesive.",property:"Typical lots 8,000 sqft. Planned subdivisions. Spacious newer homes.",survival:"Valley location. Moderate fire risk growing. Water adequate.",beach:"60-75 min to coast. Inland valley location.",climate:"Valley 60-70°F. Moderate fire risk. Growing heat concern."}},
+  {region:"East Bay — Alameda", neighborhood:"Berkeley", weighted:7.51, tier:"B", jobs:6.5, schools:9.0, growth:9.0, safety:6.75, diversity:10.0, price:5.0, community:9.0, property:6.5, survival:6.0, beach:6.0, climate:6.5, median:"$1.68M", commute:"50 min", recommendation:"", step3:false, rationale:{jobs:"50-min commute to DTSJ (penalized for distance). 95 AI/ML jobs (strong CS/startup hub). UC Berkeley ecosystem.",schools:"GreatSchools avg 8.1. 12 alternative schools (highest count — progressive community). Strong Waldorf/Montessori presence.",growth:"7.8% annual appreciation. Tech talent influx driving demand.",safety:"Violent 4.9/1K, property 24/1K. Mixed — hills safer than flatlands.",diversity:"68.4% non-white. Highest diversity index (82). Progressive, welcoming. Strong immigrant support.",price:"$1.68M median — MOST expensive in set. $2M buys modest 3BR. Limited purchasing power.",community:"World-class walkable neighborhoods. Strong progressive community. Portuguese-speaking populations. Active social scene. 9/10 community cohesion.",property:"Typical lots 6,500 sqft. Urban; limited lot sizes.",survival:"EBMUD water stable. Some fire risk in hills. Good earthquake preparedness infrastructure.",beach:"45-60 min to Pacifica/Half Moon Bay.",climate:"Urban location. 55-65°F. Some fire risk in hills. Good air quality."}},
+  {region:"East Bay — Alameda", neighborhood:"Pleasanton", weighted:7.48, tier:"A", jobs:6.5, schools:9.5, growth:8.5, safety:8.75, diversity:7.0, price:7.0, community:6.5, property:8.5, survival:5.5, beach:5.5, climate:6.0, median:"$1.65M", commute:"45 min", recommendation:"BUY", step3:true, rationale:{jobs:"45-min commute to DTSJ via I-680/I-880. 85 AI/ML jobs (Workday 13K, LinkedIn nearby). Distance penalizes score.",schools:"GreatSchools avg 8.6 — BEST public schools. 6 alternatives including Montessori and Waldorf. Homeschool co-ops active.",growth:"7.2% annual appreciation. Suburban stability. Strong demand from families.",safety:"Violent 2.1/1K, property 18/1K. VERY SAFE affluent suburb.",diversity:"42.3% non-white. Less diverse than other Tier A options. Predominantly white affluent. Limited Persian/Brazilian presence.",price:"$1.65M median. $2M buys solid 4BR/2,000+ sqft with large yard. Good value per sqft.",community:"Affluent suburb. Walkable downtown. Less culturally diverse community life. 6.5/10 — transient professional class.",property:"Typical lots 9,200 sqft. Planned subdivisions, spacious. Good backyard potential.",survival:"Zone 7 Water Agency adequate. Valley location. Moderate fire risk.",beach:"50-60 min to coast via I-680.",climate:"Valley 65-75°F (hotter). Moderate fire risk. Low flood risk."}},
+  {region:"East Bay — Alameda", neighborhood:"Oakland Hills", weighted:7.43, tier:"A", jobs:8.5, schools:7.0, growth:9.5, safety:4.0, diversity:9.0, price:6.0, community:8.5, property:9.5, survival:5.5, beach:5.5, climate:6.5, median:"$1.25M", commute:"40 min", recommendation:"PASS", step3:true, rationale:{jobs:"40-min commute to DTSJ via I-880. 85 AI/ML jobs (Emeryville tech hubs). Hill traffic can add time.",schools:"GreatSchools avg 7.3 (high variance — hills better). 8 alternative schools. OUSD district challenges.",growth:"8.1% annual — BEST appreciation. Gentrifying hills command premium. Strong upward trend.",safety:"Violent 6.5/1K, property 35/1K — HIGHEST crime. Hills safer than flatlands but still elevated.",diversity:"58.7% non-white. Diverse gentrifying neighborhoods. Good immigrant presence.",price:"$1.25M median. $2M buys beautiful hills home with views. Good value for the area.",community:"Strong community organizing in hills. Montclair village walkable. Tight-knit neighborhood feel. 8.5/10.",property:"Typical lots 12,000 sqft — LARGEST. Older larger properties on hillsides. Views, trees.",survival:"EBMUD water reliable. VERY HIGH wildfire risk (1991 Oakland Hills fire precedent). Insurance crisis ($5K-$15K/yr).",beach:"45-60 min to coast via hills/I-880.",climate:"Fire risk in hills is defining concern. 55-65°F. Views but vulnerability. 1991 fire destroyed 3,000+ homes."}},
+  {region:"East Bay — Alameda", neighborhood:"Livermore", weighted:6.56, tier:"C", jobs:3.5, schools:8.0, growth:8.0, safety:7.5, diversity:7.0, price:8.0, community:6.0, property:8.5, survival:4.0, beach:4.0, climate:5.5, median:"$1.32M", commute:"65 min", recommendation:"", step3:false, rationale:{jobs:"65-min commute to DTSJ — extreme distance penalty. 65 AI/ML jobs (Lawrence Livermore Lab 10K+). Isolated from Silicon Valley.",schools:"GreatSchools avg 7.8. 5 alternatives. Good schools but isolated options.",growth:"6.5% annual. Valley town, stable but slow. Not speculative.",safety:"Violent 3.1/1K, property 22/1K. Safe valley town.",diversity:"44.9% non-white. White-collar tech town. Less diverse.",price:"$1.32M median. $2M buys spacious home on large lot. Good value.",community:"Isolated valley town. Less walkable. Limited cultural diversity.",property:"Typical lots 8,800 sqft. Valley land available. Spacious properties.",survival:"HIGH FIRE RISK (CAL FIRE SRA zone). Valley water stress potential. Hot climate.",beach:"75-90 min to coast. FURTHEST from beach.",climate:"Valley 75-85°F (HOTTEST). HIGH FIRE RISK. Air quality variable. Isolated."}},
+  // East Bay — Contra Costa (7)
+  {region:"East Bay — Contra Costa", neighborhood:"San Ramon", weighted:7.22, tier:"B", jobs:9.0, schools:8.0, growth:8.0, safety:8.0, diversity:8.0, price:6.0, community:7.0, property:7.0, survival:5.5, beach:4.0, climate:6.0, median:"$1.52M", commute:"44 min", recommendation:"", step3:false, rationale:{jobs:"44-min commute to DTSJ via I-680. BEST DTSJ commute in Contra Costa. 12-16 AI/ML roles locally (Oracle, Glassdoor campus).",schools:"GreatSchools avg 7.7. Strong private school options.",growth:"32-40% over 5 years. Strong appreciation in tech corridor.",safety:"Violent 1.3/1K, property 9.8/1K. Very safe — second only to Orinda.",diversity:"46.3% non-white. Second most diverse in CC. Growing tech worker immigration.",price:"$1.52M median. $2M buys good 4BR but not exceptional.",community:"Growing tech-forward suburb. Less established than older communities. 7/10.",property:"Typical lots 7,500-9,500 sqft. Good for family.",survival:"Valley location. Moderate fire risk. Water adequate.",beach:"45 min to coast.",climate:"Valley 60-70°F. Moderate fire risk."}},
+  {region:"East Bay — Contra Costa", neighborhood:"Walnut Creek", weighted:6.8, tier:"B", jobs:8.0, schools:7.0, growth:7.0, safety:7.0, diversity:7.0, price:7.0, community:8.0, property:7.0, survival:5.5, beach:4.0, climate:6.0, median:"$1.55M", commute:"48 min", recommendation:"", step3:false, rationale:{jobs:"48-min commute to DTSJ. Central CC location. 8-12 AI/ML jobs locally. Good balance.",schools:"GreatSchools avg 7.2. 4 private/co-op options.",growth:"28-35% over 5 years. Steady appreciation.",safety:"Violent 1.8/1K, property 12.2/1K. Decent but not top tier.",diversity:"36.1% non-white. Growing immigrant community. Walkable downtown welcoming.",price:"$1.55M median. $2M buys well in established neighborhoods.",community:"Walkable downtown, family-oriented. Strong community feel. Brazilian + Persian diaspora growing.",property:"Typical lots 7,500-9,000 sqft. Good backyard potential.",survival:"Valley. Moderate risks. Water adequate.",beach:"40 min to coast.",climate:"Valley. Moderate fire risk. Good overall climate."}},
+  {region:"East Bay — Contra Costa", neighborhood:"Danville", weighted:6.5, tier:"C", jobs:9.0, schools:7.0, growth:6.0, safety:8.0, diversity:7.0, price:4.0, community:7.0, property:7.0, survival:5.5, beach:5.0, climate:6.0, median:"$1.65M", commute:"44 min", recommendation:"", step3:false, rationale:{jobs:"44-min commute to DTSJ — second best. 10-14 AI/ML jobs.",schools:"GreatSchools avg 7.6. Good schools.",growth:"28-35% over 5 years. Lowest appreciation in CC set.",safety:"Violent 1.4/1K, property 10.1/1K. Very safe.",diversity:"42.8% non-white. Growing diversity.",price:"$1.65M median — HIGHEST in CC. $2M budget stretches tightly.",community:"Family-oriented suburb. 7/10 cohesion.",property:"Typical lots 8,000-10,000 sqft. Good space.",survival:"Valley. Moderate risks.",beach:"50 min to coast.",climate:"Valley. Moderate fire risk. Standard."}},
+  {region:"East Bay — Contra Costa", neighborhood:"Lafayette", weighted:6.2, tier:"C", jobs:7.0, schools:9.0, growth:9.0, safety:9.0, diversity:2.0, price:6.0, community:8.0, property:9.0, survival:5.5, beach:5.0, climate:6.0, median:"$1.48M", commute:"57 min", recommendation:"", step3:false, rationale:{jobs:"57-min commute to DTSJ. Longest in CC set except Orinda. Only 4-6 AI/ML jobs locally.",schools:"GreatSchools avg 7.8 — BEST schools in CC. Strong co-ops + exemption-friendly private options.",growth:"35-42% over 5 years — BEST appreciation in CC.",safety:"Violent 1.2/1K — SAFEST (tied). Property 9.2/1K.",diversity:"25.3% non-white — LEAST DIVERSE. Predominantly white affluent. No Persian/Brazilian presence. May feel unwelcoming for brown family.",price:"$1.48M median. $2M buys well with large lots.",community:"Tight-knit affluent community. 8/10. But homogeneous.",property:"Typical lots 8,500-10,500 sqft — LARGEST in CC. Excellent for garden/sustainability.",survival:"Valley. Moderate fire risk.",beach:"55 min to coast.",climate:"Valley. Moderate fire risk. Standard."}},
+  {region:"East Bay — Contra Costa", neighborhood:"Orinda", weighted:5.9, tier:"C", jobs:5.0, schools:9.0, growth:8.0, safety:10.0, diversity:3.0, price:5.0, community:8.0, property:10.0, survival:5.5, beach:6.0, climate:6.0, median:"$1.58M", commute:"59 min", recommendation:"", step3:false, rationale:{jobs:"59-min commute to DTSJ — longest. Only 3-5 AI/ML jobs. BART access to SF (58 min) better.",schools:"GreatSchools avg 7.9 — tied for best. Excellent school system.",growth:"33-40% over 5 years. Strong.",safety:"Violent 1.1/1K, property 8.5/1K — LOWEST CRIME in entire set. Safest neighborhood scored.",diversity:"28.1% non-white — SECOND LEAST DIVERSE. Very white, affluent, exclusive. Not comfortable for brown family.",price:"$1.58M median. $2M buys well — large lots.",community:"Exclusive tight-knit community. 8/10. But very homogeneous.",property:"Typical lots 9,500-12,000 sqft — LARGEST lots in CC. Excellent for self-sufficiency.",survival:"Valley. Some fire risk in hills.",beach:"35 min to coast — CLOSEST in CC.",climate:"Hills. Moderate fire risk. Good climate."}},
+  {region:"East Bay — Contra Costa", neighborhood:"Pleasant Hill", weighted:5.5, tier:"C", jobs:7.0, schools:7.0, growth:7.0, safety:8.0, diversity:6.0, price:8.0, community:7.0, property:6.0, survival:5.0, beach:5.0, climate:6.0, median:"$1.31M", commute:"55 min", recommendation:"", step3:false, rationale:{jobs:"55-min commute to DTSJ. 5-7 AI/ML jobs locally. Moderate access.",schools:"GreatSchools avg 7.0. Decent, not top-tier.",growth:"30-38% over 5 years. Moderate.",safety:"Violent 1.5/1K — lowest violent crime in CC. Property 11/1K.",diversity:"38.5% non-white. Moderate diversity.",price:"$1.31M median — second lowest. Good budget value.",community:"Suburban family-oriented. 7/10.",property:"Typical lots 7,000-8,500 sqft.",survival:"Valley. Moderate risks.",beach:"50 min to coast.",climate:"Valley. Standard risks."}},
+  {region:"East Bay — Contra Costa", neighborhood:"Concord", weighted:5.0, tier:"D", jobs:7.0, schools:6.0, growth:8.0, safety:3.0, diversity:10.0, price:9.0, community:5.0, property:5.0, survival:5.0, beach:6.0, climate:6.0, median:"$1.28M", commute:"53 min", recommendation:"", step3:false, rationale:{jobs:"53-min commute to DTSJ. 6-8 AI/ML jobs.",schools:"GreatSchools avg 6.8 — LOWEST in CC. Below average.",growth:"32-40% over 5 years. Good appreciation from low base.",safety:"Violent 2.6/1K — HIGHEST crime in CC (2.3x Walnut Creek). Property 15.8/1K. Significant concern for families.",diversity:"54.2% non-white — MOST DIVERSE in CC. Strong immigrant community. Brazilian + Persian present.",price:"$1.28M — CHEAPEST. Best affordability. But crime trade-off.",community:"Less cohesive. 5/10. Higher turnover.",property:"Typical lots 6,500-8,000 sqft — smallest in CC.",survival:"Valley. Standard risks.",beach:"45 min to coast.",climate:"Valley. Standard."}},
+  // Peninsula (9)
+  {region:"Peninsula", neighborhood:"San Mateo", weighted:7.25, tier:"A", jobs:8.5, schools:7.6, growth:7.8, safety:8.2, diversity:7.2, price:6.8, community:8.0, property:7.5, survival:4.0, beach:2.6, climate:7.2, median:"$1.55M", commute:"30 min", recommendation:"BUY", step3:true, rationale:{jobs:"30-min commute to DTSJ via US-101. 220 AI/ML jobs within 30 min. Reliable freeway, multiple routes.",schools:"GreatSchools avg 7.6. 15 alternative schools — highest count on Peninsula. Strong homeschool community.",growth:"0.13% recent (stalled) but 16% over 5 years. Lifestyle buy, not investment play.",safety:"99.2 safety score — SAFEST neighborhood in entire set. Very low crime.",diversity:"67% non-white. Filipino, Latino, Chinese communities strong. 36% foreign-born. Welcoming to immigrants.",price:"$1.55M median. $2M buys 3-4BR/1,700+ sqft in Baywood/Hillsdale but it's tight. Sweet spot $1.8-2M.",community:"Walkable downtown (score 96). Diverse community events. Owner-occupied. Strong parent networks.",property:"Typical lots 7,000 sqft. Decent yards in residential areas. Not as spacious as East Bay.",survival:"SFPUC water (Hetch Hetchy) — excellent infrastructure. But SCVWD zones stressed. Low fire risk (flat).",beach:"40-50 min to Half Moon Bay via Hwy 92. Not close.",climate:"Low wildfire (flat). Low flood. Moderate earthquake. Mild climate year-round."}},
+  {region:"Peninsula", neighborhood:"San Carlos", weighted:7.21, tier:"A", jobs:8.0, schools:7.8, growth:8.0, safety:7.5, diversity:6.4, price:7.2, community:7.5, property:7.8, survival:4.5, beach:2.8, climate:7.1, median:"$1.45M", commute:"22 min", recommendation:"PASS", step3:true, rationale:{jobs:"22-min commute — FASTEST to DTSJ. 200 AI/ML jobs within 30 min. Excellent 101/280 access.",schools:"GreatSchools avg 7.8 — top on Peninsula. 10/10 district rating. Strong school community.",growth:"18% over 5 years. Healthy appreciation.",safety:"Very safe. Low crime rates across the board.",diversity:"58% non-white. Good Silicon Valley suburb diversity.",price:"$2.7M ACTUAL median — budget INSUFFICIENT. $2M buys dated sub-1,500 sqft needing renovation. FATAL MISMATCH.",community:"'City of Good Living' motto. Charming walkable downtown. Strong community feel.",property:"Typical lots 8,000 sqft. Good sized properties IF you can afford them.",survival:"Cal Water. Adequate supply. Low fire risk.",beach:"35-45 min to Half Moon Bay via 92.",climate:"Low wildfire. Low flood. Standard earthquake risk."}},
+  {region:"Peninsula", neighborhood:"Foster City", weighted:7.02, tier:"B", jobs:8.4, schools:7.4, growth:8.0, safety:7.8, diversity:6.2, price:6.5, community:7.8, property:7.0, survival:4.2, beach:2.5, climate:7.0, median:"$1.65M", commute:"33 min", recommendation:"", step3:false, rationale:{jobs:"33-min commute. 210 AI/ML jobs. Planned city with good freeway access.",schools:"GreatSchools avg 7.4. 10 alternatives available.",growth:"17% over 5 years. Stable planned community.",safety:"Low crime. Safe lagoon community.",diversity:"56% non-white. Asian and Filipino communities.",price:"$1.65M median. $2M buys solid home but not spacious.",community:"Lagoon community. Good parks. Family-oriented planned city.",property:"Typical lots 6,500 sqft. Smaller planned lots.",survival:"Bay-side. Some flood concern from sea level. Low fire.",beach:"50-60 min to ocean beach.",climate:"Low fire. Some flood risk (sea level). Standard."}},
+  {region:"Peninsula", neighborhood:"Burlingame", weighted:6.94, tier:"B", jobs:7.8, schools:7.3, growth:7.2, safety:7.2, diversity:6.1, price:7.3, community:7.0, property:7.6, survival:4.5, beach:2.8, climate:7.1, median:"$1.40M", commute:"28 min", recommendation:"", step3:false, rationale:{jobs:"28-min commute. 190 AI/ML jobs. Good 101 access.",schools:"GreatSchools avg 7.3. 9 alternatives.",growth:"14% over 5 years. Mature market.",safety:"Moderate-low crime. Safe area.",diversity:"54% non-white. Mix of communities.",price:"$1.40M median. $2M buys well here. Good value for Peninsula.",community:"Charming downtown Burlingame Avenue. Good walkability.",property:"Typical lots 7,200 sqft. Decent yards.",survival:"Cal Water. Low fire. Near SFO (some flight noise).",beach:"40-50 min to coast.",climate:"Low fire/flood. Near SFO approach path."}},
+  {region:"Peninsula", neighborhood:"Belmont", weighted:6.91, tier:"B", jobs:7.8, schools:6.9, growth:7.0, safety:7.0, diversity:5.8, price:8.5, community:6.8, property:8.2, survival:4.8, beach:3.0, climate:7.2, median:"$1.10M", commute:"25 min", recommendation:"", step3:false, rationale:{jobs:"25-min commute. 180 AI/ML jobs. Good access via 101/280.",schools:"GreatSchools avg 6.9. 5 alternatives.",growth:"12% over 5 years. Moderate.",safety:"Low-moderate crime.",diversity:"50% non-white. Moderate diversity.",price:"$1.10M median — good value for Peninsula. $2M buys spacious home.",community:"Hillside community. Less walkable than flat peninsula towns.",property:"Typical lots 9,000 sqft. Hillside views. Good space.",survival:"Cal Water. Low fire risk in flat areas. Some hill exposure.",beach:"35-45 min to Half Moon Bay.",climate:"Low fire in flat zones. Hills have moderate risk. Low flood."}},
+  {region:"Peninsula", neighborhood:"Millbrae", weighted:6.85, tier:"B", jobs:8.0, schools:7.1, growth:6.8, safety:6.8, diversity:5.9, price:7.4, community:6.8, property:7.4, survival:4.8, beach:3.0, climate:7.0, median:"$1.35M", commute:"31 min", recommendation:"", step3:false, rationale:{jobs:"31-min commute. 200 AI/ML jobs. BART + Caltrain station.",schools:"GreatSchools avg 7.1. 7 alternatives.",growth:"13% over 5 years. Moderate.",safety:"Moderate crime. Near SFO area.",diversity:"52% non-white. Growing Asian community.",price:"$1.35M median. $2M buys good property.",community:"Transit-oriented. Mixed residential/commercial feel.",property:"Typical lots 6,800 sqft. Standard peninsula sizes.",survival:"SFPUC water. Low fire. SFO flight path concern.",beach:"40-50 min to coast.",climate:"Low fire/flood. SFO noise in some areas."}},
+  {region:"Peninsula", neighborhood:"Redwood City", weighted:6.33, tier:"C", jobs:7.5, schools:7.2, growth:7.5, safety:4.2, diversity:6.9, price:8.0, community:7.0, property:7.5, survival:4.0, beach:2.5, climate:7.0, median:"$1.20M", commute:"28 min", recommendation:"", step3:false, rationale:{jobs:"28-min commute. 150 AI/ML jobs. Good 101 access.",schools:"GreatSchools avg 7.2. 12 alternatives.",growth:"15% over 5 years. Good upside.",safety:"Higher crime than peninsula average. 2.1 violent/1K. Notable safety gap vs neighbors.",diversity:"62.2% non-white. Strong Latino community. Most diverse on Peninsula.",price:"$1.20M median. BEST VALUE on Peninsula. $2M buys excellent property.",community:"Diverse downtown. Community events. Good walkability in core.",property:"Typical lots 7,500 sqft. Good yards.",survival:"Water adequate. Low fire (flat). Standard.",beach:"45-55 min to Half Moon Bay.",climate:"Low fire/flood. Standard risks."}},
+  {region:"Peninsula", neighborhood:"Pacifica", weighted:5.83, tier:"C", jobs:4.0, schools:6.5, growth:4.0, safety:8.5, diversity:4.5, price:9.5, community:5.0, property:8.8, survival:7.2, beach:3.5, climate:2.5, median:"$900K", commute:"48 min", recommendation:"", step3:false, rationale:{jobs:"48-min commute — long for Peninsula. 80 AI/ML jobs. Isolated coastal location.",schools:"GreatSchools avg 6.5. 8 alternatives available in broader area.",growth:"8% over 5 years. Slow appreciation; foggy microclimate limits demand.",safety:"Very low crime. Safe small coastal town.",diversity:"42% non-white. Less diverse than inland Peninsula.",price:"$900K median. $2M buys large lot coastal home. Great value.",community:"Fog-bound, somewhat isolated. Fewer community amenities.",property:"Typical lots 12,000 sqft. Large coastal lots available.",survival:"Good water. HIGH fire risk in surrounding hills. Good coastal air.",beach:"5-10 min to Pacifica beaches. Close!",climate:"HIGH FIRE RISK in hills. Low flood. Very foggy. Cool year-round (55-65°F)."}},
+  {region:"Peninsula", neighborhood:"Half Moon Bay", weighted:5.41, tier:"C", jobs:2.0, schools:6.2, growth:2.5, safety:9.0, diversity:4.0, price:9.6, community:4.5, property:9.2, survival:8.0, beach:3.2, climate:2.2, median:"$850K", commute:"53 min", recommendation:"", step3:false, rationale:{jobs:"53-min commute via fragile Hwy 92 (closures in storms). 40 AI/ML jobs. Very isolated from tech jobs.",schools:"GreatSchools avg 6.2. 6 alternatives. Limited options.",growth:"5% over 5 years. Slow — rural coastal limitations.",safety:"Very safe. Low crime rural community.",diversity:"38% non-white. Less diverse; agricultural workers.",price:"$850K median. $2M buys large rural coastal property.",community:"Rural coastal feel. Small downtown. Limited amenities.",property:"Typical lots 15,000 sqft. Large lots, some acreage.",survival:"Own water system reliable. Low fire (coastal). Good growing zone. Well feasibility.",beach:"5 min to beaches. Coastal location!",climate:"HIGH wildfire risk (surrounding hills). Hwy 92 floods/closes in storms. Cool foggy climate."}},
+  // South Bay (8)
+  {region:"South Bay", neighborhood:"Saratoga", weighted:7.0, tier:"B", jobs:6.0, schools:8.5, growth:8.0, safety:9.0, diversity:5.0, price:4.0, community:7.5, property:8.0, survival:7.0, beach:7.5, climate:8.0, median:"$2.50M", commute:"28 min", recommendation:"", step3:false, rationale:{jobs:"28-min commute. Moderate job density. Residential enclave, not tech hub.",schools:"GreatSchools avg 8.5 — tied for best. Excellent public schools and private options.",growth:"25% over 5 years. Strong appreciation in luxury market.",safety:"Violent 0.4/1K — SAFEST in South Bay. Property 5.87/1K.",diversity:"69% non-white BUT wealthy Asian tech workers. Simpson 0.52. Limited Middle Eastern/Brazilian.",price:"$2.5M median — ABOVE BUDGET. Limited inventory under $2M. Poor value for this buyer.",community:"High owner-occupancy. Tight-knit affluent. Good schools create community. 7.5/10.",property:"Typical lots 30,000 sqft — LARGEST in South Bay. Room for everything.",survival:"Water via SCVWD (stressed). Good growing zone. Low fire on valley floor. Elevated foothills moderate risk.",beach:"35-45 min to Santa Cruz via Hwy 17.",climate:"Elevated location reduces flood. Low fire on floor. Moderate earthquake. Mild."}},
+  {region:"South Bay", neighborhood:"Cupertino", weighted:6.9, tier:"B", jobs:9.0, schools:8.5, growth:8.0, safety:8.0, diversity:4.0, price:5.0, community:6.0, property:5.0, survival:5.0, beach:5.0, climate:6.0, median:"$2.15M", commute:"23 min", recommendation:"", step3:false, rationale:{jobs:"23-min commute. 30K AI/ML jobs — HIGHEST density (Apple HQ). World-class tech ecosystem.",schools:"GreatSchools avg 8.5. Top-tier public schools. Strong STEM focus.",growth:"20% over 5 years. Apple campus effect.",safety:"Low crime. Very safe residential community.",diversity:"81% non-white BUT Asian-dominant (74% Asian). Simpson 0.42 — low actual diversity. May not feel welcoming to Middle Eastern family.",price:"$2.15M median — above budget. Limited options under $2M.",community:"Tech worker community. High turnover. Less neighborhood cohesion. 6/10.",property:"Typical lots 8,000 sqft. Dense suburban development.",survival:"SCVWD water stressed. Standard earthquake risk.",beach:"50-60 min to coast.",climate:"Low fire/flood. Standard earthquake. Valley heat."}},
+  {region:"South Bay", neighborhood:"Los Gatos", weighted:6.7, tier:"B", jobs:7.0, schools:8.5, growth:8.0, safety:7.0, diversity:6.0, price:5.0, community:7.5, property:6.0, survival:7.0, beach:7.5, climate:8.0, median:"$2.20M", commute:"26 min", recommendation:"", step3:false, rationale:{jobs:"26-min commute. Good job access but not a tech hub itself.",schools:"GreatSchools avg 8.5 — tied best. Excellent schools attract families.",growth:"22% over 5 years. Premium mountain-adjacent market.",safety:"Low crime. Safe upscale community.",diversity:"Moderate diversity. Mix of white and Asian affluent.",price:"$2.2M median — above budget. Tight even at $2M.",community:"Charming downtown. Strong community feel. Good walkability. 7.5/10.",property:"Typical lots 15,000 sqft. Larger than tech hub lots.",survival:"Good growing zone. Some fire risk in hills. Valley water stressed.",beach:"35-40 min to Santa Cruz via Hwy 17.",climate:"Low fire on valley floor. Hills have moderate risk. Mild climate. Near Hwy 17 (Santa Cruz access)."}},
+  {region:"South Bay", neighborhood:"Mountain View", weighted:6.5, tier:"C", jobs:9.0, schools:7.0, growth:7.0, safety:5.0, diversity:8.0, price:6.0, community:6.0, property:4.0, survival:5.0, beach:5.0, climate:6.0, median:"$1.93M", commute:"24 min", recommendation:"", step3:false, rationale:{jobs:"24-min commute. 23.1K AI/ML jobs (Google HQ). Outstanding tech density.",schools:"GreatSchools avg 7.0. 4 alternatives. Decent not top-tier.",growth:"15-17% over 5 years. Google campus effect moderating.",safety:"Moderate crime. Not as safe as suburbs. Property crime elevated.",diversity:"67% non-white. Good diversity. Mix of communities.",price:"$1.93M median. Barely in budget. Gets minimum qualifying home.",community:"Transient tech worker population. Castro Street walkable. 6/10 cohesion.",property:"Typical lots 5,227 sqft — SMALL. Dense development. Limited yards.",survival:"SCVWD water stressed. Bay proximity. Standard risks.",beach:"50-60 min to coast.",climate:"Low fire (flat). Some flood risk near bay. Standard."}},
+  {region:"South Bay", neighborhood:"Sunnyvale", weighted:6.5, tier:"C", jobs:9.0, schools:7.0, growth:6.0, safety:6.0, diversity:8.0, price:6.0, community:5.0, property:4.0, survival:5.0, beach:5.0, climate:6.0, median:"$1.80M", commute:"22 min", recommendation:"", step3:false, rationale:{jobs:"22-min commute. 26.9K AI/ML jobs. Major tech hub.",schools:"GreatSchools avg 7.0. Standard suburban options.",growth:"14-16% over 5 years. Moderate — mature market.",safety:"Moderate crime. Property crime elevated for South Bay.",diversity:"60% non-white. Good diversity. International tech workers.",price:"$1.80M median. $2M buys 3BR with small yard. Tight.",community:"45.8% owner-occupancy — LOWEST. Very transient. 5/10 community.",property:"Typical lots 7,840 sqft. Dense development. Limited.",survival:"SCVWD water stressed. Standard Bay Area risks.",beach:"50-60 min to coast.",climate:"Low fire/flood. Standard earthquake."}},
+  {region:"South Bay", neighborhood:"Morgan Hill", weighted:6.3, tier:"C", jobs:4.0, schools:6.0, growth:5.0, safety:7.0, diversity:8.0, price:7.0, community:7.5, property:7.0, survival:6.0, beach:6.0, climate:6.0, median:"$1.55M", commute:"34 min", recommendation:"", step3:false, rationale:{jobs:"34-min commute. Few local AI/ML jobs. Distant from main tech corridor.",schools:"GreatSchools avg 6.0. Limited alternatives. Rural area.",growth:"12-14% over 5 years. South county slower growth.",safety:"Low crime. Safe small-town feel.",diversity:"71% non-white (Hispanic majority). Diversity index 0.71. Welcoming immigrant community.",price:"$1.55M median. $2M buys well — 4BR with large lot. Good value.",community:"Strong small-town cohesion. 71.8% owner-occupancy. Farmers markets. Rural feel. 7.5/10.",property:"Typical lots 10,000 sqft. Room for garden, animals. Rural edge.",survival:"South county water more vulnerable (Colorado River dependency). Good growing zone.",beach:"45-55 min to Santa Cruz.",climate:"Valley heat. Moderate risks. Standard."}},
+  {region:"South Bay", neighborhood:"Campbell", weighted:5.9, tier:"C", jobs:8.0, schools:7.0, growth:7.0, safety:5.0, diversity:7.0, price:6.0, community:6.0, property:5.0, survival:5.0, beach:6.0, climate:6.0, median:"$1.94M", commute:"15 min", recommendation:"", step3:false, rationale:{jobs:"15-min commute — very close. Good AI job access via proximity to DTSJ.",schools:"GreatSchools avg 7.0. Standard options.",growth:"15-17% over 5 years.",safety:"Moderate crime. Property crime elevated. Below avg for South Bay safety.",diversity:"65% non-white. Good diversity mix.",price:"$1.94M median. $2M barely covers minimum. Tight budget.",community:"Downtown nightlife scene. Mixed residential. 6/10 cohesion.",property:"Typical lots 8,000 sqft. Standard suburban. Limited.",survival:"SCVWD water stressed. Standard risks.",beach:"45-55 min to Santa Cruz.",climate:"Standard valley risks."}},
+  {region:"South Bay", neighborhood:"Milpitas", weighted:5.8, tier:"C", jobs:7.0, schools:6.0, growth:5.0, safety:4.0, diversity:6.0, price:7.0, community:5.0, property:4.0, survival:5.0, beach:3.0, climate:5.0, median:"$1.60M", commute:"18 min", recommendation:"", step3:false, rationale:{jobs:"18-min commute. Good proximity. Moderate AI jobs.",schools:"GreatSchools avg 6.0. Below average for South Bay.",growth:"10-12% over 5 years. Slower growth.",safety:"Property crime 30.68/1K — HIGHEST in South Bay. Safety is major concern.",diversity:"High diversity (71% non-white, Asian dominant). But high crime dampens livability.",price:"$1.60M median. $2M buys well. Affordable for South Bay.",community:"Less cohesive. Near landfill (odor concerns). 5/10.",property:"Typical lots 5,500 sqft. Dense. Limited yard space.",survival:"Water stressed. Bay proximity. Near landfill.",beach:"60-70 min to coast — FURTHEST in South Bay.",climate:"Flood risk near bay. Standard earthquake. Landfill proximity."}},
+  // San Jose (6)
+  {region:"San Jose", neighborhood:"Willow Glen", weighted:6.59, tier:"B", jobs:9.0, schools:7.5, growth:7.0, safety:6.0, diversity:7.0, price:6.0, community:7.5, property:5.0, survival:5.0, beach:5.0, climate:6.0, median:"$1.65M", commute:"15 min", recommendation:"", step3:false, rationale:{jobs:"12-18 min commute. Very close to DTSJ. Excellent AI job access.",schools:"GreatSchools avg 7-8. Good schools. Active school community.",growth:"43.5% over 5 years (strong). Well-established neighborhood appreciating.",safety:"Moderate crime (180-220/1K combined). Below SJ average but not suburban-safe.",diversity:"Good mix. 65-70% owner-occupied. Established diverse community.",price:"$1.65M median. $2M gets 3BR but tight on space/lot in best areas.",community:"BEST SJ neighborhood for community. Walk Score 72. Active neighborhood association. Good walkability.",property:"Typical lots 0.45 acre. Good but not spacious. Older homes.",survival:"SCVWD water stressed. Moderate wildfire risk in adjacent hills.",beach:"50-60 min to Santa Cruz via Hwy 17.",climate:"Standard SJ risks. Some wildfire concern."}},
+  {region:"San Jose", neighborhood:"Almaden Valley", weighted:6.4, tier:"C", jobs:8.0, schools:8.0, growth:7.0, safety:7.0, diversity:6.0, price:5.5, community:7.0, property:7.0, survival:5.0, beach:5.0, climate:6.0, median:"$1.75M", commute:"18 min", recommendation:"", step3:false, rationale:{jobs:"15-22 min commute. Good access to DTSJ tech corridor.",schools:"GreatSchools avg 8/10. Strong growing schools. New construction area.",growth:"45.8% over 5 years. New construction premium.",safety:"150-200/1K crime. 35-45% below SJ average. Good for SJ.",diversity:"Moderate diversity. Newer construction attracts mixed demographics.",price:"$1.75M median. $2M buys adequate home. $250K surplus.",community:"Master-planned. 75-80% owner-occupancy. HOA communities. 7/10.",property:"Typical lots 0.70 acre. Good space. Newer homes.",survival:"Water stressed. Wildfire risk from adjacent hills.",beach:"50-60 min to Santa Cruz.",climate:"Standard. Some wildfire concern at urban-wildland interface."}},
+  {region:"San Jose", neighborhood:"Rose Garden", weighted:6.25, tier:"C", jobs:9.0, schools:7.5, growth:7.0, safety:5.5, diversity:7.0, price:6.0, community:7.0, property:5.0, survival:5.0, beach:5.0, climate:6.0, median:"$1.60M", commute:"12 min", recommendation:"", step3:false, rationale:{jobs:"8-15 min commute. Excellent DTSJ proximity.",schools:"GreatSchools avg 7-8. Stable school community.",growth:"45.5% over 5 years. Good appreciation.",safety:"200-250/1K crime. At or slightly below SJ average. Moderate.",diversity:"Good diversity. Established immigrant communities.",price:"$1.60M median. $2M gives $400K surplus for good home.",community:"70-75% owner-occupancy. 14-17 yrs median residence. Active Rose Garden NA. Stable.",property:"Typical lots 0.40 acre. Standard. Limited.",survival:"SCVWD water stressed.",beach:"50-60 min.",climate:"Standard SJ. Low fire."}},
+  {region:"San Jose", neighborhood:"Downtown SJ / SoFA", weighted:5.8, tier:"C", jobs:10.0, schools:5.5, growth:7.5, safety:3.5, diversity:8.0, price:7.0, community:5.0, property:2.0, survival:5.0, beach:5.0, climate:6.0, median:"$1.40M", commute:"3 min", recommendation:"", step3:false, rationale:{jobs:"2-5 min commute — CLOSEST to Adobe DTSJ. Walk/bike possible. Highest local job density.",schools:"GreatSchools avg 5-6. Below average. Not family-friendly school zone.",growth:"47.4% over 5 years. Strong urban appreciation.",safety:"300-350/1K crime — HIGHEST in SJ. Urban crime. Not safe for family.",diversity:"High diversity. 80% non-white. Immigrant communities. Walkability score 88.",price:"$1.40M median. $2M gives $600K surplus but only buys condos/small lots.",community:"No traditional neighborhood association. Transient. 40-50% owner-occupancy. 4-7 yrs median residence.",property:"Typical lots 0.15 acre — SMALLEST. Condos dominant. No yards.",survival:"Water stressed. Urban constraints.",beach:"50-60 min.",climate:"Low fire (urban). Standard risks."}},
+  {region:"San Jose", neighborhood:"Cambrian Park", weighted:5.6, tier:"C", jobs:8.0, schools:6.0, growth:8.0, safety:5.0, diversity:6.5, price:7.5, community:5.5, property:6.5, survival:5.0, beach:6.0, climate:6.0, median:"$1.35M", commute:"22 min", recommendation:"", step3:false, rationale:{jobs:"18-28 min commute. Good access to DTSJ.",schools:"GreatSchools avg 6. Below average. Limited data.",growth:"50% over 5 years — highest in SJ set! Good investment from lower base.",safety:"250-300/1K crime. Near or above SJ average.",diversity:"Moderate diversity. Emerging area.",price:"$1.35M median. $2M gives $650K surplus — excellent value.",community:"Emerging; less established community. 60-65% owner-occupancy. Developing.",property:"Typical lots 0.65 acre. Good space for the price.",survival:"Water stressed. Standard.",beach:"45-55 min to Santa Cruz.",climate:"Standard SJ risks."}},
+  {region:"San Jose", neighborhood:"Evergreen", weighted:5.2, tier:"D", jobs:7.0, schools:6.0, growth:7.5, safety:4.5, diversity:6.5, price:8.0, community:5.0, property:8.0, survival:5.0, beach:4.0, climate:6.0, median:"$1.25M", commute:"25 min", recommendation:"", step3:false, rationale:{jobs:"20-30 min commute. Moderate distance. Limited local tech.",schools:"GreatSchools avg 6. All schools below-average across K-12.",growth:"47.1% over 5 years. Good appreciation from low base.",safety:"280-320/1K crime. At or above SJ average. Elevated.",diversity:"Moderate. Mix of communities.",price:"$1.25M median. $2M gives $750K surplus — BEST value in SJ.",community:"Dispersed. Limited neighborhood association. 65-70% owner-occupancy.",property:"Typical lots 0.80 acre — LARGEST in SJ. Great for space/garden.",survival:"Water stressed.",beach:"60-70 min to coast.",climate:"Standard. Low fire in developed areas."}},
+  // Sacramento Valley (5)
+  {region:"Sacramento Valley", neighborhood:"Folsom", weighted:7.64, tier:"A", jobs:5.0, schools:8.0, growth:7.0, safety:8.0, diversity:7.0, price:10.0, community:7.5, property:8.5, survival:5.5, beach:2.0, climate:5.0, median:"$875K", commute:"90 min", recommendation:"HOLD", step3:true, rationale:{jobs:"90-min commute to DTSJ — DEALBREAKER without remote work. 262 AI jobs nearby (Intel, Sacramento tech corridor). Only viable if WFH approved.",schools:"GreatSchools avg 8.0. Good schools. Folsom-Cordova USD well-funded.",growth:"7% annual. Steady Sacramento-area growth.",safety:"Very safe. Low crime rates. Family-friendly.",diversity:"52% non-white. 1.8% Iranian community presence. Growing diversity.",price:"$875K median. $2M buys MANSION here. 4-5BR on huge lot with pool. Best value in entire set.",community:"Historic Sutter Street district. Folsom Lake recreation. Strong community feel. 7.5/10.",property:"Typical lots 8,500 sqft. Spacious suburban. Room for everything.",survival:"Folsom city water (Sacramento River/Folsom Lake). Stressed during droughts but adequate normally.",beach:"2+ hours to coast. Folsom Lake for recreation.",climate:"HOT summers (100°F+). Low fire in developed areas. Sacramento Valley heat is significant."}},
+  {region:"Sacramento Valley", neighborhood:"El Dorado Hills", weighted:6.59, tier:"B", jobs:3.0, schools:8.5, growth:7.0, safety:9.0, diversity:5.0, price:9.0, community:7.0, property:9.0, survival:5.0, beach:2.0, climate:5.0, median:"$1.05M", commute:"100 min", recommendation:"", step3:false, rationale:{jobs:"100-min commute — prohibitive. Very few AI jobs locally.",schools:"GreatSchools avg 8.5. Excellent schools. El Dorado Union well-rated.",growth:"7% annual. Steady.",safety:"VERY SAFE. Lowest crime in Sacramento area. Affluent community.",diversity:"35% non-white. Less diverse. Predominantly white affluent.",price:"$1.05M median. $2M buys excellent large home.",community:"Master-planned communities. Good amenities. Family-oriented.",property:"Typical lots 9,000+ sqft. Large lots, newer homes.",survival:"Water stressed (foothill elevation). Some fire risk at wildland interface.",beach:"2+ hours to coast.",climate:"Hot summers. Some wildfire risk in hills."}},
+  {region:"Sacramento Valley", neighborhood:"Roseville", weighted:6.52, tier:"B", jobs:3.5, schools:7.5, growth:7.0, safety:7.5, diversity:6.0, price:10.0, community:6.5, property:8.0, survival:5.0, beach:2.0, climate:5.0, median:"$725K", commute:"95 min", recommendation:"", step3:false, rationale:{jobs:"95-min commute. Some tech jobs (HP, Sutter Health). 3.5/10 for distance.",schools:"GreatSchools avg 7.5. Good schools.",growth:"7% annual. Steady suburb growth.",safety:"Moderate-low crime. Safe suburb.",diversity:"48% non-white. Growing diversity. Moderate.",price:"$725K median — MOST AFFORDABLE in entire set. $2M buys dream home.",community:"Suburban. Growing but less established community bonds.",property:"Typical lots 8,000 sqft. Standard suburban.",survival:"Water stressed. Sacramento system pressured.",beach:"2+ hours.",climate:"HOT summers. Low fire in developed areas."}},
+  {region:"Sacramento Valley", neighborhood:"Davis", weighted:6.11, tier:"C", jobs:2.0, schools:8.0, growth:5.0, safety:6.5, diversity:7.0, price:8.5, community:8.0, property:7.0, survival:5.0, beach:2.0, climate:5.0, median:"$850K", commute:"110 min", recommendation:"", step3:false, rationale:{jobs:"110-min commute — impossible daily. UC Davis campus jobs only.",schools:"GreatSchools avg 8.0. Strong university town schools. Progressive education options.",growth:"5% over 5 years. Slow — college town ceiling.",safety:"Moderate crime. College town issues (bike theft etc).",diversity:"60% diverse. UC Davis international community. Progressive and welcoming.",price:"$850K median. $2M buys excellent home.",community:"EXCELLENT college town community. Bike-friendly. Progressive. 8/10 cohesion.",property:"Typical lots 7,000 sqft. Standard.",survival:"Water stressed. Yolo County system.",beach:"2+ hours.",climate:"HOT valley summers. Low fire. Flat terrain."}},
+  {region:"Sacramento Valley", neighborhood:"Elk Grove", weighted:5.28, tier:"D", jobs:2.0, schools:6.5, growth:5.5, safety:5.5, diversity:9.0, price:9.5, community:5.5, property:7.5, survival:5.0, beach:2.0, climate:5.0, median:"$650K", commute:"105 min", recommendation:"", step3:false, rationale:{jobs:"105-min commute to DTSJ. Very few AI/ML jobs locally.",schools:"GreatSchools avg 6.5. Limited alternative schools.",growth:"5.5% appreciation 5yr. Steady but slow.",safety:"Moderate crime rates; mixed neighborhoods.",diversity:"65% diverse — strong multicultural presence.",price:"$650K median — most affordable in set. $2M buys large home.",community:"Suburban sprawl; less cohesive than older communities.",property:"Large lots (8K+ sqft), SFH dominant.",survival:"Water stressed (Sacramento system). Hot summers.",beach:"2+ hours to coast.",climate:"Hot valley summers (100°F+). Low fire risk in developed areas."}},
+  // Santa Cruz County (5)
+  {region:"Santa Cruz County", neighborhood:"Scotts Valley", weighted:6.22, tier:"C", jobs:5.0, schools:8.0, growth:6.5, safety:7.5, diversity:4.0, price:6.0, community:6.0, property:7.5, survival:4.0, beach:5.0, climate:5.5, median:"$1.35M", commute:"50 min", recommendation:"", step3:false, rationale:{jobs:"50-min commute to DTSJ via Hwy 17. Single-point-of-failure mountain road with 2-3 multi-day closures/year from landslides. ~15-20 AI/ML positions within 30 min (UCSC). Penalized 2 pts for fragility.",schools:"Scotts Valley USD rated 10/10 state. 64% proficiency. Mount Madonna School (PK-12, exemption-friendly), Baymonte Christian, Pacific Collegiate (charter).",growth:"36% appreciation over 5 years (6.4%/yr). Steady growth constrained by limited buildable land.",safety:"Violent crime 3.0/1K, property crime 16.9/1K. Safest pockets: Pasatiempo, Mission Springs. Feels safe for families.",diversity:"68.6% White, 17.3% Hispanic. Very low diversity vs Bay Area. No significant Persian or Brazilian presence. Student body 74% white.",price:"$2M buys 4BR/2,400+ sqft with large lot. Good purchasing power. Typical: 3-4BR on 0.25-0.5 acre.",community:"Suburban bedroom community; no walkable downtown (Walk Score ~30). 73.6% owner-occupancy. Netflix founded here. Limited cultural amenities.",property:"Typical lots 0.25-0.5 acre in residential areas. Mountain setting with redwoods. $2M gets substantial property.",survival:"CRITICAL: Scotts Valley Water District relies EXCLUSIVELY on groundwater wells — no surface water, no state connection. Santa Cruz Mountains aquifer has limited recharge. High drought vulnerability.",beach:"15-20 min drive to Santa Cruz beaches (Main Beach, Cowell's). Must drive down from mountains.",climate:"Moderate earthquake risk (Loma Prieta fault nearby — 1989 epicenter). Wildfire risk moderate-high (mountain/forest). Mediterranean climate, mild summers."}},
+  {region:"Santa Cruz County", neighborhood:"Capitola", weighted:6.11, tier:"C", jobs:4.0, schools:6.5, growth:6.0, safety:5.0, diversity:6.0, price:8.0, community:8.0, property:5.0, survival:4.5, beach:10.0, climate:6.0, median:"$918K", commute:"55 min", recommendation:"", step3:false, rationale:{jobs:"55-min commute to DTSJ via Hwy 17. Must traverse all of SC to reach Hwy 17. Route fragility penalty. Very few AI/ML jobs locally beyond UCSC.",schools:"Soquel Union Elementary rated 8/10 state. 47% proficiency — below average. Pacific Collegiate (charter) 10 min, Mount Madonna 20 min.",growth:"33% appreciation over 5 years (5.9%/yr). Moderate growth constrained by small city size (1.68 sq mi).",safety:"Violent crime 2.4/1K (low), but property crime 30/1K (very high). Tourist area attracts theft. Total crime 32.4/1K — significant concern.",diversity:"63% White, 26.5% Hispanic, 14.9% foreign-born. Moderate for SC County. Some Brazilian surfer community presence along coast.",price:"$2M extremely strong here (median $918K). Can buy 3BR/1,700+ sqft with remodel budget. Best value-for-dollar in SC set.",community:"Excellent walkability in Village area. Charming beach town with Venetian Court (1924). Walk Score ~65. 52% owner-occupancy. Farmers markets, art festivals. Wife would love beach village vibe.",property:"SMALL lots — dense city (6,234/sq mi). Finding 1,700+ sqft with backyard possible but limited. Older homes on compact lots.",survival:"Soquel Creek Water District — 100% groundwater dependent, historically OVERDRAFTED aquifer. 'Critical overdraft' designation. No state/federal water connection. Pure Water Soquel project underway.",beach:"BEST beach access of any neighborhood scored. Capitola Beach and New Brighton State Beach within walking distance from village.",climate:"Low wildfire risk (coastal, flat). Moderate flood risk (Soquel Creek — 2023 atmospheric rivers caused damage). Mild maritime climate year-round."}},
+  {region:"Santa Cruz County", neighborhood:"Aptos", weighted:6.45, tier:"C", jobs:4.0, schools:6.0, growth:6.0, safety:7.5, diversity:4.5, price:6.5, community:7.0, property:8.0, survival:4.5, beach:9.0, climate:6.5, median:"$1.27M", commute:"55 min", recommendation:"", step3:false, rationale:{jobs:"55-min commute to DTSJ via Hwy 17. Must drive north through SC to reach Hwy 17. Same route fragility. Limited local tech jobs.",schools:"Mixed: partially Pajaro Valley USD (lower performing) and Soquel Union. Aptos High School. Mount Madonna School (PK-12 private, 20 min) excellent exemption-friendly option.",growth:"34% appreciation over 5 years (6%/yr). Limited new construction preserves values. Steady tracking SC County average.",safety:"Violent crime 1.8/1K (LOWEST in SC set), property crime 8.4/1K (second lowest). Total 10.2/1K. Feels very secure for families. Low poverty (5.9%).",diversity:"77.4% White, 15.8% Hispanic. 8.6% foreign-born (lowest in set). Very homogeneous. No significant immigrant communities. Median age 48.9.",price:"$2M buys 3-4BR/2,000-2,500 sqft on larger lot. Good purchasing power. Can get homes with yards on 0.5+ acre lots near forest edge.",community:"Strong family community. Annual Aptos Blues Festival, World's Shortest Parade (July 4th). 76.5% owner-occupancy (highest in SC set). Forest of Nisene Marks for hiking. Car-dependent but tight-knit.",property:"BEST lot sizes in SC set. Lower density, typical lots 0.25-1 acre. Many homes back to forest. Easily find 3BR/1,700+ sqft with large backyard.",survival:"Soquel Creek Water District — overdrafted groundwater. No state/federal water connection. Pure Water Soquel project is the lifeline. Good air quality. Some well feasibility on larger parcels.",beach:"Seacliff State Beach 5-10 min drive, Rio Del Mar Beach accessible. Not walking distance but very close. Excellent for regular family beach visits.",climate:"Lower wildfire risk than Scotts Valley (more coastal). Some fire risk near Nisene Marks. Low flood risk. Mild climate — fog burns off earlier than SC proper."}},
+  {region:"Santa Cruz County", neighborhood:"Santa Cruz - Westside", weighted:6.12, tier:"C", jobs:4.5, schools:7.0, growth:6.5, safety:4.5, diversity:7.5, price:5.5, community:7.0, property:5.5, survival:4.0, beach:9.0, climate:6.0, median:"$1.4M", commute:"55 min", recommendation:"", step3:false, rationale:{jobs:"55-min commute to DTSJ via Hwy 17. Slightly better Hwy 17 access via Ocean St. UCSC employs ~5,000 with some AI/ML research. Penalized 2 pts for fragility.",schools:"SC City Elementary rated 8/10 state. 51% proficiency. Pacific Collegiate School (charter, Gold Ribbon) excellent option. Santa Cruz Waldorf School nearby. Gateway School (Montessori-style).",growth:"36% appreciation over 5 years (6.3%/yr). Strong appreciation driven by UCSC demand and limited supply. Coastal premium.",safety:"CITY-WIDE: Violent crime 6.2/1K, property crime 28.3/1K. Worst safety in SC set. Westside is safer than downtown but city-wide stats alarming. Homeless population concentrated near downtown.",diversity:"BEST diversity in SC set. 59.3% White, 22.4% Hispanic, 9.8% Asian (UCSC). 13% foreign-born. Some Persian/Iranian via UCSC academic community. Brazilian community small but present.",price:"$2M buys solid 3BR/1,600-1,900 sqft. Less purchasing power than Scotts Valley or Aptos. Lot sizes smaller. May compromise on sqft.",community:"Vibrant with UCSC culture. Bike Score 86. Farmers markets, arts scene. Natural Bridges State Beach community. 48.4% owner-occupancy (lowest — student rentals).",property:"Smaller lots than Aptos/Scotts Valley. Dense by SC standards. Finding 1,700 sqft with yard possible but competitive. Older 1950s-70s homes common.",survival:"MOST VULNERABLE water supply. City of SC Water Dept relies on Loch Lomond Reservoir + local streams — ALL local sources with ZERO state/federal connection. Mandatory rationing in droughts.",beach:"Natural Bridges State Beach, Its Beach, Mitchell's Cove all within 5-15 min walk/bike from Westside homes. Nearly matches Capitola for convenience.",climate:"Low wildfire risk (coastal, urban). Moderate flood risk near San Lorenzo River (not Westside). Heavy fog common. Mild temperatures year-round."}},
+  {region:"Santa Cruz County", neighborhood:"Live Oak / Soquel", weighted:6.24, tier:"C", jobs:4.0, schools:5.5, growth:7.0, safety:6.5, diversity:7.0, price:7.5, community:6.0, property:6.5, survival:4.5, beach:8.0, climate:6.0, median:"$1.0M", commute:"55 min", recommendation:"", step3:false, rationale:{jobs:"55-60 min commute to DTSJ via Hwy 17. Must transit through SC to reach Hwy 17. Same fragility concerns. Limited local employment beyond service/retail.",schools:"Live Oak Elementary rated 7/10 state but 5/10 national. 41% proficiency — LOWEST in SC set. Pacific Collegiate (charter) 10-15 min. Homeschool co-ops active.",growth:"47% appreciation over 5 years (8%/yr) — BEST in SC set. Strong upward trajectory from lower base. Best investment potential of all 5 SC neighborhoods.",safety:"Violent crime ~2.2/1K, property crime ~8.8/1K. Middle of pack — safer than SC city or Capitola. Residential feel reduces crime vs commercial areas.",diversity:"55.8% White, 32.9% Hispanic, 15.4% foreign-born. SECOND most diverse in SC set. Working-class immigrant presence. Brazilian and Latin American families present.",price:"$2M buys excellent property (median $1.0M). Can get 3-4BR/2,000+ sqft with substantial yard. Budget stretches furthest here for SFH with space.",community:"No traditional downtown center. 17th Ave commercial strip. Mix of property types. 58.7% owner-occupancy. Working-class, practical community. Less charm than Capitola but functional.",property:"Historical narrow lots from poultry farm era. Mix of property types. Can find larger parcels. Dog-friendly yards achievable. Less scenic but functional family homes.",survival:"Soquel Creek Water District — overdrafted groundwater basin. No state/federal connection. Pure Water Soquel recycled water project is lifeline. Some well feasibility. Growing zone 10a.",beach:"Pleasure Point, 26th Ave Beach, Moran Lake Beach accessible within 5-15 min drive. Surf culture strong in Pleasure Point area. Good beach proximity.",climate:"Low wildfire risk (flat, coastal). Moderate flood risk — Soquel Creek has flooding history. Needs flood insurance in some zones. Marine climate, mild year-round."}},
+];
+
+// Sort by weighted score descending initially
+DATA.sort((a, b) => b.weighted - a.weighted);
+
+let currentSort = { col: 'weighted', dir: 'desc' };
+
+function scoreClass(val) {
+  const v = Math.round(val);
+  return `score-cell score-${Math.min(10, Math.max(1, v))}`;
+}
+
+function tierBadge(tier) {
+  return `<span class="tier-badge badge-${tier}">${tier}</span>`;
+}
+
+function recClass(rec) {
+  if (!rec) return '';
+  if (rec === 'STRONG BUY') return 'rec-strong-buy';
+  if (rec === 'BUY') return 'rec-buy';
+  if (rec === 'HOLD') return 'rec-hold';
+  if (rec === 'PASS') return 'rec-pass';
+  return '';
+}
+
+const SCORE_COLS = ['jobs','schools','growth','safety','diversity','price','community','property','survival','beach','climate'];
+const COL_LABELS = {jobs:'Jobs (16%)',schools:'Schools (13%)',growth:'Growth (12%)',safety:'Safety (11%)',diversity:'Diversity (10%)',price:'Price (10%)',community:'Community (9%)',property:'Property (6%)',survival:'Survivability (6%)',beach:'Beach (4%)',climate:'Climate (3%)'};
+
+function renderTable(data) {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = data.map((d, i) => {
+    const scoreCells = SCORE_COLS.map(col =>
+      `<td class="${scoreClass(d[col])} clickable" data-nbr="${d.neighborhood}" data-col="${col}">${d[col].toFixed(1)}</td>`
+    ).join('');
+    return `<tr class="tier-${d.tier}">
+      <td>${i + 1}</td>
+      <td>${d.region}</td>
+      <td><strong>${d.neighborhood}</strong></td>
+      <td class="score-cell weighted-cell" style="color:${d.weighted >= 7.5 ? '#10b981' : d.weighted >= 6.5 ? '#60a5fa' : d.weighted >= 5.5 ? '#fbbf24' : '#f87171'}">${d.weighted.toFixed(2)}</td>
+      <td>${tierBadge(d.tier)}</td>
+      ${scoreCells}
+      <td>${d.median}</td>
+      <td>${d.commute}</td>
+      <td class="recommendation ${recClass(d.recommendation)}">${d.recommendation || '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function getFilteredData() {
+  let filtered = [...DATA];
+  const region = document.getElementById('filterRegion').value;
+  const tier = document.getElementById('filterTier').value;
+  const search = document.getElementById('searchBox').value.toLowerCase();
+  const step3Only = document.getElementById('filterStep3').checked;
+
+  if (region !== 'all') filtered = filtered.filter(d => d.region === region);
+  if (tier !== 'all') filtered = filtered.filter(d => d.tier === tier);
+  if (search) filtered = filtered.filter(d => d.neighborhood.toLowerCase().includes(search) || d.region.toLowerCase().includes(search));
+  if (step3Only) filtered = filtered.filter(d => d.step3);
+
+  // Sort
+  const col = currentSort.col;
+  const dir = currentSort.dir === 'asc' ? 1 : -1;
+  filtered.sort((a, b) => {
+    let va = a[col], vb = b[col];
+    if (typeof va === 'string') return dir * va.localeCompare(vb);
+    return dir * (va - vb);
+  });
+
+  return filtered;
+}
+
+function refresh() {
+  renderTable(getFilteredData());
+  // Update sort indicators
+  document.querySelectorAll('th').forEach(th => {
+    th.classList.remove('sorted-asc', 'sorted-desc');
+    if (th.dataset.col === currentSort.col) {
+      th.classList.add(currentSort.dir === 'asc' ? 'sorted-asc' : 'sorted-desc');
+    }
+  });
+}
+
+// Sort on header click
+document.querySelectorAll('th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (currentSort.col === col) {
+      currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+    } else {
+      currentSort.col = col;
+      currentSort.dir = (col === 'neighborhood' || col === 'region' || col === 'tier' || col === 'median' || col === 'commute' || col === 'recommendation') ? 'asc' : 'desc';
+    }
+    refresh();
+  });
+});
+
+// Filter handlers
+document.getElementById('filterRegion').addEventListener('change', refresh);
+document.getElementById('filterTier').addEventListener('change', refresh);
+document.getElementById('searchBox').addEventListener('input', refresh);
+document.getElementById('filterStep3').addEventListener('change', refresh);
+
+// Initial render
+refresh();
+
+// Click-to-explain popover
+const popover = document.createElement('div');
+popover.id = 'explainPopover';
+popover.innerHTML = '<span class="pop-close">&times;</span><div class="pop-header"><span class="pop-title"></span><span class="pop-score"></span></div><div class="pop-body"></div>';
+document.body.appendChild(popover);
+
+function showPopover(e) {
+  const td = e.target.closest('td[data-nbr]');
+  if (!td) return;
+  const nbr = td.dataset.nbr;
+  const col = td.dataset.col;
+  const entry = DATA.find(d => d.neighborhood === nbr);
+  if (!entry) return;
+  const rationale = entry.rationale && entry.rationale[col];
+  const text = rationale || 'No detailed rationale available for this score.';
+  const score = entry[col];
+  popover.querySelector('.pop-title').textContent = `${entry.neighborhood} — ${COL_LABELS[col] || col}`;
+  popover.querySelector('.pop-score').textContent = score.toFixed(1);
+  popover.querySelector('.pop-score').style.color = score >= 8 ? '#10b981' : score >= 6 ? '#60a5fa' : score >= 4 ? '#fbbf24' : '#f87171';
+  popover.querySelector('.pop-body').textContent = text;
+  // Position near click
+  const rect = td.getBoundingClientRect();
+  let top = rect.bottom + 8;
+  let left = rect.left;
+  if (top + 200 > window.innerHeight) top = rect.top - 200;
+  if (left + 380 > window.innerWidth) left = window.innerWidth - 400;
+  if (left < 10) left = 10;
+  popover.style.top = top + 'px';
+  popover.style.left = left + 'px';
+  popover.classList.add('visible');
+}
+
+document.getElementById('tableBody').addEventListener('click', showPopover);
+popover.querySelector('.pop-close').addEventListener('click', () => popover.classList.remove('visible'));
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#explainPopover') && !e.target.closest('td[data-nbr]')) {
+    popover.classList.remove('visible');
+  }
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') popover.classList.remove('visible'); });
+</script>
+</body>
+</html>
