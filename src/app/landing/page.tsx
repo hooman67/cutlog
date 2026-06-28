@@ -23,12 +23,12 @@ export default function LandingPage() {
       <section className="pt-32 pb-20 px-4">
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-            Stop testing parameters.{" "}
-            <span className="text-emerald-400">AI learns your machine.</span>
+            Dial in thick stainless &amp; mild steel{" "}
+            <span className="text-emerald-400">in fewer test cuts.</span>
           </h1>
 
           <p className="text-lg md:text-xl text-zinc-400 leading-relaxed">
-            The average operator wastes 2–3 sheets per new material. That's <span className="text-emerald-300 font-semibold">$100–450</span> before getting one good cut. CutLog eliminates that.
+            Every machine is different — so we don&apos;t sell you a magic number. CutLog gives you a <span className="text-emerald-300 font-semibold">trusted starting point</span> for gas, pressure, nozzle, focus, pierce and passes, plus a one-click LightBurn test grid. Burn fewer sheets dialing in 6–25mm metal.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -54,30 +54,30 @@ export default function LandingPage() {
           <h2 className="text-3xl font-bold text-center mb-16">Why Operators Love CutLog</h2>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Feature 1: AI scales your setup */}
+            {/* Feature 1: Honest starting point */}
+            <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700 hover:border-emerald-700/50 transition-colors">
+              <div className="text-4xl mb-4">🎯</div>
+              <h3 className="text-lg font-semibold mb-3">An honest starting point</h3>
+              <p className="text-zinc-400 text-sm leading-relaxed">
+                Full cutting parameters for 6–25mm steel, stainless and aluminum: assist gas &amp; pressure, nozzle, focus, pierce and passes. Not a magic number — a head start.
+              </p>
+            </div>
+
+            {/* Feature 2: Energy-normalized transfer */}
             <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700 hover:border-emerald-700/50 transition-colors">
               <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-lg font-semibold mb-3">AI scales your setup</h3>
+              <h3 className="text-lg font-semibold mb-3">Transfers to your wattage</h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                When you change lenses, AI automatically adjusts power. No manual tweaking.
+                A power % doesn&apos;t carry across machines. CutLog normalizes to energy-per-length (J/mm) and scales a setting to your laser&apos;s wattage automatically.
               </p>
             </div>
 
-            {/* Feature 2: AI trained on 500+ verified setups */}
+            {/* Feature 3: One-click test grid */}
             <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700 hover:border-emerald-700/50 transition-colors">
-              <div className="text-4xl mb-4">🎨</div>
-              <h3 className="text-lg font-semibold mb-3">AI trained on 500+ verified setups</h3>
+              <div className="text-4xl mb-4">🧪</div>
+              <h3 className="text-lg font-semibold mb-3">One-click test grid</h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                Fiber, CO2, diode, engraving, cutting. AI knows your use case.
-              </p>
-            </div>
-
-            {/* Feature 3: AI gets smarter every cut */}
-            <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700 hover:border-emerald-700/50 transition-colors">
-              <div className="text-4xl mb-4">✅</div>
-              <h3 className="text-lg font-semibold mb-3">AI gets smarter every cut</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed">
-                <span className="text-emerald-300 font-semibold">87% accuracy</span> vs. expert-tested data. Improves as you log cuts.
+                Generate a LightBurn material-test grid that sweeps speed or power. Run it once, pick the cleanest row, and confirm the setting for <em>your</em> machine.
               </p>
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function LandingPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold mb-2">Search material + thickness</h3>
-                <p className="text-zinc-400">Pick your material (acrylic, leather, wood, etc.) and thickness. CutLog searches its database of 500+ pro parameters.</p>
+                <p className="text-zinc-400">Pick your metal (mild steel, stainless, aluminum) and thickness — 6mm to 25mm. CutLog returns a starting point with gas, pressure, nozzle, focus and pierce, normalized to your wattage. Engraving materials supported too.</p>
               </div>
             </div>
 
@@ -124,8 +124,8 @@ export default function LandingPage() {
                 </div>
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">Get personalized recommendations</h3>
-                <p className="text-zinc-400">Receive speed, power, and frequency recommendations calibrated for your exact setup. One good cut on the first try.</p>
+                <h3 className="text-lg font-semibold mb-2">Confirm with a test grid</h3>
+                <p className="text-zinc-400">Generate a LightBurn material-test grid from your starting point, run it once, and lock in the exact setting for your machine — fewer wasted sheets, faster to production.</p>
               </div>
             </div>
           </div>

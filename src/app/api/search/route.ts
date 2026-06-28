@@ -25,6 +25,37 @@ interface SuggestionGroup {
   avg_rating: number
 }
 
+/**
+ * Provenance classification for a cut. Drives the colored badge on the suggest
+ * page so AI/scraped data NEVER looks as authoritative as verified data.
+ */
+type Provenance =
+  | "your_data"            // green   — the operator's own logged cut
+  | "community_verified"  // blue    — shared real-user cut, confirmed by operators
+  | "community_reported"  // teal    — shared real-user cut, not yet confirmed
+  | "scraped_reference"   // gray    — scraped/public reference data
+  | "ai_unverified"       // orange  — AI starting point, unverified
+
+/**
+ * Map a cut's source + signals to a provenance tag.
+ *   - own group        -> your_data
+ *   - source ai_baseline -> ai_unverified
+ *   - source scraped_public -> scraped_reference
+ *   - real community cut -> community_verified if verified by operators, else community_reported
+ */
+function deriveProvenance(
+  cut: any,
+  groupSource: "own" | "similar_machine" | "community",
+  verifiedCount: number
+): Provenance {
+  if (groupSource === "own") return "your_data"
+  if (cut.source === "ai_baseline") return "ai_unverified"
+  if (cut.source === "scraped_public") return "scraped_reference"
+  // user_logged + shared (community)
+  if (verifiedCount > 0) return "community_verified"
+  return "community_reported"
+}
+
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createServerSupabase()
@@ -214,6 +245,43 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // --- Verification counts ---
+    // Count distinct operators who confirmed this material/thickness worked
+    // (feedback_type = 'perfect'). Degrades gracefully if the feedback table or
+    // columns are absent. We bucket thickness to nearest 0.5mm to match search.
+    let verifiedCount = 0
+    try {
+      const { data: perfectFeedback } = await supabase
+        .from("feedback")
+        .select("user_id, thickness_mm")
+        .eq("feedback_type", "perfect")
+        .or(materialNames.map(n => `material.ilike.%${n}%`).join(","))
+        .gte("thickness_mm", thicknessMm - Math.max(finalTolerance, 0.5))
+        .lte("thickness_mm", thicknessMm + Math.max(finalTolerance, 0.5))
+
+      if (perfectFeedback && perfectFeedback.length > 0) {
+        verifiedCount = new Set(perfectFeedback.map((f: any) => f.user_id)).size
+      }
+    } catch {
+      // feedback table may not exist yet — leave verifiedCount at 0
+    }
+
+    // Attach provenance + verification signals to every cut so the UI can show
+    // honest, color-coded badges. AI/scraped entries are tagged distinctly.
+    for (const group of finalGroups) {
+      for (const cut of group.cuts) {
+        // Per-cut cached count if the column exists (migration 013); else fall
+        // back to the community-derived verifiedCount for shared real-user cuts.
+        const cutVerified = typeof cut.verified_count === "number" ? cut.verified_count : 0
+        const effectiveVerified =
+          group.source === "community"
+            ? Math.max(cutVerified, verifiedCount)
+            : cutVerified
+        cut.provenance = deriveProvenance(cut, group.source, effectiveVerified)
+        cut.verified_count = effectiveVerified
+      }
+    }
+
     // Also fetch user feedback for this material+thickness (for feedback correction)
     let feedbackData: any[] = []
     try {
@@ -235,6 +303,7 @@ export async function POST(request: NextRequest) {
       matchedAliases: resolvedAliases,
       tolerance: finalTolerance,
       feedbackData,
+      verifiedCount,
       userMachine,
     })
   } catch (error) {

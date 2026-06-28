@@ -11,16 +11,54 @@ import SmartNudges from "@/components/SmartNudges";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CutLog",
-  description: "Your machine's memory. Stop keeping parameters in your head.",
+  metadataBase: new URL("https://cutlog-two.vercel.app"),
+  title: {
+    default: "CutLog — Laser Cutting & Engraving Settings, Calibrated to Your Machine",
+    template: "%s | CutLog",
+  },
+  description:
+    "A better starting point so you run fewer test squares. Conservative, tested laser parameters for fiber metal cutting (mild steel, stainless, aluminum, 3–25mm), galvo/MOPA marking, and CO₂ — plus the material-test workflow to dial them in for your exact machine.",
+  keywords: [
+    "laser cutting settings",
+    "fiber laser parameters",
+    "laser cutting chart",
+    "best settings for laser cutting steel",
+    "stainless steel fiber laser settings",
+    "aluminum fiber laser cutting",
+    "MOPA color marking settings",
+    "galvo laser engraving settings",
+    "laser material test",
+    "CutLog",
+  ],
+  applicationName: "CutLog",
   manifest: "/manifest.json",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "CutLog",
+    title: "CutLog — Laser Settings Calibrated to Your Machine",
+    description:
+      "A better starting point so you run fewer test squares. Tested laser parameters for fiber metal cutting, galvo marking, and CO₂ — plus how to dial them in.",
+    url: "https://cutlog-two.vercel.app",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CutLog — Laser Settings Calibrated to Your Machine",
+    description:
+      "A better starting point so you run fewer test squares. Tested laser parameters for fiber metal cutting, galvo marking, and CO₂.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  // Allow pinch-zoom: bright-shop legibility + WCAG. (Do not set maximumScale/userScalable.)
+  viewportFit: "cover", // enables env(safe-area-inset-*) for installed PWA on iPhone
   themeColor: "#0a0a0a",
 };
 

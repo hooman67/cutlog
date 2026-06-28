@@ -86,8 +86,8 @@ export default function Home() {
       {/* Getting Started card for new users */}
       {cutCount === 0 && !machine && (
         <DiscoveryHint storageKey="home_getting_started" dismissable={true}>
-          <p className="font-medium text-zinc-200 mb-2">Welcome to CutLog!</p>
-          <p className="text-xs text-zinc-400 mb-2">Auto-scales parameters for your lens. Cutting & engraving. Validated against Etsy data.</p>
+          <p className="font-medium text-zinc-200 mb-2">Dial in thick stainless &amp; mild steel in fewer test cuts.</p>
+          <p className="text-xs text-zinc-400 mb-2">A trusted starting point for fiber cutting — gas, pressure, nozzle, focus, pierce &amp; passes — plus a one-click LightBurn test grid. Engraving supported too.</p>
           <ol className="list-decimal list-inside space-y-1.5 text-zinc-400 text-xs">
             <li>
               <Link href="/machine" className="text-sky-400 hover:text-sky-300">Set up your machine</Link>
@@ -132,6 +132,18 @@ export default function Home() {
           <div>
             <span className="font-medium">Cut History</span>
             <p className="text-sm text-zinc-500">View & search your logged cuts</p>
+          </div>
+        </div>
+      </button>
+
+      <button
+        onClick={() => router.push("/tools/material-test")}
+        className="w-full p-4 rounded-xl bg-sky-900/30 border border-sky-800 hover:bg-sky-900/50 transition-colors text-left mb-4"
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="font-medium">🧪 Material Test Generator</span>
+            <p className="text-sm text-zinc-500">Build a LightBurn test grid to confirm your settings</p>
           </div>
         </div>
       </button>

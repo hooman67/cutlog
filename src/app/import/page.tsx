@@ -39,10 +39,14 @@ export default function ImportPage() {
     setSuccess("");
     setEntries([]);
 
-    // Validate file extension client-side (since accept attribute is removed for iOS compatibility)
+    // Validate file extension client-side (since the accept attribute is removed
+    // for iOS compatibility). Accept LightBurn libraries/settings and CSV.
     const lowerName = file.name.toLowerCase();
-    if (!lowerName.endsWith(".clb") && !lowerName.endsWith(".xml")) {
-      setError("Invalid file type. Please select a .clb or .xml file from LightBurn.");
+    const allowed = [".clb", ".xml", ".lbset", ".csv", ".tsv", ".txt"];
+    if (!allowed.some((ext) => lowerName.endsWith(ext))) {
+      setError(
+        "Invalid file type. Please select a LightBurn library (.clb / .lbset / .xml) or a CSV (.csv) file."
+      );
       return;
     }
 
@@ -179,9 +183,14 @@ export default function ImportPage() {
         <h1 className="text-xl font-bold">Import LightBurn Library</h1>
       </div>
 
-      <p className="text-sm text-zinc-400 mb-6">
-        Upload a LightBurn .clb file to import cutting parameters into your CutLog library.
-        You can preview and select which entries to import before saving.
+      <p className="text-sm text-zinc-400 mb-2">
+        Upload a LightBurn library (.clb / .lbset / .xml) or a CSV to import cutting
+        parameters into your CutLog library. You can preview and select which entries
+        to import before saving.
+      </p>
+      <p className="text-xs text-emerald-400/90 mb-6">
+        Galvo / MOPA fiber files are supported — Q-pulse width, frequency, line interval,
+        DPI and scan angle are imported when present.
       </p>
 
       {/* File Upload Area */}
@@ -205,13 +214,13 @@ export default function ImportPage() {
             ) : (
               <>
                 <p className="text-zinc-300 font-medium mb-2">
-                  Tap to select your .clb file
+                  Tap to select your file
                 </p>
                 <p className="text-zinc-500 text-sm hidden sm:block">
                   or drag and drop
                 </p>
                 <p className="text-zinc-500 text-xs mt-2">
-                  Accepts .clb and .xml files from LightBurn
+                  Accepts .clb, .lbset, .xml (LightBurn) and .csv
                 </p>
               </>
             )}
@@ -223,7 +232,7 @@ export default function ImportPage() {
             disabled={parsing}
             className="w-full p-4 rounded-xl bg-blue-700 hover:bg-blue-600 font-semibold transition-colors disabled:opacity-50 sm:hidden"
           >
-            {parsing ? "Parsing..." : "Choose .clb File from Phone"}
+            {parsing ? "Parsing..." : "Choose File from Phone"}
           </button>
 
           <input
@@ -235,8 +244,9 @@ export default function ImportPage() {
 
           {/* Help text for mobile */}
           <div className="text-xs text-zinc-500 space-y-1 sm:hidden">
-            <p>Your .clb file is in your LightBurn folder, usually under Documents/LightBurn/Library.</p>
+            <p>Your .clb / .lbset file is in your LightBurn folder, usually under Documents/LightBurn/Library.</p>
             <p>If you transferred it to your phone, check Downloads or Files app.</p>
+            <p>You can also upload a CSV with material, thickness_mm, power_pct, speed_mm_min columns.</p>
           </div>
         </div>
       )}
@@ -320,6 +330,36 @@ export default function ImportPage() {
                       <span>{entry.line_interval_mm !== null ? `${entry.line_interval_mm}mm int.` : "—"}</span>
                       <span>{entry.num_passes !== null && entry.num_passes > 1 ? `${entry.num_passes} passes` : "1 pass"}</span>
                     </div>
+                    {/* Galvo / MOPA fiber params, shown only when present */}
+                    {(entry.q_pulse_ns !== null ||
+                      entry.frequency_hz !== null ||
+                      entry.scan_angle_degrees !== null ||
+                      entry.cross_hatch) && (
+                      <div className="flex flex-wrap gap-1.5 mt-1.5">
+                        {entry.q_pulse_ns !== null && (
+                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-900/40 text-amber-300">
+                            Q-pulse {entry.q_pulse_ns}ns
+                          </span>
+                        )}
+                        {entry.frequency_hz !== null && (
+                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-900/40 text-cyan-300">
+                            {entry.frequency_hz >= 1000
+                              ? `${Math.round(entry.frequency_hz / 1000)} kHz`
+                              : `${entry.frequency_hz} Hz`}
+                          </span>
+                        )}
+                        {entry.scan_angle_degrees !== null && (
+                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">
+                            {entry.scan_angle_degrees}° angle
+                          </span>
+                        )}
+                        {entry.cross_hatch && (
+                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">
+                            cross-hatch
+                          </span>
+                        )}
+                      </div>
+                    )}
                     {entry.notes && (
                       <p className="text-xs text-zinc-500 mt-1 truncate">{entry.notes}</p>
                     )}

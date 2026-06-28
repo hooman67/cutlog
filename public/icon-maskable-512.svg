@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#0a0a0f"/>
+  <defs>
+    <linearGradient id="b" x1="256" y1="100" x2="256" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.1"/>
+      <stop offset="80%" stop-color="#10b981" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#6ee7b7" stop-opacity="1"/>
+    </linearGradient>
+    <radialGradient id="g" cx="256" cy="300" r="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#10b981" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <polygon points="180,110 256,300 206,300" fill="url(#b)" opacity="0.6"/>
+  <polygon points="332,110 256,300 306,300" fill="url(#b)" opacity="0.6"/>
+  <line x1="256" y1="110" x2="256" y2="300" stroke="#10b981" stroke-width="6" opacity="0.9"/>
+  <circle cx="256" cy="300" r="80" fill="url(#g)"/>
+  <circle cx="256" cy="300" r="13" fill="#ffffff"/>
+  <line x1="130" y1="350" x2="382" y2="350" stroke="#3f3f46" stroke-width="6"/>
+  <line x1="190" y1="350" x2="322" y2="350" stroke="#10b981" stroke-width="6" opacity="0.8"/>
+</svg>

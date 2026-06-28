@@ -13,6 +13,7 @@ export default function History() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [exporting, setExporting] = useState(false);
+  const [exportMenuOpen, setExportMenuOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
@@ -178,13 +179,24 @@ export default function History() {
     });
   }
 
-  async function handleExport() {
+  // Export format options shown in the chooser. Extension drives the
+  // downloaded filename; the API decides Content-Type per format.
+  const EXPORT_FORMATS = [
+    { key: "clb", label: "LightBurn", ext: "clb", mime: "application/xml" },
+    { key: "ezcad", label: "EZCAD", ext: "csv", mime: "text/csv" },
+    { key: "rdworks", label: "RDWorks", ext: "csv", mime: "text/csv" },
+    { key: "csv", label: "Universal CSV", ext: "csv", mime: "text/csv" },
+  ] as const;
+
+  async function handleExport(format: (typeof EXPORT_FORMATS)[number]) {
+    setExportMenuOpen(false);
     setExporting(true);
     try {
       const params = new URLSearchParams();
+      params.set("format", format.key);
       if (search) params.set("material", search);
 
-      const res = await fetch(`/api/export-clb?${params.toString()}`, {
+      const res = await fetch(`/api/export?${params.toString()}`, {
         credentials: "include",
       });
 
@@ -196,12 +208,12 @@ export default function History() {
       }
 
       const blob = await res.blob();
-      const filename = `CutLog_Export_${new Date().toISOString().split("T")[0]}.clb`;
+      const filename = `CutLog_Export_${new Date().toISOString().split("T")[0]}.${format.ext}`;
 
       // Mobile-compatible download approach
       if (typeof navigator !== "undefined" && navigator.share && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Use Web Share API on mobile (allows saving to Files app)
-        const file = new File([blob], filename, { type: "application/xml" });
+        const file = new File([blob], filename, { type: format.mime });
         try {
           await navigator.share({ files: [file], title: "CutLog Export" });
         } catch (shareErr: unknown) {
@@ -245,14 +257,45 @@ export default function History() {
           onChange={(e) => setSearch(e.target.value)}
           className="flex-1 p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
         />
-        <button
-          onClick={handleExport}
-          disabled={exporting || cuts.length === 0}
-          title="Export as LightBurn Library (.clb)"
-          className="px-4 py-3 rounded-xl bg-blue-900/50 border border-blue-800 hover:bg-blue-900/80 text-blue-300 text-sm font-medium transition-colors disabled:opacity-50 flex-shrink-0"
-        >
-          {exporting ? "..." : "Export .clb"}
-        </button>
+        <div className="relative flex-shrink-0">
+          <button
+            onClick={() => setExportMenuOpen((o) => !o)}
+            disabled={exporting || cuts.length === 0}
+            title="Export cuts to laser software"
+            aria-haspopup="menu"
+            aria-expanded={exportMenuOpen}
+            className="px-4 py-3 rounded-xl bg-blue-900/50 border border-blue-800 hover:bg-blue-900/80 text-blue-300 text-sm font-medium transition-colors disabled:opacity-50 flex items-center gap-1"
+          >
+            {exporting ? "..." : "Export"}
+            {!exporting && <span className="text-xs">▾</span>}
+          </button>
+
+          {exportMenuOpen && (
+            <>
+              {/* Click-away backdrop */}
+              <div
+                className="fixed inset-0 z-10"
+                onClick={() => setExportMenuOpen(false)}
+              />
+              <div
+                role="menu"
+                className="absolute right-0 mt-2 w-48 z-20 rounded-xl bg-zinc-900 border border-zinc-700 shadow-xl overflow-hidden"
+              >
+                {EXPORT_FORMATS.map((fmt) => (
+                  <button
+                    key={fmt.key}
+                    role="menuitem"
+                    onClick={() => handleExport(fmt)}
+                    className="w-full text-left px-4 py-3 text-sm text-zinc-200 hover:bg-zinc-800 transition-colors border-b border-zinc-800 last:border-b-0"
+                  >
+                    {fmt.label}
+                    <span className="text-zinc-500 ml-1">.{fmt.ext}</span>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {loading ? (

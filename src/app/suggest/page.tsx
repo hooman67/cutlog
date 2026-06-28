@@ -8,6 +8,29 @@ import type { Machine, Material, Cut } from "@/lib/types";
 import { SPEED_PROFILE_MULTIPLIERS, isGalvoMode } from "@/lib/types";
 import { DiscoveryHint, HintLink } from "@/components/DiscoveryHint";
 import { scaleParameters, checkScalingWarning, canScaleBetweenTypes, formatScalingNote } from "@/lib/scaling";
+import { linearEnergyDensity, crossMachineSpeed, formatEnergyDensity } from "@/lib/energy";
+
+type Provenance =
+  | "your_data"
+  | "community_verified"
+  | "community_reported"
+  | "scraped_reference"
+  | "ai_unverified";
+
+const PROVENANCE_META: Record<Provenance, { label: string; cls: string }> = {
+  your_data: { label: "Your data", cls: "bg-emerald-900/50 border-emerald-600 text-emerald-300" },
+  community_verified: { label: "Community-verified", cls: "bg-blue-900/50 border-blue-600 text-blue-300" },
+  community_reported: { label: "Community-reported", cls: "bg-teal-900/50 border-teal-600 text-teal-300" },
+  scraped_reference: { label: "Scraped/reference", cls: "bg-zinc-800 border-zinc-600 text-zinc-400" },
+  ai_unverified: { label: "AI starting point — unverified", cls: "bg-orange-900/50 border-orange-600 text-orange-300" },
+};
+
+/** Map a SuggestionGroup source to its provenance when a cut lacks an explicit tag. */
+function fallbackProvenance(source: "own" | "similar_machine" | "community"): Provenance {
+  if (source === "own") return "your_data";
+  if (source === "similar_machine") return "ai_unverified";
+  return "community_reported";
+}
 
 interface ScaledCut extends Cut {
   scaled_power?: number
@@ -17,6 +40,9 @@ interface ScaledCut extends Cut {
   source_tier_weight?: number
   machine_wattage?: number | null
   machine_source_type?: string | null
+  // Provenance / verification (from search API)
+  provenance?: Provenance
+  verified_count?: number
 }
 
 interface SuggestionGroup {
@@ -60,6 +86,14 @@ interface SpeedRecommendation {
   // Feedback correction
   feedbackCorrectionApplied?: boolean;
   feedbackCorrectionDirection?: 'faster' | 'slower';
+  // Provenance / verification (honest trust signals)
+  topProvenance?: Provenance;
+  verifiedCount?: number;
+  // J/mm energy normalization (honest cross-machine transfer)
+  jPerMm?: number | null;
+  sourceWattageW?: number | null;
+  // Speed scaled to the user's machine via energy density (starting point)
+  energyScaledSpeed?: number | null;
 }
 
 interface AiSuggestionResult {
@@ -286,7 +320,83 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
     scalingNote = scaledCut.scaling_note;
   }
 
+  // --- Provenance / verification: surface the most authoritative source present ---
+  // Priority: your_data > community_verified > community_reported > scraped > ai
+  const provenanceRank: Record<Provenance, number> = {
+    your_data: 5,
+    community_verified: 4,
+    community_reported: 3,
+    scraped_reference: 2,
+    ai_unverified: 1,
+  };
+  let topProvenance: Provenance | undefined;
+  let verifiedCount = 0;
+  for (const group of groups) {
+    for (const cut of group.cuts) {
+      const prov = cut.provenance || fallbackProvenance(group.source);
+      if (!topProvenance || provenanceRank[prov] > provenanceRank[topProvenance]) {
+        topProvenance = prov;
+      }
+      if (typeof cut.verified_count === "number") {
+        verifiedCount = Math.max(verifiedCount, cut.verified_count);
+      }
+    }
+  }
+
+  // --- J/mm energy normalization (honest cross-machine transfer) ---
+  // Use the highest-weighted good cut as the representative data point.
+  const repCut = goodCuts.reduce<ScaledCut | null>((best, c) => {
+    if (!best) return c;
+    return (c.source_tier_weight || 0) > (best.source_tier_weight || 0) ? c : best;
+  }, null);
+
+  let jPerMm: number | null = null;
+  let sourceWattageW: number | null = null;
+  let energyScaledSpeed: number | null = null;
+
+  if (repCut && repCut.power_pct !== null && repCut.speed_mm_min) {
+    // The source wattage: recorded with the cut, else the community machine
+    // wattage, else (for own cuts) the user's machine wattage.
+    sourceWattageW =
+      repCut.recorded_wattage_w ??
+      repCut.machine_wattage ??
+      userMachine?.wattage_w ??
+      null;
+
+    jPerMm = linearEnergyDensity({
+      powerPct: repCut.power_pct,
+      wattageW: sourceWattageW,
+      speedMmMin: repCut.speed_mm_min,
+      numPasses: repCut.num_passes ?? 1,
+    });
+
+    // If the user's machine wattage differs from the source, compute the speed
+    // that achieves the same J/mm at the cut's power % on the user's machine.
+    if (
+      jPerMm !== null &&
+      userMachine?.wattage_w &&
+      sourceWattageW &&
+      userMachine.wattage_w !== sourceWattageW
+    ) {
+      const transferred = crossMachineSpeed({
+        sourcePowerPct: repCut.power_pct,
+        sourceWattageW,
+        sourceSpeedMmMin: repCut.speed_mm_min,
+        sourceNumPasses: repCut.num_passes ?? 1,
+        targetPowerPct: repCut.power_pct,
+        targetWattageW: userMachine.wattage_w,
+        targetNumPasses: repCut.num_passes ?? 1,
+      });
+      energyScaledSpeed = transferred !== null ? Math.round(transferred) : null;
+    }
+  }
+
   return {
+    topProvenance,
+    verifiedCount,
+    jPerMm,
+    sourceWattageW,
+    energyScaledSpeed,
     avgSpeed,
     fastSpeed,
     conservativeSpeed,
@@ -658,8 +768,14 @@ export default function Suggest() {
         <button onClick={() => router.back()} className="text-zinc-400 hover:text-zinc-200 text-lg">&larr;</button>
         <h1 className="text-xl font-bold">{isGalvoMode(userMachine) ? "How fast should I engrave?" : "How fast should I cut?"}</h1>
       </div>
-      <p className="text-sm text-zinc-500 mb-4 ml-8">
-        Enter your material and thickness. We&apos;ll tell you how fast to go.
+      <p className="text-sm text-zinc-500 mb-2 ml-8">
+        Enter your material and thickness for a trusted starting point — so you run
+        fewer test squares. Every machine is different; always confirm with a test cut.
+      </p>
+      <p className="text-xs ml-8 mb-4">
+        <Link href="/tools/material-test" className="text-sky-400 hover:text-sky-300">
+          Generate a LightBurn material-test grid →
+        </Link>
       </p>
 
       {isGalvoMode(userMachine) && (
@@ -726,6 +842,33 @@ export default function Suggest() {
             className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-blue-600 focus:outline-none text-zinc-100 placeholder-zinc-500"
           />
         </div>
+
+        {/* Thick-metal fiber cutting quick picks (hidden in galvo mode) */}
+        {!isGalvoMode(userMachine) && (
+          <div>
+            <p className="text-xs text-zinc-500 mb-2">Common thick-metal cuts:</p>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { m: "Mild Steel", t: "6" },
+                { m: "Mild Steel", t: "10" },
+                { m: "Mild Steel", t: "16" },
+                { m: "Stainless Steel", t: "6" },
+                { m: "Stainless Steel", t: "10" },
+                { m: "Aluminum", t: "8" },
+                { m: "Aluminum", t: "12" },
+              ].map((q) => (
+                <button
+                  key={`${q.m}-${q.t}`}
+                  type="button"
+                  onClick={() => { setMaterial(q.m); setMaterialSearch(""); setShowDropdown(false); setThickness(q.t); }}
+                  className="px-3 py-1.5 rounded-lg border border-zinc-700 bg-zinc-900 text-zinc-300 text-xs font-medium hover:border-blue-600 hover:text-blue-300 transition-colors"
+                >
+                  {q.m} {q.t}mm
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <button
           type="submit"
@@ -1016,6 +1159,46 @@ export default function Suggest() {
                 </div>
               </div>
 
+              {/* Provenance + verification badges (honest trust signals) */}
+              {(speedRec.topProvenance || (speedRec.verifiedCount ?? 0) > 0) && (
+                <div className="flex items-center justify-center flex-wrap gap-2 mb-2">
+                  {speedRec.topProvenance && (
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${PROVENANCE_META[speedRec.topProvenance].cls}`}>
+                      {PROVENANCE_META[speedRec.topProvenance].label}
+                    </span>
+                  )}
+                  {(speedRec.verifiedCount ?? 0) > 0 && (
+                    <span className="px-2 py-0.5 rounded-full text-xs font-medium border bg-emerald-900/50 border-emerald-700 text-emerald-300">
+                      ✓ Verified by {speedRec.verifiedCount} operator{speedRec.verifiedCount !== 1 ? "s" : ""}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {/* J/mm energy density badge (honest, machine-independent) */}
+              {speedRec.jPerMm != null && (
+                <div className="flex items-center justify-center mb-3">
+                  <span className="px-2 py-0.5 rounded-full text-xs font-mono bg-zinc-800/70 border border-zinc-700 text-zinc-400" title="Linear energy density — transfers across machines of different wattage, unlike a raw power %.">
+                    ⚡ {formatEnergyDensity(speedRec.jPerMm)}
+                  </span>
+                </div>
+              )}
+
+              {/* Energy-scaled speed for the user's machine wattage (starting point) */}
+              {speedRec.energyScaledSpeed != null && userMachine?.wattage_w && speedRec.sourceWattageW && (
+                <div className="bg-sky-900/20 border border-sky-800/50 rounded-lg p-3 mb-3 text-xs">
+                  <p className="text-sky-300">
+                    Scaled to your machine ({userMachine.wattage_w >= 1000 ? `${userMachine.wattage_w / 1000}kW` : `${userMachine.wattage_w}W`}):
+                    <span className="font-mono font-semibold ml-1">~{speedRec.energyScaledSpeed.toLocaleString()} mm/min</span>
+                  </p>
+                  <p className="text-sky-400/60 mt-1">
+                    Same energy per mm ({formatEnergyDensity(speedRec.jPerMm)}) as the source data
+                    ({speedRec.sourceWattageW >= 1000 ? `${speedRec.sourceWattageW / 1000}kW` : `${speedRec.sourceWattageW}W`}) at the same power %.
+                    Starting point — run a material test.
+                  </p>
+                </div>
+              )}
+
               {/* Confidence badge */}
               <div className="flex items-center justify-center gap-2 mb-3">
                 <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
@@ -1117,9 +1300,14 @@ export default function Suggest() {
                   {suggestions.map((group) => (
                     <div key={group.source} className="mb-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className={`px-2 py-0.5 rounded-md border text-xs font-medium ${group.badge_color}`}>
-                          {group.source === "own" ? "YOUR DATA" : group.source === "similar_machine" ? "AI BASELINE" : "COMMUNITY"}
-                        </span>
+                        {(() => {
+                          const prov = (group.cuts[0]?.provenance as Provenance) || fallbackProvenance(group.source);
+                          return (
+                            <span className={`px-2 py-0.5 rounded-md border text-xs font-medium ${PROVENANCE_META[prov].cls}`}>
+                              {PROVENANCE_META[prov].label}
+                            </span>
+                          );
+                        })()}
                         <span className="text-sm text-zinc-400">{group.label}</span>
                         <span className="text-sm text-yellow-400 ml-auto">
                           {"★".repeat(Math.round(group.avg_rating))} {group.avg_rating.toFixed(1)}
@@ -1155,6 +1343,33 @@ export default function Suggest() {
                                 <span className="font-mono">{formatParam(cut.nozzle_diameter_mm, "mm")}</span>
                               </div>
                             )}
+                            {!isGalvoMode(userMachine) && cut.nozzle_distance_mm != null && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Nozzle Gap</span>
+                                <span className="font-mono">{formatParam(cut.nozzle_distance_mm, "mm")}</span>
+                              </div>
+                            )}
+                            {!isGalvoMode(userMachine) && cut.num_passes != null && cut.num_passes > 1 && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Passes</span>
+                                <span className="font-mono">{cut.num_passes}</span>
+                              </div>
+                            )}
+                            {(() => {
+                              const wattage = cut.recorded_wattage_w ?? cut.machine_wattage ?? userMachine?.wattage_w ?? null;
+                              const jmm = linearEnergyDensity({
+                                powerPct: cut.power_pct,
+                                wattageW: wattage,
+                                speedMmMin: cut.speed_mm_min,
+                                numPasses: cut.num_passes ?? 1,
+                              });
+                              return jmm != null ? (
+                                <div>
+                                  <span className="text-zinc-500 text-xs block">Energy</span>
+                                  <span className="font-mono text-zinc-400">{formatEnergyDensity(jmm)}</span>
+                                </div>
+                              ) : null;
+                            })()}
                             {cut.q_pulse_ns && (
                               <div>
                                 <span className={`text-xs block ${isGalvoMode(userMachine) ? "text-emerald-400 font-medium" : "text-zinc-500"}`}>Q-Pulse</span>

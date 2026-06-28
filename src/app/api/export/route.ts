@@ -1,19 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabase } from "@/lib/supabase/server";
-import { toLightBurnClb } from "@/lib/exporters";
+import { formats, isExportFormat } from "@/lib/exporters";
 
 /**
- * GET /api/export-clb
+ * GET /api/export
+ *
+ * Multi-format export of the authenticated user's cuts.
+ *
  * Query params:
+ *   - format (required): one of clb | ezcad | rdworks | csv. Defaults to "clb".
  *   - machine_id (optional): filter cuts by machine
  *   - material (optional): filter by material (case-insensitive partial match)
  *   - source (optional): filter by source type
  *
- * Returns a downloadable .clb (XML) file.
- *
- * NOTE: The actual .clb XML generation now lives in `@/lib/exporters`
- * (`toLightBurnClb`) so it can be reused by the multi-format /api/export
- * route and unit-tested. This endpoint is preserved for backward compat.
+ * Returns a downloadable file with the appropriate Content-Type and filename
+ * extension for the requested format. Mirrors /api/export-clb's auth + query.
  */
 export async function GET(request: NextRequest) {
   try {
@@ -28,11 +29,20 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
+    const formatParam = searchParams.get("format") || "clb";
+
+    if (!isExportFormat(formatParam)) {
+      return NextResponse.json(
+        { error: `Unsupported export format "${formatParam}". Use one of: clb, ezcad, rdworks, csv.` },
+        { status: 400 }
+      );
+    }
+
     const machineId = searchParams.get("machine_id");
     const materialFilter = searchParams.get("material");
     const sourceFilter = searchParams.get("source");
 
-    // Build query
+    // Mirror export-clb's query: user-scoped, grouped/ordered by material+thickness.
     let query = supabase
       .from("cuts")
       .select("*")
@@ -67,10 +77,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { content, filename, mimeType } = toLightBurnClb(
-      cuts,
-      user.email || "CutLog User"
-    );
+    const { fn } = formats[formatParam];
+    const { content, filename, mimeType } = fn(cuts, user.email || "CutLog User");
 
     return new NextResponse(content, {
       status: 200,
@@ -80,7 +88,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Export CLB error:", error);
+    console.error("Export error:", error);
     return NextResponse.json(
       { error: "Failed to generate export file." },
       { status: 500 }
