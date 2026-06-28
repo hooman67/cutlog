@@ -210,33 +210,27 @@ What's your approach to thick cuts? Do you refocus between passes? And is there 
 
 ---
 
-### POST 6: r/lasercutting (HIGH VALUE - CAREFUL APPROACH)
+### POST 6: r/lasercutting (FINAL VERSION - 2026-06-28)
 
-**Title:** I've been collecting laser parameters for 2 years and finally turned my database into a free tool -- 5,653 settings across 562 materials
+**Title:** Wasted half a sheet of 20mm on a Thursday because I couldn't find my own settings — so I built something to fix it
 
 **Body:**
 
-Two years ago I started keeping a detailed spreadsheet every time I dialed in a new material. Power, speed, passes, focal length, air assist, notes. Eventually friends in my makerspace started asking if they could use it -- but the settings didn't translate directly because their machines were different.
+Last fall I was running 20mm carbon steel on our 6kW — a job we'd done before, but on different plate stock. Supplier switched from S235 to S355 without telling us. I started with our old settings (1200 mm/min, O2 at 0.9 bar, focus at -3.0) and got halfway through the first sheet before the edge quality went to hell. Dross you could hang a coat on. Backed the speed down to 1000, bumped gas to 1.1, still not right. By the time I had a clean cut dialed in I'd burned through about $180 in plate and an hour of production time on what should have been a 15-minute setup.
 
-That sparked an idea: what if the database could scale recommendations based on the specific machine? A 60W CO2 with a 2" lens needs different parameters than a 100W with a 4" lens, even for the same material. Same for diode vs CO2.
+The part that pissed me off was that I'd solved this EXACT problem six months earlier on a different job. Same material class, similar thickness. But I couldn't remember if I'd written those settings in the notebook, on the whiteboard, or in one of forty text files on the shop computer. Classic.
 
-So I built CutLog: https://cutlog-two.vercel.app
+So I started building a tool to fix it. Started as a spreadsheet, grew into something bigger once other operators started contributing their verified settings. The idea: operators log what actually works on their machines, everyone benefits from each other's testing. Your 6kW HSG cutting 12mm mild steel? Someone with a similar setup already logged their verified speed, gas, and focus. You get their proven starting point instead of guessing from scratch.
 
-It's a free web app (no account, no paywall) that:
-- Recommends cut/engrave parameters based on your machine config (laser type, wattage, lens)
-- Has 5,653 community-contributed parameters across 562+ materials
-- Imports your existing LightBurn .clb material library
-- Learns per-machine (rate your results and it refines future suggestions)
-- Auto-scales when you change lenses or upgrade wattage
-- Supports CO2, fiber, diode, and UV
+For materials or thicknesses where no operator has logged data yet, AI generates a conservative starting point based on the physics (wavelength, power density, material properties). It's clearly labeled as "AI suggestion, unverified" so you know the difference between something a human tested and something the machine calculated. Once you try it and confirm it works, it becomes verified community data for the next person.
 
-The "AI" part is essentially pattern matching -- it looks at successful parameters from similar machine configurations and extrapolates for your setup. Not magic, just math.
+Right now there are 5,800+ verified settings from real operators. Everything from hobby diode stuff up to 25mm carbon and 316L on 12kW machines. When you search, it matches against YOUR setup specifically — same laser type, similar wattage, same material — and weights results by how close that operator's machine is to yours.
 
-I've been using it daily for 6 months and my material test grids went from 20+ squares down to 4-6 to find optimal settings. Biggest time saver has been lens changes -- instead of retesting everything, it recalculates automatically.
+It does require an account because it tracks your specific machine and learns from your feedback. You tell it a cut was too fast or too slow, next time the recommendation adjusts for YOUR machine's quirks. Over time it basically becomes your personalized parameter memory that actually remembers what you forgot to write down.
 
-I'm sharing it here because I genuinely want feedback from experienced users. Where does it fall short? What edge cases should I handle better? What materials are underrepresented?
+I put the link on my profile if anyone wants to try it.
 
-This is a passion project, not a business. Just a maker sharing something that helped me.
+Still building this out and the industrial side needs more operators contributing thick material data specifically. Curious from the thick-material crowd: when you switch to a new alloy or thickness, what's your actual process? Manufacturer charts, machine vendor support, gut feel and test cuts? And once you nail it, where does that knowledge actually live?
 
 ---
 
@@ -560,6 +554,9 @@ The tool is free and people like it, but I have no monetization path that doesn'
 | 2026-07-07 (Mon) | r/lasercutting | ACTIVE | Post 6. Biggest audience, most polished post needed. Careful approach. Karma-building comments started 2026-06-25. |
 | 2026-07-10 (Thu) | r/hobbycnc | ACTIVE | (2026-06-25) joined, commenting. Post 7. Must include disclosure. |
 | 2026-07-13 (Sun) | r/xToolOfficial | ACTIVE | (2026-06-25) joined, commenting. Post 8. Only if previous posts went well. |
+| TBD | r/Machinists | ACTIVE | (2026-06-28) joined. 275K professional CNC operators. Build karma before posting. |
+| TBD | r/metalworking | ACTIVE | (2026-06-28) joined. 762K+ professional metalworkers. Build karma before posting. |
+| TBD | r/sheetmetal | ACTIVE | (2026-06-28) joined. 7K sheet metal shops — exact target audience. Build karma before posting. |
 | 2026-07-16 (Wed) | r/sideproject | READY | Post 9. Builder-to-builder tone, share tech stack and what's next. |
 | 2026-07-19 (Sat) | r/indiehackers | READY | Post 10. Journey-focused, share validation process and real numbers. |
 
@@ -600,6 +597,11 @@ The tool is free and people like it, but I have no monetization path that doesn'
 | 2026-06-27 | Facebook: Laser Engraving for Beginners | Replied to skeptics Marc's + Michael Greenstein on lead-gen post. Conversational, no CutLog mention. |
 | 2026-06-27 | Facebook: DIY Fiber Laser | Replied to skeptics Michael Barry + Tony Smiley + Paul Allen Durr Jr. on lead-gen post. Conversational, no CutLog mention. |
 | 2026-06-28 | Facebook: CNC Fiber Laser Ninja | Replied to Jacob Aldrich's quoting software question. Gave actual software recommendations (SecturaSOFT, Lantek, Paperless Parts) + mentioned CutLog for the parameter estimation piece of quoting. |
+| 2026-06-28 | r/ChineseLaserCutters | Post now at 6 upvotes, 2.1K views, 4 comments. Jkwilborn replied positively (went from skeptic to supporter). Reddit suggesting repost to r/hobbycnc and r/CNC. |
+| 2026-06-28 | r/lasercutting | Posted CutLog announcement (Post 6 final version). Title: "Wasted half a sheet of 20mm on a Thursday because I couldn't find my own settings — so I built something to fix it". Link in profile (sub doesn't allow links in posts). Pending approval. |
+| 2026-06-28 | r/Machinists | Joined. Starting karma building. 275K members, professional CNC operators. |
+| 2026-06-28 | r/metalworking | Joined. Starting karma building. 762K+ members, professional metalworkers. |
+| 2026-06-28 | r/sheetmetal | Joined. Starting karma building. 7K members, directly our audience (sheet metal shops with fiber lasers). |
 
 **Karma-building status (2026-06-25):**
 - r/laserengraving: ACTIVE (commenting/building karma)
@@ -607,3 +609,123 @@ The tool is free and people like it, but I have no monetization path that doesn'
 - r/lasercutting: ACTIVE (commenting/building karma)
 - r/hobbycnc: ACTIVE (commenting/building karma)
 - r/xToolOfficial: ACTIVE (commenting/building karma)
+- r/Machinists: ACTIVE (joined 2026-06-28, building karma)
+- r/metalworking: ACTIVE (joined 2026-06-28, building karma)
+- r/sheetmetal: ACTIVE (joined 2026-06-28, building karma)
+
+---
+
+## Comments Ready to Post (2026-06-28)
+
+### r/metalworking — https://www.reddit.com/r/metalworking/comments/1uh5de7
+"CNC plasma vs fiber laser, what actually made you pull the trigger?"
+
+Ran plasma for years before switching to a 6kW fiber about 18 months ago. The thing that finally pushed me over was secondary operations. With plasma I was always grinding, cleaning dross, dealing with bevel on anything under 10ga. Fiber cuts just come off the table ready to weld or powder coat without touching them.
+
+That said, if you're mostly doing 1/2" and up structural stuff, plasma still makes a lot of sense economically. The capital cost difference is real and the cut quality gap narrows a lot once you get into thicker plate.
+
+For me the math worked because we do a ton of 16ga through 1/4" mild steel and stainless. The labor savings on deburring alone paid for the upgrade faster than I expected. Plus nitrogen assist on stainless means oxide free edges, no pickling required. That was a game changer for our food service fabrication work.
+
+If you're 80%+ mild steel under 1/2", fiber is worth stretching the budget. If it's mostly heavy structural plate, plasma is still the right call and you can put the savings into a better table and better consumables.
+
+---
+
+### r/metalworking — https://www.reddit.com/r/metalworking/comments/1ticc02
+"Trying not to potato-chip 3mm stainless enclosures"
+
+That 500W range is the sweet spot for 3mm box work in my experience. We do a bunch of stainless enclosures and the biggest wins were all about managing heat input per unit length.
+
+A few things that helped us beyond just power settings: stitch welding pattern instead of running continuous, even on cosmetic sides. Like 15mm on, 5mm skip, then come back and fill the gaps after the first pass cools. Distributes heat way more evenly.
+
+Also if you're not already doing it, tack spacing matters more than people think. On 3mm I'll put tacks every 40mm or so on a longer seam before running it. Keeps the gap from opening up as heat walks down the joint, and the part stays constrained so it can't dish.
+
+Backing bars help too. Even just a piece of flat bar clamped behind the seam acts as a heat sink and stiffener during welding. Copper or aluminum backing pulls heat away even faster if you have it around.
+
+---
+
+### r/metalworking — https://www.reddit.com/r/metalworking/comments/1tvydxv
+"Beginner needing help with welding! (MIG on laser cut 304 stainless)"
+
+Your biggest issue is the gas. 100% CO2 on stainless is going to give you grief every single time. It oxidizes the weld pool and creates all that black soot you're seeing. You want a tri mix (like 90% He, 7.5% Ar, 2.5% CO2) or at minimum a 98% Ar / 2% CO2 blend for stainless MIG. The difference is night and day.
+
+The erratic arc starts on laser cut edges are common. Laser cut stainless has a thin oxide layer from the cutting process, especially if it was cut with oxygen assist rather than nitrogen. Try hitting the start point with a flap disc or scotch brite pad right before welding. Just a quick pass to get down to bright metal on the first 10mm or so.
+
+That pulsing thing you're describing sounds like your wire feed is struggling. At 6 m/min with 0.8mm wire you're on the low side for 3mm stainless. Could also be a liner issue or a contact tip that's wearing. But honestly, fix the gas first because everything else will look different once you're running a proper shielding mix.
+
+---
+
+### r/lasercutting — https://www.reddit.com/r/lasercutting/comments/1u2z60i
+"Problem with laser cutting (5mm mild steel, oxygen assist)"
+
+Classic bottom edge roughness on mild steel with O2 usually comes down to three things: focus position, gas pressure, or speed being slightly too fast.
+
+First check your focus. For 5mm mild with O2 on a 3kW, you typically want focus at roughly 2/3 material thickness below the surface (so around negative 3 to 3.5mm). If focus is too high, the beam diverges before it exits the bottom and you get that ratty edge with slag hanging on.
+
+Second, O2 pressure. For 5mm mild I usually run between 0.6 and 0.8 bar. Too much pressure and the exothermic reaction gets out of control, which causes burning and rough edges. Too little and you can't clear the kerf. Start at 0.6 and bump up in small increments.
+
+Third, speed. If your top looks clean but the bottom doesn't separate, you're likely 5 to 10% too fast. The beam energy is enough to start the cut but not enough dwell time to fully eject molten material at the exit side. Slow down a touch and see if it cleans up.
+
+Also double check your nozzle. A 1.5mm single nozzle is standard for 5mm mild with O2. If it's dinged or off center, your gas flow goes crooked and the bottom half of the cut suffers. Hold a piece of tape over it and do a pulse to check centering.
+
+---
+
+### r/lasercutting — https://www.reddit.com/r/lasercutting/comments/1tv7bqw
+"Cutting Copper on Fiber Laser (nozzle overheating)"
+
+Copper is brutal on nozzles because of back reflection heating the tip and the high thermal conductivity pulling heat everywhere. A few things that help:
+
+Use a ceramic or chrome plated nozzle tip if your head supports it. Standard brass nozzles absorb reflected energy way faster. The ceramic insulator ring between the nozzle and the head body also matters since it prevents conducted heat from traveling up.
+
+Stand off distance, run it a bit higher than normal. On copper I'll bump from the standard 0.5 to 1.0mm up to 1.5mm or even 2.0mm. Gives the reflected beam more room to spread before hitting the nozzle face, and gives you better gas coverage at 225psi which is good pressure for copper.
+
+Pierce strategy matters too. Ramp piercing instead of a hard pierce reduces the initial back reflection spike that tends to be what starts the thermal runaway on the nozzle. If you're doing a full power blast pierce on copper, that first fraction of a second is when all the energy bounces straight back before the kerf opens up.
+
+Also make sure your cutting direction keeps the nozzle away from previously cut hot edges. Copper holds heat forever and cutting back across a recently cut area radiates a ton of energy upward.
+
+---
+
+### r/lasercutting — https://www.reddit.com/r/lasercutting/comments/1ufilp5
+"Sisyphus (1200W Gweike can't cut reflective materials)"
+
+Yeah, this is unfortunately a pretty common situation. At 1200W you're fundamentally limited on copper and silver thickness. The issue isn't just power, it's that those materials reflect 90%+ of the beam energy at 1064nm wavelength back into the delivery fiber, which damages the source itself over time.
+
+The machines that handle reflective materials at lower powers generally use a different beam delivery approach: shorter focal length, higher power density at the focal point to break through that initial reflective barrier quickly, and protective back reflection isolators built into the resonator. That's not something you can retrofit onto a source that wasn't designed for it.
+
+Realistically at 1200W on copper you might manage 1mm or maybe 1.5mm with a proper source, but you won't be doing production runs of anything thicker. For silver, similar story.
+
+If the budget won't allow a new machine, the pragmatic answer might be to subcontract the copper and silver cutting to a shop that has a 4kW or 6kW with proper back reflection protection, and use the Gweike for what it's good at. A machine that's not designed for reflective materials will either cut poorly or kill the source eventually.
+
+---
+
+### r/Machinists — https://www.reddit.com/r/Machinists/comments/1tquu2n
+"Shearing machine vs Laser cutting for high volume manufacturing"
+
+Depends a lot on your volumes and part geometry. For simple rectangular blanks where the shear + blanking die is already paid for, the per-piece cost is going to be hard to beat with a laser, especially on thinner gauge stuff under 2mm. The shear/press combo is brute force but it's fast as hell for what it does.
+
+Where a fiber laser starts making sense is when you've got irregular shapes, tight nesting requirements, or frequent changeovers between part numbers. No tooling cost per new geometry, and modern machines with automatic nozzle changers can switch from 0.7mm CR to 6mm HR without anyone touching the machine. You also get better edge quality on the thicker HR stuff compared to a blanking die that's starting to wear.
+
+The real question for auto parts at volume: what's your batch size per part number and how often do you changeover? If you're running 50,000 of the same rectangle, keep the press. If you're running 200 different part numbers in smaller batches, the laser pays for itself in flexibility alone. Also factor in that laser nested parts waste significantly less material on irregular shapes, so your yield improvement on the sheet might cover more of the machine cost than you'd expect.
+
+---
+
+### r/Machinists — https://www.reddit.com/r/Machinists/comments/1twtfj5
+"Diy car guy"
+
+For garage fab work on steel plate in that budget range, a CNC plasma table is realistically your only option. A fiber laser capable of cutting even 3mm steel starts at 30k+ and needs proper ventilation and eye safety enclosures. Waterjet is a whole other level of infrastructure (high pressure pump, garnet disposal, water management).
+
+That said, be realistic about plasma limitations for your use case. If you're making parts that get bent on a brake afterward, the edge quality from plasma on anything under 2mm is going to be rough. You'll likely need to grind edges before bending to avoid stress cracks at the bends, especially on curves. Plasma really shines on 3mm and up where the kerf width and edge taper become proportionally less of an issue.
+
+For thin gauge door panels and brackets under 2mm, honestly you might get better results with a decent hand shear, a nibbler, and templates. The plasma table will be great for anything 3mm+ where you need repeatable profiles. If you do go the plasma route, spend extra on a proper THC (torch height controller) because on thin material the arc wander will make your cuts ugly without it.
+
+---
+
+### r/Machinists — https://www.reddit.com/r/Machinists/comments/1u3wdws
+"Mold repair laser welder help"
+
+YAG mold welders are finicky but once you get the relationship between pulse energy, duration, and spot size dialed in, it's pretty repeatable. For your soot issue, it's almost certainly shielding gas coverage. On those machines the gas nozzle position is critical because you're working under magnification with a tiny weld zone. Make sure the nozzle isn't just "in view" but actually directed at the exact spot where the beam hits. Even a few mm off and you'll get oxidation that looks like soot.
+
+For general parameters on repair work with 0.3 to 0.4mm wire: start with spot size matching or slightly larger than your wire diameter (0.4 to 0.5mm), pulse duration 8 to 12ms, and voltage/energy low enough that you're not blowing through. Build up in layers. The temptation is to crank power to fill faster but you'll get porosity and undercut on the edges.
+
+One thing that helped me a lot: on shutoff edges where you need to build up a sharp corner, run a first pass at lower power to establish a base layer, then bump power slightly on subsequent passes. The first layer bonds to the parent material and gives you a foundation. If you go full power right away on a sharp edge, the material just rolls off.
+
+Also, Z height is everything on these machines. If your part has any surface variation, you'll see the spot size change and your weld quality goes all over the place. Keep checking focus as you move across the repair area.

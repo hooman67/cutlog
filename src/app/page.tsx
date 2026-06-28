@@ -150,12 +150,24 @@ export default function Home() {
 
       <button
         onClick={() => router.push("/machine")}
-        className="w-full p-4 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800/80 transition-colors text-left"
+        className="w-full p-4 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800/80 transition-colors text-left mb-4"
       >
         <div className="flex items-center justify-between">
           <div>
             <span className="font-medium">Machine Settings</span>
             <p className="text-sm text-zinc-500">Update hours, calibration</p>
+          </div>
+        </div>
+      </button>
+
+      <button
+        onClick={() => router.push("/feedback")}
+        className="w-full p-4 rounded-xl bg-violet-900/30 border border-violet-800 hover:bg-violet-900/50 transition-colors text-left"
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="font-medium">💬 Feedback & Ideas</span>
+            <p className="text-sm text-zinc-500">Bugs, features, or thoughts</p>
           </div>
         </div>
       </button>

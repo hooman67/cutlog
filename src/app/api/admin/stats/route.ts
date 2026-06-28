@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
       .from("materials")
       .select("*", { count: "exact", head: true });
 
-    // Feedback summary
+    // Feedback summary (legacy feedback table)
     const { data: feedbackData } = await supabaseAdmin
       .from("feedback")
       .select("rating")
@@ -83,6 +83,34 @@ export async function GET(request: NextRequest) {
     feedbackData?.forEach(f => {
       feedbackSummary[f.rating] = (feedbackSummary[f.rating] || 0) + 1;
     });
+
+    // User feedback (new user_feedback table)
+    let userFeedbackCount = 0;
+    let userFeedbackByCategory: Record<string, number> = {};
+    let recentUserFeedback: Array<{ id: string; category: string; message: string; user_id: string; created_at: string; emoji_rating: string | null; importance: string | null; page: string | null }> = [];
+    try {
+      const { count } = await supabaseAdmin
+        .from("user_feedback")
+        .select("*", { count: "exact", head: true });
+      userFeedbackCount = count ?? 0;
+
+      const { data: ufData } = await supabaseAdmin
+        .from("user_feedback")
+        .select("category")
+        .limit(100000);
+      ufData?.forEach(f => {
+        userFeedbackByCategory[f.category] = (userFeedbackByCategory[f.category] || 0) + 1;
+      });
+
+      const { data: recentUf } = await supabaseAdmin
+        .from("user_feedback")
+        .select("id, category, message, user_id, created_at, emoji_rating, importance, page")
+        .order("created_at", { ascending: false })
+        .limit(20);
+      recentUserFeedback = recentUf ?? [];
+    } catch {
+      // user_feedback table might not exist yet
+    }
 
     // Waitlist count
     let waitlistCount = 0;
@@ -121,6 +149,9 @@ export async function GET(request: NextRequest) {
       feedbackSummary,
       waitlistCount,
       cutsPerDay,
+      userFeedbackCount,
+      userFeedbackByCategory,
+      recentUserFeedback,
     });
   } catch (err: unknown) {
     console.error("Admin stats error:", err);

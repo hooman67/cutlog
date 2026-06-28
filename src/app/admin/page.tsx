@@ -7,6 +7,17 @@ import type { Cut } from "@/lib/types";
 
 const ADMIN_EMAIL = "houman_sh2001@hotmail.com";
 
+interface UserFeedbackItem {
+  id: string;
+  category: string;
+  message: string;
+  user_id: string;
+  created_at: string;
+  emoji_rating: string | null;
+  importance: string | null;
+  page: string | null;
+}
+
 interface AdminStats {
   totalUsers: number;
   usersWithMachines: number;
@@ -18,6 +29,9 @@ interface AdminStats {
   feedbackSummary: Record<string, number>;
   waitlistCount: number;
   cutsPerDay: Record<string, number>;
+  userFeedbackCount: number;
+  userFeedbackByCategory: Record<string, number>;
+  recentUserFeedback: UserFeedbackItem[];
 }
 
 interface AdminUser {
@@ -43,7 +57,8 @@ export default function AdminDashboard() {
   const [deletingCutId, setDeletingCutId] = useState<string | null>(null);
   const [confirmDeleteCutId, setConfirmDeleteCutId] = useState<string | null>(null);
   const [deletingMachineUserId, setDeletingMachineUserId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"stats" | "users">("stats");
+  const [activeTab, setActiveTab] = useState<"stats" | "users" | "feedback">("stats");
+  const [feedbackFilter, setFeedbackFilter] = useState<string>("all");
   const router = useRouter();
   const supabase = createClient();
 
@@ -295,6 +310,16 @@ export default function AdminDashboard() {
         >
           Users ({users.length})
         </button>
+        <button
+          onClick={() => setActiveTab("feedback")}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === "feedback"
+              ? "bg-emerald-900/50 border border-emerald-700 text-emerald-300"
+              : "bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200"
+          }`}
+        >
+          Feedback ({stats?.userFeedbackCount ?? 0})
+        </button>
       </div>
 
       {/* Stats Tab */}
@@ -322,6 +347,7 @@ export default function AdminDashboard() {
                 label="Feedback Total"
                 value={Object.values(stats.feedbackSummary).reduce((a, b) => a + b, 0)}
               />
+              <StatCard label="User Feedback" value={stats.userFeedbackCount} />
             </div>
           </section>
 
@@ -380,6 +406,78 @@ export default function AdminDashboard() {
               )}
             </div>
           </section>
+        </div>
+      )}
+
+      {/* Feedback Tab */}
+      {activeTab === "feedback" && stats && (
+        <div className="space-y-4">
+          {/* Category breakdown */}
+          <div className="grid grid-cols-3 gap-3">
+            <StatCard label="Bugs" value={stats.userFeedbackByCategory?.bug ?? 0} />
+            <StatCard label="Features" value={stats.userFeedbackByCategory?.feature ?? 0} />
+            <StatCard label="Feedback" value={stats.userFeedbackByCategory?.feedback ?? 0} />
+          </div>
+
+          {/* Filter */}
+          <div className="flex gap-2">
+            {["all", "bug", "feature", "feedback"].map((f) => (
+              <button
+                key={f}
+                onClick={() => setFeedbackFilter(f)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  feedbackFilter === f
+                    ? "bg-emerald-900/50 border border-emerald-700 text-emerald-300"
+                    : "bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200"
+                }`}
+              >
+                {f === "all" ? "All" : f.charAt(0).toUpperCase() + f.slice(1) + "s"}
+              </button>
+            ))}
+          </div>
+
+          {/* Recent submissions */}
+          <div className="space-y-2">
+            {(stats.recentUserFeedback ?? [])
+              .filter((item) => feedbackFilter === "all" || item.category === feedbackFilter)
+              .map((item) => (
+                <div key={item.id} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded font-medium ${
+                        item.category === "bug"
+                          ? "bg-red-900/50 text-red-300"
+                          : item.category === "feature"
+                          ? "bg-amber-900/50 text-amber-300"
+                          : "bg-blue-900/50 text-blue-300"
+                      }`}
+                    >
+                      {item.category}
+                    </span>
+                    <span className="text-[10px] text-zinc-600">
+                      {new Date(item.created_at).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                  </div>
+                  <p className="text-sm text-zinc-200 whitespace-pre-wrap mb-2">{item.message}</p>
+                  <div className="flex flex-wrap gap-2 text-[10px] text-zinc-500">
+                    <span>{item.user_id.slice(0, 8)}...</span>
+                    {item.page && <span>Page: {item.page}</span>}
+                    {item.importance && <span>Importance: {item.importance.replace(/_/g, " ")}</span>}
+                    {item.emoji_rating && <span>Rating: {item.emoji_rating}</span>}
+                  </div>
+                </div>
+              ))}
+            {(stats.recentUserFeedback ?? []).filter(
+              (item) => feedbackFilter === "all" || item.category === feedbackFilter
+            ).length === 0 && (
+              <p className="text-zinc-500 text-center py-8">No feedback submissions yet.</p>
+            )}
+          </div>
         </div>
       )}
 
