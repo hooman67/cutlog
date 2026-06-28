@@ -706,22 +706,43 @@ export default function FontPreviewPage() {
           ctx.fillStyle = colorHex;
           ctx.font = `${scaledFontSize}px ${layer.font.family.replace(/'/g, "")}`;
           ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
 
           const textX = (layer.position.x / 100) * width;
           const textY = (layer.position.y / 100) * height;
 
           if (layer.curvedText && product === "tumbler") {
+            ctx.textBaseline = "middle";
             drawCurvedText(ctx, layer.text, textX, textY, width * 0.35, scaledFontSize, layer.font);
           } else {
             ctx.save();
             ctx.translate(textX, textY);
             ctx.rotate((layer.rotation * Math.PI) / 180);
+            ctx.textBaseline = "middle";
 
-            const lines = layer.text.split("\n");
+            // Word-wrap text to match on-screen 80% width constraint
+            const maxWidth = width * 0.8;
+            const rawLines = layer.text.split("\n");
+            const wrappedLines: string[] = [];
+            for (const rawLine of rawLines) {
+              const words = rawLine.split(" ");
+              let currentLine = "";
+              for (const word of words) {
+                const testLine = currentLine ? currentLine + " " + word : word;
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && currentLine) {
+                  wrappedLines.push(currentLine);
+                  currentLine = word;
+                } else {
+                  currentLine = testLine;
+                }
+              }
+              wrappedLines.push(currentLine);
+            }
+
             const lineHeight = scaledFontSize * layer.lineSpacing;
-            const startY = -((lines.length - 1) * lineHeight) / 2;
-            lines.forEach((line, i) => {
+            const totalTextHeight = wrappedLines.length * lineHeight;
+            const startY = -totalTextHeight / 2 + lineHeight / 2;
+            wrappedLines.forEach((line, i) => {
               ctx.fillText(line, 0, startY + i * lineHeight);
             });
             ctx.restore();
