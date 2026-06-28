@@ -245,6 +245,14 @@ search "[material] [thickness]"
 
 ---
 
+## Skip List (DO NOT DM)
+
+| Name | Group | Reason |
+|------|-------|--------|
+| Tony Smiley | DIY Fiber Laser | DO NOT DM — he's fully dialed in, consistent supplier, no pain point. Not our target user. |
+
+---
+
 ## PART 5: DMs for Category 1 Targets (Written 2026-06-25)
 
 People who commented on our Facebook posts but were never DM'd. Each DM references their specific comment, acknowledges their point, and positions CutLog as a starting-point accelerator (not a replacement for testing).
@@ -389,7 +397,7 @@ Post Option C ("Settings you'd pay money for") was posted across all 16 Facebook
 | Paul Malfroid | CNC Fiber Laser Ninja | Post C (pay money) | ".625 stainless steel 316L" | | |
 | Nicklas Löfgren | DIY Fiber Laser | Post C (pay money) | "25mm carbon steel and 15mm stainless" | | |
 | Michael Barry | DIY Fiber Laser | Post C (pay money) | "It can change from sheet to sheet to be perfect" | Thread reply only | |
-| Tony Smiley | DIY Fiber Laser | Post C (pay money) | "I think this has a lot to do with machine and software..." | Thread reply only | |
+| Tony Smiley | DIY Fiber Laser | Post C (pay money) | "I think this has a lot to do with machine and software..." | DO NOT DM | SKIP |
 | Paul Allen Durr Jr. | DIY Fiber Laser | Post C (pay money) | "That's hard to do as every machine is different..." | Thread reply only | |
 | ExcitingHedgehog7844 | (Pierce advice thread) | Pierce settings | "This is very helpful and I'll give it a try when I'm back at work" | Already engaged | Positive |
 

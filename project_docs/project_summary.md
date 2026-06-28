@@ -1,6 +1,6 @@
 # CutLog Project Summary
 
-**Last updated**: 2026-06-26
+**Last updated**: 2026-06-28
 **Purpose**: Complete context transfer document. Any agent session reading this file should have everything needed to continue work on this project.
 
 ---
@@ -27,14 +27,14 @@
 
 ---
 
-## Current State (2026-06-25)
+## Current State (2026-06-28)
 
 ### Prototype: LIVE AND DEPLOYED
 
 | Component | Status | Details |
 |-----------|--------|---------|
 | **App** | ✅ Functional | Next.js 14 + Tailwind + Supabase, 10 screens (added /import, /suggest, /landing, /waitlist, /tools/font-preview) |
-| **Database** | ✅ Seeded | **5,653 parameter sets** across 562+ materials (scraped_public: 5,091, ai_baseline: 554, user_logged: 8). Updated 2026-06-23. |
+| **Database** | ✅ Seeded | **5,826 parameter sets** across 562+ materials (scraped_public: 5,264, ai_baseline: 554, user_logged: 8). Updated 2026-06-28. Industrial thick cutting data +173. |
 | **Auth** | ✅ Working | Supabase email auth |
 | **Hosting** | ✅ LIVE | **https://cutlog-two.vercel.app** (public, anyone can use) |
 | **Dev server** | ✅ Available | Pluto machine port 8000, SSH tunnel for dev |
@@ -60,7 +60,7 @@
 | DM outreach (Round 2) | ✅ Complete | 6/6 DMs sent (Jeremy, Michael, George, Tinker, Klaus, Lobo). 2 replied (Jeremy, Tinker). |
 | Manual DMs (All Tiers) | ✅ Complete | 17 people DM'd across Tier 1-4 (2026-06-22). Monitoring for replies. |
 | Influencer outreach | 🔄 In Progress | Jessie Jones replied (2026-06-22). Alex, Justin, Richard emailed (2026-06-21). Chance/Alisha next. |
-| Reddit campaign | 🔄 In Progress | First post in r/ChineseLaserCutters (2026-06-25). 8 more subs planned over 3 weeks. |
+| Reddit campaign | 🔄 In Progress | Posts: r/ChineseLaserCutters (2026-06-25, 6 upvotes, 2.1K views), r/lasercutting (2026-06-28, pending approval). Joined r/Machinists, r/metalworking, r/sheetmetal (2026-06-28). 9 karma-building comments posted across 3 subs. |
 | Facebook lead-gen (Round 3) | 🔄 In Progress | Post Option C ("Settings you'd pay money for") posted in ALL 16 groups on 2026-06-26. Monitoring for commenters → DM targets. |
 | Discovery calls | 🔲 Not yet | Zero calls booked so far |
 
@@ -79,7 +79,8 @@
 | Bonny Creations | 3,650 | ✅ In DB (scraped 2026-06-23) |
 | LaserCutSettings.com | 205 | ✅ In DB (scraped 2026-06-23) |
 | LSARMS.net | 693 | ✅ In DB (scraped 2026-06-23) |
-| **Total in DB** | **5,653** | **562 unique materials** |
+| Industrial thick cutting | 173 | ✅ In DB (scraped 2026-06-28) |
+| **Total in DB** | **5,826** | **562+ unique materials** |
 | Etsy .CLB files (3 products) | 3,839 settings | ✅ Purchased & analyzed (2026-06-17). LaserSecrets=188, BenMyers=19, HolsterGeek=10, + Nate Keen=82. See `etsy_files_analysis.md`. **Validation: 500 matched to our DB (13%), 87% overall accuracy**. See `speed_validation_report.md` |
 | OEM manuals | 0 | 🔲 Planned |
 
@@ -176,7 +177,7 @@ The app includes four lightweight discovery features to help new users find valu
 
 ### Data Pipeline
 
-**Current state: 5,653 parameters in production DB (massive data expansion 2026-06-23: +4,744 from Bonny Creations, LSARMS, LaserCutSettings, lasertips.org full scrape)**
+**Current state: 5,826 parameters in production DB (massive data expansion 2026-06-23: +4,744 from Bonny Creations, LSARMS, LaserCutSettings, lasertips.org full scrape; +173 industrial thick cutting 2026-06-28)**
 
 Data files in `/mnt/localssd/laser_log/app/data/`:
 - `COMBINED_PASTE_ALL.sql` — All rows, one file (paste into Supabase SQL Editor to re-seed)
@@ -197,6 +198,8 @@ Generator script: `/mnt/localssd/laser_log/app/scripts/generate-baseline-data.py
 5. `005` through `007` — Various schema improvements
 6. `008_feedback_table.sql` — Feedback table for "Too Fast / Perfect / Too Slow" responses (applied 2026-06-21)
 7. `009_is_active_on_machines.sql` — Added `is_active` column to machines table for multi-machine support (applied 2026-06-21)
+8. `011_add_q_pulse.sql` — Added Q-pulse fields (applied 2026-06-27)
+9. `012_user_feedback_table.sql` — User feedback table (applied 2026-06-28)
 
 **To add new data**: Generate/scrape SQL, paste into Supabase SQL Editor at https://supabase.com/dashboard (no direct DB connection from Pluto). Use service role key for inserts that bypass RLS.
 
@@ -403,7 +406,7 @@ Based on r/indiehackers research (see `indiehackers_learnings.md` and `strategy_
 | Session C (cutlog-app, 2026-06-15) | Feature build + data + competitive intel + onboarding UX | OMG Laser scraped (177 entries → DB at 901 total), LightBurn .clb import/export built, LaserParams Converter formulas extracted to Python, suggestion engine refactored (speed-first hero UX + 3-button feedback), PWA install banner added, BeraTech CNC competitor analyzed (4/10 threat), Capacitor migration plan written, Lobo Lightbringer DM drafted, **user discovery/onboarding features added** (contextual hints, first-visit overlay, empty states that educate, smart nudges) |
 | Session D (cutlog-app, 2026-06-17) | Launch prep, code audit, bug fixes, go-to-market strategy | Landing page built (`/landing`), waitlist system (`/waitlist` + Supabase table), outreach docs (launch_checklist.md, launch_strategy_hybrid.md, prototype_1_workflows.md with 11 test workflows), **9 bug fixes** (code audit), strategy audit (hybrid launch = Option C chosen), DM status updated (Klaus sent, Lobo sent), font-preview tool (`/tools/font-preview`) |
 | Session E (cutlog-app, 2026-06-21) | Algorithm improvements, multi-machine, edit/delete, admin tools | **All 10/10 algorithm improvements implemented** (fuzzy thickness, material aliases, operation type filter, source tier weighting, consistency-based confidence, machine similarity, broader search fallback, feedback integration, thickness interpolation, time-decay weighting). Multi-machine support (migration 009: is_active on machines). Edit/delete cuts. Admin data cleanup. Feedback table (migration 008). Workflows 18-22 added to testing plan. All pushed to main (auto-deployed to Vercel). |
-| Session F (laser_log, 2026-06-23 to 2026-06-26) | Data expansion, security, marketing pivot, community presence | **Data:** 901→5,653 entries (scraped Bonny Creations 3,650, LSARMS 693, LaserCutSettings 205, lasertips.org full 196). **Security:** RLS lockdown, server-side API routes (/api/search), rate limiting middleware (30 req/min), auth gates on all endpoints. **Marketing pivot (June 26):** Based on r/indiehackers research, shifted from broad shallow outreach to deep community presence. Primary channel: Reddit + YouTube + Facebook (CNC Fiber Laser Ninja). **Outreach:** Influencer DMs sent to Jessie Jones (replied!), Chance Lawson, Alisha Pate, Victor Wolansky (replied!), Alex/Justin/Richard (email). All manual DMs complete (17 people). Lead-gen Facebook post ("what material would you pay money for?") posted in all 16 groups. **Reddit:** Posts in r/ChineseLaserCutters (3 upvotes + reply), karma building in 5 subs (r/lasercutting, r/laserengraving, r/lightburn, r/hobbycnc, r/xToolOfficial). **YouTube:** 5 comments on fiber laser videos with real parameter data + CutLog link. **Facebook:** Helpful replies in CNC Fiber Laser Ninja with CutLog mentions. **Nate Keen:** He tried the app! Reported .clb import bug + limited edit form → both fixed same day. Sent reply. Video partnership still pending. **Technical fixes:** Gemini AI model name fix, retry with backoff, mobile .clb import (removed accept attribute for iOS), mobile export (Web Share API), new laser beam app icon, admin dashboard, per-cut edit/delete with 16-field form, unit tests (135 tests via vitest). **Docs:** Reddit strategy, YouTube comments strategy, indiehackers learnings, strategy pivot, lead gen posts, competitive analysis (lasertips.org, Bonny Creations, LaserCutSettings, LSARMS). |
+| Session F (laser_log, 2026-06-23 to 2026-06-28) | Data expansion, security, marketing pivot, community presence | **Data:** 901→5,653 entries (scraped Bonny Creations 3,650, LSARMS 693, LaserCutSettings 205, lasertips.org full 196). Industrial thick cutting data scraped (173 entries added to DB). **Security:** RLS lockdown, server-side API routes (/api/search), rate limiting middleware (30 req/min), auth gates on all endpoints. **Marketing pivot (June 26):** Based on r/indiehackers research, shifted from broad shallow outreach to deep community presence. Primary channel: Reddit + YouTube + Facebook (CNC Fiber Laser Ninja). **Outreach:** Influencer DMs sent to Jessie Jones (replied!), Chance Lawson, Alisha Pate, Victor Wolansky (replied!), Alex/Justin/Richard (email). All manual DMs complete (17 people). Lead-gen Facebook post ("what material would you pay money for?") posted in all 16 groups. **Reddit:** Posts in r/ChineseLaserCutters (6 upvotes, 2.1K views, 4 comments), r/lasercutting Post 6 submitted (2026-06-28, pending approval). Joined r/Machinists (275K), r/metalworking (762K), r/sheetmetal (7K) on 2026-06-28. 9 karma-building comments posted across r/metalworking (3), r/lasercutting (3), r/Machinists (3). Prior karma building in 5 subs (r/lasercutting, r/laserengraving, r/lightburn, r/hobbycnc, r/xToolOfficial). **YouTube:** 5 comments on fiber laser videos with real parameter data + CutLog link. **Facebook:** Helpful replies in CNC Fiber Laser Ninja with CutLog mentions. Replied to Tony Smiley (closed, not target), Michael Greenstein (seed planted), Dan Allkins brass question (parameter data + seed), Jacob Aldrich quoting software question. **Strategy learning:** CNC Fiber Laser Ninja is best FB group (fast, easy engagement). "Fiber Laser The Next Level" has pending/approval issues — deprioritize. **Nate Keen:** He tried the app! Reported .clb import bug + limited edit form → both fixed same day. Sent Q-pulse + galvo mode reply (2026-06-28). Video partnership still pending. **Technical (2026-06-28):** Built Q-pulse field, galvo mode filtering, feedback & ideas page. Applied migrations 011 (q_pulse) and 012 (user_feedback). Gemini AI fixed (reverted to original working format). **Earlier technical fixes:** Gemini AI model name fix, retry with backoff, mobile .clb import (removed accept attribute for iOS), mobile export (Web Share API), new laser beam app icon, admin dashboard, per-cut edit/delete with 16-field form, unit tests (135 tests via vitest). **Docs:** Reddit strategy, YouTube comments strategy, indiehackers learnings, strategy pivot, lead gen posts, competitive analysis (lasertips.org, Bonny Creations, LaserCutSettings, LSARMS). Reddit sub research completed (r/Machinists, r/metalworking, r/sheetmetal identified as key audiences for industrial thick-cutting users). |
 
 ---
 
@@ -446,7 +449,7 @@ Based on r/indiehackers research (see `indiehackers_learnings.md` and `strategy_
 
 ---
 
-## How to Continue This Work (Updated 2026-06-26)
+## How to Continue This Work (Updated 2026-06-28)
 
 1. **Read this file first** — it has the full picture
 2. **Read `strategy_pivot_june26.md`** — the current strategy (focus > spread)

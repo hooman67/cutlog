@@ -10,7 +10,7 @@ interface FontOption {
   name: string;
   family: string;
   category: string;
-  googleName?: string; // for Google Fonts URL
+  googleName?: string;
 }
 
 interface Position {
@@ -24,6 +24,41 @@ interface CropArea {
   width: number;
   height: number;
 }
+
+// Layer types
+interface TextLayer {
+  id: string;
+  type: "text";
+  text: string;
+  font: FontOption;
+  fontSize: number;
+  color: TextColor;
+  position: Position;
+  rotation: number;
+  lineSpacing: number;
+  curvedText: boolean;
+}
+
+interface ImageLayer {
+  id: string;
+  type: "image";
+  src: string;
+  position: Position;
+  size: number; // width in px
+  rotation: number;
+}
+
+interface AiDesignLayer {
+  id: string;
+  type: "ai-design";
+  svg: string;
+  prompt: string;
+  position: Position;
+  size: number;
+  rotation: number;
+}
+
+type Layer = TextLayer | ImageLayer | AiDesignLayer;
 
 // --- Constants ---
 const PRESET_FONTS: FontOption[] = [
@@ -51,6 +86,10 @@ const PRODUCTS: { label: string; value: ProductType; icon: string }[] = [
   { label: "Knife", value: "knife", icon: "\u{1F52A}" },
   { label: "Rectangle", value: "rectangle", icon: "▬" },
 ];
+
+function generateId(): string {
+  return `layer-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
 
 // --- Product SVG Components ---
 function TumblerSVG() {
@@ -110,21 +149,18 @@ function KnifeSVG() {
           <stop offset="100%" stopColor="#3d2b1f" />
         </linearGradient>
       </defs>
-      {/* Blade */}
       <path
         d="M 30 80 L 250 60 L 270 55 Q 280 54 280 60 L 280 80 L 270 95 L 30 100 Z"
         fill="url(#bladeGrad)"
         stroke="#555"
         strokeWidth="1"
       />
-      {/* Handle */}
       <path
         d="M 270 55 L 380 52 Q 390 52 390 60 L 390 90 Q 390 98 380 98 L 270 95 Z"
         fill="url(#handleGrad)"
         stroke="#333"
         strokeWidth="1.5"
       />
-      {/* Bolster */}
       <rect x="265" y="52" width="12" height="48" rx="2" fill="#777" stroke="#555" strokeWidth="1" />
     </svg>
   );
@@ -150,7 +186,7 @@ function RectangleSVG() {
 function ImageCropper({
   imageSrc,
   onCropComplete,
-  onCancel
+  onCancel,
 }: {
   imageSrc: string;
   onCropComplete: (croppedImage: string) => void;
@@ -255,7 +291,6 @@ function ImageCropper({
             className="w-full h-full object-contain pointer-events-none"
             crossOrigin="anonymous"
           />
-          {/* Darkened overlay outside crop */}
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute inset-0 bg-black/50" />
             <div
@@ -269,7 +304,6 @@ function ImageCropper({
               }}
             />
           </div>
-          {/* Crop rectangle */}
           <div
             className="absolute border-2 border-emerald-500 cursor-move"
             style={{
@@ -281,14 +315,12 @@ function ImageCropper({
             onMouseDown={handleMoveStart}
             onTouchStart={handleMoveStart}
           >
-            {/* Resize handle (bottom-right) */}
             <div
               className="absolute bottom-0 right-0 w-6 h-6 bg-emerald-500 cursor-se-resize"
               style={{ transform: "translate(50%, 50%)" }}
               onMouseDown={handleResizeStart}
               onTouchStart={handleResizeStart}
             />
-            {/* Corner indicators */}
             <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-emerald-400" />
             <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-emerald-400" />
             <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-emerald-400" />
@@ -316,43 +348,50 @@ function ImageCropper({
 
 // --- Main Component ---
 export default function FontPreviewPage() {
-  // State
-  const [text, setText] = useState("Your Text Here");
-  const [selectedFont, setSelectedFont] = useState<FontOption>(PRESET_FONTS[0]);
-  const [customFonts, setCustomFonts] = useState<FontOption[]>([]);
-  const [fontSize, setFontSize] = useState(32);
-  const [lineSpacing, setLineSpacing] = useState(1.2);
-  const [textColor, setTextColor] = useState<TextColor>("white");
+  // Layer state
+  const [layers, setLayers] = useState<Layer[]>([
+    {
+      id: generateId(),
+      type: "text",
+      text: "Your Text Here",
+      font: PRESET_FONTS[0],
+      fontSize: 32,
+      color: "white",
+      position: { x: 50, y: 50 },
+      rotation: 0,
+      lineSpacing: 1.2,
+      curvedText: false,
+    },
+  ]);
+  const [selectedLayerId, setSelectedLayerId] = useState<string>(layers[0].id);
+
+  // Product/background state
   const [product, setProduct] = useState<ProductType>("tumbler");
-  const [curvedText, setCurvedText] = useState(false);
+  const [customImage, setCustomImage] = useState<string | null>(null);
+  const [customFonts, setCustomFonts] = useState<FontOption[]>([]);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [downloading, setDownloading] = useState(false);
-  const [customImage, setCustomImage] = useState<string | null>(null);
 
   // Crop state
   const [pendingCropImage, setPendingCropImage] = useState<string | null>(null);
 
-  // Logo state
-  const [logoImage, setLogoImage] = useState<string | null>(null);
-  const [logoPosition, setLogoPosition] = useState<Position>({ x: 50, y: 75 });
-  const [logoSize, setLogoSize] = useState(80); // px
-  const [isDraggingLogo, setIsDraggingLogo] = useState(false);
-  const [isHoveringLogo, setIsHoveringLogo] = useState(false);
+  // AI generation state
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
 
-  // New state for drag-to-position and rotation
-  const [customPosition, setCustomPosition] = useState<Position>({ x: 50, y: 50 });
-  const [rotation, setRotation] = useState(0); // degrees
-  const [isDragging, setIsDragging] = useState(false);
-  const [isHoveringText, setIsHoveringText] = useState(false);
+  // Drag state
+  const [draggingLayerId, setDraggingLayerId] = useState<string | null>(null);
 
   const previewRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const logoInputRef = useRef<HTMLInputElement>(null);
-  const textOverlayRef = useRef<HTMLDivElement>(null);
+  const layerImageInputRef = useRef<HTMLInputElement>(null);
   const dragStartRef = useRef<{ startX: number; startY: number; posX: number; posY: number } | null>(null);
-  const logoDragStartRef = useRef<{ startX: number; startY: number; posX: number; posY: number } | null>(null);
+
+  // Derived state
+  const selectedLayer = layers.find((l) => l.id === selectedLayerId) || null;
 
   // Load Google Fonts
   useEffect(() => {
@@ -367,87 +406,129 @@ export default function FontPreviewPage() {
     };
   }, []);
 
-  // --- Drag Logic ---
-  const getPointerPosition = useCallback((e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent): { clientX: number; clientY: number } => {
-    if ("touches" in e) {
-      const touch = e.touches[0] || (e as TouchEvent).changedTouches[0];
-      return { clientX: touch.clientX, clientY: touch.clientY };
-    }
-    return { clientX: (e as MouseEvent).clientX, clientY: (e as MouseEvent).clientY };
+  // --- Layer Management ---
+  const updateLayer = useCallback((id: string, updates: Partial<Layer>) => {
+    setLayers((prev) =>
+      prev.map((l) => (l.id === id ? { ...l, ...updates } as Layer : l))
+    );
   }, []);
 
-  const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const { clientX, clientY } = getPointerPosition(e);
-    dragStartRef.current = {
-      startX: clientX,
-      startY: clientY,
-      posX: customPosition.x,
-      posY: customPosition.y,
+  const deleteLayer = useCallback((id: string) => {
+    setLayers((prev) => {
+      const next = prev.filter((l) => l.id !== id);
+      if (next.length === 0) return prev; // don't allow empty
+      return next;
+    });
+    setSelectedLayerId((prevSel) => {
+      if (prevSel === id) {
+        const remaining = layers.filter((l) => l.id !== id);
+        return remaining.length > 0 ? remaining[0].id : prevSel;
+      }
+      return prevSel;
+    });
+  }, [layers]);
+
+  const addTextLayer = useCallback(() => {
+    const newLayer: TextLayer = {
+      id: generateId(),
+      type: "text",
+      text: "New Text",
+      font: PRESET_FONTS[0],
+      fontSize: 28,
+      color: "white",
+      position: { x: 50, y: 40 + Math.random() * 20 },
+      rotation: 0,
+      lineSpacing: 1.2,
+      curvedText: false,
     };
-    setIsDragging(true);
-  }, [customPosition, getPointerPosition]);
+    setLayers((prev) => [...prev, newLayer]);
+    setSelectedLayerId(newLayer.id);
+  }, []);
 
-  const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
-    if (!isDragging || !dragStartRef.current || !previewRef.current) return;
-    e.preventDefault();
+  const addImageLayer = useCallback((src: string) => {
+    const newLayer: ImageLayer = {
+      id: generateId(),
+      type: "image",
+      src,
+      position: { x: 50, y: 50 },
+      size: 100,
+      rotation: 0,
+    };
+    setLayers((prev) => [...prev, newLayer]);
+    setSelectedLayerId(newLayer.id);
+  }, []);
 
-    const { clientX, clientY } = getPointerPosition(e);
-    const rect = previewRef.current.getBoundingClientRect();
+  const addAiDesignLayer = useCallback((svg: string, prompt: string) => {
+    const newLayer: AiDesignLayer = {
+      id: generateId(),
+      type: "ai-design",
+      svg,
+      prompt,
+      position: { x: 50, y: 50 },
+      size: 150,
+      rotation: 0,
+    };
+    setLayers((prev) => [...prev, newLayer]);
+    setSelectedLayerId(newLayer.id);
+  }, []);
 
-    const deltaXPercent = ((clientX - dragStartRef.current.startX) / rect.width) * 100;
-    const deltaYPercent = ((clientY - dragStartRef.current.startY) / rect.height) * 100;
+  // --- Drag Logic ---
+  const getPointerPosition = useCallback(
+    (e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent): { clientX: number; clientY: number } => {
+      if ("touches" in e) {
+        const touch = e.touches[0] || (e as TouchEvent).changedTouches[0];
+        return { clientX: touch.clientX, clientY: touch.clientY };
+      }
+      return { clientX: (e as MouseEvent).clientX, clientY: (e as MouseEvent).clientY };
+    },
+    []
+  );
 
-    const newX = Math.max(5, Math.min(95, dragStartRef.current.posX + deltaXPercent));
-    const newY = Math.max(5, Math.min(95, dragStartRef.current.posY + deltaYPercent));
+  const handleLayerDragStart = useCallback(
+    (e: React.MouseEvent | React.TouchEvent, layerId: string) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const layer = layers.find((l) => l.id === layerId);
+      if (!layer) return;
+      const { clientX, clientY } = getPointerPosition(e);
+      dragStartRef.current = {
+        startX: clientX,
+        startY: clientY,
+        posX: layer.position.x,
+        posY: layer.position.y,
+      };
+      setDraggingLayerId(layerId);
+      setSelectedLayerId(layerId);
+    },
+    [layers, getPointerPosition]
+  );
 
-    setCustomPosition({ x: newX, y: newY });
-  }, [isDragging, getPointerPosition]);
+  const handleDragMove = useCallback(
+    (e: MouseEvent | TouchEvent) => {
+      if (!draggingLayerId || !dragStartRef.current || !previewRef.current) return;
+      e.preventDefault();
+
+      const { clientX, clientY } = getPointerPosition(e);
+      const rect = previewRef.current.getBoundingClientRect();
+
+      const deltaXPercent = ((clientX - dragStartRef.current.startX) / rect.width) * 100;
+      const deltaYPercent = ((clientY - dragStartRef.current.startY) / rect.height) * 100;
+
+      const newX = Math.max(2, Math.min(98, dragStartRef.current.posX + deltaXPercent));
+      const newY = Math.max(2, Math.min(98, dragStartRef.current.posY + deltaYPercent));
+
+      updateLayer(draggingLayerId, { position: { x: newX, y: newY } });
+    },
+    [draggingLayerId, getPointerPosition, updateLayer]
+  );
 
   const handleDragEnd = useCallback(() => {
-    setIsDragging(false);
+    setDraggingLayerId(null);
     dragStartRef.current = null;
   }, []);
 
-  // Logo drag handlers
-  const handleLogoDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const { clientX, clientY } = getPointerPosition(e);
-    logoDragStartRef.current = {
-      startX: clientX,
-      startY: clientY,
-      posX: logoPosition.x,
-      posY: logoPosition.y,
-    };
-    setIsDraggingLogo(true);
-  }, [logoPosition, getPointerPosition]);
-
-  const handleLogoDragMove = useCallback((e: MouseEvent | TouchEvent) => {
-    if (!isDraggingLogo || !logoDragStartRef.current || !previewRef.current) return;
-    e.preventDefault();
-
-    const { clientX, clientY } = getPointerPosition(e);
-    const rect = previewRef.current.getBoundingClientRect();
-
-    const deltaXPercent = ((clientX - logoDragStartRef.current.startX) / rect.width) * 100;
-    const deltaYPercent = ((clientY - logoDragStartRef.current.startY) / rect.height) * 100;
-
-    const newX = Math.max(5, Math.min(95, logoDragStartRef.current.posX + deltaXPercent));
-    const newY = Math.max(5, Math.min(95, logoDragStartRef.current.posY + deltaYPercent));
-
-    setLogoPosition({ x: newX, y: newY });
-  }, [isDraggingLogo, getPointerPosition]);
-
-  const handleLogoDragEnd = useCallback(() => {
-    setIsDraggingLogo(false);
-    logoDragStartRef.current = null;
-  }, []);
-
-  // Attach global mouse/touch move and up listeners when dragging text
   useEffect(() => {
-    if (isDragging) {
+    if (draggingLayerId) {
       window.addEventListener("mousemove", handleDragMove, { passive: false });
       window.addEventListener("mouseup", handleDragEnd);
       window.addEventListener("touchmove", handleDragMove, { passive: false });
@@ -459,25 +540,9 @@ export default function FontPreviewPage() {
         window.removeEventListener("touchend", handleDragEnd);
       };
     }
-  }, [isDragging, handleDragMove, handleDragEnd]);
+  }, [draggingLayerId, handleDragMove, handleDragEnd]);
 
-  // Attach global mouse/touch move and up listeners when dragging logo
-  useEffect(() => {
-    if (isDraggingLogo) {
-      window.addEventListener("mousemove", handleLogoDragMove, { passive: false });
-      window.addEventListener("mouseup", handleLogoDragEnd);
-      window.addEventListener("touchmove", handleLogoDragMove, { passive: false });
-      window.addEventListener("touchend", handleLogoDragEnd);
-      return () => {
-        window.removeEventListener("mousemove", handleLogoDragMove);
-        window.removeEventListener("mouseup", handleLogoDragEnd);
-        window.removeEventListener("touchmove", handleLogoDragMove);
-        window.removeEventListener("touchend", handleLogoDragEnd);
-      };
-    }
-  }, [isDraggingLogo, handleLogoDragMove, handleLogoDragEnd]);
-
-  // Handle custom font upload
+  // --- File Handlers ---
   const handleFontUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -500,19 +565,20 @@ export default function FontPreviewPage() {
         };
 
         setCustomFonts((prev) => [...prev, newFont]);
-        setSelectedFont(newFont);
+        // If a text layer is selected, update its font
+        if (selectedLayer && selectedLayer.type === "text") {
+          updateLayer(selectedLayer.id, { font: newFont });
+        }
       } catch (err) {
         alert("Failed to load font file. Please ensure it is a valid .ttf, .otf, or .woff file.");
         console.error(err);
       }
     };
     reader.readAsArrayBuffer(file);
-    // Reset the input
     e.target.value = "";
-  }, []);
+  }, [selectedLayer, updateLayer]);
 
-  // Handle custom image upload - now opens crop UI
-  const handleImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBackgroundImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -524,13 +590,11 @@ export default function FontPreviewPage() {
     e.target.value = "";
   }, []);
 
-  // Handle crop complete
   const handleCropComplete = useCallback((croppedImage: string) => {
     setCustomImage(croppedImage);
     setPendingCropImage(null);
   }, []);
 
-  // Handle crop cancel (use uncropped image)
   const handleCropCancel = useCallback(() => {
     if (pendingCropImage) {
       setCustomImage(pendingCropImage);
@@ -538,20 +602,49 @@ export default function FontPreviewPage() {
     setPendingCropImage(null);
   }, [pendingCropImage]);
 
-  // Handle logo upload
-  const handleLogoUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLayerImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = (event) => {
-      setLogoImage(event.target?.result as string);
+      const src = event.target?.result as string;
+      addImageLayer(src);
     };
     reader.readAsDataURL(file);
     e.target.value = "";
-  }, []);
+  }, [addImageLayer]);
 
-  // Download preview as PNG
+  // --- AI Design Generation ---
+  const handleGenerateDesign = useCallback(async () => {
+    if (!aiPrompt.trim()) return;
+    setAiGenerating(true);
+    setAiError(null);
+
+    try {
+      const res = await fetch("/api/generate-design", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: aiPrompt.trim() }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setAiError(data.error || "Failed to generate design");
+        return;
+      }
+
+      addAiDesignLayer(data.svg, aiPrompt.trim());
+      setAiPrompt("");
+    } catch (err) {
+      console.error(err);
+      setAiError("Network error. Please try again.");
+    } finally {
+      setAiGenerating(false);
+    }
+  }, [aiPrompt, addAiDesignLayer]);
+
+  // --- Download ---
   const handleDownload = useCallback(async () => {
     if (!previewRef.current) return;
     setDownloading(true);
@@ -562,7 +655,6 @@ export default function FontPreviewPage() {
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
-      // Set canvas size
       const width = 800;
       const height = product === "knife" ? 400 : product === "tumbler" ? 900 : 600;
       canvas.width = width;
@@ -572,12 +664,11 @@ export default function FontPreviewPage() {
       ctx.fillStyle = "#18181b";
       ctx.fillRect(0, 0, width, height);
 
-      // Draw product shape or custom image
+      // Draw product shape or custom background
       if (customImage) {
         await new Promise<void>((resolve) => {
           const img = new Image();
           img.onload = () => {
-            // Draw image to fit canvas while maintaining aspect ratio
             const imgAspect = img.width / img.height;
             const canvasAspect = width / height;
             let drawW = width;
@@ -601,50 +692,76 @@ export default function FontPreviewPage() {
         drawProductShape(ctx, product, width, height);
       }
 
-      // Draw text with custom position and rotation
-      const colorHex = TEXT_COLORS.find((c) => c.value === textColor)?.hex || "#ffffff";
-      ctx.fillStyle = colorHex;
-      ctx.font = `${fontSize * 2}px ${selectedFont.family.replace(/'/g, "")}`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
+      // Draw all layers in order
+      for (const layer of layers) {
+        if (layer.type === "text") {
+          const colorHex = TEXT_COLORS.find((c) => c.value === layer.color)?.hex || "#ffffff";
+          ctx.fillStyle = colorHex;
+          ctx.font = `${layer.fontSize * 2}px ${layer.font.family.replace(/'/g, "")}`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
 
-      // Use custom position (percentage to pixels)
-      const textX = (customPosition.x / 100) * width;
-      const textY = (customPosition.y / 100) * height;
+          const textX = (layer.position.x / 100) * width;
+          const textY = (layer.position.y / 100) * height;
 
-      if (curvedText && product === "tumbler") {
-        drawCurvedText(ctx, text, textX, textY, width * 0.35, fontSize * 2);
-      } else {
-        // Apply rotation
-        ctx.save();
-        ctx.translate(textX, textY);
-        ctx.rotate((rotation * Math.PI) / 180);
+          if (layer.curvedText && product === "tumbler") {
+            drawCurvedText(ctx, layer.text, textX, textY, width * 0.35, layer.fontSize * 2, layer.font);
+          } else {
+            ctx.save();
+            ctx.translate(textX, textY);
+            ctx.rotate((layer.rotation * Math.PI) / 180);
 
-        // Handle multi-line with custom line spacing
-        const lines = text.split("\n");
-        const lineHeight = fontSize * 2 * lineSpacing;
-        const startY = -((lines.length - 1) * lineHeight) / 2;
-        lines.forEach((line, i) => {
-          ctx.fillText(line, 0, startY + i * lineHeight);
-        });
-        ctx.restore();
-      }
-
-      // Draw logo if present
-      if (logoImage) {
-        await new Promise<void>((resolve) => {
-          const img = new Image();
-          img.onload = () => {
-            const logoW = logoSize * 2;
-            const logoH = (img.height / img.width) * logoW;
-            const logoX = (logoPosition.x / 100) * width - logoW / 2;
-            const logoY = (logoPosition.y / 100) * height - logoH / 2;
-            ctx.drawImage(img, logoX, logoY, logoW, logoH);
-            resolve();
-          };
-          img.onerror = () => resolve();
-          img.src = logoImage;
-        });
+            const lines = layer.text.split("\n");
+            const lineHeight = layer.fontSize * 2 * layer.lineSpacing;
+            const startY = -((lines.length - 1) * lineHeight) / 2;
+            lines.forEach((line, i) => {
+              ctx.fillText(line, 0, startY + i * lineHeight);
+            });
+            ctx.restore();
+          }
+        } else if (layer.type === "image") {
+          await new Promise<void>((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+              const imgW = layer.size * 2;
+              const imgH = (img.height / img.width) * imgW;
+              const imgX = (layer.position.x / 100) * width - imgW / 2;
+              const imgY = (layer.position.y / 100) * height - imgH / 2;
+              ctx.save();
+              ctx.translate(imgX + imgW / 2, imgY + imgH / 2);
+              ctx.rotate((layer.rotation * Math.PI) / 180);
+              ctx.drawImage(img, -imgW / 2, -imgH / 2, imgW, imgH);
+              ctx.restore();
+              resolve();
+            };
+            img.onerror = () => resolve();
+            img.src = layer.src;
+          });
+        } else if (layer.type === "ai-design") {
+          await new Promise<void>((resolve) => {
+            const img = new Image();
+            const svgBlob = new Blob([layer.svg], { type: "image/svg+xml" });
+            const url = URL.createObjectURL(svgBlob);
+            img.onload = () => {
+              const imgW = layer.size * 2;
+              const imgH = imgW; // SVGs are square per our prompt
+              const imgX = (layer.position.x / 100) * width - imgW / 2;
+              const imgY = (layer.position.y / 100) * height - imgH / 2;
+              ctx.save();
+              ctx.translate(imgX + imgW / 2, imgY + imgH / 2);
+              ctx.rotate((layer.rotation * Math.PI) / 180);
+              ctx.drawImage(img, -imgW / 2, -imgH / 2, imgW, imgH);
+              ctx.restore();
+              URL.revokeObjectURL(url);
+              resolve();
+            };
+            img.onerror = () => {
+              URL.revokeObjectURL(url);
+              resolve();
+            };
+            img.src = url;
+          });
+        }
       }
 
       // Trigger download
@@ -658,7 +775,7 @@ export default function FontPreviewPage() {
     } finally {
       setDownloading(false);
     }
-  }, [text, selectedFont, fontSize, lineSpacing, textColor, product, customPosition, rotation, curvedText, customImage, logoImage, logoPosition, logoSize]);
+  }, [layers, product, customImage]);
 
   // Draw product shape on canvas
   function drawProductShape(ctx: CanvasRenderingContext2D, prod: ProductType, w: number, h: number) {
@@ -715,7 +832,6 @@ export default function FontPreviewPage() {
         ctx.strokeStyle = "#555";
         ctx.lineWidth = 2;
         ctx.stroke();
-        // Handle
         const hGrad = ctx.createLinearGradient(0, h * 0.35, 0, h * 0.65);
         hGrad.addColorStop(0, "#4a3728");
         hGrad.addColorStop(0.5, "#5c4033");
@@ -750,18 +866,17 @@ export default function FontPreviewPage() {
     ctx.restore();
   }
 
-  // Draw curved text on canvas
   function drawCurvedText(
     ctx: CanvasRenderingContext2D,
     txt: string,
     x: number,
     y: number,
     radius: number,
-    fSize: number
+    fSize: number,
+    font: FontOption
   ) {
     ctx.save();
-    ctx.font = `${fSize}px ${selectedFont.family.replace(/'/g, "")}`;
-    ctx.fillStyle = ctx.fillStyle;
+    ctx.font = `${fSize}px ${font.family.replace(/'/g, "")}`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
@@ -782,39 +897,414 @@ export default function FontPreviewPage() {
     ctx.restore();
   }
 
-  // Get text position style - now uses custom position
-  const getTextPositionStyle = (): React.CSSProperties => {
-    const base: React.CSSProperties = {
-      position: "absolute",
-      left: `${customPosition.x}%`,
-      top: `${customPosition.y}%`,
-      transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
-      width: "80%",
-      textAlign: "center",
-      fontFamily: selectedFont.family.replace(/'/g, ""),
-      fontSize: `${fontSize}px`,
-      color: TEXT_COLORS.find((c) => c.value === textColor)?.hex || "#fff",
-      lineHeight: `${lineSpacing}`,
-      wordBreak: "break-word",
-      pointerEvents: "auto",
-      cursor: isDragging ? "grabbing" : "grab",
-      userSelect: "none",
-      WebkitUserSelect: "none",
-      touchAction: "none",
-    };
-
-    return base;
-  };
-
-  // Curved text CSS (simple approximation for preview)
-  const getCurvedTextStyle = (): React.CSSProperties => {
-    if (!curvedText || product !== "tumbler") return {};
-    return {
-      background: "transparent",
-    };
-  };
-
   const allFonts = [...PRESET_FONTS, ...customFonts];
+
+  // --- Render layer on preview ---
+  function renderLayerOnCanvas(layer: Layer) {
+    const isSelected = layer.id === selectedLayerId;
+    const isDragging = layer.id === draggingLayerId;
+
+    const outlineStyle = isDragging
+      ? "2px dashed rgba(16, 185, 129, 0.6)"
+      : isSelected
+      ? "1px dashed rgba(16, 185, 129, 0.4)"
+      : "none";
+
+    if (layer.type === "text") {
+      const colorHex = TEXT_COLORS.find((c) => c.value === layer.color)?.hex || "#fff";
+      return (
+        <div
+          key={layer.id}
+          onMouseDown={(e) => handleLayerDragStart(e, layer.id)}
+          onTouchStart={(e) => handleLayerDragStart(e, layer.id)}
+          style={{
+            position: "absolute",
+            left: `${layer.position.x}%`,
+            top: `${layer.position.y}%`,
+            transform: `translate(-50%, -50%) rotate(${layer.rotation}deg)`,
+            width: "80%",
+            textAlign: "center",
+            fontFamily: layer.font.family.replace(/'/g, ""),
+            fontSize: `${layer.fontSize}px`,
+            color: colorHex,
+            lineHeight: `${layer.lineSpacing}`,
+            wordBreak: "break-word",
+            pointerEvents: "auto",
+            cursor: isDragging ? "grabbing" : "grab",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            touchAction: "none",
+            outline: outlineStyle,
+            outlineOffset: "4px",
+            borderRadius: "4px",
+            transition: isDragging ? "none" : "outline 0.2s ease",
+            zIndex: isSelected ? 10 : 1,
+          }}
+        >
+          {layer.curvedText && product === "tumbler" ? (
+            <svg
+              viewBox="0 0 300 150"
+              className="w-full"
+              style={{ maxWidth: "80%", pointerEvents: "none" }}
+            >
+              <defs>
+                <path id={`curvedPath-${layer.id}`} d="M 30,120 Q 150,40 270,120" fill="none" />
+              </defs>
+              <text
+                fill={colorHex}
+                fontSize={layer.fontSize * 0.8}
+                fontFamily={layer.font.family.replace(/'/g, "")}
+                textAnchor="middle"
+              >
+                <textPath href={`#curvedPath-${layer.id}`} startOffset="50%">
+                  {layer.text}
+                </textPath>
+              </text>
+            </svg>
+          ) : (
+            <span style={{ whiteSpace: "pre-wrap", pointerEvents: "none" }}>{layer.text}</span>
+          )}
+        </div>
+      );
+    }
+
+    if (layer.type === "image") {
+      return (
+        <div
+          key={layer.id}
+          onMouseDown={(e) => handleLayerDragStart(e, layer.id)}
+          onTouchStart={(e) => handleLayerDragStart(e, layer.id)}
+          style={{
+            position: "absolute",
+            left: `${layer.position.x}%`,
+            top: `${layer.position.y}%`,
+            transform: `translate(-50%, -50%) rotate(${layer.rotation}deg)`,
+            width: `${layer.size}px`,
+            cursor: isDragging ? "grabbing" : "grab",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            touchAction: "none",
+            outline: outlineStyle,
+            outlineOffset: "4px",
+            borderRadius: "4px",
+            transition: isDragging ? "none" : "outline 0.2s ease",
+            pointerEvents: "auto",
+            zIndex: isSelected ? 10 : 1,
+          }}
+        >
+          <img
+            src={layer.src}
+            alt="Layer image"
+            style={{ width: "100%", height: "auto", pointerEvents: "none" }}
+            draggable={false}
+          />
+        </div>
+      );
+    }
+
+    if (layer.type === "ai-design") {
+      return (
+        <div
+          key={layer.id}
+          onMouseDown={(e) => handleLayerDragStart(e, layer.id)}
+          onTouchStart={(e) => handleLayerDragStart(e, layer.id)}
+          style={{
+            position: "absolute",
+            left: `${layer.position.x}%`,
+            top: `${layer.position.y}%`,
+            transform: `translate(-50%, -50%) rotate(${layer.rotation}deg)`,
+            width: `${layer.size}px`,
+            height: `${layer.size}px`,
+            cursor: isDragging ? "grabbing" : "grab",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            touchAction: "none",
+            outline: outlineStyle,
+            outlineOffset: "4px",
+            borderRadius: "4px",
+            transition: isDragging ? "none" : "outline 0.2s ease",
+            pointerEvents: "auto",
+            zIndex: isSelected ? 10 : 1,
+          }}
+          dangerouslySetInnerHTML={{ __html: layer.svg }}
+        />
+      );
+    }
+
+    return null;
+  }
+
+  // --- Render selected layer properties panel ---
+  function renderLayerProperties() {
+    if (!selectedLayer) return null;
+
+    if (selectedLayer.type === "text") {
+      const tl = selectedLayer as TextLayer;
+      return (
+        <div className="space-y-4">
+          {/* Text Input */}
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Text</label>
+            <textarea
+              value={tl.text}
+              onChange={(e) => updateLayer(tl.id, { text: e.target.value })}
+              placeholder="Type what you want engraved..."
+              rows={3}
+              className="w-full p-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500 resize-none text-sm"
+            />
+            <p className="mt-1 text-xs text-zinc-500">Use Enter for multiple lines</p>
+          </div>
+
+          {/* Font Selection */}
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Font</label>
+            <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+              {allFonts.map((font) => (
+                <button
+                  key={font.family}
+                  onClick={() => updateLayer(tl.id, { font })}
+                  className={`w-full text-left p-2 rounded-lg border transition-colors ${
+                    tl.font.family === font.family
+                      ? "border-emerald-600 bg-emerald-900/20"
+                      : "border-zinc-700 bg-zinc-800 hover:border-zinc-600"
+                  }`}
+                >
+                  <span
+                    className="block text-base truncate"
+                    style={{ fontFamily: font.family.replace(/'/g, "") }}
+                  >
+                    {fontsLoaded || font.category === "Custom" ? tl.text.slice(0, 20) || "Preview" : "Loading..."}
+                  </span>
+                  <span className="text-xs text-zinc-400 block">
+                    {font.name} &middot; {font.category}
+                  </span>
+                </button>
+              ))}
+            </div>
+            <div className="mt-2">
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full p-2 rounded-lg border border-dashed border-zinc-600 hover:border-emerald-600 bg-zinc-800/50 text-xs text-zinc-400 hover:text-emerald-400 transition-colors"
+              >
+                + Upload Custom Font
+              </button>
+            </div>
+          </div>
+
+          {/* Font Size */}
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">
+              Size: {tl.fontSize}px
+            </label>
+            <input
+              type="range"
+              min="12"
+              max="72"
+              value={tl.fontSize}
+              onChange={(e) => updateLayer(tl.id, { fontSize: Number(e.target.value) })}
+              className="w-full accent-emerald-600"
+            />
+          </div>
+
+          {/* Color */}
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Engraving Color</label>
+            <div className="flex gap-2 flex-wrap">
+              {TEXT_COLORS.map((c) => (
+                <button
+                  key={c.value}
+                  onClick={() => updateLayer(tl.id, { color: c.value })}
+                  className={`flex-1 min-w-[50px] p-2 rounded-lg border text-xs font-medium transition-colors ${
+                    tl.color === c.value
+                      ? "border-emerald-600 bg-emerald-900/20"
+                      : "border-zinc-700 bg-zinc-800 hover:border-zinc-600"
+                  }`}
+                >
+                  <span
+                    className="block w-3 h-3 rounded-full mx-auto mb-1 border border-zinc-600"
+                    style={{ backgroundColor: c.hex }}
+                  />
+                  {c.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Line Spacing */}
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">
+              Line Spacing: {tl.lineSpacing.toFixed(1)}
+            </label>
+            <input
+              type="range"
+              min="0.8"
+              max="3.0"
+              step="0.1"
+              value={tl.lineSpacing}
+              onChange={(e) => updateLayer(tl.id, { lineSpacing: Number(e.target.value) })}
+              className="w-full accent-emerald-600"
+            />
+          </div>
+
+          {/* Rotation */}
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">
+              Rotation: {tl.rotation}&deg;
+            </label>
+            <input
+              type="range"
+              min="-180"
+              max="180"
+              step="1"
+              value={tl.rotation}
+              onChange={(e) => updateLayer(tl.id, { rotation: Number(e.target.value) })}
+              className="w-full accent-emerald-600"
+            />
+            <div className="flex justify-between mt-1">
+              <span className="text-xs text-zinc-500">-180</span>
+              <button
+                onClick={() => updateLayer(tl.id, { rotation: 0 })}
+                className="text-xs text-zinc-400 hover:text-emerald-400 transition-colors px-2 py-0.5 rounded border border-zinc-700 hover:border-emerald-600"
+              >
+                Reset
+              </button>
+              <span className="text-xs text-zinc-500">+180</span>
+            </div>
+          </div>
+
+          {/* Curved text (tumbler only) */}
+          {product === "tumbler" && (
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium text-zinc-300">Curved Text</label>
+              <button
+                onClick={() => updateLayer(tl.id, { curvedText: !tl.curvedText })}
+                className={`relative w-11 h-6 rounded-full transition-colors ${
+                  tl.curvedText ? "bg-emerald-600" : "bg-zinc-700"
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
+                    tl.curvedText ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (selectedLayer.type === "image") {
+      const il = selectedLayer as ImageLayer;
+      return (
+        <div className="space-y-4">
+          <div className="bg-zinc-800 rounded-lg p-3 flex items-center gap-3">
+            <img src={il.src} alt="Layer" className="w-12 h-12 object-contain rounded" />
+            <span className="text-sm text-zinc-300">Image Layer</span>
+          </div>
+
+          {/* Size */}
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">
+              Size: {il.size}px
+            </label>
+            <input
+              type="range"
+              min="30"
+              max="300"
+              value={il.size}
+              onChange={(e) => updateLayer(il.id, { size: Number(e.target.value) })}
+              className="w-full accent-emerald-600"
+            />
+          </div>
+
+          {/* Rotation */}
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">
+              Rotation: {il.rotation}&deg;
+            </label>
+            <input
+              type="range"
+              min="-180"
+              max="180"
+              step="1"
+              value={il.rotation}
+              onChange={(e) => updateLayer(il.id, { rotation: Number(e.target.value) })}
+              className="w-full accent-emerald-600"
+            />
+            <div className="flex justify-between mt-1">
+              <span className="text-xs text-zinc-500">-180</span>
+              <button
+                onClick={() => updateLayer(il.id, { rotation: 0 })}
+                className="text-xs text-zinc-400 hover:text-emerald-400 transition-colors px-2 py-0.5 rounded border border-zinc-700 hover:border-emerald-600"
+              >
+                Reset
+              </button>
+              <span className="text-xs text-zinc-500">+180</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (selectedLayer.type === "ai-design") {
+      const al = selectedLayer as AiDesignLayer;
+      return (
+        <div className="space-y-4">
+          <div className="bg-zinc-800 rounded-lg p-3">
+            <span className="text-sm text-zinc-300">AI Design: &quot;{al.prompt}&quot;</span>
+            <div
+              className="mt-2 w-16 h-16 mx-auto"
+              dangerouslySetInnerHTML={{ __html: al.svg }}
+            />
+          </div>
+
+          {/* Size */}
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">
+              Size: {al.size}px
+            </label>
+            <input
+              type="range"
+              min="50"
+              max="400"
+              value={al.size}
+              onChange={(e) => updateLayer(al.id, { size: Number(e.target.value) })}
+              className="w-full accent-emerald-600"
+            />
+          </div>
+
+          {/* Rotation */}
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">
+              Rotation: {al.rotation}&deg;
+            </label>
+            <input
+              type="range"
+              min="-180"
+              max="180"
+              step="1"
+              value={al.rotation}
+              onChange={(e) => updateLayer(al.id, { rotation: Number(e.target.value) })}
+              className="w-full accent-emerald-600"
+            />
+            <div className="flex justify-between mt-1">
+              <span className="text-xs text-zinc-500">-180</span>
+              <button
+                onClick={() => updateLayer(al.id, { rotation: 0 })}
+                className="text-xs text-zinc-400 hover:text-emerald-400 transition-colors px-2 py-0.5 rounded border border-zinc-700 hover:border-emerald-600"
+              >
+                Reset
+              </button>
+              <span className="text-xs text-zinc-500">+180</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -844,71 +1334,94 @@ export default function FontPreviewPage() {
         </div>
       </header>
 
-      {/* Main Content - Mobile-first: preview on top */}
+      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Panel - Controls (appears second on mobile via order) */}
+          {/* Left Panel - Controls */}
           <div className="lg:col-span-4 space-y-4 order-2 lg:order-1">
-            {/* Text Input */}
+            {/* Layer List */}
             <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-              <label className="block text-sm font-medium text-zinc-300 mb-2">
-                Your Text
-              </label>
-              <textarea
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder="Type what you want engraved..."
-                rows={3}
-                className="w-full p-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500 resize-none text-sm"
-              />
-              <p className="mt-1 text-xs text-zinc-500">Use Enter for multiple lines</p>
-            </section>
-
-            {/* Font Selection */}
-            <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-              <label className="block text-sm font-medium text-zinc-300 mb-2">
-                Font
-              </label>
-              <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
-                {allFonts.map((font) => (
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-sm font-medium text-zinc-300">Layers</label>
+                <div className="flex gap-1">
                   <button
-                    key={font.family}
-                    onClick={() => setSelectedFont(font)}
-                    className={`w-full text-left p-3 rounded-lg border transition-colors ${
-                      selectedFont.family === font.family
-                        ? "border-emerald-600 bg-emerald-900/20"
-                        : "border-zinc-700 bg-zinc-800 hover:border-zinc-600"
+                    onClick={addTextLayer}
+                    className="px-2 py-1 text-xs bg-emerald-800 hover:bg-emerald-700 text-emerald-100 rounded transition-colors"
+                    title="Add text layer"
+                  >
+                    + Text
+                  </button>
+                  <button
+                    onClick={() => layerImageInputRef.current?.click()}
+                    className="px-2 py-1 text-xs bg-blue-800 hover:bg-blue-700 text-blue-100 rounded transition-colors"
+                    title="Add image layer"
+                  >
+                    + Image
+                  </button>
+                </div>
+              </div>
+              <input
+                ref={layerImageInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/svg+xml"
+                onChange={handleLayerImageUpload}
+                className="hidden"
+              />
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {layers.map((layer, idx) => (
+                  <div
+                    key={layer.id}
+                    onClick={() => setSelectedLayerId(layer.id)}
+                    className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-colors ${
+                      selectedLayerId === layer.id
+                        ? "bg-emerald-900/30 border border-emerald-700"
+                        : "bg-zinc-800 border border-zinc-700 hover:border-zinc-600"
                     }`}
                   >
-                    <span
-                      className="block text-lg truncate"
-                      style={{ fontFamily: font.family.replace(/'/g, "") }}
-                    >
-                      {fontsLoaded || font.category === "Custom" ? text.slice(0, 20) || "Preview" : "Loading..."}
-                    </span>
-                    <span className="text-xs text-zinc-400 mt-1 block">
-                      {font.name} &middot; {font.category}
-                    </span>
-                  </button>
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-xs text-zinc-500 w-4 shrink-0">{idx + 1}</span>
+                      {layer.type === "text" && (
+                        <span className="text-sm text-zinc-300 truncate">
+                          {(layer as TextLayer).text.slice(0, 20) || "Empty text"}
+                        </span>
+                      )}
+                      {layer.type === "image" && (
+                        <span className="text-sm text-zinc-300 truncate">Image</span>
+                      )}
+                      {layer.type === "ai-design" && (
+                        <span className="text-sm text-zinc-300 truncate">
+                          AI: {(layer as AiDesignLayer).prompt.slice(0, 15)}
+                        </span>
+                      )}
+                      <span className="text-xs text-zinc-500 shrink-0">
+                        ({layer.type})
+                      </span>
+                    </div>
+                    {layers.length > 1 && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteLayer(layer.id);
+                        }}
+                        className="text-xs text-zinc-500 hover:text-red-400 px-1.5 py-0.5 rounded hover:bg-red-900/20 transition-colors shrink-0"
+                        title="Delete layer"
+                      >
+                        X
+                      </button>
+                    )}
+                  </div>
                 ))}
               </div>
+            </section>
 
-              {/* Custom Font Upload */}
-              <div className="mt-3 pt-3 border-t border-zinc-700">
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full p-3 rounded-lg border border-dashed border-zinc-600 hover:border-emerald-600 bg-zinc-800/50 text-sm text-zinc-400 hover:text-emerald-400 transition-colors"
-                >
-                  + Upload Custom Font (.ttf, .otf, .woff)
-                </button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".ttf,.otf,.woff,.woff2"
-                  onChange={handleFontUpload}
-                  className="hidden"
-                />
-              </div>
+            {/* Selected Layer Properties */}
+            <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+              <label className="block text-sm font-medium text-zinc-300 mb-3">
+                {selectedLayer
+                  ? `${selectedLayer.type === "text" ? "Text" : selectedLayer.type === "image" ? "Image" : "AI Design"} Properties`
+                  : "Select a layer"}
+              </label>
+              {renderLayerProperties()}
             </section>
 
             {/* Product Selection */}
@@ -933,7 +1446,7 @@ export default function FontPreviewPage() {
                 ))}
               </div>
 
-              {/* Custom Image Upload */}
+              {/* Custom Background Image */}
               <div className="mt-3 pt-3 border-t border-zinc-700">
                 <button
                   onClick={() => imageInputRef.current?.click()}
@@ -953,164 +1466,56 @@ export default function FontPreviewPage() {
                   ref={imageInputRef}
                   type="file"
                   accept="image/*"
-                  onChange={handleImageUpload}
+                  onChange={handleBackgroundImageUpload}
                   className="hidden"
                 />
               </div>
             </section>
 
-            {/* Settings */}
-            <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-2">
-                  Engraving Color
-                </label>
-                <div className="flex gap-2 flex-wrap">
-                  {TEXT_COLORS.map((c) => (
-                    <button
-                      key={c.value}
-                      onClick={() => setTextColor(c.value)}
-                      className={`flex-1 min-w-[60px] p-2 rounded-lg border text-xs font-medium transition-colors ${
-                        textColor === c.value
-                          ? "border-emerald-600 bg-emerald-900/20"
-                          : "border-zinc-700 bg-zinc-800 hover:border-zinc-600"
-                      }`}
-                    >
-                      <span
-                        className="block w-4 h-4 rounded-full mx-auto mb-1 border border-zinc-600"
-                        style={{ backgroundColor: c.hex }}
-                      />
-                      {c.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Line Spacing Control (replaces quick position buttons) */}
-              <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-2">
-                  Line Spacing: {lineSpacing.toFixed(1)}
-                </label>
-                <input
-                  type="range"
-                  min="0.8"
-                  max="3.0"
-                  step="0.1"
-                  value={lineSpacing}
-                  onChange={(e) => setLineSpacing(Number(e.target.value))}
-                  className="w-full accent-emerald-600"
-                />
-                <div className="flex justify-between mt-1">
-                  <span className="text-xs text-zinc-500">Tight</span>
-                  <span className="text-xs text-zinc-500">Wide</span>
-                </div>
-              </div>
-
-              {/* Rotation Control */}
-              <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-2">
-                  Rotation: {rotation}
-                </label>
-                <input
-                  type="range"
-                  min="-180"
-                  max="180"
-                  step="1"
-                  value={rotation}
-                  onChange={(e) => setRotation(Number(e.target.value))}
-                  className="w-full accent-emerald-600"
-                />
-                <div className="flex justify-between mt-1">
-                  <span className="text-xs text-zinc-500">-180</span>
-                  <button
-                    onClick={() => setRotation(0)}
-                    className="text-xs text-zinc-400 hover:text-emerald-400 transition-colors px-2 py-0.5 rounded border border-zinc-700 hover:border-emerald-600"
-                  >
-                    Reset to 0
-                  </button>
-                  <span className="text-xs text-zinc-500">+180</span>
-                </div>
-              </div>
-
-              {product === "tumbler" && (
-                <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium text-zinc-300">
-                    Curved Text
-                  </label>
-                  <button
-                    onClick={() => setCurvedText(!curvedText)}
-                    className={`relative w-11 h-6 rounded-full transition-colors ${
-                      curvedText ? "bg-emerald-600" : "bg-zinc-700"
-                    }`}
-                  >
-                    <span
-                      className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
-                        curvedText ? "translate-x-5" : "translate-x-0"
-                      }`}
-                    />
-                  </button>
-                </div>
-              )}
-              {curvedText && product === "tumbler" && rotation !== 0 && (
-                <p className="text-xs text-amber-400">
-                  Note: Rotation is applied after curve. For best results use one or the other.
-                </p>
-              )}
-            </section>
-
-            {/* Logo Upload Section */}
-            <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 space-y-4">
+            {/* AI Design Generator */}
+            <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
               <label className="block text-sm font-medium text-zinc-300 mb-2">
-                Logo
+                AI Line Art Generator
               </label>
-              <button
-                onClick={() => logoInputRef.current?.click()}
-                className="w-full p-3 rounded-lg border border-dashed border-zinc-600 hover:border-emerald-600 bg-zinc-800/50 text-sm text-zinc-400 hover:text-emerald-400 transition-colors"
-              >
-                {logoImage ? "Change Logo" : "+ Upload Logo (.png, .svg)"}
-              </button>
-              <input
-                ref={logoInputRef}
-                type="file"
-                accept="image/png,image/svg+xml"
-                onChange={handleLogoUpload}
-                className="hidden"
-              />
-              {logoImage && (
-                <>
-                  <div>
-                    <label className="block text-sm font-medium text-zinc-300 mb-2">
-                      Logo Size: {logoSize}px
-                    </label>
-                    <input
-                      type="range"
-                      min="20"
-                      max="200"
-                      value={logoSize}
-                      onChange={(e) => setLogoSize(Number(e.target.value))}
-                      className="w-full accent-emerald-600"
-                    />
-                  </div>
-                  <button
-                    onClick={() => setLogoImage(null)}
-                    className="w-full p-2 text-xs text-zinc-500 hover:text-red-400 transition-colors"
-                  >
-                    Remove Logo
-                  </button>
-                  <p className="text-xs text-zinc-500">Drag the logo on the preview to reposition</p>
-                </>
+              <p className="text-xs text-zinc-500 mb-3">
+                Generate simple line art designs for laser engraving
+              </p>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={aiPrompt}
+                  onChange={(e) => setAiPrompt(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !aiGenerating) handleGenerateDesign();
+                  }}
+                  placeholder="e.g. wolf howling at moon"
+                  className="flex-1 p-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:border-emerald-600 focus:outline-none text-zinc-100 placeholder-zinc-500 text-sm"
+                />
+                <button
+                  onClick={handleGenerateDesign}
+                  disabled={aiGenerating || !aiPrompt.trim()}
+                  className="px-3 py-2 bg-purple-700 hover:bg-purple-600 disabled:bg-zinc-700 disabled:text-zinc-400 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
+                >
+                  {aiGenerating ? "..." : "Generate"}
+                </button>
+              </div>
+              {aiError && (
+                <p className="mt-2 text-xs text-red-400">{aiError}</p>
               )}
+              <p className="mt-2 text-xs text-zinc-600">
+                Examples: &quot;celtic knot&quot;, &quot;floral border&quot;, &quot;mountain scene&quot;, &quot;dragon&quot;
+              </p>
             </section>
           </div>
 
-          {/* Right Panel - Preview (appears first on mobile via order) */}
+          {/* Right Panel - Preview */}
           <div className="lg:col-span-8 order-1 lg:order-2">
             <div className="sticky top-20">
               <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-sm font-medium text-zinc-400">Live Preview</h2>
                   <span className="text-xs text-zinc-600">
-                    {selectedFont.name} &middot; {fontSize}px &middot; {rotation !== 0 ? `${rotation} deg` : "no rotation"}
+                    {layers.length} layer{layers.length !== 1 ? "s" : ""}
                   </span>
                 </div>
 
@@ -1141,119 +1546,24 @@ export default function FontPreviewPage() {
                     </div>
                   )}
 
-                  {/* Draggable Text Overlay */}
-                  <div
-                    ref={textOverlayRef}
-                    onMouseDown={handleDragStart}
-                    onTouchStart={handleDragStart}
-                    onMouseEnter={() => setIsHoveringText(true)}
-                    onMouseLeave={() => { if (!isDragging) setIsHoveringText(false); }}
-                    style={{
-                      ...getTextPositionStyle(),
-                      ...getCurvedTextStyle(),
-                      outline: isDragging ? "2px dashed rgba(16, 185, 129, 0.6)" : isHoveringText ? "1px dashed rgba(16, 185, 129, 0.3)" : "none",
-                      outlineOffset: "4px",
-                      borderRadius: "4px",
-                      transition: isDragging ? "none" : "outline 0.2s ease",
-                    }}
-                  >
-                    {curvedText && product === "tumbler" ? (
-                      <svg
-                        viewBox="0 0 300 150"
-                        className="w-full"
-                        style={{ maxWidth: "80%", pointerEvents: "none" }}
-                      >
-                        <defs>
-                          <path
-                            id="curvedPath"
-                            d="M 30,120 Q 150,40 270,120"
-                            fill="none"
-                          />
-                        </defs>
-                        <text
-                          fill={TEXT_COLORS.find((c) => c.value === textColor)?.hex || "#fff"}
-                          fontSize={fontSize * 0.8}
-                          fontFamily={selectedFont.family.replace(/'/g, "")}
-                          textAnchor="middle"
-                        >
-                          <textPath href="#curvedPath" startOffset="50%">
-                            {text}
-                          </textPath>
-                        </text>
-                      </svg>
-                    ) : (
-                      <span style={{ whiteSpace: "pre-wrap", pointerEvents: "none" }}>{text}</span>
-                    )}
-                  </div>
-
-                  {/* Draggable Logo Overlay */}
-                  {logoImage && (
-                    <div
-                      onMouseDown={handleLogoDragStart}
-                      onTouchStart={handleLogoDragStart}
-                      onMouseEnter={() => setIsHoveringLogo(true)}
-                      onMouseLeave={() => { if (!isDraggingLogo) setIsHoveringLogo(false); }}
-                      style={{
-                        position: "absolute",
-                        left: `${logoPosition.x}%`,
-                        top: `${logoPosition.y}%`,
-                        transform: "translate(-50%, -50%)",
-                        width: `${logoSize}px`,
-                        height: "auto",
-                        cursor: isDraggingLogo ? "grabbing" : "grab",
-                        userSelect: "none",
-                        WebkitUserSelect: "none" as React.CSSProperties["WebkitUserSelect"],
-                        touchAction: "none",
-                        outline: isDraggingLogo ? "2px dashed rgba(16, 185, 129, 0.6)" : isHoveringLogo ? "1px dashed rgba(16, 185, 129, 0.3)" : "none",
-                        outlineOffset: "4px",
-                        borderRadius: "4px",
-                        transition: isDraggingLogo ? "none" : "outline 0.2s ease",
-                        pointerEvents: "auto",
-                      }}
-                    >
-                      <img
-                        src={logoImage}
-                        alt="Logo"
-                        style={{ width: "100%", height: "auto", pointerEvents: "none" }}
-                        draggable={false}
-                      />
-                    </div>
-                  )}
+                  {/* Render all layers */}
+                  {layers.map((layer) => renderLayerOnCanvas(layer))}
 
                   {/* Drag instruction overlay */}
-                  {!isDragging && !isDraggingLogo && (
+                  {!draggingLayerId && (
                     <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none">
                       <span className="text-xs text-zinc-500 bg-zinc-900/80 px-2 py-1 rounded">
-                        Drag text{logoImage ? " or logo" : ""} to reposition
+                        Drag elements to reposition
                       </span>
                     </div>
                   )}
-                </div>
-
-                {/* Text Size Slider - directly below preview */}
-                <div className="mt-4 px-1">
-                  <label className="block text-sm font-medium text-zinc-300 mb-2">
-                    Text Size: {fontSize}px
-                  </label>
-                  <input
-                    type="range"
-                    min="12"
-                    max="72"
-                    value={fontSize}
-                    onChange={(e) => setFontSize(Number(e.target.value))}
-                    className="w-full accent-emerald-600"
-                  />
-                  <div className="flex justify-between mt-1">
-                    <span className="text-xs text-zinc-500">12px</span>
-                    <span className="text-xs text-zinc-500">72px</span>
-                  </div>
                 </div>
               </div>
 
               {/* Quick tips */}
               <div className="mt-4 p-3 bg-zinc-900/50 border border-zinc-800 rounded-lg">
                 <p className="text-xs text-zinc-500">
-                  <strong className="text-zinc-400">Tips:</strong> Drag the text to position it anywhere on the product. Use the rotation slider to angle your text. Upload your own font files for exact previews. Use Enter for multiple lines. Adjust line spacing for multi-line text.
+                  <strong className="text-zinc-400">Tips:</strong> Add multiple text and image layers. Drag any element to reposition. Select a layer in the panel to edit its properties. Use the AI generator to create line art designs for engraving.
                 </p>
               </div>
             </div>
@@ -1271,8 +1581,15 @@ export default function FontPreviewPage() {
         </a>
       </footer>
 
-      {/* Hidden canvas for download */}
+      {/* Hidden elements */}
       <canvas ref={canvasRef} className="hidden" />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".ttf,.otf,.woff,.woff2"
+        onChange={handleFontUpload}
+        className="hidden"
+      />
     </div>
   );
 }

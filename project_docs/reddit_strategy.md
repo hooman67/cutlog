@@ -602,16 +602,25 @@ The tool is free and people like it, but I have no monetization path that doesn'
 | 2026-06-28 | r/Machinists | Joined. Starting karma building. 275K members, professional CNC operators. |
 | 2026-06-28 | r/metalworking | Joined. Starting karma building. 762K+ members, professional metalworkers. |
 | 2026-06-28 | r/sheetmetal | Joined. Starting karma building. 7K members, directly our audience (sheet metal shops with fiber lasers). |
+| 2026-06-28 | Facebook: DIY Fiber Laser | Replied to Tony Smiley's follow-up on lead-gen post. Closed thread gracefully — he's dialed in, not our target. DO NOT DM. |
+| 2026-06-28 | Facebook: Laser Engraving for Beginners | Replied to Michael Greenstein's follow-up about organizing settings by project/effect. Planted seed about "new material with no reference" scenario. No CutLog mention. |
+| 2026-06-28 | Facebook: CNC Fiber Laser Ninja | Replied to Dan Allkins' question about 3mm brass cut settings on OMG 60W MOPA post. Gave parameter data (36-45% power, 200-400 mm/min, N2 at 4+ bar, multi-pass). Planted "always collecting verified data" seed. No CutLog link. |
+| 2026-06-28 | Facebook: Fiber Laser The Next Level | NOTE: Comments pending approval in this group. CNC Fiber Laser Ninja is faster/easier. Prioritize Ninja for daily engagement. |
 
-**Karma-building status (2026-06-25):**
-- r/laserengraving: ACTIVE (commenting/building karma)
-- r/lightburn: ACTIVE (commenting/building karma)
-- r/lasercutting: ACTIVE (commenting/building karma)
-- r/hobbycnc: ACTIVE (commenting/building karma)
-- r/xToolOfficial: ACTIVE (commenting/building karma)
-- r/Machinists: ACTIVE (joined 2026-06-28, building karma)
-- r/metalworking: ACTIVE (joined 2026-06-28, building karma)
+**Karma-building status (updated 2026-06-28):**
+- r/laserengraving: ACTIVE (commenting/building karma since 2026-06-25)
+- r/lightburn: ACTIVE (commenting/building karma since 2026-06-25)
+- r/lasercutting: ACTIVE (commenting/building karma since 2026-06-25, Post 6 submitted 2026-06-28)
+- r/hobbycnc: ACTIVE (commenting/building karma since 2026-06-25)
+- r/xToolOfficial: ACTIVE (commenting/building karma since 2026-06-25)
+- r/Machinists: ACTIVE (joined 2026-06-28, 3 karma comments posted)
+- r/metalworking: ACTIVE (joined 2026-06-28, 3 karma comments posted)
 - r/sheetmetal: ACTIVE (joined 2026-06-28, building karma)
+
+**2026-06-28 karma comments posted (9 total):**
+- r/metalworking: 3 comments (CNC plasma vs fiber, stainless enclosure warping, beginner MIG on laser-cut 304)
+- r/lasercutting: 3 comments (5mm mild steel O2 cutting, copper nozzle overheating, 1200W reflective materials)
+- r/Machinists: 3 comments (shearing vs laser for auto parts, DIY car guy plasma advice, YAG mold repair welder)
 
 ---
 
