@@ -655,8 +655,14 @@ export default function FontPreviewPage() {
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
+      // Match canvas aspect ratio to preview container aspect ratio
+      // Preview uses: knife=2.5/1, tumbler=1/2, others=3/4
+      const previewRect = previewRef.current.getBoundingClientRect();
+      const previewWidth = previewRect.width;
+      const previewHeight = previewRect.height;
       const width = 800;
-      const height = product === "knife" ? 400 : product === "tumbler" ? 900 : 600;
+      const height = Math.round(width * (previewHeight / previewWidth));
+      const scaleFactor = width / previewWidth;
       canvas.width = width;
       canvas.height = height;
 
@@ -696,8 +702,9 @@ export default function FontPreviewPage() {
       for (const layer of layers) {
         if (layer.type === "text") {
           const colorHex = TEXT_COLORS.find((c) => c.value === layer.color)?.hex || "#ffffff";
+          const scaledFontSize = layer.fontSize * scaleFactor;
           ctx.fillStyle = colorHex;
-          ctx.font = `${layer.fontSize * 2}px ${layer.font.family.replace(/'/g, "")}`;
+          ctx.font = `${scaledFontSize}px ${layer.font.family.replace(/'/g, "")}`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
 
@@ -705,14 +712,14 @@ export default function FontPreviewPage() {
           const textY = (layer.position.y / 100) * height;
 
           if (layer.curvedText && product === "tumbler") {
-            drawCurvedText(ctx, layer.text, textX, textY, width * 0.35, layer.fontSize * 2, layer.font);
+            drawCurvedText(ctx, layer.text, textX, textY, width * 0.35, scaledFontSize, layer.font);
           } else {
             ctx.save();
             ctx.translate(textX, textY);
             ctx.rotate((layer.rotation * Math.PI) / 180);
 
             const lines = layer.text.split("\n");
-            const lineHeight = layer.fontSize * 2 * layer.lineSpacing;
+            const lineHeight = scaledFontSize * layer.lineSpacing;
             const startY = -((lines.length - 1) * lineHeight) / 2;
             lines.forEach((line, i) => {
               ctx.fillText(line, 0, startY + i * lineHeight);
@@ -723,12 +730,12 @@ export default function FontPreviewPage() {
           await new Promise<void>((resolve) => {
             const img = new Image();
             img.onload = () => {
-              const imgW = layer.size * 2;
+              const imgW = layer.size * scaleFactor;
               const imgH = (img.height / img.width) * imgW;
-              const imgX = (layer.position.x / 100) * width - imgW / 2;
-              const imgY = (layer.position.y / 100) * height - imgH / 2;
+              const imgX = (layer.position.x / 100) * width;
+              const imgY = (layer.position.y / 100) * height;
               ctx.save();
-              ctx.translate(imgX + imgW / 2, imgY + imgH / 2);
+              ctx.translate(imgX, imgY);
               ctx.rotate((layer.rotation * Math.PI) / 180);
               ctx.drawImage(img, -imgW / 2, -imgH / 2, imgW, imgH);
               ctx.restore();
@@ -743,12 +750,12 @@ export default function FontPreviewPage() {
             const svgBlob = new Blob([layer.svg], { type: "image/svg+xml" });
             const url = URL.createObjectURL(svgBlob);
             img.onload = () => {
-              const imgW = layer.size * 2;
+              const imgW = layer.size * scaleFactor;
               const imgH = imgW; // SVGs are square per our prompt
-              const imgX = (layer.position.x / 100) * width - imgW / 2;
-              const imgY = (layer.position.y / 100) * height - imgH / 2;
+              const imgX = (layer.position.x / 100) * width;
+              const imgY = (layer.position.y / 100) * height;
               ctx.save();
-              ctx.translate(imgX + imgW / 2, imgY + imgH / 2);
+              ctx.translate(imgX, imgY);
               ctx.rotate((layer.rotation * Math.PI) / 180);
               ctx.drawImage(img, -imgW / 2, -imgH / 2, imgW, imgH);
               ctx.restore();
