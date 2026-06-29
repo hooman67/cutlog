@@ -1480,6 +1480,13 @@ export default function Suggest() {
               Thanks! This helps improve future recommendations.
             </div>
           )}
+
+          {/* Soft upsell — one tasteful nudge, not a nag */}
+          <p className="text-xs text-zinc-600 text-center mt-2">
+            <Link href="/pricing" className="text-emerald-500/80 hover:text-emerald-400 transition-colors">
+              Unlock unlimited AI suggestions & the verified library → see Pro
+            </Link>
+          </p>
         </div>
       )}
     </div>

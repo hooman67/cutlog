@@ -32,6 +32,23 @@ interface AdminStats {
   userFeedbackCount: number;
   userFeedbackByCategory: Record<string, number>;
   recentUserFeedback: UserFeedbackItem[];
+  wtpFunnel: Record<string, number>;
+  wtpBySegmentTier: Record<string, Record<string, number>>;
+  wtpRecentIntents: WtpIntentItem[];
+}
+
+interface WtpIntentItem {
+  id: string;
+  segment: string;
+  tier_clicked: string;
+  price_shown: string | null;
+  would_pay_amount: string | null;
+  machines_count: number | null;
+  machine_model: string | null;
+  email: string | null;
+  checkout_started: boolean | null;
+  payment_complete: boolean | null;
+  created_at: string;
 }
 
 interface AdminUser {
@@ -57,7 +74,7 @@ export default function AdminDashboard() {
   const [deletingCutId, setDeletingCutId] = useState<string | null>(null);
   const [confirmDeleteCutId, setConfirmDeleteCutId] = useState<string | null>(null);
   const [deletingMachineUserId, setDeletingMachineUserId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"stats" | "users" | "feedback">("stats");
+  const [activeTab, setActiveTab] = useState<"stats" | "users" | "feedback" | "wtp">("stats");
   const [feedbackFilter, setFeedbackFilter] = useState<string>("all");
   const router = useRouter();
   const supabase = createClient();
@@ -320,6 +337,16 @@ export default function AdminDashboard() {
         >
           Feedback ({stats?.userFeedbackCount ?? 0})
         </button>
+        <button
+          onClick={() => setActiveTab("wtp")}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === "wtp"
+              ? "bg-emerald-900/50 border border-emerald-700 text-emerald-300"
+              : "bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200"
+          }`}
+        >
+          WTP ({stats?.wtpFunnel?.tier_click ?? 0})
+        </button>
       </div>
 
       {/* Stats Tab */}
@@ -478,6 +505,79 @@ export default function AdminDashboard() {
               <p className="text-zinc-500 text-center py-8">No feedback submissions yet.</p>
             )}
           </div>
+        </div>
+      )}
+
+      {/* WTP (pricing funnel) Tab */}
+      {activeTab === "wtp" && stats && (
+        <div className="space-y-6">
+          {/* Funnel counts */}
+          <section>
+            <h2 className="text-lg font-semibold mb-3 text-zinc-200">Pricing Funnel</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <StatCard label="Pricing Views" value={stats.wtpFunnel?.pricing_view ?? 0} />
+              <StatCard label="Tier Clicks" value={stats.wtpFunnel?.tier_click ?? 0} />
+              <StatCard label="Checkout Starts" value={stats.wtpFunnel?.checkout_start ?? 0} />
+              <StatCard label="Payments" value={stats.wtpFunnel?.payment_complete ?? 0} />
+            </div>
+          </section>
+
+          {/* Per-segment per-tier intent (tier_click) counts */}
+          <section>
+            <h2 className="text-lg font-semibold mb-3 text-zinc-200">Intent by Segment &amp; Tier</h2>
+            {Object.keys(stats.wtpBySegmentTier ?? {}).length === 0 ? (
+              <p className="text-zinc-500 text-sm">No tier clicks recorded yet.</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {Object.entries(stats.wtpBySegmentTier).map(([segment, tiers]) => (
+                  <div key={segment} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                    <p className="text-xs text-zinc-500 mb-2 capitalize">{segment}</p>
+                    <div className="space-y-1">
+                      {Object.entries(tiers).map(([tier, count]) => (
+                        <div key={tier} className="flex items-center justify-between text-sm">
+                          <span className="text-zinc-300">{tier.replace(/_/g, " ")}</span>
+                          <span className="font-mono text-zinc-100">{count}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* Recent intent leads + "what would you pay" answers */}
+          <section>
+            <h2 className="text-lg font-semibold mb-3 text-zinc-200">Recent Intent (what would you pay)</h2>
+            <div className="space-y-2">
+              {(stats.wtpRecentIntents ?? []).length === 0 ? (
+                <p className="text-zinc-500 text-sm">No intent submissions yet.</p>
+              ) : (
+                stats.wtpRecentIntents.map((item) => (
+                  <div key={item.id} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-medium text-zinc-200">
+                        {item.tier_clicked.replace(/_/g, " ")}
+                        <span className="text-zinc-500 text-xs ml-2 capitalize">{item.segment}</span>
+                      </span>
+                      <span className="text-[10px] text-zinc-600">{formatDateTime(item.created_at)}</span>
+                    </div>
+                    <p className="text-sm text-emerald-300 mb-1">
+                      Would pay: {item.would_pay_amount || "—"}
+                      {item.price_shown && <span className="text-zinc-500"> (shown {item.price_shown})</span>}
+                    </p>
+                    <div className="flex flex-wrap gap-2 text-[10px] text-zinc-500">
+                      {item.email && <span>{item.email}</span>}
+                      {item.machines_count != null && <span>{item.machines_count} machines</span>}
+                      {item.machine_model && <span>{item.machine_model}</span>}
+                      {item.checkout_started && <span className="text-amber-400">checkout started</span>}
+                      {item.payment_complete && <span className="text-emerald-400">PAID</span>}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </section>
         </div>
       )}
 

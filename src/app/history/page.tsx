@@ -292,6 +292,14 @@ export default function History() {
                     <span className="text-zinc-500 ml-1">.{fmt.ext}</span>
                   </button>
                 ))}
+                {/* Soft upsell — one tasteful nudge tied to the export flow */}
+                <Link
+                  href="/pricing"
+                  onClick={() => setExportMenuOpen(false)}
+                  className="block px-4 py-2.5 text-xs text-emerald-500/80 hover:text-emerald-400 hover:bg-zinc-800 transition-colors"
+                >
+                  Unlock full bulk export → see Pro
+                </Link>
               </div>
             </>
           )}

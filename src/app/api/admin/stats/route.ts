@@ -123,6 +123,52 @@ export async function GET(request: NextRequest) {
       // waitlist table might not exist
     }
 
+    // --- WTP funnel (pricing fake-door) ---
+    // Per-segment / per-tier counts from the wtp_event funnel log, plus the
+    // recent WTP-intent leads with their "what would you pay" answers. Degrades
+    // gracefully if the tables don't exist yet (validation not deployed).
+    const wtpFunnel: Record<string, number> = {};
+    const wtpBySegmentTier: Record<string, Record<string, number>> = {};
+    let wtpRecentIntents: Array<{
+      id: string;
+      segment: string;
+      tier_clicked: string;
+      price_shown: string | null;
+      would_pay_amount: string | null;
+      machines_count: number | null;
+      machine_model: string | null;
+      email: string | null;
+      checkout_started: boolean | null;
+      payment_complete: boolean | null;
+      created_at: string;
+    }> = [];
+    try {
+      const { data: events } = await supabaseAdmin
+        .from("wtp_event")
+        .select("event, segment, tier")
+        .limit(100000);
+      events?.forEach((e) => {
+        wtpFunnel[e.event] = (wtpFunnel[e.event] || 0) + 1;
+        // Count tier_click (intent) per segment per tier for the readout grid.
+        if (e.event === "tier_click" && e.segment && e.tier) {
+          wtpBySegmentTier[e.segment] = wtpBySegmentTier[e.segment] || {};
+          wtpBySegmentTier[e.segment][e.tier] =
+            (wtpBySegmentTier[e.segment][e.tier] || 0) + 1;
+        }
+      });
+
+      const { data: intents } = await supabaseAdmin
+        .from("wtp_intent")
+        .select(
+          "id, segment, tier_clicked, price_shown, would_pay_amount, machines_count, machine_model, email, checkout_started, payment_complete, created_at"
+        )
+        .order("created_at", { ascending: false })
+        .limit(50);
+      wtpRecentIntents = intents ?? [];
+    } catch {
+      // wtp_event / wtp_intent tables may not exist yet — leave empty.
+    }
+
     // Cuts per day (last 30 days)
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
     const { data: recentCuts } = await supabaseAdmin
@@ -152,6 +198,9 @@ export async function GET(request: NextRequest) {
       userFeedbackCount,
       userFeedbackByCategory,
       recentUserFeedback,
+      wtpFunnel,
+      wtpBySegmentTier,
+      wtpRecentIntents,
     });
   } catch (err: unknown) {
     console.error("Admin stats error:", err);

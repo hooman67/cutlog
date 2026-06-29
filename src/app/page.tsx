@@ -173,6 +173,18 @@ export default function Home() {
       </button>
 
       <button
+        onClick={() => router.push("/pricing")}
+        className="w-full p-4 rounded-xl bg-emerald-900/30 border border-emerald-800 hover:bg-emerald-900/50 transition-colors text-left mb-4"
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="font-medium text-emerald-200">⚡ Go Pro</span>
+            <p className="text-sm text-emerald-600/90">Unlimited AI, multi-machine, full export</p>
+          </div>
+        </div>
+      </button>
+
+      <button
         onClick={() => router.push("/feedback")}
         className="w-full p-4 rounded-xl bg-violet-900/30 border border-violet-800 hover:bg-violet-900/50 transition-colors text-left"
       >
