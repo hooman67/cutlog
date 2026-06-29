@@ -120,6 +120,62 @@ Scott Wasson (expert/potential partner), Masked_helper (AI/bot textbook reply), 
 competitor (BeraTech CNC app)**, Chris Savar / Aaron Kostuch / Shaun Prinsloo (brand shills),
 Shannon Brown Rinehart / Terry Jones / Rocinante Quixote (low-effort one-word answers).
 
+## 📩 Drafted hot-lead DMs — READY TO SEND (not yet sent)
+
+**Status:** drafted 2026-06-28, **NOT sent** (blocked by the FB DM limit hit on 06-27). Template B4,
+honest "starting point" voice, each referencing the lead's exact words.
+
+> ⚠️ **Pacing caution:** the 06-27 FB DM-limit cap is *why* these never went out. Send a few per day
+> (not all 5 at once), or from an aged account, so FB doesn't flag/limit you again.
+
+> 🎯 **Strategic note:** these 5 are the **free-tool / trust + "did it work?" funnel** (B4), NOT the
+> paid founding ask. The $790/yr founding pitch goes to the named **industrial** leads (Tinker,
+> Stegenga, Jeremy) per `wtp.md`. Hugh (2kW, detailed) + Paul + Nicklas (thick metal) can graduate to
+> the founding ask if the free tool lands well. Don't conflate the two.
+
+**How to find each person:** Group → the post they commented on → their exact comment text.
+All 5 commented on the **"settings you'd pay money for" post (Post C/D), posted 2026-06-26**, results
+harvested 06-27. Find that post in each group, then their comment.
+
+---
+
+**1. Hugh Owings** — send FIRST (most detailed)
+- **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)
+- **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
+- **Comment:** *"2kw Machine, Raytools Head. 3/8 HRPO Cut and Engrave. Piercing Included"*
+- **DM:**
+> hey Hugh — you said 3/8 HRPO on a 2kW with a Raytools head, cut + engrave with piercing. that's exactly where a good starting point saves the most plate — pierce and gas on HRPO at that thickness is finicky on 2kW. the tool's got verified speed/gas/focus + pierce starting points for that, scaled to your wattage. want me to send what it shows for your setup? https://cutlog-two.vercel.app
+
+**2. Paul Malfroid**
+- **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)
+- **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
+- **Comment:** *".625 stainless steel 316L"*
+- **DM:**
+> hey Paul — you said .625" 316L. that's a beast of a cut and exactly where a blind test grid burns the most material. tool's got verified starting points (speed/N₂ pressure/focus) for thick 316L scaled to your wattage, so your first test is close instead of from scratch. want me to send what it shows for your machine? https://cutlog-two.vercel.app
+
+**3. Nicklas Löfgren**
+- **Group:** DIY Fiber Laser
+- **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
+- **Comment:** *"25mm carbon steel and 15mm stainless"*
+- **DM:**
+> hey Nicklas — 25mm carbon and 15mm stainless, those are the cuts where dialing in from zero really costs you. the tool's got verified starting points for both at those thicknesses (speed/gas/pressure/focus + pierce) scaled to your wattage — not a magic number, just gets your test grid short instead of blind. want me to send what it shows for your setup? https://cutlog-two.vercel.app
+
+**4. Levi Taylor** — DM asks a thickness question (his comment didn't specify one)
+- **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)
+- **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
+- **Comment:** *"Carbon steel gr 50 P&O"*
+- **DM:**
+> hey Levi — you said gr50 P&O carbon. pickled & oiled throws people off vs clean cold-roll, so a tested starting point matters more there. tool's got verified speed/gas/focus starting points for carbon scaled to your wattage and thickness. what thickness are you running most? happy to send what it shows for your setup. https://cutlog-two.vercel.app
+
+**5. Olga Campbell** — CO2/non-fiber; DM adapted off the metal template
+- **Group:** Laser Engraving for Beginners by VectorWitch
+- **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
+- **Comment:** *"Leather"*
+- **DM:**
+> hey Olga — you said leather. that's a fun one because it's all about not scorching the edges, and the sweet spot shifts with thickness and veg-tan vs chrome-tan. tool's got verified speed/power/passes starting points for leather scaled to your machine so you're not guessing. want me to send what it shows for your setup? https://cutlog-two.vercel.app
+
+---
+
 ## Open action items
 
 From `../4.8_research/OUTREACH_STRATEGY.md` §"DO THIS WEEK":
