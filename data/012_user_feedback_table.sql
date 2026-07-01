@@ -16,5 +16,5 @@ CREATE POLICY "Users can insert own feedback"
   WITH CHECK (auth.uid() = user_id);
 
 CREATE POLICY "Users can view own feedback"
-  ON user_feedback FOR SELECTRe
+  ON user_feedback FOR SELECT
   USING (auth.uid() = user_id);

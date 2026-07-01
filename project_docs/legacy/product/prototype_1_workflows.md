@@ -806,6 +806,18 @@ Mark these as complete when all workflows pass:
 - [ ] **Cross-Workflow E:** Error states show helpful messages
 - [ ] **Performance:** All pages load in <2 seconds, recommendations in <2 seconds
 - [ ] **Bug Catch:** No critical bugs (crashes, data loss, broken links)
+- [ ] **Workflow 12–17:** Alias resolution, fuzzy thickness, op-type filtering, source weighting, consistency-confidence, AI (Gemini) fallback
+- [ ] **Workflow 18–22:** Edit/Delete cuts, multi-machine, data cleanup, Supabase feedback, time-decay/interpolation
+- [ ] **Workflow 23 (J/mm Energy Density):** ⚡ J/mm badge + "scaled to your machine" speed scales with wattage
+- [ ] **Workflow 24 (Hardened Importer):** .clb / .lbset / .xml / .csv all parse, galvo/MOPA fields preserved
+- [ ] **Workflow 25 (Multi-Format Export):** LightBurn / EZCAD / RDWorks / Universal CSV all download correctly
+- [ ] **Workflow 26 (Material-Test Grid):** Test-grid .clb generates with one layer per sweep step
+- [ ] **Workflow 27 (Q-Pulse):** Q-Pulse (ns) logs, stores, and surfaces in suggest/exports
+- [ ] **Workflow 28 (Provenance/Verification):** Provenance + "verified by N operators" badges show
+- [ ] **Workflow 29 (Server Feedback):** In-app feedback writes to `user_feedback` and shows in admin
+- [ ] **Workflow 30 (WTP Pricing/Checkout):** Both segments render, intent modal captures WTP, real-or-reserve checkout
+- [ ] **Workflow 31 (Admin Dashboard):** Admin-only; Stats/Users/Feedback/WTP tabs render live data
+- [ ] **Workflow 32 (SEO Settings):** Settings index + 9 detail pages render
 
 ---
 
@@ -826,7 +838,27 @@ Use this section to record your progress:
 | 9. PWA Install | ⬜ |  |  |
 | 10. Font Tool | ⬜ |  |  |
 | 11. Onboarding | ⬜ |  |  |
+| 12. Material Alias Resolution | ⬜ |  |  |
+| 13. Fuzzy Thickness Fallback | ⬜ |  |  |
+| 14. Operation Type Filtering | ⬜ |  |  |
+| 15. Source Tier Weighting | ⬜ |  |  |
+| 16. Confidence by Consistency | ⬜ |  |  |
 | 17. AI Suggestion Fallback | ⬜ |  |  |
+| 18. Edit & Delete Cuts | ⬜ |  |  |
+| 19. Multi-Machine Support | ⬜ |  |  |
+| 20. Admin Data Cleanup | ⬜ |  |  |
+| 21. Feedback Integration (Supabase) | ⬜ |  |  |
+| 22. Time-Decay & Interpolation | ⬜ |  |  |
+| 23. J/mm Energy Density | ⬜ |  |  |
+| 24. Hardened .clb/Galvo Importer | ⬜ |  |  |
+| 25. Multi-Format Export | ⬜ |  |  |
+| 26. Material-Test Grid Generator | ⬜ |  |  |
+| 27. Q-Pulse / Galvo MOPA | ⬜ |  |  |
+| 28. Verification & Provenance Badges | ⬜ |  |  |
+| 29. Server-Side User Feedback | ⬜ |  |  |
+| 30. WTP Pricing + Checkout Funnel | ⬜ |  |  |
+| 31. Admin Dashboard | ⬜ |  |  |
+| 32. SEO Settings Library | ⬜ |  |  |
 
 **Status key:** ⬜ = Not started | 🟨 = In progress | ✅ = Complete | ❌ = Failed
 
@@ -954,12 +986,453 @@ Use this section to record your progress:
 
 ---
 
+## New Features Added 2026-06-30 (v3.0)
+
+The workflows below cover features that shipped after v2.0. They were verified against
+the current code (`src/`) before being written. Page routes, button labels, and card
+copy match what is actually rendered.
+
+---
+
+### Workflow 23: J/mm Linear Energy Density + Cross-Machine Transfer
+
+**Goal:** Confirm the honest cross-wattage power-conversion layer surfaces on the recommendation
+**Time:** 8 min
+**Prerequisite:** Machine set up (Workflow 2) + at least one matching cut/recommendation for a material
+**Where in code:** `src/lib/energy.ts`, surfaced in `src/app/suggest/page.tsx`
+
+**Steps:**
+1. Go to `/machine` and set your machine **Wattage** to a value that differs from the source
+   data's wattage — e.g. set it to `2000` (2kW). Save.
+2. Go to `/suggest` and search a material that has data (e.g. "Stainless Steel" at "6mm").
+3. On the recommendation card, look for the **⚡ energy-density badge** (a small pill, e.g.
+   "⚡ 12.4 J/mm"). Hover it — the tooltip reads "Linear energy density — transfers across
+   machines of different wattage, unlike a raw power %."
+4. If your machine wattage differs from the source-data wattage, a blue **"Scaled to your
+   machine (2kW): ~<speed> mm/min"** box appears below the badge, with the note "Same energy
+   per mm (X J/mm) as the source data (…) at the same power %. Starting point — run a material test."
+5. Go back to `/machine`, change **Wattage** to `6000` (6kW), save, and re-run the same search.
+6. Verify the "Scaled to your machine" speed is now roughly **3× larger** than at 2kW (because
+   the J/mm is held constant; see Workflow 23's worked example in the Post-Launch Verification
+   section below for exact numbers).
+7. In the expandable **"Show all cuts & details"** section, verify each individual cut row shows
+   an **Energy** field with its own J/mm value.
+
+**Expected:** A ⚡ J/mm badge appears on the recommendation. When the user's machine wattage
+differs from the source, a "Scaled to your machine" speed shows and scales proportionally with
+wattage (same J/mm). Individual cut rows show per-cut Energy (J/mm). All copy frames this as a
+starting point that still needs a material test.
+
+**Bugs Found:**
+- (list any issues here)
+
+---
+
+### Workflow 24: Hardened .clb / Galvo Importer
+
+**Goal:** Confirm the importer handles LightBurn library variants and galvo/MOPA fields
+**Time:** 10 min
+**Prerequisite:** Logged in (Workflow 1)
+**Where in code:** `src/lib/clb-parser.ts`, `/import`
+
+**Steps:**
+1. Go to `/import`. The heading reads **"Import LightBurn Library"**.
+2. Confirm the help text says it accepts **.clb / .lbset / .xml (LightBurn) and .csv / .tsv / .txt**,
+   and that **"Galvo / MOPA fiber files are supported — Q-pulse width, frequency, line interval"**
+   are called out.
+3. Import a **.clb** file (drag-and-drop on desktop, or tap the upload zone to open the file picker).
+4. Import a **.lbset** file (LightBurn settings export) — verify it parses the same way (this is
+   the format Nate Keen previously reported failing).
+5. Import a plain **.csv** with `material, thickness, power, speed` columns — verify it parses.
+6. For a **galvo/MOPA** .clb (one containing `<QPulseWidth>`, `<frequency>`, `<interval>`,
+   `<scanAngle>`, `<crossHatch>`), verify the preview shows those params (Q-Pulse width is
+   converted from microseconds in the file to nanoseconds in the app: 1µs → 1000ns).
+7. Verify you can select/deselect entries and click **"Import N Cuts to Library"**.
+8. Confirm imported cuts appear in `/history`, including any galvo params.
+
+**Expected:** .clb, .lbset, .xml, and CSV all parse without error. Galvo/MOPA fields
+(Q-pulse, frequency, line interval, scan angle, cross-hatch) are extracted and preserved.
+Files that previously failed (Nate Keen's) now import.
+
+**Bugs Found:**
+- (list any issues here)
+
+---
+
+### Workflow 25: Multi-Format Export (LightBurn / EZCAD / RDWorks / CSV)
+
+**Goal:** Confirm export offers four formats and each produces a valid file
+**Time:** 12 min
+**Prerequisite:** History with cuts logged or imported (Workflows 3, 7, 24)
+**Where in code:** `src/lib/exporters.ts`, `/api/export`, export chooser in `/history`
+
+**Steps:**
+1. Go to `/history`. Click the **"Export ▾"** button (top-right; it is disabled if you have no cuts).
+2. A menu appears with **four** options: **LightBurn**, **EZCAD**, **RDWorks**, **Universal CSV**.
+3. Click **LightBurn** — a `.clb` file downloads (`CutLog_Export_<date>.clb`). Open it in a text
+   editor and confirm valid XML (`<?xml … ?>`, `<LightBurnLibrary>`, `<Material>`, `<Entry>`,
+   `<CutSetting>`). Speed is in mm/s (stored mm/min ÷ 60).
+4. Click **EZCAD** — a `.csv` downloads (`CutLog_EZCAD_<date>.csv`). Confirm columns: Material,
+   Marking Speed (mm/s), Power (%), Frequency (kHz), Q-Pulse Width (ns), Loop Count (Passes),
+   Hatch Spacing (mm), Hatch Angle (deg). Leading `#` comment lines explain it's a reference sheet.
+5. Click **RDWorks** — a `.csv` downloads (`CutLog_RDWorks_<date>.csv`). Confirm columns:
+   Layer/Material, Speed (mm/s), Max Power (%), Min Power (%), Passes, Line Interval (mm).
+6. Click **Universal CSV** — a `.csv` downloads (`CutLog_Export_<date>.csv`) with every CutLog
+   field (speed kept in mm/min here, lossless dump).
+7. On a phone, verify the export uses the native **Share sheet** (file share) rather than a raw download.
+
+**Expected:** Four export formats are offered. LightBurn = valid importable XML; EZCAD & RDWorks =
+human-readable reference CSVs (their native formats have no open import); Universal CSV = lossless
+field dump. Filenames and columns match the above.
+
+**Bugs Found:**
+- (list any issues here)
+
+---
+
+### Workflow 26: Material-Test Grid Generator
+
+**Goal:** Confirm the one-click LightBurn test-grid generator works
+**Time:** 8 min
+**Prerequisite:** Logged in (Workflow 1)
+**Where in code:** `src/app/tools/material-test/page.tsx` (route `/tools/material-test`)
+
+**Steps:**
+1. From `/suggest`, click the link **"Generate a LightBurn material-test grid →"** (or go directly
+   to `/tools/material-test`). Heading reads **"Material Test Generator"**.
+2. Click a **Quick preset** (e.g. "10mm Mild Steel — O₂ speed sweep"). The form fills in.
+3. Confirm you can toggle **"Sweep which parameter?"** between **Speed (mm/min)** and **Power (%)**.
+4. Set a **Min**, **Max**, and **Steps** (e.g. 600 / 1400 / 9). The **Preview** shows N pills
+   (one per step, e.g. "600 mm/min", "700 mm/min", …) and notes they import as layers C00–C08.
+5. Enter a valid range where min ≥ max — verify the amber warning "Enter a valid range" replaces
+   the preview and the download button is disabled.
+6. Set **Fixed values** (power when sweeping speed, or speed when sweeping power) and **Number of Passes**.
+7. For a cutting machine, set **Assist Gas** and **Gas Pressure**; on a galvo machine those fields
+   are hidden.
+8. Click **"Download .clb test grid"**. A file downloads (`cutlog_test_<material>_<thickness>mm_<param>.clb`).
+9. Confirm the success note: "Downloaded. Import it in LightBurn (Window → Cuts/Layers → Import)…".
+10. Open the .clb in a text editor: verify one `<Entry>`/`<CutSetting>` per step, each with a distinct
+    `<name Value="C00"/>`…`C0N`, speed in mm/s, and the swept value stepping evenly.
+
+**Expected:** A test-grid .clb is generated entirely client-side (no API call). Presets fill the
+form, the preview updates live, invalid ranges are blocked, and the downloaded file has one
+LightBurn layer per sweep step.
+
+**Bugs Found:**
+- (list any issues here)
+
+---
+
+### Workflow 27: Q-Pulse / Galvo MOPA Parameter
+
+**Goal:** Confirm the Q-Pulse (ns) field is present in logging and surfaces in recommendations
+**Time:** 6 min
+**Prerequisite:** Machine set to a galvo/engraving type (Workflow 4)
+**Where in code:** migration `data/011_add_q_pulse.sql` (`cuts.q_pulse_ns`); `/log`, `/suggest`
+
+**Steps:**
+1. Set your machine to a **galvo / fiber-engraving** type via `/machine` (so galvo mode is active).
+2. Go to `/log`. In galvo mode, **Q-Pulse (ns)** appears as a priority field near the top (with
+   Line Interval); in standard mode it appears further down the form.
+3. Enter a Q-Pulse value (e.g. `200` ns) plus the other params and save the cut.
+4. Go to `/suggest` and search that material/thickness. In galvo mode, **Q-Pulse** shows as a
+   highlighted (emerald) reference parameter; in cutting mode it shows in the standard grid.
+5. In **"Show all cuts & details"**, verify individual cut rows show the Q-Pulse value.
+6. (Cross-check) Export the cut via `/history` → EZCAD/CSV and confirm the Q-Pulse Width column
+   carries the ns value.
+
+**Expected:** `q_pulse_ns` can be logged, is stored, and surfaces in the suggest UI (prominent
+for galvo users) and exports. This is the field added for Nate.
+
+**Bugs Found:**
+- (list any issues here)
+
+---
+
+### Workflow 28: Verification & Provenance Badges
+
+**Goal:** Confirm recommendations show source/provenance and verified-operator-count badges
+**Time:** 6 min
+**Prerequisite:** DB migration `data/013_verification_provenance.sql` applied; feedback data exists
+**Where in code:** `data/013_…sql` (view `material_verifications`, `cuts.verified_count`); `/api/search`, `/suggest`
+
+**Steps:**
+1. Go to `/suggest` and search a material with data.
+2. On the recommendation card, look for a **provenance badge** — one of: "Your data" (emerald),
+   "Community-verified" (blue), "Community-reported" (teal), "Scraped/reference" (grey), or
+   "AI starting point — unverified" (orange). It reflects the most authoritative source present.
+3. If any operator has marked this material/thickness **"Perfect"**, a green **"✓ Verified by
+   N operator(s)"** badge appears next to the provenance badge.
+4. To make the verified count go up: search a material, click **"Perfect"** feedback (Workflow 6),
+   then (ideally from a second account) do the same, and re-search — the count should reflect
+   distinct operators.
+5. In **"Show all cuts & details"**, verify each tier group shows its provenance badge.
+
+**Expected:** A provenance badge always shows the top source tier. A "Verified by N operators"
+badge appears only when ≥1 distinct operator confirmed the setting as "perfect". Badges hide
+gracefully if the view/column is absent.
+
+**Bugs Found:**
+- (list any issues here)
+
+---
+
+### Workflow 29: Server-Side User Feedback (Bug / Feature / Feedback)
+
+**Goal:** Confirm the in-app feedback form writes to the server and shows in admin
+**Time:** 6 min
+**Prerequisite:** DB migration `data/012_user_feedback_table.sql` applied; logged in
+**Where in code:** `/feedback`, `/api/feedback` → `user_feedback` table; `/admin` Feedback tab
+
+**Steps:**
+1. Go to `/feedback`. Choose a category: **Bug**, **Feature**, or **Feedback**.
+2. For **Bug**: fill the message and optional reproduction steps + page.
+3. For **Feature**: fill the message + an **importance** (nice_to_have / need_it / dealbreaker).
+4. For **Feedback**: leave a message and/or pick an **emoji rating** (angry / neutral / happy / love).
+5. Submit — confirm a success/thank-you state appears.
+6. As the admin (see Workflow 31), open `/admin` → **Feedback** tab and confirm the submission
+   appears with its category chip, message, page, importance, emoji, and truncated user id.
+
+**Expected:** Feedback is stored server-side in `user_feedback` (not just localStorage) and is
+visible in the admin Feedback tab, filterable by category.
+
+**Bugs Found:**
+- (list any issues here)
+
+---
+
+### Workflow 30: WTP Pricing Page + Checkout Funnel
+
+**Goal:** Test the willingness-to-pay pricing fake-door, intent modal, and checkout/reserve flow
+**Time:** 10 min
+**Prerequisite:** None (page is PUBLIC — works logged-out)
+**Where in code:** `/pricing`, `src/lib/pricing.ts`, `/api/wtp-intent`, `/api/checkout`, `/api/stripe-webhook`
+
+**Steps:**
+1. Go to `/pricing` (try it **logged out** first). Heading reads **"Go Pro"**.
+2. Confirm the **segment toggle** shows **"Industrial cutting"** and **"Engraving / hobby"**.
+   Switching segments changes the tier cards.
+3. **Industrial** shows: Free ($0), Pro — Founding Annual ($790/machine/yr), Pro — Monthly
+   ($99/machine/mo), Shop ($249/mo). **Engraving** shows: Free, Pro Lifetime ($129 one-time),
+   Export Unlock ($19 one-time). The **Free** card's button is disabled ("You're on Free").
+4. Click a paid tier's CTA (e.g. **"Start founding membership →"**). A **two-stage modal** opens.
+5. **Stage 1 (intent capture):** the required field is **"What would you pay for this? *"**.
+   Fill it (e.g. `$50/mo`), optionally email + machines + brand/model. Click **"Continue →"**.
+6. **Stage 2:** you see "You're about to buy/start <tier> at <price>". Click **"Continue to checkout →"**.
+7. If Stripe is **live** (price env vars set), you're redirected to Stripe Checkout. Returning with
+   `?status=success` shows the emerald "You're a founding member" banner; `?status=cancel` shows the
+   "Checkout cancelled — no charge" banner.
+8. If Stripe is **not live**, you get the honesty fallback: a "🛠️ You're on the founding list"
+   reserve-the-spot confirmation instead of a fake charge.
+9. Verify the soft upsell links appear elsewhere: on `/suggest` ("Unlock unlimited AI suggestions
+   & the verified library → see Pro") and in the `/history` export menu ("Unlock full bulk export → see Pro").
+
+**Expected:** The pricing page renders both segments' tiers from `src/lib/pricing.ts`. The intent
+modal captures a WTP answer before any checkout. Real Stripe redirect when configured; a graceful
+"reserve your spot" confirmation otherwise. No fake charges ever occur. (DB-write verification is
+in the Post-Launch Verification section below.)
+
+**Bugs Found:**
+- (list any issues here)
+
+---
+
+### Workflow 31: Admin Dashboard (Stats / Users / Feedback / WTP)
+
+**Goal:** Confirm the admin dashboard loads and shows the four tabs
+**Time:** 6 min
+**Prerequisite:** Logged in as the admin account (`houman_sh2001@hotmail.com`)
+**Where in code:** `/admin`, `/api/admin/stats`, `/api/admin/users`, `/api/admin/cuts`
+
+**Steps:**
+1. Go to `/admin`. A non-admin account sees an **"Access Denied"** screen — verify that first
+   with a normal user.
+2. As admin, confirm four tabs: **Statistics**, **Users (N)**, **Feedback (N)**, **WTP (N)**.
+3. **Statistics:** user counts (total / with machines / logged cuts / active 7 days), site counts
+   (total cuts, materials, waitlist, feedback totals), cuts-by-source, feedback breakdown, and a
+   cuts-per-day (30-day) bar chart.
+4. **Users:** each user row shows email, join date, machine summary, cut count; "View Details"
+   expands their cuts with inline **Edit** and **Delete** (with confirm); "Del Machine" removes a
+   user's machine.
+5. **Feedback:** category counts + filter (All/Bugs/Features/Feedback) + recent submissions
+   (from Workflow 29).
+6. **WTP:** pricing funnel counts (Pricing Views / Tier Clicks / Checkout Starts / Payments),
+   intent-by-segment-&-tier, and recent "what would you pay" leads.
+
+**Expected:** Admin-only access is enforced. All four tabs render live data. WTP tab reflects the
+funnel from Workflow 30 (see Post-Launch Verification for the DB-row check).
+
+**Bugs Found:**
+- (list any issues here)
+
+---
+
+### Workflow 32: SEO Settings Library Pages (Smoke Test)
+
+**Goal:** Confirm the public SEO settings pages render
+**Time:** 5 min
+**Prerequisite:** None (public, static pages)
+**Where in code:** `src/data/seo-settings.ts`, `/settings`, `/settings/[slug]`
+
+**Steps:**
+1. Go to `/settings` (public). Heading: **"Laser settings library"**. Verify grouped sections:
+   Fiber Laser Metal Cutting, Fiber Galvo / MOPA Marking & Engraving, UV Marking, CO₂ Cutting & Engraving.
+2. There are **9** settings entries. Each is a card linking to `/settings/<slug>`.
+3. Open a few detail pages, e.g. `/settings/3mm-acrylic-co2-laser-cutting`,
+   `/settings/deep-engraving-mild-steel-fiber-galvo-laser`,
+   `/settings/stainless-steel-color-marking-mopa-fiber-laser`. Verify each renders a starting-point
+   parameter page with the material-test framing and a CTA into the app.
+4. View page source and confirm JSON-LD structured data is present (ItemList on the index).
+5. Confirm the "Open the app" / "Get my starting point" CTAs link to the live app.
+
+**Expected:** The settings index and all 9 detail pages render with correct grouping, copy, and
+CTAs. Pages are static (`force-static`).
+
+**Bugs Found:**
+- (list any issues here)
+
+---
+
 ## Document History
 
 | Date | Version | Notes |
 |------|---------|-------|
 | 2026-06-17 | 1.0 | Initial comprehensive testing plan created for Prototype 1 |
 | 2026-06-21 | 2.0 | Added Workflows 18-22: Edit/Delete Cuts, Multi-Machine, Data Cleanup, Feedback Integration, Time-Decay & Interpolation |
+| 2026-06-30 | 3.0 | Added Workflows 23-32 for shipped features: J/mm energy-density cross-machine transfer, hardened .clb/.lbset/galvo importer, multi-format export (LightBurn/EZCAD/RDWorks/CSV), material-test grid generator, Q-Pulse/MOPA field, provenance + verified-operator badges, server-side user feedback, WTP pricing page + checkout funnel, admin dashboard (Stats/Users/Feedback/WTP), and SEO settings library. Backfilled the Testing Log table (12-32) and Success Criteria. Added the Post-Launch Verification section (power-conversion formula + WTP DB rows). Verified against `src/` before writing. |
+
+---
+
+## Post-Launch Verification (2026-06-30): Power Conversion + WTP DB
+
+> **Audience:** Hooman (not Matt). This section is a concrete, copy-pasteable checklist to
+> confirm two things work end-to-end **now that the DB migrations (011–014) have been applied
+> manually in Supabase**: (a) the latest J/mm power-conversion formula is live and correct, and
+> (b) the WTP funnel actually writes rows to `wtp_intent` and `wtp_event`. We want to see **real
+> rows** — graceful degradation is NOT what we're testing here.
+>
+> Run against the live app (https://cutlog-two.vercel.app) and/or locally.
+
+### (a) J/mm power-conversion formula — verify it's live and correct
+
+The formula (in `src/lib/energy.ts`, surfaced in `src/app/suggest/page.tsx`) is:
+
+```
+J/mm = (powerPct/100 * wattageW) / (speedMmMin/60) * numPasses
+```
+
+Cross-machine transfer holds J/mm constant and solves speed for a target wattage at the same
+power %. Because speed is directly proportional to wattage at fixed J/mm and power %, **doubling
+the wattage doubles the recommended speed; tripling it triples the speed.**
+
+**Setup:** You need one representative cut/data point for a material so the recommendation has a
+source J/mm. The energy layer uses the highest-weighted good cut and its recorded wattage as the
+source. The "Scaled to your machine" box only appears when **your machine wattage differs from the
+source-data wattage.**
+
+**Worked example (do this in the UI):**
+
+1. Log (or ensure there is) a Stainless Steel 6mm cut recorded on a **2000 W** machine at
+   **100% power, 3000 mm/min, 1 pass**.
+   - Source J/mm = (100/100 × 2000) / (3000/60) × 1 = 2000 / 50 = **40 J/mm**.
+2. Go to `/machine`, set your machine **Wattage = 2000** (2kW), save. Go to `/suggest`, search
+   "Stainless Steel" / "6". The ⚡ badge should read **≈ 40 J/mm**. Since your wattage == source
+   wattage, the blue "Scaled to your machine" box may not appear (no scaling needed) — that's correct.
+3. Change your machine **Wattage = 6000** (6kW), save, re-search. Now the blue box appears:
+   - Expected scaled speed = opticalWatts × 60 × passes / (J/mm)
+     = (100/100 × 6000) × 60 × 1 / 40 = 360000 / 40 = **9000 mm/min**.
+   - i.e. **3× the 2kW speed** (3000 → 9000), holding J/mm = 40 constant. Confirm the box shows
+     "~9,000 mm/min" and "Same energy per mm (40.0 J/mm) as the source data (2kW) at the same power %".
+4. Sanity check with a second wattage: set **Wattage = 4000** (4kW) → expected **6000 mm/min** (2×).
+5. Confirm the ⚡ J/mm badge value **does not change** as you change your wattage (energy density is
+   machine-independent) — only the "scaled to your machine" speed changes.
+
+**Pass criteria:** the ⚡ J/mm badge shows a stable value; the "scaled to your machine" speed scales
+linearly with your machine wattage (2kW→3kW→6kW gives 1×→1.5×→3× the speed) at the same power %.
+Individual cut rows in "Show all cuts & details" show their own Energy (J/mm).
+
+> Note: the older lens/wattage **power-scaling** layer (`src/lib/scaling.ts`, the "auto-scaled" /
+> "for <lens>mm lens" note) is a *separate* mechanism from the J/mm energy layer. Both can show at
+> once. This verification is specifically about the ⚡ J/mm energy-density layer.
+
+### (b) WTP DB writes — confirm `wtp_intent` and `wtp_event` get real rows
+
+Migration `data/014_wtp_intent.sql` creates `wtp_intent` (one row per modal submit, advanced in
+place) and `wtp_event` (append-only funnel log). The routes write via `/api/wtp-intent` and
+`/api/checkout`; `/admin` reads via the service role in `/api/admin/stats`.
+
+**UI steps to generate rows:**
+
+1. Open `/pricing` (logged in as yourself is fine; logged-out also works and writes a null user_id).
+   - Just loading the page fires a `pricing_view` **event**.
+2. Click a paid tier CTA (e.g. Founding Annual). In the Stage-1 modal, fill **"What would you pay
+   for this?"** (e.g. `$50/mo`), optionally email/machines/model, click **"Continue →"**.
+   - This inserts one **`wtp_intent`** row AND one `tier_click` **`wtp_event`** row.
+3. In Stage 2, click **"Continue to checkout →"**.
+   - Real Stripe configured → redirect to checkout (and `/api/checkout` logs a `checkout_start` event;
+     `payment_complete` is set by `/api/stripe-webhook` on a completed session).
+   - Stripe not live → you get the "reserve your spot" confirmation. (Intent + tier_click rows are
+     already written from step 2.)
+
+**Confirm in the Admin UI:** open `/admin` → **WTP** tab (as `houman_sh2001@hotmail.com`). You should
+see: Pricing Views / Tier Clicks / Checkout Starts / Payments counts, intent-by-segment-&-tier, and
+your just-submitted "would pay" lead under **Recent Intent**.
+
+**Confirm directly in Supabase (SQL editor) — paste these:**
+
+```sql
+-- Most recent intent rows (the "I'd pay $X" leads)
+select id, created_at, segment, tier_clicked, price_shown,
+       would_pay_amount, email, machines_count, machine_model,
+       checkout_started, payment_complete, stripe_session_id, user_id
+from wtp_intent
+order by created_at desc
+limit 20;
+
+-- Most recent funnel events
+select id, created_at, event, segment, tier, intent_id, user_id
+from wtp_event
+order by created_at desc
+limit 30;
+
+-- Funnel counts by event (should be non-zero after the steps above)
+select event, count(*) as n
+from wtp_event
+group by event
+order by n desc;
+
+-- Intent counts by segment + tier
+select segment, tier_clicked, count(*) as n
+from wtp_intent
+group by segment, tier_clicked
+order by n desc;
+
+-- Row totals (quick "did anything land?" check)
+select 'wtp_intent' as table, count(*) from wtp_intent
+union all
+select 'wtp_event', count(*) from wtp_event;
+```
+
+**Pass criteria:** after doing the UI steps, `wtp_intent` has your new lead row (with your
+`would_pay_amount`), `wtp_event` has at least a `pricing_view` and a `tier_click` row, and the
+`/admin` WTP tab reflects the same counts. If the SQL returns 0 rows, the write is failing — check
+that migration 014 was applied and RLS allows the insert (the INSERT policy allows `user_id IS NULL`
+for logged-out, or `auth.uid() = user_id` for logged-in).
+
+> Related migrations to spot-check while you're in the SQL editor (011–013):
+> ```sql
+> -- 011: q_pulse_ns column exists on cuts
+> select column_name from information_schema.columns
+> where table_name = 'cuts' and column_name = 'q_pulse_ns';
+>
+> -- 012: user_feedback table exists (server-side feedback)
+> select count(*) from user_feedback;
+>
+> -- 013: verification view + verified_count column
+> select * from material_verifications limit 5;
+> select column_name from information_schema.columns
+> where table_name = 'cuts' and column_name = 'verified_count';
+> ```
 
 ---
 
