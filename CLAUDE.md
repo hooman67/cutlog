@@ -95,3 +95,24 @@ Node 20+). `npm run build` fails at module-load in a bare sandbox with **"supaba
 on `/api/admin/*` routes — that is a missing-env-var artifact, **not** a code defect; it builds with
 Supabase env vars present. The Supabase migrations in `data/*.sql` must be applied manually in the
 Supabase SQL editor.
+
+### 🔁 Resuming a prior Claude Code session after a restart
+
+This repo lives on `/mnt/localssd` (scratch — **does NOT survive a machine restart**). To keep our
+session history resumable, the Claude Code session store for this project is **relocated to the
+backed-up + git-pushed** `~/hs_scripts` tree and symlinked back:
+
+- **Real location (durable):** `/home/colligo/hs_scripts/claude/cutlog_claud_resume/`
+  — holds the session `*.jsonl` transcripts, subagent logs, and `memory/`.
+- **Symlink Claude Code reads:** `~/.claude/projects/-mnt-localssd-laser-log-cutlog` → that dir.
+
+**After a restart the symlink is gone** (home is restored, but the symlink pointed from `~/.claude`
+which may reset). To restore resumability, run:
+
+```bash
+bash /home/colligo/hs_scripts/claude/cutlog_claud_resume/RESTORE.sh
+```
+
+Then in this repo run `claude -c` (continue most recent) or `claude --resume` (pick a session).
+If a fresh Claude run already created a real dir at the symlink path, `RESTORE.sh` merges it in
+before re-linking, so it's safe to run either way.
