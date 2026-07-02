@@ -101,6 +101,17 @@ old DM drafts is inaccurate; honest term is **"published manufacturer data."**
   mm/min) and that **nobody sells a 2kW cross-machine cutting library** (Etsy has only per-thickness
   single-machine 4kW+ files) — supports the niche positioning.
 
+### 2026-07-02 — Recommendation undershoot after scaling turned on: gas blend + no proximity weighting (fixed)
+Once migration 017 made scaling work, the HRPO/2kW headline swung the OTHER way — 946/473, *below*
+the true 2kW datapoint (1200) the DB has. Two causes (fixed in `afa91e7`): (1) the rec **blended
+gas types** — N₂ rows (needing ~2x energy, infeasible on 2kW) averaged in with O₂, and N₂ pressure
+bled into the O₂ params; (2) **no wattage-proximity weighting** — a 10kW row scaled 5× to 2kW got the
+same weight as the real 2kW row. Fix: pick the dominant gas and base speed+params only on it; weight
+each row by 1/scaleRatio to the user's wattage so near/real datapoints dominate. +4 tests (190 total).
+**Lesson:** cross-machine scaling isn't enough — you must also *trust nearby data more* and not blend
+physically different processes (O₂ vs N₂). Verify recommendation-logic changes in the live app, not
+just vitest (tests can't prove the real blended number).
+
 ### 2026-07-02 — Two scraped-data defects: phantom wattage column + duplicate rows (fixed, migration 017)
 Verifying Hugh's live view surfaced two more issues (both in `data/017` + seed idempotency, `cb2f932`):
 1. **Scaling never engaged → optimistic headlines.** `cuts.recorded_wattage_w` is *read* by the
