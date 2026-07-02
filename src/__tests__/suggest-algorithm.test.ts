@@ -29,6 +29,8 @@ interface TestCut {
   source_tier_weight?: number
   scaled_speed?: number
   scaled_power?: number
+  recorded_wattage_w?: number | null
+  machine_wattage?: number | null
   created_at: string
 }
 
@@ -42,6 +44,7 @@ interface TestSuggestionGroup {
 
 interface TestMachine {
   speed_profile: 'fast' | 'conservative' | 'auto'
+  wattage_w?: number | null
 }
 
 interface SpeedRecommendation {
@@ -82,19 +85,35 @@ function computeSpeedRecommendation(
 
   if (goodCuts.length === 0) return null
 
+  // Gas separation: base the rec on the dominant gas only (O2 vs N2 differ ~2x).
+  const gasTally: Record<string, number> = {}
+  for (const c of goodCuts) { if (c.gas_type) gasTally[c.gas_type] = (gasTally[c.gas_type] || 0) + 1 }
+  const dominantGas = Object.entries(gasTally).sort((a, b) => b[1] - a[1])[0]?.[0] || null
+  const recCuts = dominantGas
+    ? goodCuts.filter((c) => !c.gas_type || c.gas_type === dominantGas)
+    : goodCuts
+
   const now = Date.now()
   const HALF_LIFE_DAYS = 180
 
-  const speeds = goodCuts.map((c) => c.scaled_speed || c.speed_mm_min!)
-  const weights = goodCuts.map((c, i) => {
-    const baseTierWeight = goodCuts[i].source_tier_weight || 1
+  const speeds = recCuts.map((c) => c.scaled_speed || c.speed_mm_min!)
+  const weights = recCuts.map((c) => {
+    const baseTierWeight = c.source_tier_weight || 1
     let decayWeight = 1
-    if (goodCuts[i].created_at) {
-      const createdAt = new Date(goodCuts[i].created_at).getTime()
+    if (c.created_at) {
+      const createdAt = new Date(c.created_at).getTime()
       const ageDays = (now - createdAt) / (1000 * 60 * 60 * 24)
       decayWeight = Math.pow(0.5, ageDays / HALF_LIFE_DAYS)
     }
-    return baseTierWeight * decayWeight
+    // Wattage-proximity weighting: closer source wattage -> more trust (1/scaleRatio).
+    let proximityWeight = 1
+    const userW = userMachine?.wattage_w || null
+    const sourceW = c.recorded_wattage_w ?? c.machine_wattage ?? userW ?? null
+    if (userW && sourceW && userW > 0 && sourceW > 0) {
+      const ratio = userW >= sourceW ? userW / sourceW : sourceW / userW
+      proximityWeight = 1 / ratio
+    }
+    return baseTierWeight * decayWeight * proximityWeight
   })
 
   const totalWeight = weights.reduce((a, b) => a + b, 0)
@@ -138,26 +157,23 @@ function computeSpeedRecommendation(
     else if (confidence === 'MEDIUM') confidence = 'LOW'
   }
 
-  const powers = goodCuts
+  const powers = recCuts
     .filter((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct) !== null)
     .map((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct)!)
   const avgPower = powers.length > 0 ? Math.round(powers.reduce((a, b) => a + b, 0) / powers.length) : null
 
-  const gases = goodCuts.filter((c) => c.gas_type).map((c) => c.gas_type!)
-  const gasCount: Record<string, number> = {}
-  gases.forEach((g) => { gasCount[g] = (gasCount[g] || 0) + 1 })
-  const commonGasType = Object.entries(gasCount).sort((a, b) => b[1] - a[1])[0]?.[0] || null
+  const commonGasType = dominantGas
 
-  const pressures = goodCuts.filter((c) => c.gas_pressure_bar !== null).map((c) => c.gas_pressure_bar!)
+  const pressures = recCuts.filter((c) => c.gas_pressure_bar !== null).map((c) => c.gas_pressure_bar!)
   const avgGasPressure = pressures.length > 0 ? Math.round(pressures.reduce((a, b) => a + b, 0) / pressures.length * 10) / 10 : null
 
-  const focuses = goodCuts.filter((c) => c.focus_position_mm !== null).map((c) => c.focus_position_mm!)
+  const focuses = recCuts.filter((c) => c.focus_position_mm !== null).map((c) => c.focus_position_mm!)
   const avgFocus = focuses.length > 0 ? Math.round(focuses.reduce((a, b) => a + b, 0) / focuses.length * 10) / 10 : null
 
-  const nozzles = goodCuts.filter((c) => c.nozzle_diameter_mm !== null).map((c) => c.nozzle_diameter_mm!)
+  const nozzles = recCuts.filter((c) => c.nozzle_diameter_mm !== null).map((c) => c.nozzle_diameter_mm!)
   const avgNozzle = nozzles.length > 0 ? Math.round(nozzles.reduce((a, b) => a + b, 0) / nozzles.length * 10) / 10 : null
 
-  const scaledCut = goodCuts.find((c) => c.scaled_speed !== undefined)
+  const scaledCut = recCuts.find((c) => c.scaled_speed !== undefined)
   const scalingApplied = !!scaledCut
 
   return {
@@ -637,6 +653,66 @@ describe('computeSpeedRecommendation', () => {
         makeGroup('own', [makeCut({ speed_mm_min: 3000 })]),
       ])
       expect(result!.scalingApplied).toBe(false)
+    })
+  })
+
+  describe('Gas separation', () => {
+    it('bases the recommendation on the dominant gas only (does not blend O2 + N2)', () => {
+      // 3 O2 rows (fast) + 2 N2 rows (slow). O2 dominates -> N2 speeds excluded.
+      const result = computeSpeedRecommendation([
+        makeGroup('community', [
+          makeCut({ speed_mm_min: 1200, gas_type: 'O2', gas_pressure_bar: 0.8 }),
+          makeCut({ speed_mm_min: 1150, gas_type: 'O2', gas_pressure_bar: 0.7 }),
+          makeCut({ speed_mm_min: 1250, gas_type: 'O2', gas_pressure_bar: 0.7 }),
+          makeCut({ speed_mm_min: 560, gas_type: 'N2', gas_pressure_bar: 14 }),
+          makeCut({ speed_mm_min: 600, gas_type: 'N2', gas_pressure_bar: 12 }),
+        ]),
+      ])
+      expect(result!.commonGasType).toBe('O2')
+      // avg of only the 3 O2 rows = (1200+1150+1250)/3 = 1200, NOT dragged down by N2
+      expect(result!.avgSpeed).toBe(1200)
+      // pressure reflects O2 rows only (~0.7), not the N2 14/12 bar
+      expect(result!.avgGasPressure).toBeLessThan(2)
+    })
+
+    it('keeps gas-less rows and does not crash when no gas recorded', () => {
+      const result = computeSpeedRecommendation([
+        makeGroup('own', [
+          makeCut({ speed_mm_min: 3000, gas_type: null, gas_pressure_bar: null }),
+          makeCut({ speed_mm_min: 4000, gas_type: null, gas_pressure_bar: null }),
+        ]),
+      ])
+      expect(result!.commonGasType).toBeNull()
+      expect(result!.avgSpeed).toBe(3500)
+    })
+  })
+
+  describe('Wattage-proximity weighting', () => {
+    it('weights the row closest to the user wattage far above a heavily-scaled row', () => {
+      // Real 2kW row (1200) vs a 10kW row scaled down to 2kW (say 760). User is 2kW.
+      // The near row (ratio 1 -> weight 1) should dominate the far row (ratio 5 -> weight 0.2).
+      const result = computeSpeedRecommendation(
+        [
+          makeGroup('community', [
+            makeCut({ speed_mm_min: 1200, gas_type: 'O2', gas_pressure_bar: 0.8, recorded_wattage_w: 2000, quality_rating: 3 }),
+            makeCut({ scaled_speed: 760, speed_mm_min: 3800, gas_type: 'O2', gas_pressure_bar: 0.5, recorded_wattage_w: 10000, quality_rating: 5 }),
+          ]),
+        ],
+        { speed_profile: 'auto', wattage_w: 2000 }
+      )
+      // Equal weighting would give ~980; proximity weighting pulls it toward the 2kW row (1200).
+      // weighted = (1200*1 + 760*0.2) / 1.2 = 1127 -> closer to 1200 than to 980.
+      expect(result!.avgSpeed).toBeGreaterThan(1050)
+    })
+
+    it('is unaffected when no user wattage is provided (proximity weight = 1)', () => {
+      const result = computeSpeedRecommendation([
+        makeGroup('own', [
+          makeCut({ speed_mm_min: 3000, gas_type: 'O2' }),
+          makeCut({ speed_mm_min: 4000, gas_type: 'O2' }),
+        ]),
+      ])
+      expect(result!.avgSpeed).toBe(3500)
     })
   })
 })

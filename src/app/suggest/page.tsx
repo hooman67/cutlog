@@ -227,23 +227,45 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
 
   if (goodCuts.length === 0) return null;
 
+  // --- Gas separation ---
+  // Don't blend gas types into one recommendation: O2 and N2 cut at very different
+  // energy/speed (e.g. N2 needs ~2x the energy). Pick the dominant gas among the good
+  // cuts and base the speed + supporting params only on those rows. Rows with no gas
+  // recorded are kept (they don't conflict). Falls back to all rows if no gas info.
+  const gasTally: Record<string, number> = {};
+  for (const c of goodCuts) { if (c.gas_type) gasTally[c.gas_type] = (gasTally[c.gas_type] || 0) + 1; }
+  const dominantGas = Object.entries(gasTally).sort((a, b) => b[1] - a[1])[0]?.[0] || null;
+  const recCuts = dominantGas
+    ? goodCuts.filter((c) => !c.gas_type || c.gas_type === dominantGas)
+    : goodCuts;
+
   // Feature 4: Time-Decay Weighting
   // Apply exponential decay with half-life of 6 months (180 days)
   const now = Date.now();
   const HALF_LIFE_DAYS = 180;
 
   // Use scaled speeds if available, otherwise original speeds
-  const speeds = goodCuts.map((c) => c.scaled_speed || c.speed_mm_min!);
-  const weights = goodCuts.map((c, i) => {
-    const baseTierWeight = goodCuts[i].source_tier_weight || 1;
+  const speeds = recCuts.map((c) => c.scaled_speed || c.speed_mm_min!);
+  const weights = recCuts.map((c) => {
+    const baseTierWeight = c.source_tier_weight || 1;
     // Calculate age-based decay
     let decayWeight = 1;
-    if (goodCuts[i].created_at) {
-      const createdAt = new Date(goodCuts[i].created_at).getTime();
+    if (c.created_at) {
+      const createdAt = new Date(c.created_at).getTime();
       const ageDays = (now - createdAt) / (1000 * 60 * 60 * 24);
       decayWeight = Math.pow(0.5, ageDays / HALF_LIFE_DAYS);
     }
-    return baseTierWeight * decayWeight;
+    // Wattage-proximity weighting: trust rows whose SOURCE wattage is closest to the
+    // user's machine. A row scaled 5x (e.g. 10kW -> 2kW) is far less reliable than a
+    // real datapoint at the user's wattage, so weight by 1/scaleRatio.
+    let proximityWeight = 1;
+    const userW = userMachine?.wattage_w || null;
+    const sourceW = c.recorded_wattage_w ?? c.machine_wattage ?? userW ?? null;
+    if (userW && sourceW && userW > 0 && sourceW > 0) {
+      const ratio = userW >= sourceW ? userW / sourceW : sourceW / userW;
+      proximityWeight = 1 / ratio;
+    }
+    return baseTierWeight * decayWeight * proximityWeight;
   });
 
   // Weighted average speed
@@ -253,6 +275,9 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
   );
   const minSpeed = Math.min(...speeds);
   const maxSpeed = Math.max(...speeds);
+
+  // Weighted average speed
+  // (weights already include tier * time-decay * wattage-proximity)
 
   // Feature 2: Apply feedback correction factor
   let feedbackCorrectionApplied = false;
@@ -293,25 +318,24 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
     else if (confidence === "MEDIUM") confidence = "LOW";
   }
 
-  // Supporting params (use scaled power if available)
-  const powers = goodCuts.filter((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct) !== null).map((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct)!);
+  // Supporting params (use scaled power if available). Based on recCuts so they match
+  // the dominant-gas speed recommendation (e.g. don't report N2 pressure for an O2 rec).
+  const powers = recCuts.filter((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct) !== null).map((c) => (c.scaled_power !== undefined ? c.scaled_power : c.power_pct)!);
   const avgPower = powers.length > 0 ? Math.round(powers.reduce((a, b) => a + b, 0) / powers.length) : null;
 
-  const gases = goodCuts.filter((c) => c.gas_type).map((c) => c.gas_type!);
-  const gasCount: Record<string, number> = {};
-  gases.forEach((g) => { gasCount[g] = (gasCount[g] || 0) + 1; });
-  const commonGasType = Object.entries(gasCount).sort((a, b) => b[1] - a[1])[0]?.[0] || null;
+  // Gas type for the recommendation is the dominant gas selected above.
+  const commonGasType = dominantGas;
 
-  const pressures = goodCuts.filter((c) => c.gas_pressure_bar !== null).map((c) => c.gas_pressure_bar!);
+  const pressures = recCuts.filter((c) => c.gas_pressure_bar !== null).map((c) => c.gas_pressure_bar!);
   const avgGasPressure = pressures.length > 0 ? Math.round(pressures.reduce((a, b) => a + b, 0) / pressures.length * 10) / 10 : null;
 
-  const focuses = goodCuts.filter((c) => c.focus_position_mm !== null).map((c) => c.focus_position_mm!);
+  const focuses = recCuts.filter((c) => c.focus_position_mm !== null).map((c) => c.focus_position_mm!);
   const avgFocus = focuses.length > 0 ? Math.round(focuses.reduce((a, b) => a + b, 0) / focuses.length * 10) / 10 : null;
 
-  const nozzles = goodCuts.filter((c) => c.nozzle_diameter_mm !== null).map((c) => c.nozzle_diameter_mm!);
+  const nozzles = recCuts.filter((c) => c.nozzle_diameter_mm !== null).map((c) => c.nozzle_diameter_mm!);
   const avgNozzle = nozzles.length > 0 ? Math.round(nozzles.reduce((a, b) => a + b, 0) / nozzles.length * 10) / 10 : null;
 
-  const qPulses = goodCuts.filter((c) => c.q_pulse_ns !== null && c.q_pulse_ns !== undefined).map((c) => c.q_pulse_ns!);
+  const qPulses = recCuts.filter((c) => c.q_pulse_ns !== null && c.q_pulse_ns !== undefined).map((c) => c.q_pulse_ns!);
   const avgQPulseNs = qPulses.length > 0 ? Math.round(qPulses.reduce((a, b) => a + b, 0) / qPulses.length) : null;
 
   // Check for scaling warnings - use the first cut that has scaling applied
@@ -350,9 +374,20 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
   }
 
   // --- J/mm energy normalization (honest cross-machine transfer) ---
-  // Use the highest-weighted good cut as the representative data point.
-  const repCut = goodCuts.reduce<ScaledCut | null>((best, c) => {
+  // Representative data point: from the dominant-gas rows (recCuts), prefer the row
+  // whose SOURCE wattage is closest to the user's machine, breaking ties by tier
+  // weight. This makes the "scaled to your machine" note reflect the nearest real
+  // datapoint of the right gas, not an arbitrary far-scaled row.
+  const userWforRep = userMachine?.wattage_w || null;
+  const wattDist = (c: ScaledCut): number => {
+    const sw = c.recorded_wattage_w ?? c.machine_wattage ?? null;
+    if (!userWforRep || !sw) return Number.POSITIVE_INFINITY;
+    return Math.abs(sw - userWforRep);
+  };
+  const repCut = recCuts.reduce<ScaledCut | null>((best, c) => {
     if (!best) return c;
+    const dc = wattDist(c), db = wattDist(best);
+    if (dc !== db) return dc < db ? c : best;
     return (c.source_tier_weight || 0) > (best.source_tier_weight || 0) ? c : best;
   }, null);
 
