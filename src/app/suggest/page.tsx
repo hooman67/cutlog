@@ -102,6 +102,12 @@ interface AiSuggestionResult {
   gas_type: string | null;
   gas_pressure_bar: number | null;
   frequency_hz: number | null;
+  // Pierce (piercing) parameters
+  pierce_type: "blast" | "progressive" | "pulsed" | "none" | null;
+  pierce_time_s: number | null;
+  pierce_power_pct: number | null;
+  pierce_height_mm: number | null;
+  pierce_gas_pressure_bar: number | null;
   confidence_note: string;
 }
 
@@ -712,6 +718,11 @@ export default function Suggest() {
         gas_type: aiSuggestion.gas_type,
         gas_pressure_bar: aiSuggestion.gas_pressure_bar,
         frequency_hz: aiSuggestion.frequency_hz,
+        pierce_type: aiSuggestion.pierce_type ?? null,
+        pierce_time_s: aiSuggestion.pierce_time_s ?? null,
+        pierce_power_pct: aiSuggestion.pierce_power_pct ?? null,
+        pierce_height_mm: aiSuggestion.pierce_height_mm ?? null,
+        pierce_gas_pressure_bar: aiSuggestion.pierce_gas_pressure_bar ?? null,
         quality_rating: null,
         source: "ai_baseline",
         is_shared: false,
@@ -1353,6 +1364,36 @@ export default function Suggest() {
                               <div>
                                 <span className="text-zinc-500 text-xs block">Passes</span>
                                 <span className="font-mono">{cut.num_passes}</span>
+                              </div>
+                            )}
+                            {!isGalvoMode(userMachine) && cut.pierce_type != null && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Pierce Type</span>
+                                <span className="font-mono capitalize">{cut.pierce_type}</span>
+                              </div>
+                            )}
+                            {!isGalvoMode(userMachine) && cut.pierce_time_s != null && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Pierce Time</span>
+                                <span className="font-mono">{formatParam(cut.pierce_time_s, " s")}</span>
+                              </div>
+                            )}
+                            {!isGalvoMode(userMachine) && cut.pierce_power_pct != null && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Pierce Power</span>
+                                <span className="font-mono">{formatParam(cut.pierce_power_pct, "%")}</span>
+                              </div>
+                            )}
+                            {!isGalvoMode(userMachine) && cut.pierce_height_mm != null && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Pierce Height</span>
+                                <span className="font-mono">{formatParam(cut.pierce_height_mm, "mm")}</span>
+                              </div>
+                            )}
+                            {!isGalvoMode(userMachine) && cut.pierce_gas_pressure_bar != null && (
+                              <div>
+                                <span className="text-zinc-500 text-xs block">Pierce Pressure</span>
+                                <span className="font-mono">{formatParam(cut.pierce_gas_pressure_bar, " bar")}</span>
                               </div>
                             )}
                             {(() => {

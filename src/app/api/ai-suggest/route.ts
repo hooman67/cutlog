@@ -15,8 +15,16 @@ interface AiSuggestResponse {
   gas_type: string | null;
   gas_pressure_bar: number | null;
   frequency_hz: number | null;
+  // Pierce (piercing) parameters — thick-metal fiber cutting
+  pierce_type: "blast" | "progressive" | "pulsed" | "none" | null;
+  pierce_time_s: number | null;
+  pierce_power_pct: number | null;
+  pierce_height_mm: number | null;
+  pierce_gas_pressure_bar: number | null;
   confidence_note: string;
 }
+
+const PIERCE_TYPE_ENUM = ["blast", "progressive", "pulsed", "none"];
 
 // Simple in-memory cache to avoid repeated calls for same params
 const responseCache = new Map<string, { data: AiSuggestResponse; timestamp: number }>();
@@ -77,8 +85,15 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
   "gas_type": <recommended gas type or null if engraving>,
   "gas_pressure_bar": <gas pressure in bar or null>,
   "frequency_hz": <frequency in Hz or null if cutting>,
+  "pierce_type": <"blast" | "progressive" | "pulsed" | "none" — the pierce strategy, or null>,
+  "pierce_time_s": <pierce dwell time in seconds or null>,
+  "pierce_power_pct": <pierce power as percentage 0-100 or null>,
+  "pierce_height_mm": <nozzle stand-off height during pierce in mm or null>,
+  "pierce_gas_pressure_bar": <assist-gas pressure during pierce in bar or null>,
   "confidence_note": <one sentence explaining your reasoning>
-}`;
+}
+
+For the pierce_* fields: set them ALL to null for engraving/marking operations and for thin material (under 3mm) where no distinct pierce phase is needed. For thick metal (3mm and above) recommend a "progressive" (staged/ramped) pierce with a stand-off pierce_height_mm above the plate, and provide realistic pierce_time_s, pierce_power_pct and pierce_gas_pressure_bar.`;
 
     const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
     const geminiBody = JSON.stringify({
@@ -205,6 +220,33 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
     parsed.power_pct = Math.max(1, Math.min(100, parsed.power_pct));
     if (parsed.gas_pressure_bar !== null && parsed.gas_pressure_bar !== undefined) {
       parsed.gas_pressure_bar = Math.max(0, Math.min(50, parsed.gas_pressure_bar));
+    }
+
+    // Clamp / validate pierce parameters
+    if (typeof parsed.pierce_type === "string" && !PIERCE_TYPE_ENUM.includes(parsed.pierce_type)) {
+      parsed.pierce_type = null;
+    } else if (parsed.pierce_type === undefined) {
+      parsed.pierce_type = null;
+    }
+    if (typeof parsed.pierce_time_s === "number") {
+      parsed.pierce_time_s = Math.max(0, Math.min(60, parsed.pierce_time_s));
+    } else {
+      parsed.pierce_time_s = null;
+    }
+    if (typeof parsed.pierce_power_pct === "number") {
+      parsed.pierce_power_pct = Math.max(1, Math.min(100, parsed.pierce_power_pct));
+    } else {
+      parsed.pierce_power_pct = null;
+    }
+    if (typeof parsed.pierce_height_mm === "number") {
+      parsed.pierce_height_mm = Math.max(0, Math.min(20, parsed.pierce_height_mm));
+    } else {
+      parsed.pierce_height_mm = null;
+    }
+    if (typeof parsed.pierce_gas_pressure_bar === "number") {
+      parsed.pierce_gas_pressure_bar = Math.max(0, Math.min(50, parsed.pierce_gas_pressure_bar));
+    } else {
+      parsed.pierce_gas_pressure_bar = null;
     }
 
     // Cache the result
