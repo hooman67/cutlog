@@ -25,6 +25,10 @@ Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/w
 - ⬜ **Apply SQL migration `data/017_scraped_wattage_and_dedup.sql`** in Supabase — dedups the
   double-applied scraped rows AND backfills `recorded_wattage_w` so speed scaling engages (fixes the
   optimistic headline). Until applied, recommendations from high-wattage rows still run fast.
+- ⬜ **Apply SQL migration `data/018_grade50_material_aliases.sql`** in Supabase — adds a first-class
+  "Carbon Steel Grade 50 (A572/S355)" material + aliases (A572/S355/Gr 50) so Levi's Grade-50 rows
+  are searchable from the picker (same alias-gap class as HRPO). Verified no false-positive collisions.
+- ⬜ **Send Levi Taylor's DM** (`facebook.md §4`) — ready; asks his thickness (no thickness given).
 - ⬜ **Watch for Paul's / Hugh's replies** — if they give wattage, send matching numbers; first real
   WTP conversations.
 - ⬜ **Stripe setup (~1–2h):** create account, generate Payment Links — Founding Annual $790/yr,
@@ -197,6 +201,9 @@ before pitching "we have data for X."
 - **2026-07-01 — Build pierce feature + lead with strongest data.** Approved building pierce params
   (done, merged). Outreach: **DM Paul first** (zero-caveat data), **Hugh after** pierce is live in
   prod. Drop "verified" from all DM copy → "published manufacturer data" (we have no verified rows).
+- **2026-07-02 — Conservative speed profile → −25%** (was −50%, `conservative: 0.75`). Flat 50%-off
+  was too timid for thick metal (HRPO/2kW showed 567 < the real 1200). Deeper per-thickness tuning
+  deferred (see Action Items).
 
 ---
 

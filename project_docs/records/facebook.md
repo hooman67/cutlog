@@ -79,7 +79,7 @@ claims of activity are marked **(claimed, unverified)**.
 | **Levi Taylor** | CNC Fiber Laser Ninja | "Carbon steel gr 50 P&O" | Hot lead. DM drafted, **NOT sent**. |
 | **Hugh Owings** | CNC Fiber Laser Ninja | "2kw Machine, Raytools Head. 3/8 HRPO Cut and Engrave. Piercing Included" | Hot lead (most detailed — machine + material + thickness + ops). ✅ **DM SENT 2026-07-02** — awaiting reply. |
 | **Paul Malfroid** | CNC Fiber Laser Ninja | ".625 stainless steel 316L" | Hot lead (thick stainless). ✅ **DM SENT 2026-07-02** — awaiting reply. |
-| **Nicklas Löfgren** | DIY Fiber Laser | "25mm carbon steel and 15mm stainless" | Hot lead (two thick materials). DM drafted, **NOT sent**. |
+| **Nicklas Löfgren** | DIY Fiber Laser | "25mm carbon steel and 15mm stainless" | Hot lead (two thick materials). DM finalized 2026-07-02 (data HIGH/HIGH). **NOT sent**. |
 
 > 3 of these 5 (Levi, Hugh, Paul Malfroid) are from **CNC Fiber Laser Ninja** — why it's the #1 group.
 > Conversion on Post C: 5/10 commenters named a specific material (~50% hot-lead rate).
@@ -146,7 +146,10 @@ harvested 06-27. Find that post in each group, then their comment.
 > `data/industrial-cutting-scraped.sql`): **Paul HIGH** (9 scraped rows at exact 15.875mm 316L, no
 > caveats) · **Hugh HIGH for cut+pierce** (8 scraped rows at exact 9.525mm HRPO incl. a 2kW row) but
 > **engrave = AI only** (no HRPO engrave rows) and his exact 2kW row is quality 3/5 "near max for
-> 2kW" · **Nicklas HIGH** · **Levi MEDIUM** (no thickness given) · **Olga MEDIUM/off-strategy**.
+> 2kW" · **Nicklas HIGH/HIGH** (25mm carbon = 15 scraped O₂ rows 4–20kW; 15mm stainless = 14 scraped
+> N₂ rows 4–12kW, 8×304 + 6×316L; verified 2026-07-02 — but ⚠️ **"Carbon Steel" has no material-table
+> entry**, so picking "Mild Steel (A36)" surfaces nothing; free-text "carbon steel" works) ·
+> **Levi MEDIUM** (no thickness given) · **Olga MEDIUM/off-strategy**.
 > **Send order (per Hooman 2026-07-01): Paul FIRST** (cleanest hand), then **Hugh** — pierce feature
 > is now live in prod (merged `b9d739c`; migration `015` applied in Supabase 2026-07-01), so the
 > "staged pierce numbers" claim is honest. Both DMs are ready to send.
@@ -183,8 +186,37 @@ harvested 06-27. Find that post in each group, then their comment.
 - **Group:** DIY Fiber Laser
 - **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
 - **Comment:** *"25mm carbon steel and 15mm stainless"*
-- **DM:**
-> hey Nicklas — 25mm carbon and 15mm stainless, those are the cuts where dialing in from zero really costs you. the tool's got verified starting points for both at those thicknesses (speed/gas/pressure/focus + pierce) scaled to your wattage — not a magic number, just gets your test grid short instead of blind. want me to send what it shows for your setup? https://cutlog-two.vercel.app
+- **DM (final version, 2026-07-02 — replaces old "verified"-wording draft):**
+> hey Nicklas — you commented 25mm carbon and 15mm stainless on my "settings you'd pay money for" post in DIY Fiber Laser. both are thick O₂/N₂ cuts where a blind test grid eats the most plate. i've got starting points from published manufacturer data at exactly 25mm carbon (O₂) and 15mm stainless (N₂) — speed, gas, pressure, focus + pierce, scaled to your wattage. here's the live app to see for yourself: https://cutlog-two.vercel.app — or tell me your wattage and i'll look both up and report the numbers back.
+- **Data-confidence (verified 2026-07-02 against `data/industrial-cutting-scraped.sql`):**
+  - **(a) 25mm carbon steel — HIGH.** 15 `scraped_public` rows at exactly 25.0mm, 0 ai_baseline; spans
+    **4kW→20kW** (4kW=500 / 6kW=650–700 / 8kW=900–1000 / 10kW=1100–1200 / 12kW=1400–1500 / 15kW=1800–2000 /
+    20kW=2200–2500 mm/min). Mostly **O₂** (bar 0.7–1.2, focus −4 to −5, nozzle 3.0mm), plus one N₂ and one Air
+    row. Sources: IPG/Bodor/HSG/Raycus/Mazak/Amada/Precitec/Trumpf. Quality 3→5 rising with wattage; **4kW=25mm
+    is "absolute max for 4kW, very slow, may need pulsed pierce"** — flag if he's on 4kW. Pierce params populate
+    (migration 015 covers `Carbon Steel` 16–25mm → progressive O₂ pierce).
+  - **(b) 15mm stainless — HIGH.** 14 `scraped_public` rows at exactly 15.0mm, 0 ai_baseline: **8× SS304 + 6×
+    SS316L**, essentially all **N₂** (13 N₂ / 1 Air), 4kW→12kW. 304 15mm: 4kW=500–700 / 6kW=1000 / 8kW=1200–1300 /
+    10kW=1600 / 12kW=2000 mm/min (N₂ 16–18 bar). 316L 15mm: 4kW=400–650 / 6kW=850 / 8kW=1150 / 10kW=1400 /
+    12kW=1800 mm/min (~10% slower than 304 — noted in rows). Plus abundant nearby 15.875mm (5/8") 316L rows.
+    Grade unstated in his comment — data supports either; ask/assume 304 (more common) unless he says 316. **Pierce
+    params populate for 316L 15mm (migration 015 covers `316L` 15–16mm); 304 15mm has no pierce params** (015 only
+    targeted 316L at that thickness).
+  - **Wattage-scaling caveat (same as Hugh/Paul):** rows span 4–20kW, so with no wattage given the headline
+    number scales across a wide range. The DM asks his wattage precisely to collapse this. Below ~4kW neither cut
+    is realistic at these thicknesses (4kW is already "absolute max" for 25mm carbon).
+- **Alias check (materials table, `supabase/migrations/002_seed_materials.sql`):**
+  - *Carbon Steel:* **⚠️ alias gap (same class as HRPO/Grade-50).** There is **NO plain "Carbon Steel" material
+    entry** — only `Mild Steel (A36..4140)` variants. Scraped rows are literally labeled `Carbon Steel`. Search
+    resolves a material to name+aliases, then filters cut rows `material ILIKE %alias%` (see `src/app/api/search/route.ts`).
+    Typing free-text **"carbon steel"** works (no material match → falls back to the raw string → `ILIKE %carbon steel%`
+    hits the rows). But **picking "Mild Steel (A36)"** from the picker resolves to `A36`/`hot rolled`/etc. which do
+    NOT substring-match `Carbon Steel`, so it would surface nothing. A first-class `Carbon Steel` material entry (or
+    a "Carbon Steel"/"CS"/"mild steel" alias on the mild-steel family) is likely needed. NOT fixed — flagged only.
+  - *Stainless:* **OK — resolves.** `Stainless Steel 304` exists (aliases SS304/18-8/A2). `Stainless Steel 316`
+    exists (no 316**L** entry, but typing "316" → matches `Stainless Steel 316` → `ILIKE %Stainless Steel 316%`
+    catches both 316 and 316L rows; typing "316L" falls back to raw → `ILIKE %316L%` catches the 316L rows).
+    Free-text "stainless" also resolves. No gap here.
 
 **4. Levi Taylor** — DM asks a thickness question (his comment didn't specify one)
 - **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)
