@@ -148,4 +148,4 @@ INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas
 -- Clear acrylic
 ('Clear acrylic', 0, 60, 30000, NULL, NULL, NULL, NULL, NULL, 0.05, 25000, 4, 'Machine: 40W RF; Hatch: bi-dir; Lens: 100mm', 'scraped_public', true, 'engrave', NULL),
 -- Bambus cutting board
-('Bambus cutting board', 0, 40, 36000, NULL, NULL, NULL, NULL, NULL, 0.05, 24000, 4, 'Machine: 40W RF; Hatch: bi-dir; Lens: 210mm', 'scraped_public', true, 'cut', 2);
+('Bambus cutting board', 0, 40, 36000, NULL, NULL, NULL, NULL, NULL, 0.05, 24000, 4, 'Machine: 40W RF; Hatch: bi-dir; Lens: 210mm', 'scraped_public', true, 'cut', 2) ON CONFLICT DO NOTHING;

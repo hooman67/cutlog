@@ -178,4 +178,4 @@ INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas
 
 -- Boron/Epoxy composite - 13mm
 -- Speed: 1.1 cm/s = 660 mm/min
-('Boron Epoxy', 13.0, 100, 660, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:27Z'::timestamptz);
+('Boron Epoxy', 13.0, 100, 660, 'air', NULL, NULL, NULL, NULL, NULL, 4, 'clean', 'scraped_public', true, '2026-06-12T00:01:27Z'::timestamptz) ON CONFLICT DO NOTHING;

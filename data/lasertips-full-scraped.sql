@@ -281,4 +281,4 @@ INSERT INTO cuts (material, thickness_mm, power_pct, speed_mm_min, gas_type, gas
 -- ID 107: white/grey on gold
 ('white/grey on gold', 0, 45, 90000, NULL, NULL, NULL, NULL, NULL, 0.05, 37000, 4, 'Machine: 30w jpt; Hatch #1; Hatch type: unidirectional; Lens: 100mm; Pulse: 200.00ns', 'scraped_public', true, 'engrave', NULL),
 -- ID 51: yellow on stainless steel
-('yellow on stainless steel', 0, 55, 90000, NULL, NULL, NULL, NULL, NULL, 0.005, 200000, 4, 'Machine: jpt mopa 30w m6-m7; Hatch #1; Hatch type: bi-dir; Lens: 175mm; Angle: 0; Pulse: 13.00ns', 'scraped_public', true, 'engrave', 1);
+('yellow on stainless steel', 0, 55, 90000, NULL, NULL, NULL, NULL, NULL, 0.005, 200000, 4, 'Machine: jpt mopa 30w m6-m7; Hatch #1; Hatch type: bi-dir; Lens: 175mm; Angle: 0; Pulse: 13.00ns', 'scraped_public', true, 'engrave', 1) ON CONFLICT DO NOTHING;
