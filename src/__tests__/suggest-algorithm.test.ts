@@ -145,12 +145,12 @@ function computeSpeedRecommendation(
   const cv = mean > 0 ? stddev / mean : 1
 
   let confidence: 'HIGH' | 'MEDIUM' | 'LOW' = 'LOW'
-  const hasOwnVerifiedCut = goodCuts.some(
+  const hasOwnVerifiedCut = recCuts.some(
     (c) => c.source_tier_weight === 3 && c.quality_rating && c.quality_rating >= 4
   )
   if (hasOwnVerifiedCut) confidence = 'HIGH'
-  else if (goodCuts.length >= 5 && cv < 0.2) confidence = 'HIGH'
-  else if (goodCuts.length >= 3 || cv < 0.4) confidence = 'MEDIUM'
+  else if (recCuts.length >= 5 && cv < 0.2) confidence = 'HIGH'
+  else if (recCuts.length >= 3 || cv < 0.4) confidence = 'MEDIUM'
 
   if (interpolated) {
     if (confidence === 'HIGH') confidence = 'MEDIUM'
@@ -182,7 +182,7 @@ function computeSpeedRecommendation(
     conservativeSpeed,
     minSpeed,
     maxSpeed,
-    dataPoints: goodCuts.length,
+    dataPoints: recCuts.length,
     confidence,
     avgPower,
     commonGasType,
@@ -673,6 +673,20 @@ describe('computeSpeedRecommendation', () => {
       expect(result!.avgSpeed).toBe(1200)
       // pressure reflects O2 rows only (~0.7), not the N2 14/12 bar
       expect(result!.avgGasPressure).toBeLessThan(2)
+    })
+
+    it('counts only the rows actually used in the recommendation (dominant gas)', () => {
+      const result = computeSpeedRecommendation([
+        makeGroup('community', [
+          makeCut({ speed_mm_min: 1200, gas_type: 'O2' }),
+          makeCut({ speed_mm_min: 1150, gas_type: 'O2' }),
+          makeCut({ speed_mm_min: 1250, gas_type: 'O2' }),
+          makeCut({ speed_mm_min: 560, gas_type: 'N2' }),
+          makeCut({ speed_mm_min: 600, gas_type: 'N2' }),
+        ]),
+      ])
+      // 3 O2 rows used, 2 N2 excluded -> dataPoints reflects the 3 used.
+      expect(result!.dataPoints).toBe(3)
     })
 
     it('keeps gas-less rows and does not crash when no gas recorded', () => {

@@ -307,10 +307,10 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
 
   let confidence: "HIGH" | "MEDIUM" | "LOW" = "LOW";
   // If user has their own verified cut (4-5 stars), that's HIGH confidence — they tested it on their machine
-  const hasOwnVerifiedCut = goodCuts.some(c => c.source_tier_weight === 3 && c.quality_rating && c.quality_rating >= 4);
+  const hasOwnVerifiedCut = recCuts.some(c => c.source_tier_weight === 3 && c.quality_rating && c.quality_rating >= 4);
   if (hasOwnVerifiedCut) confidence = "HIGH";
-  else if (goodCuts.length >= 5 && cv < 0.2) confidence = "HIGH";
-  else if (goodCuts.length >= 3 || cv < 0.4) confidence = "MEDIUM";
+  else if (recCuts.length >= 5 && cv < 0.2) confidence = "HIGH";
+  else if (recCuts.length >= 3 || cv < 0.4) confidence = "MEDIUM";
 
   // Feature 3: Reduce confidence by one level when interpolation is used
   if (interpolated) {
@@ -443,7 +443,7 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
     conservativeSpeed,
     minSpeed,
     maxSpeed,
-    dataPoints: goodCuts.length,
+    dataPoints: recCuts.length,
     confidence,
     avgPower,
     commonGasType,
@@ -1394,8 +1394,18 @@ export default function Suggest() {
                         </span>
                       </div>
 
-                      {group.cuts.map((cut, i) => (
-                        <div key={cut.id || i} className="bg-zinc-800/30 border border-zinc-700 rounded-xl p-4 mb-2">
+                      {group.cuts.map((cut, i) => {
+                        // A row is excluded from the headline rec if it uses a different
+                        // gas than the dominant one (see gas separation in compute).
+                        const recGas = speedRec?.commonGasType || null;
+                        const unusedForRec = !!(recGas && cut.gas_type && cut.gas_type !== recGas);
+                        return (
+                        <div key={cut.id || i} className={`bg-zinc-800/30 border border-zinc-700 rounded-xl p-4 mb-2 ${unusedForRec ? "opacity-60" : ""}`}>
+                          {unusedForRec && (
+                            <div className="mb-2 text-xs text-amber-400/90">
+                              Not used for this {recGas} recommendation ({cut.gas_type} cut — different assist gas)
+                            </div>
+                          )}
                           <div className="grid grid-cols-3 gap-3 text-sm">
                             <div>
                               <span className="text-zinc-500 text-xs block">Power</span>
@@ -1506,7 +1516,8 @@ export default function Suggest() {
                             <p className="text-xs text-zinc-500 mt-1 italic">&ldquo;{cut.notes}&rdquo;</p>
                           )}
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   ))}
                 </div>
