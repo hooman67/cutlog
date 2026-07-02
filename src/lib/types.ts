@@ -124,7 +124,7 @@ export const SPEED_PROFILES = [
 
 export const SPEED_PROFILE_MULTIPLIERS = {
   fast: 1.0,
-  conservative: 0.5,
+  conservative: 0.75,
   auto: undefined,
 } as const
 

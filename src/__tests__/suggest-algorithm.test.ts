@@ -497,9 +497,9 @@ describe('computeSpeedRecommendation', () => {
         { direction: 'faster' }
       )
       // avgSpeed after correction = 4000 * 1.1 = 4400
-      // conservativeSpeed = 4400 * 0.5 = 2200
+      // conservativeSpeed = 4400 * 0.75 = 3300
       expect(result!.fastSpeed).toBe(4400)
-      expect(result!.conservativeSpeed).toBe(2200)
+      expect(result!.conservativeSpeed).toBe(3300)
     })
   })
 
@@ -512,12 +512,12 @@ describe('computeSpeedRecommendation', () => {
       expect(result!.fastSpeed).toBe(result!.avgSpeed)
     })
 
-    it('conservativeSpeed is 50% of avgSpeed', () => {
+    it('conservativeSpeed is 75% of avgSpeed', () => {
       const result = computeSpeedRecommendation(
         [makeGroup('own', [makeCut({ speed_mm_min: 4000 })])],
         { speed_profile: 'conservative' }
       )
-      expect(result!.conservativeSpeed).toBe(2000)
+      expect(result!.conservativeSpeed).toBe(3000)
       expect(result!.activeProfile).toBe('conservative')
     })
 
