@@ -31,9 +31,12 @@ Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/w
 - ⬜ **Send Levi + Nicklas DMs** (`facebook.md §4, §3`) — both finalized, **blocked by the daily FB
   DM limit** (only ~2–3/day send; Hugh+Paul used today's 2026-07-02). Send when the limit resets.
   ⚠️ The FB DM cap is the real throughput bottleneck on WTP outreach — ~2–3 leads/day max.
-- ⬜ **InPulse Logic** — new competitor surfaced 2026-07-02 (plugged on the DIY Fiber Laser post).
-  Full research in progress → `4.8_research/competitive_web.md`. Assess threat + whether it changes
-  positioning.
+- ✅ **InPulse Logic researched** (2026-07-02) → profile in `4.8_research/competitive_web.md`. Verdict:
+  **threat 3/12, lowest of any competitor** — brand-new (domain Jan 2026), pre-traction, wide-shallow
+  "operating system + marketplace" for cleaning/welding/cutting; parameters are 1 of 8 login-gated
+  modules; no galvo/hobbyist, no verified community DB, no .clb export, not mobile-first. **Watch,
+  don't fear; re-scan ~6mo.** Caveat: parameter depth is login-gated/UNVERIFIED — a free-tier
+  walkthrough could raise it to ~5 if OPTIMIZE is a deep exportable cutting DB. No positioning change.
 - ⬜ **Watch for Paul's / Hugh's replies** — if they give wattage, send matching numbers; first real
   WTP conversations.
 - ⬜ **Stripe setup (~1–2h):** create account, generate Payment Links — Founding Annual $790/yr,

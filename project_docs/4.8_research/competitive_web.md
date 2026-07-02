@@ -108,3 +108,54 @@
 4. **Data network effect** from the 3-button feedback loop — but this only matters if CutLog out-collects rivals fast, because Machines for Makers (13k) and Laser Settings Hub already have a head start on the community-data flywheel.
 
 **Strategic risk to watch:** LightBurn shipping an official in-app cloud/community library would gut the hobbyist tier overnight.
+
+---
+
+## ADDENDUM — InPulse Logic (inpulselogic.com) — added 2026-07-02
+
+**Why added:** surfaced by a Facebook commenter on a CutLog lead-gen post ("Www.inpulselogic.com has parameters"). Never previously researched. This is our first look.
+**Method:** direct WebFetch of the public site + r.jina.ai JS-render proxy for gated/SPA pages + Verisign RDAP for domain age. Search engines were blocked/unusable (Google 451/error, Bing junk, DuckDuckGo returned the unrelated `impulselogic.com` retail platform). **Product tools are login-gated**, so most technical/parameter detail could NOT be verified — flagged **[gated, unverified]** throughout. Confidence is HIGH on what the public marketing pages claim about themselves, LOW on actual DB contents/depth/traction.
+
+### 1. What it is (VERIFIED — public pages)
+A brand-new, very broad **"operating system for laser operators + discovery marketplace for customers hiring laser work."** Verbatim headline (`/features`): *"A complete operating system for laser operators and a discovery platform for customers hiring laser work."* Mission (`/about`): *"Build the operating system for laser professionals — one platform for parameters, compliance, quoting, scheduling, and business intelligence."*
+It is **NOT primarily a parameter database.** Parameters ("OPTIMIZE") are **one of ~8 top-level modules**: SCAN (AI machine/fault identification), OPTIMIZE (parameters), QUOTE (estimating), SCHEDULE, COMPLY (safety/regs), CONNECT (marketplace), COMMUNITY (knowledge), LEARN (education). The sitemap lists **170 pages** (job board, RFQ/quote builder, fleet/IoT dashboard, weld compliance, chemical reference, defect atlas, seller hub, etc.) — an ERP/marketplace ambition, not a settings wiki.
+Critically, it is **built for cleaning / welding / cutting** — verbatim *"Built for all three laser disciplines."* Its "cutting" is **industrial laser cutting alongside laser cleaning and laser welding**, not hobbyist CO2/diode engraving. **Engraving is not a headline discipline.**
+
+### 2. Parameters offering ("has parameters") — [GATED, mostly UNVERIFIED]
+The commenter's "has parameters" maps to the **OPTIMIZE** module + **Parameter Wizard** + **Machine & Fault Database** + a **Substrate/Material library**. Public copy references *"searchable industry knowledge," "material guides," "substrate library,"* discipline-specific safety logic, and an **"AI Laser Expert"** Q&A. **All actual parameter content sits behind a login** (`/optimize`, `/laser-parameter-library` (`/glpd`) both return a sign-in wall). Therefore: **cannot verify** what parameters, what machines/materials, entry count, sourcing (community vs AI vs curated), depth for fiber CUTTING (gas/pressure/nozzle/pierce/focus), any galvo/CO2 coverage, J/mm normalization, or **any export** (no LightBurn/.clb/EZCAD/RDWorks mention found anywhere public). Framing leans **AI-generated + curated ("AI Laser Expert," "Parameter Wizard")**, not a vote-on-worked community DB like Laser Settings Hub / LaserMarkDB.
+
+### 3. Pricing / business model (PARTIALLY VERIFIED — tiers yes, dollars no)
+Freemium SaaS, four tiers: **Starter / Operator / Pro / Enterprise.** `/pricing` shows a full feature matrix but **no dollar amounts** (prices are effectively gated). Verified matrix:
+- **Starter:** 3 lifetime AI questions, 1 seat, no optimization tools. (Free entry; "no credit card, 3 free questions.")
+- **Operator:** unlimited AI questions, **7-day free trial**, cleaning/welding/cutting optimization + Parameter Wizard + Machine & Fault DB + Quotes & scheduling, 1 seat.
+- **Pro:** above + Marketplace profile, 3 seats.
+- **Enterprise:** everything + Marketplace profile, 10 seats, **API & white-label.**
+FAQ: "cancel anytime," annual billing ~20% savings for larger teams. **Business model = SaaS subscription + a two-sided operator/customer marketplace** (RFQ, seller hub) — broader monetization than CutLog.
+
+### 4. Traction signals (VERIFIED — and they are WEAK)
+- **Domain registered 2026-01-08** (Verisign RDAP; GoDaddy; last-changed same day; expires 2027-01-08). **~6 months old as of this research.**
+- **COMMUNITY page renders empty**; no member/post counts anywhere.
+- **No entry/settings counts, no reviews, no user numbers** on any public page.
+- **No social presence found** (no verifiable Facebook/LinkedIn/YouTube; search engines blocked, so absence is suggestive not conclusive **[low confidence]**).
+- Sitemap: 170 pages, uniform priority 0.8, **no lastmod**, identical boilerplate meta on every page — hallmarks of a **very new, largely templated/auto-generated site** where the real product lives behind auth. **Reads as pre-traction / early-launch, possibly one-person or small team; no founder/team/location disclosed.**
+
+### 5. Segment overlap with CutLog
+- **Discipline overlap: PARTIAL and skewed away from us.** It targets **industrial laser cutting + cleaning + welding.** It touches CutLog's PRIMARY (industrial fiber cutting) at the parameter layer, but its center of gravity is **cleaning/welding + shop-management/marketplace**, and it **ignores CutLog's galvo/MOPA engraving secondary and the hobbyist CO2/diode funnel.**
+- **Model overlap: MODERATE but shallow-per-feature.** It replicates the *parameters* piece (AI wizard + material/machine DB) as 1 of 8 modules, but there is **no verified community vote-on-worked loop, no per-machine ML personalization, no .clb/multi-format export, and no mobile-first PWA angle.** It is going **wide (whole-shop OS + marketplace)** where CutLog goes **deep (parameters done well, mobile).**
+
+### 6. Threat assessment (rubric: Model overlap / Traction / Defensibility / Buyer reach, each 0–3, /12)
+| Dimension | Score | Rationale |
+|---|---|---|
+| **Model overlap** | 1 | Parameters are only 1 of ~8 modules; no verified community/feedback loop, no per-machine ML, no .clb export, not mobile-first. Overlaps our buyer's *need*, not our *product shape*. |
+| **Traction** | 0 | Domain 6 months old; empty community; zero public counts/reviews/social; templated stub site. No demonstrable users. |
+| **Defensibility** | 1 | Freemium SaaS + two-sided marketplace *could* create lock-in/network effects **if** it gets adoption — but nothing is spinning yet, prices are hidden, and the surface area is enormous for a tiny team to defend. |
+| **Buyer reach** | 1 | Aims squarely at the industrial laser operator (good target) and was organically name-dropped by a real operator (a real signal) — but no evidence of any distribution engine, audience, or content. |
+| **TOTAL** | **3 / 12** | |
+
+**Verdict:** *An ambitious, 6-month-old "whole-shop OS + marketplace" for industrial laser cleaning/welding/cutting where parameters are just one gated module — broad but unproven, with no verifiable traction and no evidence it replicates CutLog's actual wedge (community feedback loop, per-machine ML, .clb round-trip, mobile-first). **Lowest-threat competitor profiled to date (3/12); watch, don't fear** — the only real signals are that it exists, targets our primary buyer, and got name-checked by an operator. Re-scan in ~6 months for traction or a public parameter DB.*
+
+### 7. What to borrow / how to differentiate
+- **Borrow / note:** (a) The **"operating system for laser operators" positioning** is a sharper articulation of the industrial buyer's real job-to-be-done than "settings tool" — worth stealing the *framing* even if we don't build the ERP. (b) **SCAN — AI machine/fault identification** and **"AI Laser Expert" Q&A** are natural adjacencies to a parameter tool. (c) The **two-sided marketplace** (customers hiring laser work) is a monetization path CutLog hasn't considered. (d) An operator organically recommended them in *our* lead-gen thread — evidence the industrial audience is actively hunting for exactly this, which validates CutLog's segment choice.
+- **How CutLog out-executes:** (a) **Depth-over-breadth** — 170 shallow pages and an 8-module OS from a ~6-month solo-looking site is a mile wide and an inch deep; CutLog wins by making the ONE thing operators asked for (a trusted starting point → fewer test squares) actually excellent. (b) **Mobile-first PWA** — no mobile story here. (c) **The verified wedges they lack:** community vote-on-worked feedback, J/mm normalization for honest cross-wattage transfer, and **.clb / multi-format round-trip import-export.** (d) **They gate everything behind login** (parameters, prices, even the community) — CutLog can win trust by letting operators *see value before signing up*.
+
+**Honesty caveats:** parameter contents, DB size, sourcing, export capability, and any traction beyond domain age are **UNVERIFIED (login-gated + search engines blocked)**. Scores reflect what is publicly provable today; if the gated OPTIMIZE module turns out to be a deep, community-fed, exportable industrial-cutting DB, Model-overlap could rise to 2 and Total to ~5. Recommend a logged-in walkthrough (free Starter tier) before any strategic reaction.
