@@ -68,6 +68,16 @@ claims of activity are marked **(claimed, unverified)**.
   NOT sent. This is explicit in the doc.
 - **Separate galvo/influencer track (Nate Keen)** ran in parallel via DM — see Leads. Nate is the deepest
   real relationship and is GROUND TRUTH (genuine multi-week back-and-forth).
+- **2026-07-02 — Sent DMs: Hugh ✅, Paul ✅** (CNC Fiber Laser Ninja post). Levi + Nicklas DMs
+  finalized but **NOT sent — hit the daily Facebook DM limit again** (recurring blocker; only ~2–3
+  DMs/day get through). Nicklas is next when the limit resets.
+- **2026-07-02 — Reviewed the DIY Fiber Laser "settings you'd pay money for" post (Matt St)** — this is
+  a SECOND lead-gen post (the CNC Fiber Laser Ninja one is separate). Full comment set: Nicklas Löfgren
+  (25mm carbon + 15mm stainless — our hot lead, DM pending), skeptics Michael Barry / Tony Smiley
+  (SKIP-listed) / Paul Allen Durr Jr., **Joshua Scott** ("agreed" — already DM'd Round 1/2, no reply),
+  and **InPulse Logic** (a commenter plugged `inpulselogic.com` as "has parameters" — NEW competitor,
+  full research in progress → `4.8_research/competitive_web.md`). Matt St (our posting account) left an
+  engagement reply asking what drives cut variance (gas quality/ambient temp) — good thread warmth.
 
 ## Leads & real feedback (ground truth)
 

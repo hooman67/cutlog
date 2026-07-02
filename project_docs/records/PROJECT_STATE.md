@@ -28,7 +28,12 @@ Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/w
 - ⬜ **Apply SQL migration `data/018_grade50_material_aliases.sql`** in Supabase — adds a first-class
   "Carbon Steel Grade 50 (A572/S355)" material + aliases (A572/S355/Gr 50) so Levi's Grade-50 rows
   are searchable from the picker (same alias-gap class as HRPO). Verified no false-positive collisions.
-- ⬜ **Send Levi Taylor's DM** (`facebook.md §4`) — ready; asks his thickness (no thickness given).
+- ⬜ **Send Levi + Nicklas DMs** (`facebook.md §4, §3`) — both finalized, **blocked by the daily FB
+  DM limit** (only ~2–3/day send; Hugh+Paul used today's 2026-07-02). Send when the limit resets.
+  ⚠️ The FB DM cap is the real throughput bottleneck on WTP outreach — ~2–3 leads/day max.
+- ⬜ **InPulse Logic** — new competitor surfaced 2026-07-02 (plugged on the DIY Fiber Laser post).
+  Full research in progress → `4.8_research/competitive_web.md`. Assess threat + whether it changes
+  positioning.
 - ⬜ **Watch for Paul's / Hugh's replies** — if they give wattage, send matching numbers; first real
   WTP conversations.
 - ⬜ **Stripe setup (~1–2h):** create account, generate Payment Links — Founding Annual $790/yr,
