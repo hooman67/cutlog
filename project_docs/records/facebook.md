@@ -78,7 +78,7 @@ claims of activity are marked **(claimed, unverified)**.
 | **Olga Campbell** | Laser Engraving for Beginners by VectorWitch | "Leather" | Hot lead. CO2/non-fiber. DM drafted, **NOT sent** (DM limit). |
 | **Levi Taylor** | CNC Fiber Laser Ninja | "Carbon steel gr 50 P&O" | Hot lead. DM drafted, **NOT sent**. |
 | **Hugh Owings** | CNC Fiber Laser Ninja | "2kw Machine, Raytools Head. 3/8 HRPO Cut and Engrave. Piercing Included" | Hot lead (most detailed — machine + material + thickness + ops). DM drafted, **NOT sent**. |
-| **Paul Malfroid** | CNC Fiber Laser Ninja | ".625 stainless steel 316L" | Hot lead (thick stainless). DM drafted, **NOT sent**. |
+| **Paul Malfroid** | CNC Fiber Laser Ninja | ".625 stainless steel 316L" | Hot lead (thick stainless). ✅ **DM SENT 2026-07-02** — awaiting reply. |
 | **Nicklas Löfgren** | DIY Fiber Laser | "25mm carbon steel and 15mm stainless" | Hot lead (two thick materials). DM drafted, **NOT sent**. |
 
 > 3 of these 5 (Levi, Hugh, Paul Malfroid) are from **CNC Fiber Laser Ninja** — why it's the #1 group.
@@ -158,12 +158,22 @@ harvested 06-27. Find that post in each group, then their comment.
 - **DM (final, 2026-07-01):**
 > hey Hugh — 3/8 HRPO on a 2kW with a Raytools head, that's right at the edge of what 2kW likes, so a good starting point saves the most plate. i've got cut + pierce numbers pulled from published manufacturer data at exactly 3/8" HRPO — O₂ pressure, focus, speed, staged pierce — scaled to 2kW. engrave i can give you a ballpark to start from. want me to send what it shows for your setup? https://cutlog-two.vercel.app
 
-**2. Paul Malfroid** — **SEND FIRST** (strongest data, zero caveats)
+**2. Paul Malfroid** — ✅ **SENT 2026-07-02** (strongest data, zero caveats)
 - **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)
 - **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
 - **Comment:** *".625 stainless steel 316L"*
-- **DM (final, 2026-07-01):**
-> hey Paul — saw you said .625" 316L. that's a thick N₂ cut where a blind test grid eats the most plate. i've got starting points pulled from published manufacturer data at exactly 15.875mm 316L — speed/N₂ pressure/focus/nozzle — that i can scale to your wattage so your first cut's close instead of from scratch. what wattage are you running? happy to send what it shows for your machine. https://cutlog-two.vercel.app
+- **DM (final sent version, 2026-07-02):**
+> hey Paul — you commented .625" 316L on my "settings you'd pay money for" post in CNC Fiber Laser Ninja. that's a thick N₂ cut where a blind test grid eats the most plate. i've got starting points from published manufacturer data at exactly 15.875mm 316L, scaled to your wattage — so your first cut's close instead of from scratch. here's the live app if you wanna see for yourself: https://cutlog-two.vercel.app — or tell me your wattage and i'll look it up and report the numbers back.
+
+  **DM-writing learnings applied here (use for the rest):** (1) reference **"my … post"** + the
+  **group name** so a week-old cold DM jogs their memory (not a creepy "saw you said"); (2) keep the
+  value line — *"where a blind test grid eats the most plate"*; (3) drop the parameter list (they see
+  it in the app); (4) lead with the **live app link "see for yourself,"** offer the wattage lookup as
+  the fallback; (5) never say **"verified"** — it's *"published manufacturer data."*
+- **Data we have for him:** 8 `scraped_public` rows at exact 15.875mm 316L (N₂, cut), keyed by
+  wattage: 4kW→600 / 6kW→780–900 / 8kW→1050 / 10kW→1300–1500 / 12kW→1650–1900 / 15kW→2200 mm/min;
+  N₂ 12–18 bar, focus −1.5 to −3.0, 3.0mm nozzle. **4kW = his max thickness (quality 3/5)** — flag if
+  he's on 4kW. Numbers in `data/industrial-cutting-scraped.sql` (grep 316L | 15.875).
 
 **3. Nicklas Löfgren**
 - **Group:** DIY Fiber Laser

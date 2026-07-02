@@ -16,12 +16,13 @@ Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/w
 ### Hooman (only he can do these)
 - ✅ **Applied SQL migration `data/015_add_pierce_params.sql`** in Supabase (Hooman, 2026-07-01).
   Pierce data is now live in prod — Hugh's DM is unblocked.
-- ⬜ **Apply SQL migration `data/016_hrpo_material_and_aliases.sql`** in Supabase. Adds HRPO as a
-  selectable material + aliases so a "Mild Steel" search reliably surfaces the 24 HRPO rows (they
-  were only matching by luck before). Verified no false positives. **Do before promoting Hugh's DM
-  broadly** — otherwise an operator picking a non-A36 mild-steel variant sees nothing.
-- ⬜ **DM Paul Malfroid FIRST** (final DM in `facebook.md` §2) — strongest data, zero caveats.
-  Then **DM Hugh** (final DM §1) — pierce now live, so the "staged pierce numbers" claim is honest.
+- ✅ **Applied SQL migration `data/016_hrpo_material_and_aliases.sql`** in Supabase (Hooman,
+  2026-07-02). HRPO now selectable + "Mild Steel" search surfaces the HRPO rows.
+- ✅ **DM'd Paul Malfroid** (2026-07-02) — first WTP outreach DM sent. Awaiting reply. Final wording
+  + his data in `facebook.md §2`.
+- ⬜ **DM Hugh** (final DM `facebook.md §1`) — pierce + HRPO fix now live, so both claims are honest.
+- ⬜ **Watch for Paul's reply** — if he gives wattage, send the matching 316L numbers (table in
+  `facebook.md §2`); if interested, this is the first real WTP conversation.
 - ⬜ **Stripe setup (~1–2h):** create account, generate Payment Links — Founding Annual $790/yr,
   Concierge $49, Lifetime $129, Export unlock $19. (No code needed for Payment Links.)
 - ⬜ **DM warm industrial leads** with the founding offer + payment link. Lead with Tinker Withit,
