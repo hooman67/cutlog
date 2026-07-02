@@ -47,6 +47,12 @@ export interface Cut {
   cross_hatch: boolean | null
   scan_angle_degrees: number | null
   q_pulse_ns: number | null
+  // Pierce (piercing) parameters — thick-metal fiber cutting
+  pierce_type: 'blast' | 'progressive' | 'pulsed' | 'none' | null
+  pierce_time_s: number | null
+  pierce_power_pct: number | null
+  pierce_height_mm: number | null
+  pierce_gas_pressure_bar: number | null
   // Optional fields for parameter scaling
   recorded_wattage_w?: number | null
   recorded_lens_focal_length_mm?: number | null
@@ -92,6 +98,13 @@ export const OPERATION_TYPES = [
   { value: 'score', label: 'Score' },
   { value: 'fill', label: 'Fill' },
   { value: 'outline', label: 'Outline' },
+] as const
+
+export const PIERCE_TYPES = [
+  { value: 'blast', label: 'Blast (single high-power)' },
+  { value: 'progressive', label: 'Progressive (staged/ramped)' },
+  { value: 'pulsed', label: 'Pulsed' },
+  { value: 'none', label: 'None' },
 ] as const
 
 export const LASER_SOURCE_TYPES = [
