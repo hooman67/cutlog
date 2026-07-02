@@ -97,6 +97,19 @@ old DM drafts is inaccurate; honest term is **"published manufacturer data."**
   mm/min) and that **nobody sells a 2kW cross-machine cutting library** (Etsy has only per-thickness
   single-machine 4kW+ files) — supports the niche positioning.
 
+### 2026-07-02 — HRPO search fell to AI despite data present: PostgREST .or() parens bug (fixed)
+After applying all seed files, HRPO/9.5mm on a **cutting** machine STILL returned an AI
+hallucination. DB had the data (`select count(*) ... ilike '%HRPO%'` → 48 rows, min 9.525). Root
+cause: material names with reserved chars — **parentheses**, `,`, `&` (e.g. `HRPO (Hot Rolled
+Pickled & Oiled)`, `Mild Steel (A36)`) — corrupt PostgREST's `.or()` filter parse; the query
+returns nothing and the app silently drops to AI. **Self-inflicted regression:** migration 016 added
+an HRPO materials entry whose parenthesized *name* then got injected into `.or()` (before 016,
+"HRPO" resolved to no entry → clean `%HRPO%` filter → worked). Fixed in `aa0d129` with an `orValue()`
+helper that double-quotes each `.or()` value; applied to all 5 affected spots. **Lesson:** never
+interpolate raw user/DB strings into a PostgREST `.or()` — always quote; 82 parenthesized material
+names were latently affected. Unit tests don't hit the live DB, so this class of bug needs
+app-level/preview verification, not just `vitest`.
+
 ### 2026-07-02 — Active-machine op-type silently hides cross-operation data (fixed)
 While testing Hugh's HRPO/9.5mm case, the app returned a **wrong AI hallucination** (60,000 mm/min;
 "a 50W fiber laser can't cut 9.5mm") instead of our 8 scraped rows. Root cause: search maps the
