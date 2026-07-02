@@ -56,6 +56,18 @@ function deriveProvenance(
   return "community_reported"
 }
 
+/**
+ * Wrap a value for use inside a PostgREST `.or()` filter string.
+ * PostgREST treats "(", ")", "," as structural delimiters in .or(); an unquoted
+ * value containing them (e.g. a material name like "HRPO (Hot Rolled Pickled & Oiled)")
+ * corrupts the whole filter, the query returns nothing, and the caller silently
+ * degrades. Double-quoting the value makes PostgREST treat it literally. Any embedded
+ * double-quote is escaped by doubling it, per PostgREST's quoting rules.
+ */
+function orValue(value: string): string {
+  return `"${value.replace(/"/g, '""')}"`
+}
+
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createServerSupabase()
@@ -86,10 +98,14 @@ export async function POST(request: NextRequest) {
     }
 
     // --- Material Alias Resolution ---
+    // NOTE: values passed to PostgREST .or() must be double-quoted, otherwise reserved
+    // characters in the material name — "(", ")", ",", "&" (e.g. "HRPO (Hot Rolled
+    // Pickled & Oiled)", "Mild Steel (A36)") — break the filter parse and the query
+    // silently returns nothing, dropping the user to the AI fallback. See orValue().
     const { data: matchedMaterials } = await supabase
       .from("materials")
       .select("name, aliases")
-      .or(`name.ilike.%${searchMaterial}%,aliases.cs.{${searchMaterial}}`)
+      .or(`name.ilike.${orValue(`%${searchMaterial}%`)},aliases.cs.{${searchMaterial}}`)
 
     const allNames = new Set<string>()
     const resolvedAliases: string[] = []
@@ -107,9 +123,9 @@ export async function POST(request: NextRequest) {
     }
     if (allNames.size === 0) allNames.add(searchMaterial)
 
-    // Build material filter
+    // Build material filter (double-quote each value — see orValue note above)
     const materialNames = Array.from(allNames)
-    const materialFilter = materialNames.map(n => `material.ilike.%${n}%`).join(",")
+    const materialFilter = materialNames.map(n => `material.ilike.${orValue(`%${n}%`)}`).join(",")
 
     // --- Operation Type Awareness ---
     // Fetch user's active machine to determine operation type
@@ -284,7 +300,7 @@ export async function POST(request: NextRequest) {
         .from("feedback")
         .select("user_id, thickness_mm")
         .eq("feedback_type", "perfect")
-        .or(materialNames.map(n => `material.ilike.%${n}%`).join(","))
+        .or(materialNames.map(n => `material.ilike.${orValue(`%${n}%`)}`).join(","))
         .gte("thickness_mm", thicknessMm - Math.max(finalTolerance, 0.5))
         .lte("thickness_mm", thicknessMm + Math.max(finalTolerance, 0.5))
 
