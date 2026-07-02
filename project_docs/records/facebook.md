@@ -190,8 +190,9 @@ harvested 06-27. Find that post in each group, then their comment.
 - **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)
 - **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
 - **Comment:** *"Carbon steel gr 50 P&O"*
-- **DM:**
-> hey Levi — you said gr50 P&O carbon. pickled & oiled throws people off vs clean cold-roll, so a tested starting point matters more there. tool's got verified speed/gas/focus starting points for carbon scaled to your wattage and thickness. what thickness are you running most? happy to send what it shows for your setup. https://cutlog-two.vercel.app
+- **DM (final version, 2026-07-02 — replaces old "verified"-wording draft):**
+> hey Levi — you commented gr50 P&O carbon on my "settings you'd pay money for" post in CNC Fiber Laser Ninja. grade 50 P&O is exactly where a blind test grid eats the most plate. i've got O₂ cut starting points from published manufacturer data for grade 50 (speed, pressure, focus) scaled to your wattage. here's the live app to see for yourself: https://cutlog-two.vercel.app — what thickness are you running most? tell me that + your wattage and i'll look it up and report the numbers back.
+- **Data-confidence (verified 2026-07-02 against `data/industrial-cutting-scraped.sql`): MEDIUM — gated by missing thickness.** 12 `scraped_public` rows exist for `Carbon Steel Grade 50 (A572/S355)`, all O₂, thicknesses **10/12/16/20/25/30mm** across 3/6/10kW (Trumpf/IPG/HSG). Coverage is HIGH *if* his thickness lands in 10–30mm O₂; we can't confirm until he answers. Below ~10mm falls back to the large generic `Carbon Steel` pool (ai_baseline thin-gauge + scraped thick O2/N2). **⚠️ alias gap (same class as HRPO):** there is NO "Carbon Steel Grade 50" material entry and NO A572/S355/"Gr 50" aliases in the materials table — Grade 50 rows only surface by lucky substring match (free-text "grade 50"/"A572"/"S355" ILIKE-matches the row label; a picked material like "Mild Steel (A36)" does NOT). A first-class Grade-50 material entry w/ aliases (A572, S355, Gr 50) is likely needed. NOT fixed — flagged only.
 
 **5. Olga Campbell** — CO2/non-fiber; DM adapted off the metal template
 - **Group:** Laser Engraving for Beginners by VectorWitch
