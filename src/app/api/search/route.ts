@@ -245,6 +245,35 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // --- Operation-type mismatch detection ---
+    // If the operation-filtered search returned nothing but rows DO exist for the
+    // same material + thickness under the OPPOSITE operation type, surface an
+    // informative signal instead of letting the client hallucinate via /api/ai-suggest.
+    let operationMismatch:
+      | { available_operation: "cut" | "engrave"; active_operation: "cut" | "engrave"; material: string; thickness: number }
+      | null = null
+    if (finalGroups.length === 0 && operationType) {
+      const oppositeOperation = operationType === "engrave" ? "cut" : "engrave"
+      const probeTolerance = toleranceLevels[toleranceLevels.length - 1]
+      const { data: oppositeRows } = await supabase
+        .from("cuts")
+        .select("operation_type")
+        .or(materialFilter)
+        .eq("operation_type", oppositeOperation)
+        .gte("thickness_mm", thicknessMm - probeTolerance)
+        .lte("thickness_mm", thicknessMm + probeTolerance)
+        .limit(1)
+
+      if (oppositeRows && oppositeRows.length > 0) {
+        operationMismatch = {
+          available_operation: oppositeOperation as "cut" | "engrave",
+          active_operation: operationType as "cut" | "engrave",
+          material: searchMaterial,
+          thickness: thicknessMm,
+        }
+      }
+    }
+
     // --- Verification counts ---
     // Count distinct operators who confirmed this material/thickness worked
     // (feedback_type = 'perfect'). Degrades gracefully if the feedback table or
@@ -305,6 +334,7 @@ export async function POST(request: NextRequest) {
       feedbackData,
       verifiedCount,
       userMachine,
+      operation_mismatch: operationMismatch,
     })
   } catch (error) {
     console.error("Search API error:", error)
