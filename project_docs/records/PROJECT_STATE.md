@@ -16,6 +16,10 @@ Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/w
 ### Hooman (only he can do these)
 - ✅ **Applied SQL migration `data/015_add_pierce_params.sql`** in Supabase (Hooman, 2026-07-01).
   Pierce data is now live in prod — Hugh's DM is unblocked.
+- ⬜ **Apply SQL migration `data/016_hrpo_material_and_aliases.sql`** in Supabase. Adds HRPO as a
+  selectable material + aliases so a "Mild Steel" search reliably surfaces the 24 HRPO rows (they
+  were only matching by luck before). Verified no false positives. **Do before promoting Hugh's DM
+  broadly** — otherwise an operator picking a non-A36 mild-steel variant sees nothing.
 - ⬜ **DM Paul Malfroid FIRST** (final DM in `facebook.md` §2) — strongest data, zero caveats.
   Then **DM Hugh** (final DM §1) — pierce now live, so the "staged pierce numbers" claim is honest.
 - ⬜ **Stripe setup (~1–2h):** create account, generate Payment Links — Founding Annual $790/yr,
@@ -81,6 +85,18 @@ old DM drafts is inaccurate; honest term is **"published manufacturer data."**
 - Research also confirmed our numbers are physically sound (Raycus 2kW OEM table corroborates ~1,200
   mm/min) and that **nobody sells a 2kW cross-machine cutting library** (Etsy has only per-thickness
   single-machine 4kW+ files) — supports the niche positioning.
+
+### 2026-07-02 — HRPO ≠ its own alloy; material-matching gap found & fixed
+Hooman flagged: the app has no "HRPO", only "Mild Steel" — is that the right material? Yes — HRPO
+(Hot Rolled Pickled & Oiled) is mild/carbon steel with a descaled+oiled surface finish, not a
+distinct alloy. But investigation found our 24 HRPO cut rows (labeled `HRPO (Hot Rolled Pickled &
+Oiled)`) only surfaced in search **by luck**: typing "HRPO", or picking Mild Steel (A36) whose
+"HR"/"hot rolled" aliases substring-match "HRPO". Picking Carbon Steel or any other mild-steel
+variant returned nothing. Also found a false-positive: the 2-char "HR" alias matched "c**HR**ome".
+Fixed in migration `016` (HRPO now a selectable material + proper aliases on A36; "HR"→"HR steel").
+**Lesson:** cut-row material *labels* and picker *material names* are matched by loose substring
+ILIKE via the alias table — always verify a lead's material string actually resolves to the rows
+before pitching "we have data for X."
 
 ### Strategic (from `4.8_research/00_SYNTHESIS_AND_VERDICT.md`)
 - "Zero competition" is FALSE — 8–12 live competitors (LaserMarkDB, Machines for Makers, Laser
