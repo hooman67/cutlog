@@ -20,9 +20,13 @@ Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/w
   2026-07-02). HRPO now selectable + "Mild Steel" search surfaces the HRPO rows.
 - ✅ **DM'd Paul Malfroid** (2026-07-02) — first WTP outreach DM sent. Awaiting reply. Final wording
   + his data in `facebook.md §2`.
-- ⬜ **DM Hugh** (final DM `facebook.md §1`) — pierce + HRPO fix now live, so both claims are honest.
-- ⬜ **Watch for Paul's reply** — if he gives wattage, send the matching 316L numbers (table in
-  `facebook.md §2`); if interested, this is the first real WTP conversation.
+- ✅ **DM'd Hugh Owings** (2026-07-02) — final DM `facebook.md §1` (dropped engrave, leads with
+  cut+pierce). Verified his live view before sending. Awaiting reply.
+- ⬜ **Apply SQL migration `data/017_scraped_wattage_and_dedup.sql`** in Supabase — dedups the
+  double-applied scraped rows AND backfills `recorded_wattage_w` so speed scaling engages (fixes the
+  optimistic headline). Until applied, recommendations from high-wattage rows still run fast.
+- ⬜ **Watch for Paul's / Hugh's replies** — if they give wattage, send matching numbers; first real
+  WTP conversations.
 - ⬜ **Stripe setup (~1–2h):** create account, generate Payment Links — Founding Annual $790/yr,
   Concierge $49, Lifetime $129, Export unlock $19. (No code needed for Payment Links.)
 - ⬜ **DM warm industrial leads** with the founding offer + payment link. Lead with Tinker Withit,
@@ -96,6 +100,19 @@ old DM drafts is inaccurate; honest term is **"published manufacturer data."**
 - Research also confirmed our numbers are physically sound (Raycus 2kW OEM table corroborates ~1,200
   mm/min) and that **nobody sells a 2kW cross-machine cutting library** (Etsy has only per-thickness
   single-machine 4kW+ files) — supports the niche positioning.
+
+### 2026-07-02 — Two scraped-data defects: phantom wattage column + duplicate rows (fixed, migration 017)
+Verifying Hugh's live view surfaced two more issues (both in `data/017` + seed idempotency, `cb2f932`):
+1. **Scaling never engaged → optimistic headlines.** `cuts.recorded_wattage_w` is *read* by the
+   scaling path (`suggest/page.tsx:366-370`) and declared in the `Cut` type, but **was never created
+   as a column** in any migration. So the "source wattage" fell back to the *user's* wattage and a
+   10kW row's 3800 mm/min was treated as already-2kW (no down-scale). Scraped rows only carry wattage
+   in the **notes text** ("2kW fiber; …"). 017 adds the column + backfills it by regex-parsing kW/W
+   from notes. **Lesson:** a typed-but-never-migrated column fails silently as `undefined`.
+2. **Duplicate rows** (HRPO 24→48): seed files were plain INSERTs, `cuts` had no unique constraint,
+   and a seed got applied twice. 017 deletes exact dupes (keep lowest id) + adds a partial unique
+   index on the scraped natural key; all scraped seed INSERTs now carry `ON CONFLICT DO NOTHING`.
+   **Lesson:** "apply manually" seed files must be idempotent or double-applies silently duplicate.
 
 ### 2026-07-02 — HRPO search fell to AI despite data present: PostgREST .or() parens bug (fixed)
 After applying all seed files, HRPO/9.5mm on a **cutting** machine STILL returned an AI

@@ -77,7 +77,7 @@ claims of activity are marked **(claimed, unverified)**.
 |------|-------|---------------|--------|
 | **Olga Campbell** | Laser Engraving for Beginners by VectorWitch | "Leather" | Hot lead. CO2/non-fiber. DM drafted, **NOT sent** (DM limit). |
 | **Levi Taylor** | CNC Fiber Laser Ninja | "Carbon steel gr 50 P&O" | Hot lead. DM drafted, **NOT sent**. |
-| **Hugh Owings** | CNC Fiber Laser Ninja | "2kw Machine, Raytools Head. 3/8 HRPO Cut and Engrave. Piercing Included" | Hot lead (most detailed — machine + material + thickness + ops). DM drafted, **NOT sent**. |
+| **Hugh Owings** | CNC Fiber Laser Ninja | "2kw Machine, Raytools Head. 3/8 HRPO Cut and Engrave. Piercing Included" | Hot lead (most detailed — machine + material + thickness + ops). ✅ **DM SENT 2026-07-02** — awaiting reply. |
 | **Paul Malfroid** | CNC Fiber Laser Ninja | ".625 stainless steel 316L" | Hot lead (thick stainless). ✅ **DM SENT 2026-07-02** — awaiting reply. |
 | **Nicklas Löfgren** | DIY Fiber Laser | "25mm carbon steel and 15mm stainless" | Hot lead (two thick materials). DM drafted, **NOT sent**. |
 
@@ -151,12 +151,16 @@ harvested 06-27. Find that post in each group, then their comment.
 > is now live in prod (merged `b9d739c`; migration `015` applied in Supabase 2026-07-01), so the
 > "staged pierce numbers" claim is honest. Both DMs are ready to send.
 
-**1. Hugh Owings** — send AFTER pierce feature is live (see correction above)
+**1. Hugh Owings** — ✅ **SENT 2026-07-02**
 - **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)
 - **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
 - **Comment:** *"2kw Machine, Raytools Head. 3/8 HRPO Cut and Engrave. Piercing Included"*
-- **DM (final, 2026-07-01):**
-> hey Hugh — 3/8 HRPO on a 2kW with a Raytools head, that's right at the edge of what 2kW likes, so a good starting point saves the most plate. i've got cut + pierce numbers pulled from published manufacturer data at exactly 3/8" HRPO — O₂ pressure, focus, speed, staged pierce — scaled to 2kW. engrave i can give you a ballpark to start from. want me to send what it shows for your setup? https://cutlog-two.vercel.app
+- **DM (final sent version, 2026-07-02):**
+> hey Hugh — you commented 3/8 HRPO on a 2kW Raytools setup on my "settings you'd pay money for" post in CNC Fiber Laser Ninja. 3/8 is right at the edge of what 2kW likes, so a good starting point saves the most plate. i've got cut + staged-pierce numbers from published manufacturer data at exactly 3/8" HRPO, scaled to your wattage — speed, O₂ pressure, focus, pierce. here's the live app to see for yourself: https://cutlog-two.vercel.app — or tell me your setup and i'll look it up and report the numbers back.
+
+  **Note:** dropped the engrave mention (we lead with the strong cut+pierce hand; HRPO engrave = AI
+  only). If he asks about engrave, be straight it's a ballpark. Verified his live view before sending:
+  scraped rows + pierce tiles show correctly.
 
 **2. Paul Malfroid** — ✅ **SENT 2026-07-02** (strongest data, zero caveats)
 - **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)
