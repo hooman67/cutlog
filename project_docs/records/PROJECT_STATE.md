@@ -34,6 +34,16 @@ Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/w
 - ⬜ **Week 4: apply the kill/validate gate** and write down the verdict.
 
 ### Code / agents
+- ✅ **Merged two fixes to main** (2026-07-02, `08ddf9b`): (1) **per-machine delete button** on
+  `/machine` (mirrors cuts delete UX; inline Confirm/Cancel; shows for 1+ machines) + **removed the
+  bulk "Reset My Data" danger zone**; (2) **operation-type mismatch fix** — when the DB has data for
+  the opposite op type of the active machine, the app now says "we have cutting data — switch to a
+  cutting machine" instead of a wrong AI fallback, and clamps absurd AI speeds (was 60,000 mm/min
+  for 9.5mm steel). Both verified: 186/186 tests, 0 non-test tsc errors. App logic only, no migration.
+- ⚠️ **File-corruption watch:** `data/015_add_pierce_params.sql` was found overwritten to a single
+  `t` in the working tree (2026-07-02) — same stray-keystroke corruption that hit `facebook.md`
+  earlier. Restored from git (HEAD was intact). **If pierce data looks missing in prod, re-apply
+  015** — unclear whether the intact or corrupt version was applied in Supabase.
 - ✅ **Built + merged pierce-params feature** (2026-07-01, merge `b9d739c`). 5 nullable pierce
   columns on `cuts` (type/time_s/power_pct/height_mm/gas_pressure_bar) + cited OEM staged-pierce
   seed on `scraped_public` thick-metal rows; AI-suggest + UI wired. Independently verified:
@@ -86,6 +96,16 @@ old DM drafts is inaccurate; honest term is **"published manufacturer data."**
 - Research also confirmed our numbers are physically sound (Raycus 2kW OEM table corroborates ~1,200
   mm/min) and that **nobody sells a 2kW cross-machine cutting library** (Etsy has only per-thickness
   single-machine 4kW+ files) — supports the niche positioning.
+
+### 2026-07-02 — Active-machine op-type silently hides cross-operation data (fixed)
+While testing Hugh's HRPO/9.5mm case, the app returned a **wrong AI hallucination** (60,000 mm/min;
+"a 50W fiber laser can't cut 9.5mm") instead of our 8 scraped rows. Root cause: search maps the
+**active machine's** `laser_source_type` → operationType (engrave vs cut) and filters all tiers by it
+(`route.ts:126-131, 155/183/213`). Hooman's active machine is a **50W engraver**, so cut-only HRPO
+rows were excluded → all tiers empty → AI fallback. **Hugh's own 2kW cutter resolves to "cut," so HE
+sees the real data.** Fixed: app now detects the mismatch and tells the user to switch machine type,
++ clamps absurd AI speeds. **Lesson:** the active machine's operation type is a hidden global filter
+on every search — when testing "do we have data for X," use a machine whose op type matches the data.
 
 ### 2026-07-02 — HRPO ≠ its own alloy; material-matching gap found & fixed
 Hooman flagged: the app has no "HRPO", only "Mild Steel" — is that the right material? Yes — HRPO
