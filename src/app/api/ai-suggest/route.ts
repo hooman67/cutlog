@@ -215,8 +215,16 @@ For the pierce_* fields: set them ALL to null for engraving/marking operations a
       );
     }
 
-    // Clamp values to reasonable ranges
-    parsed.speed_mm_min = Math.max(1, Math.min(100000, parsed.speed_mm_min));
+    // Clamp values to reasonable ranges.
+    // Speed ceiling: ~60000 mm/min is a defensible universal max for engraving/marking.
+    // For thick-metal cutting (metals >= 3mm) real speeds are well under 10000 mm/min,
+    // so clamp harder to stop absurd output like "60000 mm/min for 9.5mm steel".
+    let speedCeiling = 60000;
+    const isMetal = /steel|hrpo|aluminum|aluminium|iron|brass|copper|titanium|metal|alloy|nickel|stainless/i.test(material);
+    if (isMetal && thickness_mm >= 3) {
+      speedCeiling = 10000;
+    }
+    parsed.speed_mm_min = Math.max(1, Math.min(speedCeiling, parsed.speed_mm_min));
     parsed.power_pct = Math.max(1, Math.min(100, parsed.power_pct));
     if (parsed.gas_pressure_bar !== null && parsed.gas_pressure_bar !== undefined) {
       parsed.gas_pressure_bar = Math.max(0, Math.min(50, parsed.gas_pressure_bar));

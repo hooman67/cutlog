@@ -449,6 +449,12 @@ export default function Suggest() {
   const [feedbackCorrection, setFeedbackCorrection] = useState<{ direction: 'faster' | 'slower' } | null>(null);
   const [interpolationNote, setInterpolationNote] = useState<string | null>(null);
   const [interpolationConfidenceReduced, setInterpolationConfidenceReduced] = useState(false);
+  const [operationMismatch, setOperationMismatch] = useState<{
+    available_operation: "cut" | "engrave";
+    active_operation: "cut" | "engrave";
+    material: string;
+    thickness: number;
+  } | null>(null);
 
   const router = useRouter();
   const supabase = createClient();
@@ -514,6 +520,7 @@ export default function Suggest() {
     setFeedbackCorrection(null);
     setInterpolationNote(null);
     setInterpolationConfidenceReduced(false);
+    setOperationMismatch(null);
 
     const thicknessMm = parseFloat(thickness);
 
@@ -537,7 +544,8 @@ export default function Suggest() {
       return;
     }
 
-    const { groups: serverGroups, matchedAliases: serverAliases, tolerance: finalTolerance, feedbackData, userMachine: serverMachine } = await response.json();
+    const { groups: serverGroups, matchedAliases: serverAliases, tolerance: finalTolerance, feedbackData, userMachine: serverMachine, operation_mismatch: serverOperationMismatch } = await response.json();
+    setOperationMismatch(serverOperationMismatch ?? null);
 
     // Update machine state if returned from server (keeps client in sync)
     if (serverMachine && !userMachine) {
@@ -644,8 +652,12 @@ export default function Suggest() {
       }
     }
 
-    // Track if search returned no results for nudge D
-    if (finalGroups.length === 0 && typeof window !== "undefined") {
+    // Track if search returned no results for nudge D.
+    // When the miss is an operation-type mismatch (data exists for this material +
+    // thickness, but only under the OPPOSITE operation type), skip the AI fallback —
+    // the AI would confidently hallucinate for the wrong operation. Show the
+    // informative mismatch banner instead.
+    if (finalGroups.length === 0 && !serverOperationMismatch && typeof window !== "undefined") {
       localStorage.setItem("cutlog-search-no-results", "true");
 
       // --- AI Fallback: call Gemini when all DB queries return empty ---
@@ -890,8 +902,30 @@ export default function Suggest() {
         </button>
       </form>
 
+      {/* Operation-type mismatch banner — data exists but for the opposite operation */}
+      {searched && suggestions.length === 0 && !loading && operationMismatch && (
+        <div className="border border-amber-800/50 bg-amber-900/20 rounded-xl p-6 mb-6">
+          <div className="flex items-start gap-3">
+            <span className="text-amber-400 text-lg mt-0.5">⚠</span>
+            <div>
+              <p className="text-amber-200 font-medium mb-2">
+                We have {operationMismatch.available_operation === "cut" ? "cutting" : "engraving"} data
+                for {operationMismatch.material} at {operationMismatch.thickness}mm,
+                but your active machine is set up for {operationMismatch.active_operation === "cut" ? "cutting" : "engraving"}.
+              </p>
+              <p className="text-sm text-amber-300/80">
+                Switch to a {operationMismatch.available_operation === "cut" ? "cutting" : "engraving"} machine to see it.{" "}
+                <Link href="/machine" className="text-sky-400 hover:text-sky-300 font-medium underline">
+                  Manage machines
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* AI Loading State */}
-      {searched && suggestions.length === 0 && !loading && aiLoading && (
+      {searched && suggestions.length === 0 && !loading && !operationMismatch && aiLoading && (
         <div className="border border-zinc-700 bg-zinc-900/50 rounded-xl p-6 text-center">
           <div className="animate-pulse">
             <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-zinc-700"></div>
@@ -902,7 +936,7 @@ export default function Suggest() {
       )}
 
       {/* AI Suggestion Result */}
-      {searched && suggestions.length === 0 && !loading && !aiLoading && aiSuggestion && (
+      {searched && suggestions.length === 0 && !loading && !operationMismatch && !aiLoading && aiSuggestion && (
         <div className="mb-6">
           {/* AI suggestion hero card */}
           <div className="bg-zinc-800 border border-zinc-600 rounded-2xl p-6 mb-4">
@@ -1011,7 +1045,7 @@ export default function Suggest() {
       )}
 
       {/* No results state - enhanced empty state (shown when AI also fails or no AI) */}
-      {searched && suggestions.length === 0 && !loading && !aiLoading && !aiSuggestion && (
+      {searched && suggestions.length === 0 && !loading && !operationMismatch && !aiLoading && !aiSuggestion && (
         <div className="border border-zinc-800 bg-zinc-900/50 rounded-xl p-6">
           <p className="text-zinc-300 text-lg mb-2 font-medium">No exact match found for this combination.</p>
           {aiError && (
