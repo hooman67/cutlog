@@ -38,6 +38,11 @@ Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/w
 - ⬜ **Week 4: apply the kill/validate gate** and write down the verdict.
 
 ### Code / agents
+- ⬜ **Revisit the Conservative speed profile for thick-metal cutting** (deferred, 2026-07-02). It's a
+  flat Fast×0.5, so HRPO/2kW showed 567 mm/min — *below* the real 2kW datapoint (1200), too timid for
+  thick metal (too-slow can stall/burn as easily as too-fast). Consider a gentler multiplier or a
+  floor near the nearest real datapoint. Not a bug; product tuning. `SPEED_PROFILE_MULTIPLIERS` in
+  `src/lib/types.ts`.
 - ✅ **Merged two fixes to main** (2026-07-02, `08ddf9b`): (1) **per-machine delete button** on
   `/machine` (mirrors cuts delete UX; inline Confirm/Cancel; shows for 1+ machines) + **removed the
   bulk "Reset My Data" danger zone**; (2) **operation-type mismatch fix** — when the DB has data for
@@ -100,6 +105,12 @@ old DM drafts is inaccurate; honest term is **"published manufacturer data."**
 - Research also confirmed our numbers are physically sound (Raycus 2kW OEM table corroborates ~1,200
   mm/min) and that **nobody sells a 2kW cross-machine cutting library** (Etsy has only per-thickness
   single-machine 4kW+ files) — supports the niche positioning.
+
+### 2026-07-02 — Rec count/label honesty: only-used-rows + flag excluded gas (fixed, 2dc3e34)
+After gas separation, the headline was O₂-only but "Based on 9 cuts" + range + confidence still
+counted ALL rows (incl. the 2 excluded N₂ rows) — overstating evidence and showing N₂ rows in the
+detail list with no indication they weren't used. Fixed: `dataPoints` + confidence now use recCuts
+(rows actually used); detail list dims + labels other-gas rows "Not used for this O₂ recommendation."
 
 ### 2026-07-02 — Recommendation undershoot after scaling turned on: gas blend + no proximity weighting (fixed)
 Once migration 017 made scaling work, the HRPO/2kW headline swung the OTHER way — 946/473, *below*
