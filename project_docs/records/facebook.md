@@ -147,8 +147,9 @@ harvested 06-27. Find that post in each group, then their comment.
 > caveats) · **Hugh HIGH for cut+pierce** (8 scraped rows at exact 9.525mm HRPO incl. a 2kW row) but
 > **engrave = AI only** (no HRPO engrave rows) and his exact 2kW row is quality 3/5 "near max for
 > 2kW" · **Nicklas HIGH** · **Levi MEDIUM** (no thickness given) · **Olga MEDIUM/off-strategy**.
-> **Send order (per Hooman 2026-07-01): Paul FIRST** (cleanest hand), **Hugh AFTER** the pierce
-> feature is live in prod (merged `b9d739c`; migration `015` must be applied in Supabase first).
+> **Send order (per Hooman 2026-07-01): Paul FIRST** (cleanest hand), then **Hugh** — pierce feature
+> is now live in prod (merged `b9d739c`; migration `015` applied in Supabase 2026-07-01), so the
+> "staged pierce numbers" claim is honest. Both DMs are ready to send.
 
 **1. Hugh Owings** — send AFTER pierce feature is live (see correction above)
 - **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)

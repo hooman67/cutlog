@@ -14,10 +14,10 @@
 Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/waiting
 
 ### Hooman (only he can do these)
-- ⬜ **Apply SQL migration `data/015_add_pierce_params.sql`** in the Supabase SQL editor. **Gates
-  Hugh's DM** — pierce data isn't live in prod until this runs.
+- ✅ **Applied SQL migration `data/015_add_pierce_params.sql`** in Supabase (Hooman, 2026-07-01).
+  Pierce data is now live in prod — Hugh's DM is unblocked.
 - ⬜ **DM Paul Malfroid FIRST** (final DM in `facebook.md` §2) — strongest data, zero caveats.
-  Then **DM Hugh** (final DM §1) once pierce migration 015 is applied.
+  Then **DM Hugh** (final DM §1) — pierce now live, so the "staged pierce numbers" claim is honest.
 - ⬜ **Stripe setup (~1–2h):** create account, generate Payment Links — Founding Annual $790/yr,
   Concierge $49, Lifetime $129, Export unlock $19. (No code needed for Payment Links.)
 - ⬜ **DM warm industrial leads** with the founding offer + payment link. Lead with Tinker Withit,
