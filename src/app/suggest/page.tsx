@@ -294,7 +294,7 @@ function computeSpeedRecommendation(groups: SuggestionGroup[], userMachine: Mach
 
   // Calculate profile-specific speeds
   const fastSpeed = avgSpeed; // Fast profile keeps original speed
-  const conservativeSpeed = Math.round(avgSpeed * SPEED_PROFILE_MULTIPLIERS.conservative); // Conservative is ~50% of original
+  const conservativeSpeed = Math.round(avgSpeed * SPEED_PROFILE_MULTIPLIERS.conservative); // Conservative is ~75% of original (reduces speed ~25%)
 
   // Determine active profile
   const activeProfile: 'fast' | 'conservative' | 'auto' = userMachine?.speed_profile || 'auto';
@@ -1535,7 +1535,7 @@ export default function Suggest() {
               </div>
               <div>
                 <span className="text-purple-300">🎯 Conservative Quality:</span>
-                <span className="text-zinc-400"> Reduces speed by ~50% to prioritize edge quality and material durability</span>
+                <span className="text-zinc-400"> Reduces speed by ~25% to prioritize edge quality and material durability</span>
               </div>
             </div>
             {hasMachine && (
