@@ -220,8 +220,8 @@ export default function MachineSetup() {
         </p>
       )}
 
-      {/* Feature 6: Multi-machine list */}
-      {allMachines.length > 1 && (
+      {/* Feature 6: Machine list (shows for 1+ so a lone machine can be edited/deleted too) */}
+      {allMachines.length >= 1 && (
         <div className="mb-6">
           <h2 className="text-sm font-medium text-zinc-400 mb-3 uppercase tracking-wide">Your Machines</h2>
           <div className="space-y-2 mb-4">
@@ -297,19 +297,6 @@ export default function MachineSetup() {
             type="button"
             onClick={handleAddNew}
             className="w-full p-3 rounded-xl border-2 border-dashed border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300 transition-colors text-sm font-medium"
-          >
-            + Add Another Machine
-          </button>
-        </div>
-      )}
-
-      {/* Single machine - show Add Another button */}
-      {allMachines.length === 1 && existingId && (
-        <div className="mb-4">
-          <button
-            type="button"
-            onClick={handleAddNew}
-            className="text-sm text-sky-400 hover:text-sky-300 transition-colors"
           >
             + Add Another Machine
           </button>
