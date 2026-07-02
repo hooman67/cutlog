@@ -24,10 +24,9 @@ export default function MachineSetup() {
   // Feature 6: Multi-machine support
   const [allMachines, setAllMachines] = useState<Machine[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
-  // Feature 7: Data cleanup
-  const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [resetting, setResetting] = useState(false);
-  const [resetResult, setResetResult] = useState<string | null>(null);
+  // Per-machine delete (mirrors the cuts delete pattern on /history)
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
 
@@ -116,41 +115,42 @@ export default function MachineSetup() {
     setShowAddForm(true);
   }
 
-  async function handleResetData() {
-    setResetting(true);
-    setResetResult(null);
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) { setResetResult("Not authenticated"); setResetting(false); return; }
+  async function handleDeleteMachine(machineId: string) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    setDeletingId(machineId);
 
-      const res = await fetch("/api/admin/cleanup", {
-        method: "DELETE",
-        headers: {
-          "Authorization": `Bearer ${session.access_token}`,
-        },
-      });
+    const { error } = await supabase
+      .from("machines")
+      .delete()
+      .eq("id", machineId)
+      .eq("user_id", user.id);
 
-      if (res.ok) {
-        const result = await res.json();
-        setResetResult(`Deleted: ${result.deleted.cuts} cuts, ${result.deleted.feedback} feedback, ${result.deleted.machines} machines`);
-        setAllMachines([]);
-        setExistingId(null);
-        setBrand("");
-        setModel("");
-        setWattage("");
-        // Clear localStorage feedback
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("cutlog_speed_feedback");
+    if (!error) {
+      // Reload remaining machines and refresh the form / active selection
+      const { data: machines } = await supabase
+        .from("machines")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: true });
+
+      const remaining = (machines || []) as Machine[];
+      setAllMachines(remaining);
+
+      // If we deleted the machine currently loaded in the form, load another (or reset)
+      if (existingId === machineId) {
+        if (remaining.length > 0) {
+          const activeMachine = remaining.find((m: any) => m.is_active !== false) || remaining[0];
+          loadMachineIntoForm(activeMachine);
+        } else {
+          handleAddNew();
+          setShowAddForm(false);
         }
-      } else {
-        const err = await res.json();
-        setResetResult(`Error: ${err.error}`);
       }
-    } catch {
-      setResetResult("Failed to reset data");
     }
-    setResetting(false);
-    setShowResetConfirm(false);
+
+    setDeletingId(null);
+    setConfirmDeleteId(null);
   }
 
   function toggleGas(gas: string) {
@@ -220,8 +220,8 @@ export default function MachineSetup() {
         </p>
       )}
 
-      {/* Feature 6: Multi-machine list */}
-      {allMachines.length > 1 && (
+      {/* Feature 6: Machine list (shows for 1+ so a lone machine can be edited/deleted too) */}
+      {allMachines.length >= 1 && (
         <div className="mb-6">
           <h2 className="text-sm font-medium text-zinc-400 mb-3 uppercase tracking-wide">Your Machines</h2>
           <div className="space-y-2 mb-4">
@@ -264,6 +264,30 @@ export default function MachineSetup() {
                     >
                       Edit
                     </button>
+                    {confirmDeleteId === m.id ? (
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => handleDeleteMachine(m.id)}
+                          disabled={deletingId === m.id}
+                          className="px-3 py-1 rounded-lg text-xs bg-red-900 border border-red-700 text-red-300 hover:bg-red-800 transition-colors disabled:opacity-50"
+                        >
+                          {deletingId === m.id ? "..." : "Confirm"}
+                        </button>
+                        <button
+                          onClick={() => setConfirmDeleteId(null)}
+                          className="px-3 py-1 rounded-lg text-xs bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setConfirmDeleteId(m.id)}
+                        className="px-3 py-1 rounded-lg text-xs bg-red-900/50 border border-red-800 text-red-400 hover:text-red-300 hover:border-red-600 transition-colors"
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -273,19 +297,6 @@ export default function MachineSetup() {
             type="button"
             onClick={handleAddNew}
             className="w-full p-3 rounded-xl border-2 border-dashed border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300 transition-colors text-sm font-medium"
-          >
-            + Add Another Machine
-          </button>
-        </div>
-      )}
-
-      {/* Single machine - show Add Another button */}
-      {allMachines.length === 1 && existingId && (
-        <div className="mb-4">
-          <button
-            type="button"
-            onClick={handleAddNew}
-            className="text-sm text-sky-400 hover:text-sky-300 transition-colors"
           >
             + Add Another Machine
           </button>
@@ -492,50 +503,6 @@ export default function MachineSetup() {
           {loading ? "Saving..." : existingId ? "Update Machine" : "Register Machine"}
         </button>
       </form>
-
-      {/* Feature 7: Reset My Data */}
-      <div className="mt-12 pt-8 border-t border-zinc-800">
-        <h3 className="text-sm font-medium text-red-400 mb-2">Danger Zone</h3>
-        <p className="text-xs text-zinc-500 mb-4">
-          Permanently delete all your data including cuts, feedback, and machine profiles.
-        </p>
-        {resetResult && (
-          <div className={`mb-4 p-3 rounded-xl text-sm ${
-            resetResult.startsWith("Error") ? "bg-red-900/30 border border-red-800 text-red-300" : "bg-emerald-900/30 border border-emerald-800 text-emerald-300"
-          }`}>
-            {resetResult}
-          </div>
-        )}
-        {showResetConfirm ? (
-          <div className="bg-red-900/20 border border-red-800 rounded-xl p-4">
-            <p className="text-sm text-red-300 mb-3">
-              This will delete ALL your cuts, feedback, and machine profiles. This cannot be undone.
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={handleResetData}
-                disabled={resetting}
-                className="px-4 py-2 rounded-lg bg-red-700 hover:bg-red-600 text-sm font-medium transition-colors disabled:opacity-50"
-              >
-                {resetting ? "Deleting..." : "Yes, Delete Everything"}
-              </button>
-              <button
-                onClick={() => setShowResetConfirm(false)}
-                className="px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 text-sm font-medium hover:bg-zinc-700 transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        ) : (
-          <button
-            onClick={() => setShowResetConfirm(true)}
-            className="px-4 py-2 rounded-lg bg-red-900/50 border border-red-800 text-red-400 hover:text-red-300 hover:border-red-600 text-sm font-medium transition-colors"
-          >
-            Reset My Data
-          </button>
-        )}
-      </div>
     </div>
   );
 }
