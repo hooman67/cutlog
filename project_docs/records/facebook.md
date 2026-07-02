@@ -139,19 +139,30 @@ harvested 06-27. Find that post in each group, then their comment.
 
 ---
 
-**1. Hugh Owings** — send FIRST (most detailed)
+> ⚠️ **2026-07-01 wording correction:** the original drafts below said **"verified"** — that is
+> INACCURATE. Our DB has **zero** `community_verified`/`user_logged` rows; the thick-metal data is
+> all `scraped_public` (published manufacturer/OEM charts). Honest phrasing is **"pulled from
+> published manufacturer data."** Data-confidence per lead (verified 2026-07-01 against
+> `data/industrial-cutting-scraped.sql`): **Paul HIGH** (9 scraped rows at exact 15.875mm 316L, no
+> caveats) · **Hugh HIGH for cut+pierce** (8 scraped rows at exact 9.525mm HRPO incl. a 2kW row) but
+> **engrave = AI only** (no HRPO engrave rows) and his exact 2kW row is quality 3/5 "near max for
+> 2kW" · **Nicklas HIGH** · **Levi MEDIUM** (no thickness given) · **Olga MEDIUM/off-strategy**.
+> **Send order (per Hooman 2026-07-01): Paul FIRST** (cleanest hand), **Hugh AFTER** the pierce
+> feature is live in prod (merged `b9d739c`; migration `015` must be applied in Supabase first).
+
+**1. Hugh Owings** — send AFTER pierce feature is live (see correction above)
 - **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)
 - **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
 - **Comment:** *"2kw Machine, Raytools Head. 3/8 HRPO Cut and Engrave. Piercing Included"*
-- **DM:**
-> hey Hugh — you said 3/8 HRPO on a 2kW with a Raytools head, cut + engrave with piercing. that's exactly where a good starting point saves the most plate — pierce and gas on HRPO at that thickness is finicky on 2kW. the tool's got verified speed/gas/focus + pierce starting points for that, scaled to your wattage. want me to send what it shows for your setup? https://cutlog-two.vercel.app
+- **DM (final, 2026-07-01):**
+> hey Hugh — 3/8 HRPO on a 2kW with a Raytools head, that's right at the edge of what 2kW likes, so a good starting point saves the most plate. i've got cut + pierce numbers pulled from published manufacturer data at exactly 3/8" HRPO — O₂ pressure, focus, speed, staged pierce — scaled to 2kW. engrave i can give you a ballpark to start from. want me to send what it shows for your setup? https://cutlog-two.vercel.app
 
-**2. Paul Malfroid**
+**2. Paul Malfroid** — **SEND FIRST** (strongest data, zero caveats)
 - **Group:** CNC Fiber Laser Ninja (Fiber Laser Cutters)
 - **Post:** "settings you'd pay money for" lead-gen post (2026-06-26)
 - **Comment:** *".625 stainless steel 316L"*
-- **DM:**
-> hey Paul — you said .625" 316L. that's a beast of a cut and exactly where a blind test grid burns the most material. tool's got verified starting points (speed/N₂ pressure/focus) for thick 316L scaled to your wattage, so your first test is close instead of from scratch. want me to send what it shows for your machine? https://cutlog-two.vercel.app
+- **DM (final, 2026-07-01):**
+> hey Paul — saw you said .625" 316L. that's a thick N₂ cut where a blind test grid eats the most plate. i've got starting points pulled from published manufacturer data at exactly 15.875mm 316L — speed/N₂ pressure/focus/nozzle — that i can scale to your wattage so your first cut's close instead of from scratch. what wattage are you running? happy to send what it shows for your machine. https://cutlog-two.vercel.app
 
 **3. Nicklas Löfgren**
 - **Group:** DIY Fiber Laser

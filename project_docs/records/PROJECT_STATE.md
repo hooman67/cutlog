@@ -5,7 +5,7 @@
 > rules in the repo-root `CLAUDE.md`. When in doubt about what actually happened, ask Hooman before
 > recording. Topic execution detail lives in per-topic files in this folder (created as we go).
 
-**Last updated:** 2026-06-28
+**Last updated:** 2026-07-01
 
 ---
 
@@ -14,6 +14,10 @@
 Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/waiting
 
 ### Hooman (only he can do these)
+- ⬜ **Apply SQL migration `data/015_add_pierce_params.sql`** in the Supabase SQL editor. **Gates
+  Hugh's DM** — pierce data isn't live in prod until this runs.
+- ⬜ **DM Paul Malfroid FIRST** (final DM in `facebook.md` §2) — strongest data, zero caveats.
+  Then **DM Hugh** (final DM §1) once pierce migration 015 is applied.
 - ⬜ **Stripe setup (~1–2h):** create account, generate Payment Links — Founding Annual $790/yr,
   Concierge $49, Lifetime $129, Export unlock $19. (No code needed for Payment Links.)
 - ⬜ **DM warm industrial leads** with the founding offer + payment link. Lead with Tinker Withit,
@@ -25,6 +29,13 @@ Status keys: ⬜ not started · 🔵 in progress · ✅ done · ⏸️ blocked/w
 - ⬜ **Week 4: apply the kill/validate gate** and write down the verdict.
 
 ### Code / agents
+- ✅ **Built + merged pierce-params feature** (2026-07-01, merge `b9d739c`). 5 nullable pierce
+  columns on `cuts` (type/time_s/power_pct/height_mm/gas_pressure_bar) + cited OEM staged-pierce
+  seed on `scraped_public` thick-metal rows; AI-suggest + UI wired. Independently verified:
+  186/186 tests, 0 non-test tsc errors. **Not live until migration 015 applied in Supabase.**
+- ✅ **Session-resume backup** (2026-07-01): session store relocated to git-backed
+  `~/hs_scripts/claude/cutlog_claud_resume/` + symlinked; `RESTORE.sh` re-links after restart.
+  Documented in repo `CLAUDE.md` (🔁 Resuming section).
 - ✅ **Verified prior agents' build claims** (background agent, 2026-06-28). See Learnings.
 - ✅ **Built WTP `/pricing` instrument** on branch `wtp-pricing` (commit `08855f4`, not pushed).
   See Learnings + `4.8_research/IMPL_pricing.md`.
@@ -55,6 +66,22 @@ The `wtp-pricing` branch added `stripe` to deps and completed the checkout/webho
 build compiles there. **`main` is still broken until this branch merges.** Everything degrades
 gracefully if the `wtp_intent` table or Stripe keys are absent (no 500s).
 
+### 2026-07-01 — Lead × DB data-confidence audit (verified against `data/industrial-cutting-scraped.sql`)
+Investigated which warm leads we actually have strong data for, to lead outreach with the best hand.
+Key correction: **an early agent claimed Hugh's data was only weak `ai_baseline` — FALSE.** The
+thick-metal data lives in `industrial-cutting-scraped.sql` (not `baseline-parameters.sql`), and it's
+`scraped_public` (published OEM charts). DB has **only two `source` values: `scraped_public` (5,444
+rows) + `ai_baseline` (1,110)** — **zero** `community_verified`/`user_logged`. So "verified" in the
+old DM drafts is inaccurate; honest term is **"published manufacturer data."**
+- **Paul Malfroid** (.625"/15.875mm 316L): HIGH — 9 scraped rows at exact spec, no caveats. **Best hand.**
+- **Hugh Owings** (3/8"/9.525mm HRPO, 2kW): HIGH for **cut+pierce** (8 scraped rows at exact spec incl.
+  a 2kW row, ~1,200 mm/min O₂) but **engrave = AI only** (no HRPO engrave rows) and his exact 2kW row
+  is quality 3/5 "near max for 2kW." DM reworded to be honest about this.
+- **Nicklas** HIGH · **Levi** MEDIUM (no thickness) · **Olga** MEDIUM/off-strategy (CO2 hobbyist).
+- Research also confirmed our numbers are physically sound (Raycus 2kW OEM table corroborates ~1,200
+  mm/min) and that **nobody sells a 2kW cross-machine cutting library** (Etsy has only per-thickness
+  single-machine 4kW+ files) — supports the niche positioning.
+
 ### Strategic (from `4.8_research/00_SYNTHESIS_AND_VERDICT.md`)
 - "Zero competition" is FALSE — 8–12 live competitors (LaserMarkDB, Machines for Makers, Laser
   Settings Hub, etc.); AI-tells-you-settings is now table stakes. Never claim "nobody does this."
@@ -78,6 +105,9 @@ gracefully if the `wtp_intent` table or Stripe keys are absent (no 500s).
   revisit only as a later upsell for a paying industrial cohort.
 - **2026-06-28 — Records & workflow rules** captured in repo-root `CLAUDE.md` (auto-loaded). Memory
   lives in-repo under `project_docs/records/`.
+- **2026-07-01 — Build pierce feature + lead with strongest data.** Approved building pierce params
+  (done, merged). Outreach: **DM Paul first** (zero-caveat data), **Hugh after** pierce is live in
+  prod. Drop "verified" from all DM copy → "published manufacturer data" (we have no verified rows).
 
 ---
 
